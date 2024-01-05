@@ -1,0 +1,17 @@
+﻿@inject Context DbContext
+@using App.Models
+@model App.ViewModels.About.AboutPageViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="about-us" id="about">
+    <div class="container">
+        <h3 class="title">Обо мне</h3>
+        <div>
+            @Html.Raw(Model.Page.AboutHtml)
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,51 @@
+﻿@using System.Globalization
+@using App.Models
+@using App.ViewModels.Comment
+@inject Context DbContext
+@model App.ViewModels.Blog.ArticleViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="col-md-10 offset-md-1">
+        <div class="row">
+            <div class="mt-4 mb-4 offset-3 col-6">
+                <img src="@Model.Page.ImageModel?.Url" />
+            </div>
+            <h1>@Model.Page.Title</h1>
+            <div>@Html.Raw(Model.Page.Text)</div>
+            <hr class="col-12"/>
+            <div class="mt-2 mb-2 text-left sharethis-inline-share-buttons"></div>
+            <hr class="col-12"/>
+            
+            @await Html.PartialAsync("Comment", new CommentViewModel() { ArticleId = Model.Page.Id})
+
+            <div class="m-2 mt-4"><h3>Комментарии</h3></div>
+            @foreach (var commentModel in Model.Page.CommentModels)
+            {
+                <hr class="col-12"/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-2">
+                            <img src="http://2.gravatar.com/avatar/273d6ad6e2176dba811ed8b2b99af312?s=100&d=mm&r=g" class="rounded-circle mx-auto d-block"/>
+                        </div>
+                        <div class="col-10">
+                            <div class="">
+                                @commentModel.Name
+                            </div>
+                            <div class="">
+                                @commentModel.DateCreated.ToString("g", CultureInfo.GetCultureInfo("ru"))
+                            </div>
+                            <div class="mt-2 mb-2">
+                                <span>@commentModel.Text</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <hr class="col-12"/>
+        </div>
+    </div>
+</div>

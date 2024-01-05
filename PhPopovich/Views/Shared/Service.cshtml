@@ -1,0 +1,15 @@
+﻿@inject Context DbContext
+@using App.Models
+@model App.Models.ServiceModel
+
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <figure>
+        <img src="@Model.ImageModel.Url" alt="img">
+        <figcaption><span>@Html.Raw(Model.About)</span></figcaption>
+    </figure>
+}

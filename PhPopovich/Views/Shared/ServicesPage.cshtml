@@ -1,0 +1,20 @@
+﻿@inject Context DbContext
+@using App.Models
+@model App.ViewModels.Services.ServicesPageViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="about-us" id="services">
+    <div class="container">
+        <h3 class="title">Услуги</h3>
+        <div>
+            @Html.Raw(Model.Page.ServicesText)
+        </div>
+    </div>
+
+    @await Html.PartialAsync("Services", Model.ServiceModels)
+</div>
+
+

@@ -1,0 +1,31 @@
+﻿@inject Context DbContext
+@using App.CMS.StaticHelpers
+@using App.Models
+@model App.Models.ArticleModel
+
+@{
+    Layout = null;
+    var url = Context.Request.GetFullUrl("/Blog/Get?id=" + Model.Id);
+    var image = Model.ImageModel?.GetFullUrl(Context.Request);
+}
+
+@if (Model != null)
+{
+    <div class="col-md">
+        <div class="p-4">
+            <div class="card">
+                <img src="@Model.ImageModel?.Url" class="card-img-top p-2">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Title</h5>
+                    <p class="card-text">@Html.Raw(Model.Subtitle)</p>
+                    <a href="@url" class="btn btn-primary">Читать далее</a>
+                    <div class="mt-4 text-left sharethis-inline-share-buttons"
+                        data-url="@url"
+                        data-title="@Model.Title"
+                        data-image="@image"
+                        data-description="@Model.Subtitle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

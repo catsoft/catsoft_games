@@ -1,0 +1,23 @@
+﻿@inject Context DbContext
+@using App.Models
+@model App.ViewModels.Projects.ProjectsPageViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="about-us" id="projects">
+    <div class="container">
+        <h3 class="title">Мои работы</h3>
+        <div>
+            @Html.Raw(Model.Page.ServicesText)
+        </div>
+    </div>
+    
+    @await Html.PartialAsync("Projects", Model.ProjectModels)
+
+    <h4 class="text-center"><strong>
+        @Html.ActionLink("ВСЕ ПРОЕКТЫ", "Index", "AllProjects", null, new { @style = "color: black" })
+    </strong></h4>
+</div>
+

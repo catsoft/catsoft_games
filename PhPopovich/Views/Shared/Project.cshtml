@@ -1,0 +1,18 @@
+﻿@inject Context DbContext
+@using App.Models
+@model App.Models.ProjectModel
+
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <img src="@Model.ImageModel.Url" alt="img">
+    @Html.Raw(Model.About)
+    @* ReSharper disable once Html.PathError *@
+    <a href="/Project?id=@Model.Id">
+        Смотреть еще
+    </a>
+    <div style="height: 45px"></div>
+}

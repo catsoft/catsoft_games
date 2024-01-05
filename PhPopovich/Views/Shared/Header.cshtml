@@ -1,0 +1,32 @@
+﻿@model App.ViewModels.Common.HeaderViewModel
+
+@{
+    Layout = null;
+}
+
+<header class="header" style="background: white">
+    <div class="upper-container">
+        <div class="header-container">
+            <div class="logo-wrap">
+                <a class="logo-lnk" href="/" title="@Model.CompanyName">@(Model.CompanyName)</a>
+            </div>
+            <div class="mobile-menu-list">
+                <div class="show-menu material-icons" id="show-menu">menu</div>
+            </div>
+            <div class="main-menu">
+                <nav id="catmenu">
+                    <div id="uNMenuDiv1" class="uMenuV">
+                        <ul class="uMenuRoot">
+                            @foreach (var menu in Model.Menus)
+                            {
+                                <li><a class="menu-a @(menu.Menu == Model.CurrentPage ? "uMenuItemA" : "")" href="@menu.Href"><span>@menu.Title</span></a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="clr"></div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
