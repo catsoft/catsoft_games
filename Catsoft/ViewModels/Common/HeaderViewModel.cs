@@ -10,7 +10,7 @@ namespace App.ViewModels.Common
     {
         public IMetaInfo MetaInfo { get; set; }
 
-        public string CompanyName { get; set; } = "Попович Диана";
+        public string CompanyName { get; set; } = "Catsoft";
 
         public Menu CurrentPage { get; set; }
 

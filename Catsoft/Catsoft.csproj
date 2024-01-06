@@ -7,7 +7,7 @@
     <ApplicationIcon />
     <OutputType>WinExe</OutputType>
     <StartupObject>App.Program</StartupObject>
-    <AssemblyName>PhPopovich</AssemblyName>
+    <AssemblyName>Catsoft</AssemblyName>
     <RootNamespace>App</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

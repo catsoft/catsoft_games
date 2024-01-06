@@ -349,8 +349,3 @@ Mobile/Out/Resharper/
 
 # Rider local files
 .idea/
-
-EnglishApp/bin/
-EnglishApp/obj/
-EnglishApp/wwwroot/lib/
-/PhPopovich/CMS
