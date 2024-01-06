@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System;
 using App.Models;
+using Azure;
 
 namespace App.CMS.Models
 {
@@ -21,5 +22,17 @@ namespace App.CMS.Models
 
         [Show(false, true, true, true)]
         public TextResourceModel TextResourceModel { get; set; }
+
+        public override string Title
+        {
+            get
+            {
+                return Value;
+            }
+            set
+            {
+                Value = value;
+            }
+        }
     }
 }

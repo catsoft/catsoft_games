@@ -11,7 +11,7 @@
     Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
     ViewData["isDetailing"] = true;
     
-    var type = (Type)ViewBag.Type;
+    var type = ViewBag.Type as Type;
     var access = type.GetCustomAttribute<AccessAttribute>() ?? new AccessAttribute();
     var nameType = (string)ViewBag.NameType;
     var cmsSection = ModelRepository.GetByClass(nameType);
@@ -19,7 +19,6 @@
     var properties = ReflectionHelper.GetPropertiesInView(type, ViewData);
 
     var stringType = typeof(string);
-    var ienumerableType = typeof(IEnumerable);
 
     var id = ((IEntity)Model)?.Id;
 
@@ -44,6 +43,7 @@
                         @{
                             var name = ReflectionHelper.GetNameProperty(property);
                             var propertyType = property.PropertyType;
+                            var isArray = ReflectionHelper.IsArray(property);
                         }
                         <div class="col-md-2">
                             <span style="font-weight: bold">
@@ -54,14 +54,20 @@
 
                             @if ((propertyType.IsClass || propertyType.IsArray) && propertyType != stringType)
                             {
-                                if (propertyType.IsArray || propertyType.GetInterfaces().Any(w => w == ienumerableType))
+                                if (isArray)
                                 {
-                                    var value = (IEnumerable) property.GetValue(Model, null) ?? new List<object>();
+                                    var values = property.GetValue(Model, null) ?? new List<object>();
 
-                                    foreach (var val in value)
+                                    foreach (var val in values)
                                     {
+                                        var viewData = new ViewDataDictionary(ViewData);
+                                        viewData["Type"] = propertyType.GetGenericArguments()[0];
+                                        viewData["NameType"] = propertyType.GetGenericArguments()[0].FullName;
+                                        viewData.Model = val;
+
                                         <div class="col-md-12" style="color: #ff0000; height: 50px;"></div>
-                                        @await Html.PartialAsync("~/CMS/Views/HomeCms/Details.cshtml", val)
+                                        @* @await Html.PartialAsync("~/CMS/Views/HomeCms/Details.cshtml", val, viewData) *@
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", val as object)
                                     }
                                 }
                                 else

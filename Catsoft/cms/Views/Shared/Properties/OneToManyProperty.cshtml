@@ -1,0 +1,23 @@
+﻿@using App.CMS.Controllers
+@using App.CMS.Models
+@using App.CMS.StaticHelpers
+@model App.CMS.ViewModels.Properties.PropertyViewModel
+
+@{
+    var propertyName = Model.PropertyInfo.Name;
+    var dataFor = propertyName + "Id";
+    var type = Model.PropertyInfo.PropertyType;
+    var genericType = type.GetGenericArguments()[0];
+    var list = DataHelper.GetList(ContextShared.SharedContext, genericType);
+    var values = Model.PropertyInfo.GetValue(Model.Model) as IEnumerable<IEntity> ?? new List<IEntity>();
+    var ids = values.Select(w => w.Id).ToList();
+    var selectList = list.Select(w => new SelectListItem
+    {
+        Text = w.Title, 
+        Value = w.Id.ToString(),
+        Selected = ids.Contains(w.Id),
+    }).ToList();
+    selectList.Insert(0, new SelectListItem { Value = "", Text = "Не выбрано" });
+}
+
+@Html.DropDownList(dataFor, selectList, new { @class = "form-control", multiple = "true" })

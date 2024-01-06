@@ -14,14 +14,14 @@
     ViewData["isEditing"] = true;
 
     var type = (Type)Model.GetType();
-    var properties = ReflectionHelper.GetPropertiesInView(type,ViewData).ToList();
+    var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
 
     var nameType = (string)ViewBag.NameType;
     var cmsSection = ModelRepository.GetByClass(nameType);
-    
+
     var stringType = typeof(string);
 
-    var modelId = ((IEntity) Model)?.Id;
+    var modelId = ((IEntity)Model)?.Id;
 
     ViewData["TitleToTopLabelE"] = "Редактирование " + cmsSection.Title;
 
@@ -48,29 +48,29 @@
         </div>
     </div>
     <div class="col-md-12">
-        <hr />
+        <hr/>
     </div>
     <div class="col-md-12">
         <h4>@(cmsSection.Title)</h4>
     </div>
     <div class="col-md-12">
-        <hr />
+        <hr/>
     </div>
 
     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/FilesProperties.cshtml", Model, ViewData)
-    
+
     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/ImagesProperties.cshtml", Model, ViewData)
-    
+
     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/GalleryImagesProperty.cshtml", Model, ViewData)
-    
+
     <div class="row">
         <div class="col-md-12">
             <form asp-action="Edit" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
+
                 <div class="col-md-12">
                     <div class="form-group col-md-4 offset-md-2" style="margin-top: 60px; margin-bottom: 50px;">
-                        <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+                        <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
                     </div>
                 </div>
                 <div style="display: none" id="fileHiddenInputs"></div>
@@ -78,7 +78,7 @@
 
                 @Html.Hidden("type", type.Name)
                 @Html.Hidden("id", modelId)
-                
+
                 @foreach (var propertyInfo in other)
                 {
                     <div class="col-md-12" style="margin-bottom: 30px;">
@@ -86,6 +86,7 @@
                             var name = ReflectionHelper.GetNameProperty(propertyInfo);
                             var propertyType = propertyInfo.PropertyType;
                             var isHtml = ReflectionHelper.IsHtml(propertyInfo);
+                            var isArray = ReflectionHelper.IsArray(propertyInfo);
                         }
 
                         <div class="form-group">
@@ -95,11 +96,15 @@
                                 </span>
                             </div>
                             <div class="col-md-10">
-	                            @if (isHtml)
+                                @if (isHtml)
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/HtmlProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
-                                else if ((propertyType.IsClass || propertyType.IsArray) && propertyType != stringType)
+                                else if (isArray)
+                                {
+                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToManyProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                }
+                                else if (propertyType.IsClass && propertyType != stringType)
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToOneProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
@@ -116,7 +121,7 @@
                     </div>
                 }
                 <div class="form-group col-md-4 offset-md-5" style="margin-top: 60px; margin-bottom: 50px;">
-                    <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+                    <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
                 </div>
             </form>
         </div>

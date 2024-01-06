@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +26,10 @@ namespace App.CMS.StaticHelpers
             {
                 var valueFromObject = entity.GetValueFromNameProperty(info.Name);
 
-                if (valueFromObject != null) return valueFromObject;
+                if (valueFromObject != null)
+                {
+                    return valueFromObject;
+                }
             }
 
             try
@@ -45,7 +49,10 @@ namespace App.CMS.StaticHelpers
             {
                 var valueFromObject = entity.GetTitleFromNameProperty(info.Name);
 
-                if (valueFromObject != null) return valueFromObject;
+                if (valueFromObject != null)
+                {
+                    return valueFromObject;
+                }
             }
 
             try
@@ -66,7 +73,10 @@ namespace App.CMS.StaticHelpers
             {
                 var valueFromObject = entity.GetLinkFromNameProperty(info.Name);
 
-                if (valueFromObject != null) return valueFromObject;
+                if (valueFromObject != null)
+                {
+                    return valueFromObject;
+                }
             }
 
             try
@@ -106,22 +116,22 @@ namespace App.CMS.StaticHelpers
 
         public static IEnumerable<PropertyInfo> GetPropertiesInView(Type type, ViewDataDictionary viewDataDictionary)
         {
-            if (viewDataDictionary.TryGetValue("isEditing", out var value) && (bool) value)
+            if (viewDataDictionary.TryGetValue("isEditing", out var value) && (bool)value)
             {
                 return GetPropertiesInEdit(type);
             }
 
-            if (viewDataDictionary.TryGetValue("isCreating", out value) && (bool) value)
+            if (viewDataDictionary.TryGetValue("isCreating", out value) && (bool)value)
             {
                 return GetPropertiesInCreate(type);
             }
 
-            if (viewDataDictionary.TryGetValue("isListing", out value) && (bool) value)
+            if (viewDataDictionary.TryGetValue("isListing", out value) && (bool)value)
             {
                 return GetPropertiesInList(type);
             }
 
-            if (viewDataDictionary.TryGetValue("isDetailing", out value) && (bool) value)
+            if (viewDataDictionary.TryGetValue("isDetailing", out value) && (bool)value)
             {
                 return GetPropertiesInDetails(type);
             }
@@ -141,6 +151,14 @@ namespace App.CMS.StaticHelpers
         {
             var type = info.GetCustomAttribute<DataTypeAttribute>();
             return type?.DataType == DataType.Html;
+        }
+
+        public static bool IsArray(PropertyInfo info)
+        {
+            var interfaces = info.PropertyType.GetInterfaces().ToList();
+            return interfaces.Contains(typeof(IQueryable<>)) || interfaces.Contains(typeof(IEnumerable<>)) ||
+                   interfaces.Contains(typeof(IList<>))
+                   || interfaces.Contains(typeof(IList));
         }
     }
 }

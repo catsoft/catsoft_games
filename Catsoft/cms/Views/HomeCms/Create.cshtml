@@ -68,6 +68,7 @@
                             var name = ReflectionHelper.GetNameProperty(propertyInfo);
                             var propertyType = propertyInfo.PropertyType;
                             var isHtml = ReflectionHelper.IsHtml(propertyInfo);
+                            var isArray = ReflectionHelper.IsArray(propertyInfo);
                         }
 
                         <div class="form-group">
@@ -77,11 +78,15 @@
                                 </span>
                             </div>
                             <div class="col-md-10">
-	                            @if (isHtml)
+                                @if (isHtml)
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/HtmlProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
-                                else if ((propertyType.IsClass || propertyType.IsArray) && propertyType != stringType)
+                                else if (isArray)
+                                {
+                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToManyProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                }
+                                else if (propertyType.IsClass && propertyType != stringType)
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToOneProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
@@ -89,7 +94,7 @@
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/EnumProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
-                                else 
+                                else
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/SimpleTypeProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
