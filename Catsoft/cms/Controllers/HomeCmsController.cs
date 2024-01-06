@@ -33,14 +33,14 @@ namespace App.CMS.Controllers
         private readonly ICmsCmsModelRepository _cmsCmsModelRepository;
         private readonly IFileHandler _fileHandler;
 
-        public HomeCmsController(TContext context, 
+        public HomeCmsController(TContext catsoftContext, 
             IWebHostEnvironment appEnvironment, 
             CmsOptions cmsOptions,
             TypesOptions typesOptions,
             ICmsImageModelRepository imageRepository,
             ICmsFilesRepository filesRepository,
             ICmsCmsModelRepository cmsCmsModelRepository,
-            IFileHandler fileHandler) : base(context)
+            IFileHandler fileHandler) : base(catsoftContext)
         {
             _appEnvironment = appEnvironment;
             _cmsOptions = cmsOptions;
@@ -50,7 +50,7 @@ namespace App.CMS.Controllers
             _cmsCmsModelRepository = cmsCmsModelRepository;
             _fileHandler = fileHandler;
 
-            ContextShared.SharedContext = context;
+            ContextShared.SharedContext = catsoftContext;
         }
 
         [Authorize]
@@ -64,7 +64,7 @@ namespace App.CMS.Controllers
             ViewBag.NameType = type;
             ViewBag.Page = page;
             dynamic dynamicObject = Activator.CreateInstance(t);
-            var set = GetDbSet(Context, dynamicObject);
+            var set = GetDbSet(CatsoftContext, dynamicObject);
 
             var includeSets = Provider(ReflectionHelper.InsertInclude<ShowTitleAttribute>(set, t), dynamicObject);
 
@@ -175,14 +175,14 @@ namespace App.CMS.Controllers
         // ReSharper disable once UnusedParameter.Local
         private void Delete<T>(T dynamicObject, Guid id) where T : Entity<T>
         {
-            var set = Context.Set<T>().AsQueryable();
+            var set = CatsoftContext.Set<T>().AsQueryable();
 
             var first = set.FirstOrDefault(w => w.Id == id);
 
             if (first == null) return;
 
-            Context.Remove(first);
-            Context.SaveChanges();
+            CatsoftContext.Remove(first);
+            CatsoftContext.SaveChanges();
         }
 
         [Authorize]
@@ -199,7 +199,7 @@ namespace App.CMS.Controllers
 
         private T GetObject<T>(T type, Guid id) where T : Entity<T>
         {
-            var set = Context.Set<T>().AsQueryable();
+            var set = CatsoftContext.Set<T>().AsQueryable();
 
             var classes = type.GetType().GetProperties().Where(w =>
                 (w.PropertyType.IsClass || w.PropertyType.IsArray) && 
@@ -264,7 +264,7 @@ namespace App.CMS.Controllers
         // ReSharper disable once UnusedParameter.Local
         private T GetObjectToFirstEdit<T>(T type) where T : Entity<T>
         {
-            var first = Context.Set<T>().FirstOrDefault();
+            var first = CatsoftContext.Set<T>().FirstOrDefault();
             return first;
         }
 
@@ -344,14 +344,21 @@ namespace App.CMS.Controllers
                 }
                 else
                 {
-                    var changedType = Convert.ChangeType(strValue, key.PropertyType);
+                    if (key.PropertyType.IsEnum)
+                    {
+                        key.SetValue(editObject, Enum.Parse(key.PropertyType, strValue));
+                    }
+                    else
+                    {
+                        var changedType = Convert.ChangeType(strValue, key.PropertyType);
 
-                    key.SetValue(editObject, changedType);
+                        key.SetValue(editObject, changedType);
+                    }
                 }
             }
 
-            Context.Update(editObject);
-            Context.SaveChanges();
+            CatsoftContext.Update(editObject);
+            CatsoftContext.SaveChanges();
 
             return CheckIsSingle(type)
                 ? RedirectToAction("EditFirst", new { type = typeName })
@@ -431,8 +438,8 @@ namespace App.CMS.Controllers
                 }
             }
 
-            Context.Add(newObject);
-            Context.SaveChanges();
+            CatsoftContext.Add(newObject);
+            CatsoftContext.SaveChanges();
 
             return RedirectToAction("GetList", new { type = typeName });
         }

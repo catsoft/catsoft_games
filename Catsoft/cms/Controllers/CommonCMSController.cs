@@ -3,14 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Controllers
 {
-    public abstract class CommonCmsController<TContext> : Controller
+    public abstract class CommonCmsController<TContext>(TContext catsoftContext) : Controller
         where TContext : DbContext
     {
-        protected CommonCmsController(TContext context)
-        {
-            Context = context;
-        }
-        
-        public TContext Context { get; set; }
+        public TContext CatsoftContext { get; set; } = catsoftContext;
     }
 }

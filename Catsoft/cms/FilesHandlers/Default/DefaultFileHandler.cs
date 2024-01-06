@@ -6,18 +6,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace App.CMS.FilesHandlers.Default
 {
-    public class DefaultFileHandler : IDefaultFileHandler
+    public class DefaultFileHandler(IWebHostEnvironment webHostEnvironment, ICmsFilesRepository cmsFilesRepository)
+        : IDefaultFileHandler
     {
-        private readonly ICmsFilesRepository _cmsFilesRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
         private string GetOriginalPath(IEntity entity, string extension) => "/Files/" + entity.Id + "." + extension;
-
-        public DefaultFileHandler(IWebHostEnvironment webHostEnvironment, ICmsFilesRepository cmsFilesRepository)
-        {
-            _webHostEnvironment = webHostEnvironment;
-            _cmsFilesRepository = cmsFilesRepository;
-        }
 
         public IEntity Handle(IFormFile formFile)
         {
@@ -26,19 +18,19 @@ namespace App.CMS.FilesHandlers.Default
                 Name = formFile.FileName,
                 FileType = formFile.ContentType,
             };
-            _cmsFilesRepository.Add(file);
+            cmsFilesRepository.Add(file);
 
             var extension = Path.GetExtension(formFile.FileName);
             var path = GetOriginalPath(file, extension);
             
-            using (var fileStream = new FileStream(_webHostEnvironment.WebRootPath + path, FileMode.Create))
+            using (var fileStream = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
             {
                 formFile.CopyTo(fileStream);
             }
 
             file.Path = path;
             
-            _cmsFilesRepository.Update(file);
+            cmsFilesRepository.Update(file);
 
             return file;
         }

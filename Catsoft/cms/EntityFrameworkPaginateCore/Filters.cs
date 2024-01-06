@@ -11,11 +11,7 @@ namespace App.CMS.EntityFrameworkPaginateCore
     /// <typeparam name="T">Type of Entity for which the filters are applicable.</typeparam>
     public class Filters<T>
     {
-        private readonly List<Filter<T>> _filterList;
-        public Filters()
-        {
-            _filterList = new List<Filter<T>>();
-        }
+        private readonly List<Filter<T>> _filterList = new();
 
         /// <summary>
         /// Adds a conditional filter for your query.

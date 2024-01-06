@@ -4,10 +4,6 @@ using App.Models;
 
 namespace App.Controllers
 {
-    public class LoginCmsController : LoginCmsController<Context>
-    {
-        public LoginCmsController(Context context, ICmsAdminRepository cmsAdminRepository) : base(context, cmsAdminRepository)
-        {
-        }
-    }
+    public class LoginCmsController(CatsoftContext catsoftContext, ICmsAdminRepository cmsAdminRepository)
+        : LoginCmsController<CatsoftContext>(catsoftContext, cmsAdminRepository);
 }

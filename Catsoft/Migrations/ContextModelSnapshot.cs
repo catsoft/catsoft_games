@@ -6,18 +6,21 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace App.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(CatsoftContext))]
     partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("App.CMS.Models.AdminModel", b =>
                 {
@@ -110,6 +113,66 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("App.CMS.Models.TextResourceModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextResourceModels");
+                });
+
+            modelBuilder.Entity("App.CMS.Models.TextResourceValueModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TextResourceModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TextResourceModelId");
+
+                    b.ToTable("TextResources");
                 });
 
             modelBuilder.Entity("App.Models.ArticleModel", b =>
@@ -477,6 +540,7 @@ namespace App.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("MetaImageModelId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MetaTitle")
@@ -500,8 +564,7 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MetaImageModelId")
-                        .IsUnique()
-                        .HasFilter("[MetaImageModelId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("MainPageModels");
                 });
@@ -608,6 +671,7 @@ namespace App.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ImageModelId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -631,8 +695,7 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ImageModelId")
-                        .IsUnique()
-                        .HasFilter("[ImageModelId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("ProjectModels");
                 });
@@ -650,6 +713,7 @@ namespace App.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ImageModelId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -664,10 +728,19 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ImageModelId")
-                        .IsUnique()
-                        .HasFilter("[ImageModelId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("ServiceModels");
+                });
+
+            modelBuilder.Entity("App.CMS.Models.TextResourceValueModel", b =>
+                {
+                    b.HasOne("App.CMS.Models.TextResourceModel", "TextResourceModel")
+                        .WithMany("Values")
+                        .HasForeignKey("TextResourceModelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("TextResourceModel");
                 });
 
             modelBuilder.Entity("App.Models.ArticleModel", b =>
@@ -676,6 +749,8 @@ namespace App.Migrations
                         .WithOne("ArticleModel")
                         .HasForeignKey("App.Models.ArticleModel", "ImageModelId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ImageModel");
                 });
 
             modelBuilder.Entity("App.Models.CommentModel", b =>
@@ -684,6 +759,8 @@ namespace App.Migrations
                         .WithMany("CommentModels")
                         .HasForeignKey("ArticleModelId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ArticleModel");
                 });
 
             modelBuilder.Entity("App.Models.EmailModel", b =>
@@ -692,6 +769,8 @@ namespace App.Migrations
                         .WithMany("EmailModels")
                         .HasForeignKey("ContactsPageModelId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ContactsPageModel");
                 });
 
             modelBuilder.Entity("App.Models.ImageModel", b =>
@@ -705,6 +784,10 @@ namespace App.Migrations
                         .WithMany("Images")
                         .HasForeignKey("ProjectModelGalleryId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("MainPageModelGallery");
+
+                    b.Navigation("ProjectModelGallery");
                 });
 
             modelBuilder.Entity("App.Models.Pages.BlogPageModel", b =>
@@ -713,6 +796,8 @@ namespace App.Migrations
                         .WithOne("BlogPageModelMeta")
                         .HasForeignKey("App.Models.Pages.BlogPageModel", "MetaImageModelId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("MetaImageModel");
                 });
 
             modelBuilder.Entity("App.Models.Pages.MainPageModel", b =>
@@ -720,7 +805,10 @@ namespace App.Migrations
                     b.HasOne("App.Models.ImageModel", "MetaImageModel")
                         .WithOne("MainPageModelMeta")
                         .HasForeignKey("App.Models.Pages.MainPageModel", "MetaImageModelId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("MetaImageModel");
                 });
 
             modelBuilder.Entity("App.Models.PhoneModel", b =>
@@ -729,6 +817,8 @@ namespace App.Migrations
                         .WithMany("PhoneModels")
                         .HasForeignKey("ContactsPageModelId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ContactsPageModel");
                 });
 
             modelBuilder.Entity("App.Models.ProjectModel", b =>
@@ -736,7 +826,10 @@ namespace App.Migrations
                     b.HasOne("App.Models.ImageModel", "ImageModel")
                         .WithOne("ProjectModel")
                         .HasForeignKey("App.Models.ProjectModel", "ImageModelId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("ImageModel");
                 });
 
             modelBuilder.Entity("App.Models.ServiceModel", b =>
@@ -744,7 +837,50 @@ namespace App.Migrations
                     b.HasOne("App.Models.ImageModel", "ImageModel")
                         .WithOne("ServiceModel")
                         .HasForeignKey("App.Models.ServiceModel", "ImageModelId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("ImageModel");
+                });
+
+            modelBuilder.Entity("App.CMS.Models.TextResourceModel", b =>
+                {
+                    b.Navigation("Values");
+                });
+
+            modelBuilder.Entity("App.Models.ArticleModel", b =>
+                {
+                    b.Navigation("CommentModels");
+                });
+
+            modelBuilder.Entity("App.Models.ImageModel", b =>
+                {
+                    b.Navigation("ArticleModel");
+
+                    b.Navigation("BlogPageModelMeta");
+
+                    b.Navigation("MainPageModelMeta");
+
+                    b.Navigation("ProjectModel");
+
+                    b.Navigation("ServiceModel");
+                });
+
+            modelBuilder.Entity("App.Models.Pages.ContactsPageModel", b =>
+                {
+                    b.Navigation("EmailModels");
+
+                    b.Navigation("PhoneModels");
+                });
+
+            modelBuilder.Entity("App.Models.Pages.MainPageModel", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("App.Models.ProjectModel", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

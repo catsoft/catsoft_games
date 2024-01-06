@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Repositories.Admin
 {
-    public class CmsAdminRepository<TContext> : CmsBaseRepository<AdminModel, TContext>, ICmsAdminRepository
+    public class CmsAdminRepository<TContext>
+        (TContext catsoftContext) : CmsBaseRepository<AdminModel, TContext>(catsoftContext), ICmsAdminRepository
         where TContext : DbContext
     {
-        public CmsAdminRepository(TContext context) : base(context)
-        {
-        }
-
         public override AdminModel CreateObject()
         {
             return new AdminModel();

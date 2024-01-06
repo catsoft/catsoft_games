@@ -2,13 +2,8 @@
 
 namespace App.CMS.Controllers.Attributes
 {
-    public class OneTwoManyAttribute : Attribute
+    public class OneTwoManyAttribute(string propertyName) : Attribute
     {
-        public string PropertyName { get; set; }
-
-        public OneTwoManyAttribute(string propertyName)
-        {
-            PropertyName = propertyName;
-        }
+        public string PropertyName { get; set; } = propertyName;
     }
 }

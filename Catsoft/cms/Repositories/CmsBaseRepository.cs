@@ -5,43 +5,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Repositories
 {
-    public abstract class CmsBaseRepository<TItem, TContext> : ICmsBaseRepository<TItem>
+    public abstract class CmsBaseRepository<TItem, TContext>(TContext catsoftContext) : ICmsBaseRepository<TItem>
         where TItem : class, IEntity
         where TContext : DbContext
     {
-        protected TContext Context { get; }
-
-        protected CmsBaseRepository(TContext context)
-        {
-            Context = context;
-        }
+        protected TContext CatsoftContext { get; } = catsoftContext;
 
         public virtual void Add(TItem entity)
         {
-            Context.Add(entity);
-            Context.SaveChanges();
+            CatsoftContext.Add(entity);
+            CatsoftContext.SaveChanges();
         }
 
         public virtual void Remove(Guid id)
         {
-            Context.Remove(Get(id));
-            Context.SaveChanges();
+            CatsoftContext.Remove(Get(id));
+            CatsoftContext.SaveChanges();
         }
 
         public virtual void Update(TItem entity)
         {
-            Context.Update(entity);
-            Context.SaveChanges();
+            CatsoftContext.Update(entity);
+            CatsoftContext.SaveChanges();
         }
 
         public virtual TItem Get(Guid id)
         {
-            return Context.Set<TItem>().First(w => w.Id == id);
+            return CatsoftContext.Set<TItem>().First(w => w.Id == id);
         }
 
         public IQueryable<TItem> GetAll()
         {
-            return Context.Set<TItem>().AsQueryable();
+            return CatsoftContext.Set<TItem>().AsQueryable();
         }
 
         public virtual TItem CreateObject()

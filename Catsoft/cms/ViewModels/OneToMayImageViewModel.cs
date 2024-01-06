@@ -3,28 +3,21 @@ using System.Collections.Generic;
 
 namespace App.CMS.ViewModels
 {
-    public class OneToMayImageViewModel
+    public class OneToMayImageViewModel(List<(Guid Id, string Url)> images, Guid idObject, string linkPropertyName)
     {
         /// <summary>
         /// Список уже сущевствующих картинок
         /// </summary>
-        public List<(Guid Id, string Url)> Images { get; set; }
+        public List<(Guid Id, string Url)> Images { get; set; } = images;
 
         /// <summary>
         /// Id объекта к которому привязывается картинка
         /// </summary>
-        public Guid IdObject { get; set; }
+        public Guid IdObject { get; set; } = idObject;
 
         /// <summary>
         /// Имя связанного свойства
         /// </summary>
-        public string LinkPropertyName { get; set; }
-
-        public OneToMayImageViewModel(List<(Guid Id, string Url)> images, Guid idObject, string linkPropertyName)
-        {
-            Images = images;
-            IdObject = idObject;
-            LinkPropertyName = linkPropertyName;
-        }
+        public string LinkPropertyName { get; set; } = linkPropertyName;
     }
 }

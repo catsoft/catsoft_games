@@ -10,9 +10,9 @@ namespace App.Controllers
 {
     public class OrderController : CommonController
     {
-        public OrderController(Context context)
+        public OrderController(CatsoftContext catsoftContext)
         {
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
  
         [HttpPost]
@@ -26,8 +26,8 @@ namespace App.Controllers
                 EmailOrPhone = orderViewModel.EmailOrPhone
             };
 
-            await Context.OrderModels.AddAsync(orderModel);
-            await Context.SaveChangesAsync();
+            await CatsoftContext.OrderModels.AddAsync(orderModel);
+            await CatsoftContext.SaveChangesAsync();
 
             var text = $"Контакная информация : {orderModel.EmailOrPhone}\n" +
                        $"Имя фамилия : {orderModel.Name}\n" +

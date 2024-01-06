@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace App.CMS.FilesHandlers.Webpack
 {
-    public class WebpackFileHandler : ImagesConcreteFileHandler, IWebpackFileHandler
-    {
-        public WebpackFileHandler(IWebHostEnvironment webHostEnvironment, ICmsImageModelRepository imageModelRepository) : base(webHostEnvironment, imageModelRepository)
-        {
-        }
-    }
+    public class WebpackFileHandler(IWebHostEnvironment webHostEnvironment,
+            ICmsImageModelRepository imageModelRepository)
+        : ImagesConcreteFileHandler(webHostEnvironment, imageModelRepository), IWebpackFileHandler;
 }

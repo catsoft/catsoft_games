@@ -8,18 +8,18 @@ namespace App.Controllers
 {
     public class AllProjectsController : CommonController
     {
-        public AllProjectsController(Context context)
+        public AllProjectsController(CatsoftContext catsoftContext)
         {
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
 
         public IActionResult Index()
         {
             var allProjects = new AllProjectsPageViewModel(GetHeaderViewModel(), GetFooterViewModel());
-            allProjects.HeaderViewModel.CurrentPage = Menu.Projects;
-            allProjects.ProjectsPageModel = Context.ProjectsPageModels.FirstOrDefault();
+            allProjects.HeaderViewModel.CurrentPage = Menu.AllProjects;
+            allProjects.ProjectsPageModel = CatsoftContext.ProjectsPageModels.FirstOrDefault();
             
-            var projects = Context.ProjectModels
+            var projects = CatsoftContext.ProjectModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
                 .ToList();

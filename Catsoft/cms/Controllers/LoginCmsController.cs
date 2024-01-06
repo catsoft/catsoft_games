@@ -11,17 +11,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Controllers
 {
-    public abstract class LoginCmsController<TContext> : CommonCmsController<TContext>
+    public abstract class LoginCmsController<TContext>(TContext catsoftContext, ICmsAdminRepository cmsAdminRepository)
+        : CommonCmsController<TContext>(catsoftContext)
         where TContext : DbContext
         
     {
-        private readonly ICmsAdminRepository _cmsAdminRepository;
-        
-        public LoginCmsController(TContext context, ICmsAdminRepository cmsAdminRepository) : base(context)
-        {
-            _cmsAdminRepository = cmsAdminRepository;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -31,7 +25,7 @@ namespace App.CMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(CmsLoginViewModel cmsLoginViewModel)
         {
-            var admin = _cmsAdminRepository.GetByLoginAndPassword(cmsLoginViewModel.Login, cmsLoginViewModel.Password);
+            var admin = cmsAdminRepository.GetByLoginAndPassword(cmsLoginViewModel.Login, cmsLoginViewModel.Password);
             if (admin == null)
             {
                 return RedirectToAction("Index");
@@ -45,7 +39,7 @@ namespace App.CMS.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new(ClaimsIdentity.DefaultNameClaimType, userName)
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PhPopovich.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(CatsoftContext))]
     [Migration("20200204180129_24")]
     partial class _24
     {

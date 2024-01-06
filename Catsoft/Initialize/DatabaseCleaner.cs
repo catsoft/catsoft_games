@@ -1,22 +1,56 @@
-﻿using App.Models;
+﻿using System;
+using System.Collections.Generic;
+using App.CMS.Models;
+using App.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Initialize
 {
-    public class DatabaseCleaner
+    public class DatabaseCleaner(CatsoftContext catsoftContext)
     {
-        private readonly Context _context;
-
-        public DatabaseCleaner(Context context)
-        {
-            _context = context;
-        }
-
         public void Clean()
         {
-            _context.RemoveRange(_context.AdminModels);
-            _context.RemoveRange(_context.CmsModels);
+            try
+            {
+                TryRemove(catsoftContext.AdminModels);
+                TryRemove(catsoftContext.AboutPageModels);
+                TryRemove(catsoftContext.ArticleModels);
+                TryRemove(catsoftContext.BlogPageModels);
+                TryRemove(catsoftContext.CommentModels);
+                TryRemove(catsoftContext.ContactsPageModels);
+                TryRemove(catsoftContext.EmailModels);
+                TryRemove(catsoftContext.Files);
+                TryRemove(catsoftContext.Images);
+                TryRemove(catsoftContext.MainPageModels);
+                TryRemove(catsoftContext.Menus);
+                TryRemove(catsoftContext.OrderModels);
+                TryRemove(catsoftContext.PhoneModels);
+                TryRemove(catsoftContext.ProjectsPageModels);
+                TryRemove(catsoftContext.ServiceModels);
+                TryRemove(catsoftContext.ServicesPageModels);
+                // TryRemove(_catsoftContext.TextResourceModels);
+                // TryRemove(_catsoftContext.TextResources);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
 
-            _context.SaveChanges();
+
+        private void TryRemove<T>(DbSet<T> entites)
+            where T : class, IEntity
+        {
+            try
+            {
+                catsoftContext.RemoveRange(entites);
+                catsoftContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

@@ -12,12 +12,7 @@ namespace App.CMS.EntityFrameworkPaginateCore
     /// <typeparam name="T">Type of Entity for which the sort is applicable.</typeparam>
     public class Sorts<T>
     {
-        private readonly List<dynamic> _sortList;
-
-        public Sorts()
-        {
-            _sortList = new List<dynamic>();
-        }
+        private readonly List<dynamic> _sortList = new();
 
         /// <summary>
         /// Adds a conditional sort for your query.

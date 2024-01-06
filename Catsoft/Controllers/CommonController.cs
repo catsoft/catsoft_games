@@ -8,14 +8,14 @@ namespace App.Controllers
 {
     public class CommonController : Controller
     {
-        protected Context Context { get; set; }
+        protected CatsoftContext CatsoftContext { get; set; }
 
         protected HeaderViewModel GetHeaderViewModel()
         {
             var header = new HeaderViewModel()
             {
-                CurrentPage = Menu.Main,
-                Menus = Context.Menus.OrderBy(w => w.Position).ToList()
+                CurrentPage = Menu.Home,
+                Menus = CatsoftContext.Menus.OrderBy(w => w.Position).ToList()
                     .Select(w => new MenuViewModel(w.Name, w.Href, w.Menu)).ToList(),
             };
             return header;
@@ -23,7 +23,7 @@ namespace App.Controllers
 
         protected FooterViewModel GetFooterViewModel()
         {
-            var about = Context.ContactsPageModels
+            var about = CatsoftContext.ContactsPageModels
                 .Include(w => w.EmailModels)
                 .Include(w => w.PhoneModels)
                 .FirstOrDefault();

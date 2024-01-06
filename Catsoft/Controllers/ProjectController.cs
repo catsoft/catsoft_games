@@ -9,14 +9,14 @@ namespace App.Controllers
 {
     public class ProjectController : CommonController
     {
-        public ProjectController(Context context)
+        public ProjectController(CatsoftContext catsoftContext)
         {
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
 
         public IActionResult Index(Guid id)
         {
-            var page = Context.ProjectModels
+            var page = CatsoftContext.ProjectModels
                 .Include(w => w.ImageModel)
                 .Include(w => w.Images)
                 .FirstOrDefault(w => w.Id == id);

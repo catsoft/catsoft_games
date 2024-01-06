@@ -22,10 +22,10 @@ namespace App.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(Context context, IWebHostEnvironment webHostEnvironment)
+        public HomeController(CatsoftContext catsoftContext, IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
 
         public IActionResult Index()
@@ -34,26 +34,26 @@ namespace App.Controllers
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                ContactsPageViewModel = new ContactsPageViewModel(Context.ContactsPageModels
+                ContactsPageViewModel = new ContactsPageViewModel(CatsoftContext.ContactsPageModels
                     .Include(w => w.EmailModels)
                     .Include(w => w.PhoneModels)
                     .FirstOrDefault()),
-                Page = Context.MainPageModels
+                Page = CatsoftContext.MainPageModels
                     .Include(w => w.Images)
                     .Include(w => w.MetaImageModel)
                     .FirstOrDefault(),
-                AboutPageViewModel = new AboutPageViewModel(Context.AboutPageModels.FirstOrDefault()),
-                ServicesPageViewModel = new ServicesPageViewModel(Context.ServicesPageModels.FirstOrDefault()),
-                ProjectsPageViewModel = new ProjectsPageViewModel(Context.ProjectsPageModels.FirstOrDefault()),
+                AboutPageViewModel = new AboutPageViewModel(CatsoftContext.AboutPageModels.FirstOrDefault()),
+                ServicesPageViewModel = new ServicesPageViewModel(CatsoftContext.ServicesPageModels.FirstOrDefault()),
+                ProjectsPageViewModel = new ProjectsPageViewModel(CatsoftContext.ProjectsPageModels.FirstOrDefault()),
             };
 
-            var services = Context.ServiceModels
+            var services = CatsoftContext.ServiceModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
                 .Take(home.Page?.ServicesCount ?? 0)
                 .ToList();
 
-            var projects = Context.ProjectModels
+            var projects = CatsoftContext.ProjectModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
                 .Take(home.Page?.ProjectsCount ?? 0)
@@ -62,7 +62,7 @@ namespace App.Controllers
             home.ServicesPageViewModel.ServiceModels = services;
             home.ProjectsPageViewModel.ProjectModels = projects;
 
-            home.HeaderViewModel.CurrentPage = Menu.Main;
+            home.HeaderViewModel.CurrentPage = Menu.Home;
 
             return View(home);
         }
@@ -80,14 +80,14 @@ namespace App.Controllers
 
         private void CleanImagesWithoutReferences()
         {
-            var images = Context.Images.ToList();
+            var images = CatsoftContext.Images.ToList();
 
-            var servicesImages = Context.ServiceModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var projectImages = Context.ProjectModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var articleImages = Context.ArticleModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var blogPageImages = Context.BlogPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
+            var servicesImages = CatsoftContext.ServiceModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
+            var projectImages = CatsoftContext.ProjectModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
+            var articleImages = CatsoftContext.ArticleModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
+            var blogPageImages = CatsoftContext.BlogPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
                 .ToList();
-            var mainPageMetaImages = Context.MainPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
+            var mainPageMetaImages = CatsoftContext.MainPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
                 .ToList();
             var imagesWithReferences =
                 images.Where(w => w.ProjectModelGalleryId != null || w.MainPageModelGalleryId != null).ToList();
@@ -101,16 +101,16 @@ namespace App.Controllers
             {
                 if (!allImagesIds.Contains(imageModel.Id))
                 {
-                    Context.Remove(imageModel);
+                    CatsoftContext.Remove(imageModel);
                 }
             }
 
-            Context.SaveChanges();
+            CatsoftContext.SaveChanges();
         }
 
         private void CleanImagesWithoutEntity()
         {
-            var images = Context.Images.ToList();
+            var images = CatsoftContext.Images.ToList();
 
             var pathes = images.SelectMany(w => new string[] {w.Url, w.OriginalUrl}).ToList();
 
@@ -127,7 +127,7 @@ namespace App.Controllers
 
         protected void GenerateImagesWithoutOriginalPath()
         {
-            var images = Context.Images.ToList();
+            var images = CatsoftContext.Images.ToList();
 
             var allImagesWithoutCompressed = images.Where(w => string.IsNullOrEmpty(w.OriginalUrl)).ToList();
             
@@ -141,8 +141,8 @@ namespace App.Controllers
 
                 if (string.IsNullOrEmpty(oldUrl) || !System.IO.File.Exists(_webHostEnvironment.WebRootPath + oldUrl))
                 {
-                    Context.Images.Remove(imageModel);
-                    Context.SaveChanges();
+                    CatsoftContext.Images.Remove(imageModel);
+                    CatsoftContext.SaveChanges();
                     continue;
                 }
                 
@@ -150,8 +150,8 @@ namespace App.Controllers
 
                 imageModel.Url = compressedUrl;
                 imageModel.OriginalUrl = original;
-                Context.Images.Update(imageModel);
-                Context.SaveChanges();
+                CatsoftContext.Images.Update(imageModel);
+                CatsoftContext.SaveChanges();
             }
         }
         

@@ -4,10 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace App.CMS.FilesHandlers.Jpeg
 {
-    public class JpegFileHandler : ImagesConcreteFileHandler, IJpegFileHandler
-    {
-        public JpegFileHandler(IWebHostEnvironment webHostEnvironment, ICmsImageModelRepository imageModelRepository) : base(webHostEnvironment, imageModelRepository)
-        {
-        }
-    }
+    public class JpegFileHandler(IWebHostEnvironment webHostEnvironment, ICmsImageModelRepository imageModelRepository)
+        : ImagesConcreteFileHandler(webHostEnvironment, imageModelRepository), IJpegFileHandler;
 }

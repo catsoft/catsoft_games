@@ -8,22 +8,13 @@ using App.Models.Pages;
 
 namespace App.Initialize
 {
-    public class DatabaseInitializer
+    public class DatabaseInitializer(CatsoftContext catsoftContext, DatabaseCleaner cleaner)
     {
-        private readonly DatabaseCleaner _cleaner;
-        private readonly Context _context;
-
-        public DatabaseInitializer(Context context, DatabaseCleaner cleaner)
-        {
-            _context = context;
-            _cleaner = cleaner;
-        }
-
         public void Init()
         {
-            // _cleaner.Clean();
+            cleaner.Clean();
 
-            if (!_context.AdminModels.Any())
+            if (!catsoftContext.AdminModels.Any())
             {
                 var defaultAdmin = new AdminModel
                 {
@@ -32,26 +23,26 @@ namespace App.Initialize
                     Title = "Default Admin"
                 };
 
-                _context.Add(defaultAdmin);
+                catsoftContext.Add(defaultAdmin);
             }
 
-            if (!_context.MainPageModels.Any())
+            if (!catsoftContext.MainPageModels.Any())
             {
                 var mainModels = new List<MainPageModel>
                 {
-                    new MainPageModel
+                    new()
                     {
-                        Title = "Main Page",
+                        Title = "Home Page"
                     }
                 };
 
-                _context.AddRange(mainModels);
+                catsoftContext.AddRange(mainModels);
             }
 
-            _context.SaveChanges();
+            catsoftContext.SaveChanges();
 
 
-            if (!_context.CmsModels.Any())
+            if (!catsoftContext.CmsModels.Any())
             {
                 var types = Assembly.GetAssembly(typeof(Entity<>))?.GetTypes() ?? Type.EmptyTypes;
 
@@ -63,12 +54,12 @@ namespace App.Initialize
                     Class = w.FullName,
                     Position = i,
                     IsSinglePage = w.Name.Contains("Page"),
-                    NewCount = 0,
+                    NewCount = 0
                 }).ToList();
 
-                _context.AddRange(cmsModels);
+                catsoftContext.AddRange(cmsModels);
 
-                _context.SaveChanges();
+                catsoftContext.SaveChanges();
 
                 var pages = classes.Where(w => w.Name.Contains("Page")).ToList();
                 foreach (var page in pages)
@@ -76,12 +67,27 @@ namespace App.Initialize
                     var pageObject = Activator.CreateInstance(page);
                     if (pageObject != null)
                     {
-                        _context.Add(pageObject);
+                        catsoftContext.Add(pageObject);
                     }
                 }
             }
 
-            _context.SaveChanges();
+            if (!catsoftContext.Menus.Any())
+            {
+                var menuObjects = Enum.GetValues(typeof(Menu)).Cast<Menu>().ToList().Select((w, i) =>
+                    new MenuModel
+                    {
+                        Name = w.ToString(),
+                        Href = MenuLinks.links.FirstOrDefault(q => q.Key == w).Value,
+                        Menu = w,
+                        Position = i
+                    }
+                );
+                catsoftContext.AddRange(menuObjects);
+                catsoftContext.SaveChanges();
+            }
+
+            catsoftContext.SaveChanges();
         }
     }
 }

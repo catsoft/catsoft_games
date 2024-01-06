@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Repositories.Image
 {
-    public abstract class CmsImageModelRepository<TContext> : CmsBaseRepository<ImageModel, TContext>, ICmsImageModelRepository
+    public class CmsImageModelRepository<TContext> : CmsBaseRepository<ImageModel, TContext>, ICmsImageModelRepository
         where TContext: DbContext
     {
         protected CmsImageModelRepository(TContext context) : base(context)

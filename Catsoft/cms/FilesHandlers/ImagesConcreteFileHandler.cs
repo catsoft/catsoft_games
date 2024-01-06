@@ -8,22 +8,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace App.CMS.FilesHandlers
 {
-    public abstract class ImagesConcreteFileHandler : FilesConcreteFileHandler
+    public abstract class ImagesConcreteFileHandler(IWebHostEnvironment webHostEnvironment,
+            ICmsImageModelRepository imageModelRepository)
+        : FilesConcreteFileHandler(webHostEnvironment)
     {
-        private readonly ICmsImageModelRepository _imageModelRepository;
         private string GetCompressedPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_compressed." + extension;
         private string GetOriginalPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_original." + extension;
-        
-        protected ImagesConcreteFileHandler(IWebHostEnvironment webHostEnvironment, ICmsImageModelRepository imageModelRepository) : base(webHostEnvironment)
-        {
-            _imageModelRepository = imageModelRepository;
-        }
 
         public override IEntity Handle(IFormFile formFile)
         {
             var realExtension = Path.GetExtension(formFile.FileName);
             
-            var image = _imageModelRepository.AddImage(formFile.FileName, formFile.ContentType, realExtension);
+            var image = imageModelRepository.AddImage(formFile.FileName, formFile.ContentType, realExtension);
 
             var originalPath = GetOriginalPath(image, realExtension);
             SaveOriginalImage(formFile, originalPath);
@@ -35,7 +31,7 @@ namespace App.CMS.FilesHandlers
             image.Url = compressedPath;
             image.OriginalUrl = originalPath;
             
-            _imageModelRepository.Update(image);
+            imageModelRepository.Update(image);
 
             return image;
         }

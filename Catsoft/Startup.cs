@@ -3,6 +3,7 @@ using App.CMS.Repositories.Admin;
 using App.CMS.Repositories.CmsModels;
 using App.CMS.Repositories.File;
 using App.CMS.Repositories.Image;
+using App.cms.Repositories.TextResource;
 using App.CMS.StaticHelpers;
 using App.Initialize;
 using App.Models;
@@ -23,20 +24,15 @@ using Microsoft.Extensions.Hosting;
 
 namespace App
 {
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; } = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<Context>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CatsoftContext>(options => options.UseSqlServer(connection));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -59,7 +55,9 @@ namespace App
 
             services.AddScoped<ICmsCmsModelRepository, CmsModelRepository>();
 
-            
+            services.AddScoped<TextResourceRepository>();
+
+
             services.AddSingleton(new CmsOptions()
             {
                 SmptCredentialsMail = "support@ph-popovich.com",

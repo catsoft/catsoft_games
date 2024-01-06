@@ -9,24 +9,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace App.CMS.FilesHandlers
 {
-    public class CommonFileHandler : IFileHandler
-    {
-        private readonly IWebpackFileHandler _webpackFileHandler;
-        private readonly IJpegFileHandler _jpegFileHandler;
-        private readonly IPngFileHandler _pngFileHandler;
-        private readonly IDefaultFileHandler _defaultFileHandler;
-        private readonly TypesOptions _typesOptions;
-
-        public CommonFileHandler(IWebpackFileHandler webpackFileHandler, IJpegFileHandler jpegFileHandler, IPngFileHandler pngFileHandler,
+    public class CommonFileHandler(IWebpackFileHandler webpackFileHandler, IJpegFileHandler jpegFileHandler,
+            IPngFileHandler pngFileHandler,
             IDefaultFileHandler defaultFileHandler, TypesOptions typesOptions)
-        {
-            _webpackFileHandler = webpackFileHandler;
-            _jpegFileHandler = jpegFileHandler;
-            _pngFileHandler = pngFileHandler;
-            _defaultFileHandler = defaultFileHandler;
-            _typesOptions = typesOptions;
-        }
-
+        : IFileHandler
+    {
         public IEntity Handle(IFormFile formFile)
         {
             var extension = Path.GetExtension(formFile.FileName).ToLower();
@@ -36,7 +23,7 @@ namespace App.CMS.FilesHandlers
 
         public void Remove(IEntity entity)
         {
-            if (entity.GetType() == _typesOptions.Image && entity is ImageModel image)
+            if (entity.GetType() == typesOptions.Image && entity is ImageModel image)
             {
                 var extension = Path.GetExtension(image.OriginalUrl).ToLower();
 
@@ -44,7 +31,7 @@ namespace App.CMS.FilesHandlers
             }
             else
             {
-                _defaultFileHandler.Remove(entity);
+                defaultFileHandler.Remove(entity);
             }
         }
 
@@ -52,12 +39,12 @@ namespace App.CMS.FilesHandlers
         {
             return extension switch
             {
-                ".jpg" => _jpegFileHandler,
-                ".jpeg" => _jpegFileHandler,
-                ".png" => _pngFileHandler,
-                ".webp" => _webpackFileHandler,
-                ".webpack" => _webpackFileHandler,
-                _ => _defaultFileHandler,
+                ".jpg" => jpegFileHandler,
+                ".jpeg" => jpegFileHandler,
+                ".png" => pngFileHandler,
+                ".webp" => webpackFileHandler,
+                ".webpack" => webpackFileHandler,
+                _ => defaultFileHandler,
             };
         }
     }

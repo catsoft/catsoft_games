@@ -5,14 +5,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace App.CMS.FilesHandlers
 {
-    public abstract class FilesConcreteFileHandler : IFileHandler
+    public abstract class FilesConcreteFileHandler(IWebHostEnvironment webHostEnvironment) : IFileHandler
     {
-        protected IWebHostEnvironment WebHostEnvironment { get; }
-
-        protected FilesConcreteFileHandler(IWebHostEnvironment webHostEnvironment)
-        {
-            WebHostEnvironment = webHostEnvironment;
-        }
+        protected IWebHostEnvironment WebHostEnvironment { get; } = webHostEnvironment;
 
         protected virtual string GetCompressedPath(ImageModel imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_compressed." + extension;
 

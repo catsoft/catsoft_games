@@ -3,10 +3,5 @@ using App.Models;
 
 namespace App.Repositories.Cms.Admins
 {
-    public class AdminRepository : CmsAdminRepository<Context>
-    {
-        public AdminRepository(Context context) : base(context)
-        {
-        }
-    }
+    public class AdminRepository(CatsoftContext catsoftContext) : CmsAdminRepository<CatsoftContext>(catsoftContext);
 }

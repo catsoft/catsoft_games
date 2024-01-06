@@ -7,9 +7,9 @@ namespace App.Controllers
 {
     public class CommentController : CommonController
     {
-        public CommentController(Context context)
+        public CommentController(CatsoftContext catsoftContext)
         {
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
  
         [HttpPost]
@@ -22,8 +22,8 @@ namespace App.Controllers
                 ArticleModelId = comment.ArticleId
             };
 
-            await Context.CommentModels.AddAsync(orderModel);
-            await Context.SaveChangesAsync();
+            await CatsoftContext.CommentModels.AddAsync(orderModel);
+            await CatsoftContext.SaveChangesAsync();
 
             return RedirectToAction("Get", "Blog", new { id = comment.ArticleId });
         }

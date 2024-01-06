@@ -1,16 +1,9 @@
 ﻿namespace App.CMS.ViewModels
 {
-    public class PaginationViewModel
+    public class PaginationViewModel(string url, int currentPage, int maxPage)
     {
-        public string Url { get; set; }
-        public int MaxPage { get; set; }
-        public int CurrentPage { get; set; }
-
-        public PaginationViewModel(string url, int currentPage, int maxPage)
-        {
-            Url = url;
-            MaxPage = maxPage;
-            CurrentPage = currentPage;
-        }
+        public string Url { get; set; } = url;
+        public int MaxPage { get; set; } = maxPage;
+        public int CurrentPage { get; set; } = currentPage;
     }
 }

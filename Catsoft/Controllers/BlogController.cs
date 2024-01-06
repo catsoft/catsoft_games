@@ -9,9 +9,9 @@ namespace App.Controllers
 {
     public class BlogController : CommonController
     {
-        public BlogController(Context context)
+        public BlogController(CatsoftContext catsoftContext)
         {
-            Context = context;
+            CatsoftContext = catsoftContext;
         }
 
         public IActionResult Index()
@@ -20,10 +20,10 @@ namespace App.Controllers
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = Context.BlogPageModels
+                Page = CatsoftContext.BlogPageModels
                     .Include(w => w.MetaImageModel)
                     .FirstOrDefault(),
-                ArticleModels = Context.ArticleModels
+                ArticleModels = CatsoftContext.ArticleModels
                     .Include(w => w.ImageModel)
                     .ToList()
             };
@@ -34,7 +34,7 @@ namespace App.Controllers
 
         public IActionResult Get(Guid id)
         {
-            var sortedComments = Context.CommentModels
+            var sortedComments = CatsoftContext.CommentModels
                 .Where(w => w.ArticleModelId == id)
                 .OrderBy(w => w.DateCreated)
                 .ToList();
@@ -43,7 +43,7 @@ namespace App.Controllers
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = Context.ArticleModels
+                Page = CatsoftContext.ArticleModels
                     .Include(w => w.ImageModel)
                     .First(w => w.Id == id)
             };

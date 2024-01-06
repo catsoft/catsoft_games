@@ -10,10 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace App.Controllers
 {
-    public class HomeCmsController : HomeCmsController<Context>
-    {
-        public HomeCmsController(Context context, IWebHostEnvironment appEnvironment, CmsOptions cmsOptions, TypesOptions typesOptions, ICmsImageModelRepository imageRepository, ICmsFilesRepository filesRepository, ICmsCmsModelRepository cmsCmsModelRepository, IFileHandler fileHandler) : base(context, appEnvironment, cmsOptions, typesOptions, imageRepository, filesRepository, cmsCmsModelRepository, fileHandler)
-        {
-        }
-    }
+    public class HomeCmsController(CatsoftContext catsoftContext, IWebHostEnvironment appEnvironment,
+            CmsOptions cmsOptions, TypesOptions typesOptions, ICmsImageModelRepository imageRepository,
+            ICmsFilesRepository filesRepository, ICmsCmsModelRepository cmsCmsModelRepository, IFileHandler fileHandler)
+        : HomeCmsController<CatsoftContext>(catsoftContext, appEnvironment, cmsOptions, typesOptions, imageRepository, filesRepository, cmsCmsModelRepository, fileHandler);
 }

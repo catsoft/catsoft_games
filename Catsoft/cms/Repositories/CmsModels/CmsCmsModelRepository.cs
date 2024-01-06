@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.CMS.Repositories.CmsModels
 {
-    public class CmsCmsModelRepository<TContext> : CmsBaseRepository<CmsModel, TContext>, ICmsCmsModelRepository
+    public class CmsCmsModelRepository<TContext>
+        (TContext catsoftContext) : CmsBaseRepository<CmsModel, TContext>(catsoftContext), ICmsCmsModelRepository
         where TContext: DbContext
     {
-        public CmsCmsModelRepository(TContext context) : base(context)
-        {
-        }
-
         public CmsModel GetByClass(string type)
         {
             return GetAll().FirstOrDefault(w => w.Class == type);
