@@ -1,0 +1,31 @@
+﻿@model App.CMS.ViewModels.CmsLoginViewModel
+    
+@{
+    Layout = "~/CMS/Views/Shared/_LayoutCmsLogin.cshtml";
+    ViewData["TitleToTopLabelE"] = "Вход в CMS";
+}
+
+<div class="row">
+    
+    <h2 class="text-center col-md-12 m-4">Вход в CMS</h2>
+
+    <div class="col-md-4 offset-md-4">
+        <form asp-action="Login" asp-controller="LoginCms" method="post" asp-anti-forgery="true">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control"/>
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-4 text-center">
+                <input type="submit" value="Войти" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+

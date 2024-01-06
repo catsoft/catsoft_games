@@ -1,0 +1,3 @@
+﻿@model App.CMS.ViewModels.Properties.PropertyViewModel
+
+@Html.TextArea(nameof(Model.Model) + "." + Model.PropertyInfo.Name, new { @class = "form-control summernote" })

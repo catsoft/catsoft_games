@@ -1,0 +1,47 @@
+﻿@using App.CMS.Models
+@using App.CMS.StaticHelpers
+@using App.CMS.ViewModels
+@inject TypesOptions TypesOptions
+
+@model dynamic
+
+@{
+    Layout = null;
+
+    var type = (Type)Model.GetType();
+    var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
+
+    var imagePropertyInfos = properties.Where(w => w.PropertyType == TypesOptions.Image).ToList();
+}
+
+@if (imagePropertyInfos.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            @foreach (var propertyInfo in imagePropertyInfos)
+            {
+                var name = ReflectionHelper.GetNameProperty(propertyInfo);
+                var image = propertyInfo.GetValue(Model) as ImageModel ?? new ImageModel();
+                var imageViewModel = new ImageViewModel()
+                {
+                    PropertyName = propertyInfo.Name,
+                    ImageId = image.Id,
+                    Url = image.Url,
+                };
+
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <span style="font-weight: bold">
+                                @Html.DisplayName(name)
+                            </span>
+                        </div>
+                        <div class="col-md-10" id="@(imageViewModel.PropertyName)">
+                            @await Html.PartialAsync("~/CMS/Views/HomeCms/Image.cshtml", imageViewModel)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

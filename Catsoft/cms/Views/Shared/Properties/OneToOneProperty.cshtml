@@ -1,0 +1,13 @@
+﻿@using App.CMS.Controllers
+@using App.CMS.StaticHelpers
+@model App.CMS.ViewModels.Properties.PropertyViewModel
+
+@{
+    var propertyName = Model.PropertyInfo.Name;
+    var dataFor = propertyName + "Id";
+    var list = DataHelper.GetList(ContextShared.SharedContext, Model.PropertyInfo.PropertyType);
+    var selectList = list.Select(w => new SelectListItem() { Text = w.Title, Value = w.Id.ToString() }).ToList();
+    selectList.Insert(0, new SelectListItem() { Value = "", Text = "Не выбрано" });
+}
+
+@Html.DropDownList(dataFor, selectList, new { @class = "form-control" })

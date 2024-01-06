@@ -1,0 +1,92 @@
+﻿@model App.CMS.ViewModels.ImageViewModel
+
+@{
+    Layout = null;
+}
+
+
+@if (Model?.ImageId == null || Model?.ImageId == Guid.Empty)
+{
+    <input type="file" title="Выберите изображение" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
+    <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadImage()"/>
+    <script>
+        function uploadImage() {
+            var file = $("#@(Model?.PropertyName)image")[0].files[0];
+            var formData = new FormData();
+            formData.append("uploadedImage", file);
+
+            $.ajax({
+                url: "/HomeCms/AddImage",
+                type: "POST",
+                contentType: false,
+                data: formData,
+                cache: false,
+                processData: false,
+                async: true,
+                success: function (id) {
+                    $.ajax({
+                        url: "/HomeCms/AddImage?id=" + id + "&idImageProperty=" + "@(Model?.PropertyName)",
+                        type: "GET",
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        async: true,
+                        success: function (data) {
+                            var input = $("#@(Model?.PropertyName)Id");
+                            if (input.length === 0) {
+                                var filesDiv = $("#imagesHiddenInputs");
+                                filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.PropertyName)Id" name="@(Model?.PropertyName)Id" value="' + id + '"/>');
+                            } else {
+                                input.val(id);
+                            }
+                            $("#@(Model?.PropertyName)").html(data);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="Изображение"/>
+
+    <div class="col-md-12">
+        <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">Удалить файл</button>
+    </div>
+    
+    <script>
+        function removeImage() {
+            let formData = new FormData();
+            formData.append("idImageProperty", "@(Model.PropertyName)");
+            formData.append("id", "@(Model.ImageId)");
+
+            $.ajax({
+                url: "/HomeCms/RemoveImage",
+                type: "POST",
+                contentType: false,
+                data: formData,
+                cache: false,
+                processData: false,
+                async: true,
+                success: function(data) {
+                    console.log("123")
+                    var input = $("#@(Model?.PropertyName)Id");
+                    if (input.length === 0) {
+                        var filesDiv = $("#imagesHiddenInputs");
+                        filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.PropertyName)Id" name="@(Model?.PropertyName)Id" value=""/>');
+                    } else {
+                        input.val("");
+                    }
+                    $("#@(Model?.PropertyName)").html(data);
+                }
+            })
+        }
+    </script>
+}
+<br>
+
+<script>
+    $('input[type=file]').bootstrapFileInput();
+    $('.file-inputs').bootstrapFileInput();
+</script>

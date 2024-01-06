@@ -1,0 +1,46 @@
+﻿@using System.Reflection
+@using App.CMS.Controllers.Attributes
+@using App.CMS.StaticHelpers
+@model dynamic
+
+@{
+    var properties = (IEnumerable<PropertyInfo>)ReflectionHelper.GetPropertiesInView(Model.GetType(), ViewData);
+}
+<br />
+
+@foreach (var property in properties)
+{
+
+    <div class="col-md-12" style="margin-bottom: 15px;">
+        @{
+            var name = ReflectionHelper.GetNameProperty(property);
+        }
+        <div class="col-md-2">
+            <span style="font-weight: bold">
+                @Html.DisplayName(name)
+            </span>
+        </div>
+
+        <div class="col-md-10">
+
+            @if (property.GetCustomAttribute<ShowTitleAttribute>() != null)
+            {
+                var value = (string) ReflectionHelper.GetValuePropertyAsTitle(property, Model)?.ToString();
+                var link = (string) ReflectionHelper.GetValuePropertyAsLink(property, Model)?.ToString();
+
+                <td>
+                    <a href="@link">
+                        @Html.DisplayFor(modelItem => value)
+                    </a>
+                </td>
+            }
+            else
+            {
+                var value = (string) ReflectionHelper.GetValuePropertyAsString(property, Model)?.ToString();
+                <td>
+                    @Html.DisplayFor(modelItem => value)
+                </td>
+            }
+        </div>
+    </div>
+}

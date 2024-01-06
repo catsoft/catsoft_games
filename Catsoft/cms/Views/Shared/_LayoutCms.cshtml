@@ -1,0 +1,105 @@
+﻿@using App.CMS.Repositories.CmsModels
+@inject ICmsCmsModelRepository ModelRepository
+
+@{
+	var pages = ModelRepository.GetAll().ToList();
+}
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>@ViewData["TitleToTopLabelE"]</title>
+
+	<script src="/lib/jQuery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+
+	<link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<link href="/lib/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
+	<script src="/lib/summernote/dist/summernote-bs4.min.js"></script>
+	
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto d-flex flex-wrap">
+			@foreach (var page in pages.OrderBy(w => w.Position))
+			{
+				<li class="nav-item p-2">
+					@if (page.IsSinglePage)
+					{
+						<a asp-controller="HomeCms"
+						   asp-action="EditFirst"
+						   asp-route-type="@(page.Class)"
+						   class="nav-link">
+							@(page.Title)
+						</a>
+					}
+					else
+					{
+						<a asp-controller="HomeCms"
+						   asp-action="GetList"
+						   asp-route-type="@(page.Class)"
+						   class="nav-link">
+							@(page.Title)
+							@if (page.NewCount > 0)
+							{
+								<span style="color: blueviolet">(+@(page.NewCount))</span>
+							}
+						</a>
+					}
+				</li>
+			}
+			<li class="nav-item p-2">
+				<a asp-controller="LoginCms" asp-action="Logout" class="nav-link">
+					<span style="color: red">Выход</span>
+				</a>
+			</li>
+			<li class="nav-item p-2">
+            	<a href="/" class="nav-link">
+            		<span style="color: blue">На главную</span>
+            	</a>
+            </li>
+		</ul>
+	</div>
+</nav>
+
+@RenderBody()
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            placeholder: 'Введите текст',
+            lang: 'ru-RU',
+            height: 200, 
+            toolbar: [
+              ['style', ['style']],
+              ['font', ['bold', 'underline',  'strikethrough', 'superscript', 'subscript', 'clear']],
+              ['fontname', ['fontname']],
+              ['fontsize', ['fontsize']],
+              ['fontsizeunit', ['fontsizeunit']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph', 'heigth']],
+              ['table', ['table']],
+              ['insert', ['hr']],
+              ['view', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
+            ],
+        });
+
+        $(':input').serialize();
+    });
+</script>
+
+@* <script src="/lib/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script> *@
+
+</body>
+</html>

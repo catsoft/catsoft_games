@@ -1,0 +1,67 @@
+﻿@using App.CMS.ViewModels
+@model App.CMS.ViewModels.OneToMayImageViewModel
+
+@{
+    Layout = null;
+    var uploaderId = $"OneToManyImageUploader{Model.LinkPropertyName}";
+    var imagesDivId = $"DivOneToManyImagesId{Model.LinkPropertyName}";
+}
+
+<div id="@(imagesDivId)">
+    @if (Model.Images?.Any() == true)
+    {
+        foreach (var image in Model.Images)
+        {
+            var model = new OneToManySingleImage(image.Id, image.Url, Model.LinkPropertyName);
+            @await Html.PartialAsync("~/CMS/Views/HomeCms/OneToManySingleImage.cshtml", model)
+        }
+    }
+</div>
+
+<input type="file" title="Выберите изображение" class="btn btn-primary" accept="image/*" id="@(uploaderId)" multiple="multiple"/>
+<input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadOneToManyImageModel('@Model.LinkPropertyName')"/>
+
+<script>
+    function uploadOneToManyImageModel() {
+        const files = $("#@(uploaderId)")[0].files;
+        const formData = new FormData();
+        
+        for (let i = 0; i !== files.length; i++) {
+            formData.append("uploadedImageModel", files[i]);
+        }
+        
+        formData.append("propertyName", "@(Model.LinkPropertyName)");
+        formData.append("id", "@(Model.IdObject)");
+
+        $.ajax({
+            url: "/HomeCms/AddOneToManyImageModel",
+            type: "POST",
+            contentType: false,
+            data: formData,
+            cache: false,
+            processData: false,
+            async: true,
+            success: function (ids) {
+                ids.forEach(function(item, i, arr) {
+                    $.ajax({
+                        url: "/HomeCms/AddOneToManyImageModel?id=" + item + "&propertyName=" + "@(Model?.LinkPropertyName)",
+                        type: "GET",
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        async: true,
+                        success: function (data) {
+                            var div = $("#@(imagesDivId)");
+                            div.html(div.html() + data);
+                        }
+                    });
+                });
+            }
+        });
+    };
+</script>
+
+<script>
+    $('input[type=file]').bootstrapFileInput();
+    $('.file-inputs').bootstrapFileInput();
+</script>

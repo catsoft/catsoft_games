@@ -1,0 +1,10 @@
+﻿@model App.CMS.ViewModels.Properties.PropertyViewModel
+
+@{
+    var dataFor = Model.PropertyInfo.Name;
+
+    var list = Enum.GetValues(Model.PropertyInfo.PropertyType).Cast<object>();
+    var selectList = list.Select(w => new SelectListItem() {Text = w.ToString(), Value = w.ToString()}).ToList();
+}
+
+@Html.DropDownList(dataFor, selectList, new {@class = "form-control"})

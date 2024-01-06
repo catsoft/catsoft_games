@@ -1,0 +1,49 @@
+﻿@using System.Collections
+@using System.Reflection
+@using App.CMS.Controllers.Attributes
+@using App.CMS.Models
+@using App.CMS.StaticHelpers
+@using App.CMS.ViewModels
+@inject TypesOptions TypesOptions
+
+@model dynamic
+
+@{
+    Layout = null;
+
+    var type = (Type)Model.GetType();
+    var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
+    
+    var modelId = ((IEntity) Model)?.Id;
+
+    var oneToManyImages = properties.Where(w => w.PropertyType == TypesOptions.ListImage).ToList();
+}
+
+@if (oneToManyImages.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+              
+            @foreach (var propertyInfo in oneToManyImages)
+            {
+                var name = ReflectionHelper.GetNameProperty(propertyInfo);
+                var imagesModel = TypesOptions.CastToImage(propertyInfo.GetValue(Model)) as List<ImageModel>;
+                var propertyName = propertyInfo.GetCustomAttribute<OneTwoManyAttribute>()?.PropertyName;
+                var imageViewModel = new OneToMayImageViewModel(imagesModel.Select(w => (w.Id, w.Url)).ToList(), modelId.Value, propertyName);
+    
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <span style="font-weight: bold">
+                                @Html.DisplayName(name)
+                            </span>
+                        </div>
+                        <div class="col-md-10">
+                            @await Html.PartialAsync("~/CMS/Views/HomeCms/OneToManyImage.cshtml", imageViewModel)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,45 @@
+﻿@using App.CMS.Models
+@using App.CMS.StaticHelpers
+@using App.CMS.ViewModels
+@inject TypesOptions TypesOptions
+@model dynamic
+
+@{
+    Layout = null;
+
+    var type = (Type)Model.GetType();
+    var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
+
+    var filesProperties = properties.Where(w => w.PropertyType == TypesOptions.File).ToList();
+}
+
+@if (filesProperties.Any())
+{
+    <div class="row">
+        <div class="col-md-12">
+            @foreach (var propertyInfo in filesProperties)
+            {
+                var name = ReflectionHelper.GetNameProperty(propertyInfo);
+                var file = propertyInfo.GetValue(Model) as FileModel;
+                var fileViewModel = new FileViewModel()
+                {
+                    Id = file.Id,
+                    FileId = file.Id,
+                };
+
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <span style="font-weight: bold">
+                                @Html.DisplayName(name)
+                            </span>
+                        </div>
+                        <div class="col-md-10" id="@(fileViewModel.Id)">
+                            @await Html.PartialAsync("~/CMS/Views/HomeCms/File.cshtml", fileViewModel)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
