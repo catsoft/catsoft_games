@@ -14,6 +14,7 @@ namespace App.Initialize
             {
                 TryRemove(catsoftContext.AdminModels);
                 TryRemove(catsoftContext.AboutPageModels);
+                TryRemove(catsoftContext.CmsModels);
                 TryRemove(catsoftContext.ArticleModels);
                 TryRemove(catsoftContext.BlogPageModels);
                 TryRemove(catsoftContext.CommentModels);

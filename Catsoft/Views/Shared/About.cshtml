@@ -8,7 +8,7 @@
 
 <div class="about-us" id="about">
     <div class="container">
-        <h3 class="title">Обо мне</h3>
+        <h3 class="title">@await Html.PartialAsync("/cms/Views/Shared/Text.cshtml", "AboutUs")</h3>
         <div>
             @Html.Raw(Model.Page.AboutHtml)
         </div>

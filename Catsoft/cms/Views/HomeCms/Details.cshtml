@@ -56,7 +56,7 @@
                             {
                                 if (propertyType.IsArray || propertyType.GetInterfaces().Any(w => w == ienumerableType))
                                 {
-                                    var value = (IEnumerable) property.GetValue(Model, null);
+                                    var value = (IEnumerable) property.GetValue(Model, null) ?? new List<object>();
 
                                     foreach (var val in value)
                                     {
@@ -67,7 +67,10 @@
                                 else
                                 {
                                     var value = (object) property.GetValue(Model, null);
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", value)
+                                    if (value != null)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", value)
+                                    }
                                 }
                             }
                             else

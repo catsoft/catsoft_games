@@ -200,6 +200,8 @@ namespace App.CMS.Controllers
         private T GetObject<T>(T type, Guid id) where T : Entity<T>
         {
             var set = CatsoftContext.Set<T>().AsQueryable();
+            // при переходе с 3 на 8 сказали что это не нужно, что они автоматически включают этот объект
+            // но оно все равно не подгружает даже 1 связанный объект
 
             var classes = type.GetType().GetProperties().Where(w =>
                 (w.PropertyType.IsClass || w.PropertyType.IsArray) && 
@@ -209,24 +211,24 @@ namespace App.CMS.Controllers
             var classesSet = classes.Aggregate(set, (current, property) =>
             {
                 var ccc = current.Include(property.Name);
-
-                if (property.PropertyType.IsArray ||
-                    property.PropertyType.GetInterfaces().Any(w => w == _typesOptions.Enumerable))
-                {
-                    var types = property.PropertyType.GenericTypeArguments;
-
-                    foreach (var type2 in types)
-                    {
-                        ccc = type2.GetProperties()
-                            .Where(w => (w.PropertyType.IsClass || w.PropertyType.IsArray) && w.PropertyType != _typesOptions.String)
-                            .Aggregate(ccc, (cc, pro) =>
-                            {
-                                var a = cc.Include($"{property.Name}.{pro.Name}");
-                                return a;
-                            });
-                    }
-                }
-
+            
+                // if (property.PropertyType.IsArray ||
+                //     property.PropertyType.GetInterfaces().Any(w => w == _typesOptions.Enumerable))
+                // {
+                //     var types = property.PropertyType.GenericTypeArguments;
+                //
+                //     foreach (var type2 in types)
+                //     {
+                //         ccc = type2.GetProperties()
+                //             .Where(w => (w.PropertyType.IsClass || w.PropertyType.IsArray) && w.PropertyType != _typesOptions.String)
+                //             .Aggregate(ccc, (cc, pro) =>
+                //             {
+                //                 var a = cc.Include($"{property.Name}.{pro.Name}");
+                //                 return a;
+                //             });
+                //     }
+                // }
+            
                 return ccc;
             });
 

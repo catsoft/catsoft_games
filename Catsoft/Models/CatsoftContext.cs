@@ -94,6 +94,7 @@ namespace App.Models
                 .WithOne(w => w.MetaImageModel)
                 .IsRequired(false)
                 .HasForeignKey<MainPageModel>(w => w.MetaImageModelId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
             
             modelBuilder.Entity<ImageModel>()
@@ -108,18 +109,21 @@ namespace App.Models
             modelBuilder.Entity<MainPageModel>()
                 .HasMany(w => w.Images)
                 .WithOne(w => w.MainPageModelGallery)
+                .IsRequired(false)
                 .HasForeignKey(w => w.MainPageModelGalleryId)
                 .OnDelete(DeleteBehavior.SetNull);
             
             modelBuilder.Entity<ProjectModel>()
                 .HasMany(w => w.Images)
                 .WithOne(w => w.ProjectModelGallery)
+                .IsRequired(false)
                 .HasForeignKey(w => w.ProjectModelGalleryId)
                 .OnDelete(DeleteBehavior.SetNull);
             
             modelBuilder.Entity<ArticleModel>()
                 .HasMany(w => w.CommentModels)
                 .WithOne(w => w.ArticleModel)
+                .IsRequired(false)
                 .HasForeignKey(w => w.ArticleModelId)
                 .OnDelete(DeleteBehavior.SetNull);
 

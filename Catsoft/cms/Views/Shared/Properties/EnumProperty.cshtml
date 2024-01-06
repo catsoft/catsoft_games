@@ -4,7 +4,8 @@
     var dataFor = Model.PropertyInfo.Name;
 
     var list = Enum.GetValues(Model.PropertyInfo.PropertyType).Cast<object>();
-    var selectList = list.Select(w => new SelectListItem() {Text = w.ToString(), Value = w.ToString()}).ToList();
+    var value = Model.Model.GetType().GetProperty(Model.PropertyInfo.Name).GetValue(Model.Model, null);
+    var selectList = list.Select(w => new SelectListItem() {Text = w.ToString(), Value = w.ToString(), Selected = value.ToString() == w.ToString()}).ToList();
 }
 
 @Html.DropDownList(dataFor, selectList, new {@class = "form-control"})

@@ -4,16 +4,19 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace App.Migrations
+namespace PhPopovich.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240106182431_n")]
+    partial class n
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -540,6 +543,7 @@ namespace App.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("MetaImageModelId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MetaTitle")
@@ -563,8 +567,7 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MetaImageModelId")
-                        .IsUnique()
-                        .HasFilter("[MetaImageModelId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("MainPageModels");
                 });
@@ -805,7 +808,8 @@ namespace App.Migrations
                     b.HasOne("App.Models.ImageModel", "MetaImageModel")
                         .WithOne("MainPageModelMeta")
                         .HasForeignKey("App.Models.Pages.MainPageModel", "MetaImageModelId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("MetaImageModel");
                 });

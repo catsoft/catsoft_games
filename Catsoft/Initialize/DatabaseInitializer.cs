@@ -5,6 +5,7 @@ using System.Reflection;
 using App.CMS.Models;
 using App.Models;
 using App.Models.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace App.Initialize
 {
@@ -68,6 +69,11 @@ namespace App.Initialize
                     if (pageObject != null)
                     {
                         catsoftContext.Add(pageObject);
+                        catsoftContext.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Can't create page object {page.FullName}");
                     }
                 }
             }

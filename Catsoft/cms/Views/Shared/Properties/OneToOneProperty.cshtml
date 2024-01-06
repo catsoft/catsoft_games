@@ -1,4 +1,5 @@
 ﻿@using App.CMS.Controllers
+@using App.CMS.Models
 @using App.CMS.StaticHelpers
 @model App.CMS.ViewModels.Properties.PropertyViewModel
 
@@ -6,7 +7,8 @@
     var propertyName = Model.PropertyInfo.Name;
     var dataFor = propertyName + "Id";
     var list = DataHelper.GetList(ContextShared.SharedContext, Model.PropertyInfo.PropertyType);
-    var selectList = list.Select(w => new SelectListItem() { Text = w.Title, Value = w.Id.ToString() }).ToList();
+    var value = Model.Model.GetType().GetProperty(Model.PropertyInfo.Name).GetValue(Model.Model, null) as IEntity;
+    var selectList = list.Select(w => new SelectListItem() { Text = w.Title, Value = w.Id.ToString(), Selected = w.Id == value?.Id}).ToList();
     selectList.Insert(0, new SelectListItem() { Value = "", Text = "Не выбрано" });
 }
 
