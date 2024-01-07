@@ -1,0 +1,69 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.Models
+@model App.ViewModels.PreOrder.PreOrderDto
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+}
+
+<div class="container" id="order">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h3 class="title">@await Html.RenderText("Preorder booking")</h3>
+            <form asp-action="MakePreOrder" asp-controller="PreOrder" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.EditorFor(model => model.Name, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = TextResourceRepository.GetByTag("Name")
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmailOrPhone)
+                    @Html.EditorFor(model => model.EmailOrPhone, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = TextResourceRepository.GetByTag("Phone or email")
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
+                </div>
+
+                @* <div class="form-group"> *@
+                @*     @Html.LabelFor(model => model.DesireDate) *@
+                @*     @Html.EditorFor(model => model.DesireDate, new { htmlAttributes = new { @class = "form-control" } }) *@
+                @*     @Html.ValidationMessageFor(model => model.DesireDate, "", new { @class = "text-danger" }) *@
+                @* </div> *@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comment)
+                    @Html.EditorFor(model => model.Comment, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = TextResourceRepository.GetByTag("Comment")
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit">@await Html.RenderText("Notify me")</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

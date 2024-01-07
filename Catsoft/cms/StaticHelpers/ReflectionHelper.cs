@@ -86,7 +86,7 @@ namespace App.cms.StaticHelpers
             }
             catch
             {
-                return "HomeCms/GetList?type=Order";
+                return "HomeCms/GetList?type=PreOrder";
             }
         }
 

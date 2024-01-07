@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using App.cms.StaticHelpers;
 using App.Models;
 using App.Models.Pages;
-using Microsoft.AspNetCore.Http;
 
 namespace App.ViewModels.Common
 {
@@ -15,10 +13,5 @@ namespace App.ViewModels.Common
         public Menu CurrentPage { get; set; }
 
         public List<MenuViewModel> Menus { get; set; }
-
-        public string GetMetaImageUrl(HttpRequest httpRequest)
-        {
-            return MetaInfo?.MetaImageModel?.GetFullUrl(httpRequest);
-        }
     }
 }

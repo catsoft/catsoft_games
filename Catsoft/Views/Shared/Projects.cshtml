@@ -1,40 +1,39 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.Models
-@model List<App.Models.ProjectModel>
 
 @{
     Layout = null;
 }
 
-<div class="gallery-wrap">
-    <div class="container">
-        @{
-            var index = 0;
-            while (index < Model.Count)
-            {
-                var first = Model[index];
-                var second = index + 1 < Model.Count ? Model[index + 1] : null;
-                var third = index + 2 < Model.Count ? Model[index + 2] : null;
-                index += 3;
-
-                <div class="row">
-                    <div class="col">
-                        <div class="">
-                            @await Html.PartialAsync("Project", first)
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="">
-                            @await Html.PartialAsync("Project", second)
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="">
-                            @await Html.PartialAsync("Project", third)
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>
+@* <div class="gallery-wrap"> *@
+@*     <div class="container"> *@
+@*         @{ *@
+@*             var index = 0; *@
+@*             while (index < Model.Count) *@
+@*             { *@
+@*                 var first = Model[index]; *@
+@*                 var second = index + 1 < Model.Count ? Model[index + 1] : null; *@
+@*                 var third = index + 2 < Model.Count ? Model[index + 2] : null; *@
+@*                 index += 3; *@
+@* *@
+@*                 <div class="row"> *@
+@*                     <div class="col"> *@
+@*                         <div class=""> *@
+@*                             @await Html.PartialAsync("Project", first) *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col"> *@
+@*                         <div class=""> *@
+@*                             @await Html.PartialAsync("Project", second) *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="col"> *@
+@*                         <div class=""> *@
+@*                             @await Html.PartialAsync("Project", third) *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+@*         } *@
+@*     </div> *@
+@* </div> *@

@@ -1,0 +1,17 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.ViewModels.PreOrder
+@model App.ViewModels.Book.BookPageViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+@await Html.RenderText("Book_not_available_yet")
+
+<br />
+<br />
+<br />
+
+@await Html.PartialAsync("PreOrder", new PreOrderDto())

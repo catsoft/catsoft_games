@@ -20,14 +20,11 @@ namespace App
             DoWithScope(app, scoped =>
             {
                 scoped.GetRequiredService<DatabaseInitializer>().Init();
-            });
 
-            DoWithScope(app, scoped =>
-            {
-                scoped.GetRequiredService<TextTranslator>().Translate();
-            });
+                scoped.GetRequiredService<TextTranslator>().GenerateDefaultResources();
 
-            app.Run();
+                app.Run();
+            });
         }
 
         private static void DoWithScope(IWebHost app, Action<IServiceProvider> action)

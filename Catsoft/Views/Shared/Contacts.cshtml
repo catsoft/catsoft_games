@@ -9,64 +9,42 @@
 
 <div id="contacts" class="contacts-container container clr">
 
-    <h2 class="title">@await Html.RenderText("Contacts")</h2> <br />
-
-    <div class="foot-l">
-
-        @if (!string.IsNullOrWhiteSpace(Model.Page.Address))
-        {
-            <div class="address-wrap">
-                <h6 class="subTitle">@await Html.RenderText("Address")</h6>
-                <p>@Model.Page.Address</p>
-            </div>
-        }
-
-        @if (!string.IsNullOrWhiteSpace(Model.Page.InstaLink) && !string.IsNullOrWhiteSpace(Model.Page.VkLink))
-        {
-            <div class="soc-wrap">
-                <h6 class="subTitle">@await Html.RenderText("Social networks")</h6>
-
-                @if (!string.IsNullOrWhiteSpace(Model.Page.InstaLink))
-                {
-                    <a href="@Model.Page.InstaLink">@Model.Page.InstaLink</a>
-                    <br/>
-                }
-
-                @if (!string.IsNullOrWhiteSpace(Model.Page.VkLink))
-                {
-                    <a href="@Model.Page.VkLink">@Model.Page.VkLink</a>
-                    <br/>
-                }
-
-            </div>
-        }
-
-    </div>
+    <h2 class="title">@await Html.RenderText("Contacts")</h2> <br/>
 
     <div class="foot-r">
 
-        @if (Model.Page.PhoneModels.Count > 0)
+        @foreach (var item in Model.Contacts)
         {
-            <div class="phones-wrap">
-                <h6 class="subTitle">@await Html.RenderText("Phone numbers")</h6>
-                @foreach (var phone in Model.Page.PhoneModels)
-                {
-                    <a href="tel:@phone.Phone">@phone.Phone</a>
-                    <br/>
-                }
-            </div>
-        }
-
-        @if (Model.Page.EmailModels.Count > 0)
-        {
-            <div class="phones-wrap">
-                <h6 class="subTitle">@await Html.RenderText("Emails")</h6>
-                @foreach (var email in Model.Page.EmailModels)
-                {
-                    <a href="mailto:@email.Email">@email.Email</a>
-                    <br/>
-                }
-            </div>
+            switch (item.ContactType)
+            {
+                case ContactType.Phone:
+                    <div class="phones-wrap">
+                        <h6 class="subTitle">@await Html.RenderText("Phone numbers")</h6>
+                        <a href="tel:@item.Link">@item.Link</a>
+                        <br/>
+                    </div>
+                    break;
+                case ContactType.Email:
+                    <div class="phones-wrap">
+                        <h6 class="subTitle">@await Html.RenderText("Emails")</h6>
+                        <a href="mailto:@item.Link">@item.Link</a>
+                        <br/>
+                    </div>
+                    break;
+                case ContactType.Address:
+                    <div class="address-wrap">
+                        <h6 class="subTitle">@await Html.RenderText("Address")</h6>
+                        <p>@item.Link</p>
+                    </div>
+                    break;
+                case ContactType.Other:
+                    <div class="phones-wrap">
+                        <h6 class="subTitle">@await Html.RenderText("Other")</h6>
+                        <a href="@item.Link">@item.Link</a>
+                        <br/>
+                    </div>
+                    break;
+            }
         }
 
     </div>

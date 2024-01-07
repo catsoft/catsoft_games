@@ -293,7 +293,7 @@ namespace App.cms.Controllers
                 return w;
             }).ToList() ?? new List<string>();
 
-            if (!keys.Contains("type") || !keys.Contains("id")) RedirectToAction("GetList", new { type = "Order" });
+            if (!keys.Contains("type") || !keys.Contains("id")) RedirectToAction("GetList", new { type = "PreOrder" });
 
             var typeName = Request.Form["type"];
             var id = Request.Form["id"];
@@ -378,7 +378,7 @@ namespace App.cms.Controllers
                 return w;
             }).ToList() ?? new List<string>();
 
-            if (!keys.Contains("type")) RedirectToAction("GetList", new { type = "Order" });
+            if (!keys.Contains("type")) RedirectToAction("GetList", new { type = "PreOrder" });
 
             var typeName = Request.Form["type"];
             var type = GetTypeByName(typeName);

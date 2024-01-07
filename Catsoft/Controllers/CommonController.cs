@@ -23,10 +23,7 @@ namespace App.Controllers
 
         protected FooterViewModel GetFooterViewModel()
         {
-            var about = CatsoftContext.ContactsPageModels
-                .Include(w => w.EmailModels)
-                .Include(w => w.PhoneModels)
-                .FirstOrDefault();
+            var about = CatsoftContext.ContactsPageModels.FirstOrDefault();
 
             return new FooterViewModel(about);
         }

@@ -20,9 +20,7 @@ namespace App.Controllers
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.BlogPageModels
-                    .Include(w => w.MetaImageModel)
-                    .FirstOrDefault(),
+                Page = CatsoftContext.BlogPageModels.FirstOrDefault(),
                 ArticleModels = CatsoftContext.ArticleModels
                     .Include(w => w.ImageModel)
                     .ToList()

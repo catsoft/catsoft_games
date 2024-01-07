@@ -13,8 +13,6 @@ namespace App.Initialize
     {
         public void Init()
         {
-            cleaner.Clean();
-
             if (!catsoftContext.AdminModels.Any())
             {
                 var defaultAdmin = new AdminModel

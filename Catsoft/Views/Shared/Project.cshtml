@@ -1,19 +1,18 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.cms.Helpers
 @using App.Models
-@model App.Models.ProjectModel
 
 @{
     Layout = null;
 }
 
-@if (Model != null)
-{
-    <img src="@Model.ImageModel.Url" alt="img">
-    @Html.Raw(Model.About)
-    @* ReSharper disable once Html.PathError *@
-    <a href="/Project?id=@Model.Id">
-        @await Html.RenderText("ReadMore")
-    </a>
-    <div style="height: 45px"></div>
-}
+@* @if (Model != null) *@
+@* { *@
+@*     <img src="@Model.ImageModel.Url" alt="img"> *@
+@*     @Html.Raw(Model.About) *@
+@*     $1$ ReSharper disable once Html.PathError #1# *@
+@*     <a href="/Project?id=@Model.Id"> *@
+@*         @await Html.RenderText("ReadMore") *@
+@*     </a> *@
+@*     <div style="height: 45px"></div> *@
+@* } *@

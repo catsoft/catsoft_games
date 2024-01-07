@@ -6,7 +6,6 @@ using App.Models;
 using App.ViewModels.About;
 using App.ViewModels.Contacts;
 using App.ViewModels.Home;
-using App.ViewModels.Projects;
 using App.ViewModels.Services;
 using ImageProcessor;
 using ImageProcessor.Plugins.WebP.Imaging.Formats;
@@ -35,16 +34,12 @@ namespace App.Controllers
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
                 ContactsPageViewModel = new ContactsPageViewModel(CatsoftContext.ContactsPageModels
-                    .Include(w => w.EmailModels)
-                    .Include(w => w.PhoneModels)
-                    .FirstOrDefault()),
+                    .FirstOrDefault(), CatsoftContext.ContactsModels.ToList()),
                 Page = CatsoftContext.MainPageModels
                     .Include(w => w.Images)
-                    .Include(w => w.MetaImageModel)
                     .FirstOrDefault(),
                 AboutPageViewModel = new AboutPageViewModel(CatsoftContext.AboutPageModels.FirstOrDefault()),
                 ServicesPageViewModel = new ServicesPageViewModel(CatsoftContext.ServicesPageModels.FirstOrDefault()),
-                ProjectsPageViewModel = new ProjectsPageViewModel(CatsoftContext.ProjectsPageModels.FirstOrDefault()),
             };
 
             var services = CatsoftContext.ServiceModels
@@ -53,14 +48,7 @@ namespace App.Controllers
                 .Take(home.Page?.ServicesCount ?? 0)
                 .ToList();
 
-            var projects = CatsoftContext.ProjectModels
-                .OrderBy(w => w.Position)
-                .Include(w => w.ImageModel)
-                .Take(home.Page?.ProjectsCount ?? 0)
-                .ToList();
-
             home.ServicesPageViewModel.ServiceModels = services;
-            home.ProjectsPageViewModel.ProjectModels = projects;
 
             home.HeaderViewModel.CurrentPage = Menu.Home;
 
@@ -83,18 +71,13 @@ namespace App.Controllers
             var images = CatsoftContext.Images.ToList();
 
             var servicesImages = CatsoftContext.ServiceModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var projectImages = CatsoftContext.ProjectModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
             var articleImages = CatsoftContext.ArticleModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var blogPageImages = CatsoftContext.BlogPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
-                .ToList();
-            var mainPageMetaImages = CatsoftContext.MainPageModels.Include(w => w.MetaImageModel).Select(w => w.MetaImageModel)
-                .ToList();
             var imagesWithReferences =
-                images.Where(w => w.ProjectModelGalleryId != null || w.MainPageModelGalleryId != null).ToList();
+                images.Where(w => w.MainPageModelGalleryId != null).ToList();
 
             var allImagesIds = new List<List<ImageModel>>()
             {
-                servicesImages, projectImages, articleImages, blogPageImages, mainPageMetaImages, imagesWithReferences
+                servicesImages, articleImages, imagesWithReferences
             }.SelectMany(w => w).Where(w => w != null).Select(w => w.Id).ToList();
 
             foreach (var imageModel in images)

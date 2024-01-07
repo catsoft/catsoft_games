@@ -6,7 +6,8 @@ namespace App.Models
     {
         Home,
         About,
-        Order,
+        PreOrder,
+        Book,
         Services,
         AllProjects,
         Contacts,
@@ -20,7 +21,9 @@ namespace App.Models
         {
             new KeyValuePair<Menu, string>(Menu.Home, "/Home/Index"),
             new KeyValuePair<Menu, string>(Menu.About, "/Home/Index#about"),
-            new KeyValuePair<Menu, string>(Menu.Order, "/Home/Index#order"),
+            new KeyValuePair<Menu, string>(Menu.PreOrder, "/Home/Index#order"),
+            new KeyValuePair<Menu, string>(Menu.PreOrder, "/PreOrder/Index"),
+            new KeyValuePair<Menu, string>(Menu.Book, "/Book/Index"),
             new KeyValuePair<Menu, string>(Menu.Services, "/Home/Index#services"),
             new KeyValuePair<Menu, string>(Menu.AllProjects, "/AllProjects/Index"),
             new KeyValuePair<Menu, string>(Menu.Contacts, "/Home/Index#Contacts"),

@@ -2,7 +2,6 @@
 using App.ViewModels.About;
 using App.ViewModels.Common;
 using App.ViewModels.Contacts;
-using App.ViewModels.Projects;
 using App.ViewModels.Services;
 
 namespace App.ViewModels.Home
@@ -14,7 +13,5 @@ namespace App.ViewModels.Home
         public AboutPageViewModel AboutPageViewModel { get; set; }
 
         public ServicesPageViewModel ServicesPageViewModel { get; set; }
-
-        public ProjectsPageViewModel ProjectsPageViewModel { get; set; }
     }
 }

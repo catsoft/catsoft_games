@@ -9,12 +9,8 @@ namespace App.Initialize
 {
     public class TextTranslator(CatsoftContext catsoftContext)
     {
-        private readonly bool _translate = false;
-
         public void Translate()
         {
-            if (!_translate) return;
-
             var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
             var languages = Enum.GetValues(typeof(TextLanguage)).Cast<TextLanguage>().ToList();
             foreach (var textResource in textResources)
@@ -29,6 +25,36 @@ namespace App.Initialize
                         {
                             Language = language,
                             Value = TranslateText(textResource, language)
+                        };
+                        catsoftContext.Add(newValue);
+                        catsoftContext.SaveChanges();
+                    }
+                }
+            }
+
+            catsoftContext.SaveChanges();
+        }
+
+        public void GenerateDefaultResources()
+        {
+            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
+            var languages = new List<TextLanguage>()
+            {
+                TextLanguage.English,
+            };
+            foreach (var textResource in textResources)
+            {
+                var values = textResource.Values?.ToList() ?? new List<TextResourceValueModel>();
+
+                foreach (var language in languages)
+                {
+                    if (values.All(w => w.Language != language))
+                    {
+                        var newValue = new TextResourceValueModel
+                        {
+                            Language = language,
+                            Value = textResource.Tag,
+                            TextResourceModelId = textResource.Id
                         };
                         catsoftContext.Add(newValue);
                         catsoftContext.SaveChanges();

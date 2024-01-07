@@ -8,7 +8,5 @@ namespace App.Models.Pages
         string MetaDescription { get; set; }
         
         string KeyWords { get; set; }
-                
-        ImageModel MetaImageModel { get; set; }
     }
 }

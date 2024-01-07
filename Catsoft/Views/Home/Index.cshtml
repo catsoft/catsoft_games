@@ -1,7 +1,7 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.cms.Helpers
 @using App.Models
-@using App.ViewModels.Order
+@using App.ViewModels.PreOrder
 @model App.ViewModels.Home.HomePageViewModel
 
 @{
@@ -53,8 +53,6 @@
 
 @await Html.PartialAsync("ServicesPage", Model.ServicesPageViewModel)
 
-@await Html.PartialAsync("ProjectsPage", Model.ProjectsPageViewModel)
-
-@await Html.PartialAsync("Order", new OrderViewModel())
+@await Html.PartialAsync("PreOrder", new PreOrderDto())
 
 @await Html.PartialAsync("Contacts", Model.ContactsPageViewModel)

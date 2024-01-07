@@ -50,13 +50,6 @@ namespace App.Models
         [Show(false, false, false, false)]
         public override string MetaDescription => Subtitle;
         
-        [NotMapped]
-        [Show(false, false, false, false)]
-        public override Guid? MetaImageModelId => ImageModelId;
-
-        [NotMapped]
-        [Show(false, false, false, false)] 
-        public override ImageModel MetaImageModel => ImageModel;
         
         [NotMapped]
         [Show(false, false, false, false)] 
