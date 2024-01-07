@@ -15,14 +15,7 @@ namespace App.Initialize
         {
             if (!catsoftContext.AdminModels.Any())
             {
-                var defaultAdmin = new AdminModel
-                {
-                    Login = "admin",
-                    Password = "admin",
-                    Title = "Default Admin"
-                };
-
-                catsoftContext.Add(defaultAdmin);
+                AddAdminUsers();
             }
 
             if (!catsoftContext.MainPageModels.Any())
@@ -90,6 +83,39 @@ namespace App.Initialize
                 catsoftContext.AddRange(menuObjects);
                 catsoftContext.SaveChanges();
             }
+
+            catsoftContext.SaveChanges();
+        }
+
+        public void AddAdminUsers()
+        {
+            var defaultAdmin = new AdminModel
+            {
+                Login = "admin",
+                Password = "admin",
+                Title = "Default Admin",
+                Role = AdminRoles.SuperUser
+            };
+            catsoftContext.Add(defaultAdmin);
+
+
+            var defaultBlog = new AdminModel
+            {
+                Login = "blog",
+                Password = "admin",
+                Title = "Default Blog",
+                Role = AdminRoles.Blog
+            };
+            catsoftContext.Add(defaultBlog);
+
+            var defaultBookManager = new AdminModel
+            {
+                Login = "book",
+                Password = "admin",
+                Title = "Default Book",
+                Role = AdminRoles.BookAdmin
+            };
+            catsoftContext.Add(defaultBookManager);
 
             catsoftContext.SaveChanges();
         }

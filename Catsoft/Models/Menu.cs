@@ -9,7 +9,6 @@ namespace App.Models
         PreOrder,
         Book,
         Services,
-        AllProjects,
         Contacts,
         Blog,
     }
@@ -25,7 +24,6 @@ namespace App.Models
             new KeyValuePair<Menu, string>(Menu.PreOrder, "/PreOrder/Index"),
             new KeyValuePair<Menu, string>(Menu.Book, "/Book/Index"),
             new KeyValuePair<Menu, string>(Menu.Services, "/Home/Index#services"),
-            new KeyValuePair<Menu, string>(Menu.AllProjects, "/AllProjects/Index"),
             new KeyValuePair<Menu, string>(Menu.Contacts, "/Home/Index#Contacts"),
             new KeyValuePair<Menu, string>(Menu.Blog, "/Blog/Index"),
         };

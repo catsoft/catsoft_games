@@ -14,5 +14,7 @@ namespace App.cms.Models
         [DataType(DataType.Password)]
         [DisplayName("Пароль")]
         public string Password { get; set; }
+
+        public AdminRoles Role { get; set; }
     }
 }

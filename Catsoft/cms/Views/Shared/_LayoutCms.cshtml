@@ -1,9 +1,22 @@
-﻿@using App.cms.Helpers
+﻿@using System.Security.Claims
+@using App.cms.Helpers
+@using App.cms.Models
 @using App.cms.Repositories.CmsModels
+@using App.Models
+@using Microsoft.AspNetCore.Http
 @inject ICmsCmsModelRepository ModelRepository
+@inject CatsoftContext Context
 
 @{
-    var pages = ModelRepository.GetAll().ToList();
+    var userName = User.Claims.FirstOrDefault()?.Subject?.Name;
+
+    var claims = ClaimsPrincipal.Current?.Identities.First().Claims.ToList();    
+    
+    var user = Context.AdminModels.FirstOrDefault(w => w.Login == userName);
+
+    var role = user?.Role ?? AdminRoles.None;
+
+    var pages = ModelRepository.GetAll().Where(w => w.Role == role || role == AdminRoles.SuperUser).ToList();
 }
 <!doctype html>
 <html lang="ru">

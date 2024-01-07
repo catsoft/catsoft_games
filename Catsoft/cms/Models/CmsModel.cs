@@ -23,5 +23,7 @@ namespace App.cms.Models
 
         [Show(false, false, false, false)]
         public bool IsSinglePage { get; set; }
+
+        public AdminRoles Role { get; set; }
     }
 }
