@@ -12,22 +12,22 @@ namespace PhPopovich.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Tag",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.AddColumn<int>(
                 name: "Language",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<Guid>(
                 name: "TextResourceModelId",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "Value",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 nullable: true);
 
             migrationBuilder.CreateTable(
@@ -48,12 +48,12 @@ namespace PhPopovich.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_TextResources_TextResourceModelId",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 column: "TextResourceModelId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_TextResources_TextResourceModels_TextResourceModelId",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 column: "TextResourceModelId",
                 principalTable: "TextResourceModels",
                 principalColumn: "Id",
@@ -64,30 +64,30 @@ namespace PhPopovich.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_TextResources_TextResourceModels_TextResourceModelId",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.DropTable(
                 name: "TextResourceModels");
 
             migrationBuilder.DropIndex(
                 name: "IX_TextResources_TextResourceModelId",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.DropColumn(
                 name: "Language",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.DropColumn(
                 name: "TextResourceModelId",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.DropColumn(
                 name: "Value",
-                table: "TextResources");
+                table: "TextResourceValuesModels");
 
             migrationBuilder.AddColumn<string>(
                 name: "Tag",
-                table: "TextResources",
+                table: "TextResourceValuesModels",
                 type: "nvarchar(max)",
                 nullable: true);
 
@@ -110,7 +110,7 @@ namespace PhPopovich.Migrations
                     table.ForeignKey(
                         name: "FK_TextResourceValueModel_TextResources_TextResourceModelId",
                         column: x => x.TextResourceModelId,
-                        principalTable: "TextResources",
+                        principalTable: "TextResourceValuesModels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });

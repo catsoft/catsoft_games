@@ -8,7 +8,7 @@ namespace PhPopovich.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TextResources",
+                name: "TextResourceValuesModels",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -42,7 +42,7 @@ namespace PhPopovich.Migrations
                     table.ForeignKey(
                         name: "FK_TextResourceValueModel_TextResources_TextResourceModelId",
                         column: x => x.TextResourceModelId,
-                        principalTable: "TextResources",
+                        principalTable: "TextResourceValuesModels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -59,7 +59,7 @@ namespace PhPopovich.Migrations
                 name: "TextResourceValueModel");
 
             migrationBuilder.DropTable(
-                name: "TextResources");
+                name: "TextResourceValuesModels");
         }
     }
 }

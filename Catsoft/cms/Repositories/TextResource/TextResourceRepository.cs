@@ -28,8 +28,8 @@ namespace App.cms.Repositories.TextResource
 
             var languages = TextLanguage.English;
 
-            var localized = model.Values.FirstOrDefault(w => w.Language == languages) ??
-                            model.Values.FirstOrDefault(w => w.Language == TextLanguage.English);
+            var localized = model.Values?.FirstOrDefault(w => w.Language == languages) ??
+                            model.Values?.FirstOrDefault(w => w.Language == TextLanguage.English);
 
             return localized?.Value ?? "";
         }

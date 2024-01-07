@@ -45,7 +45,7 @@ namespace App.Models
 
         public DbSet<TextResourceModel> TextResourceModels { get; set; }
 
-        public DbSet<TextResourceValueModel> TextResources { get; set; }
+        public DbSet<TextResourceValueModel> TextResourceValuesModels { get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

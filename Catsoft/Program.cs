@@ -17,20 +17,26 @@ namespace App
         {
             var app = BuildWebHost(args);
 
-            InitDatabaseIfNeeded(app);
+            DoWithScope(app, scoped =>
+            {
+                scoped.GetRequiredService<DatabaseInitializer>().Init();
+            });
+
+            DoWithScope(app, scoped =>
+            {
+                scoped.GetRequiredService<TextTranslator>().Translate();
+            });
 
             app.Run();
         }
 
-        private static void InitDatabaseIfNeeded(IWebHost app)
+        private static void DoWithScope(IWebHost app, Action<IServiceProvider> action)
         {
             using var scope = app.Services.CreateScope();
-            
             var services = scope.ServiceProvider;
             try
             {
-                var context = services.GetRequiredService<DatabaseInitializer>();
-                context.Init();
+                action(services);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,6 @@ using App.Repositories.Cms.CmsModels;
 using App.Repositories.Cms.Files;
 using App.Repositories.Cms.Images;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +44,7 @@ namespace App
 
             services.AddScoped<DatabaseCleaner>();
             services.AddScoped<DatabaseInitializer>();
+            services.AddScoped<TextTranslator>();
 
             services.AddScoped<IImageRepository, ImagesRepository>();
             services.AddScoped<ICmsImageModelRepository, ImageCmsFakeRepository>();

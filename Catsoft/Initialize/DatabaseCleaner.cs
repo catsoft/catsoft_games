@@ -30,7 +30,7 @@ namespace App.Initialize
                 TryRemove(catsoftContext.ServiceModels);
                 TryRemove(catsoftContext.ServicesPageModels);
                 // TryRemove(_catsoftContext.TextResourceModels);
-                // TryRemove(_catsoftContext.TextResources);
+                // TryRemove(_catsoftContext.TextResourceValuesModels);
             }
             catch (Exception e)
             {
