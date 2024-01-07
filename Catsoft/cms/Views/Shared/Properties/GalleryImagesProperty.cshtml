@@ -1,11 +1,10 @@
-﻿@using System.Collections
+﻿@inject TypesOptions TypesOptions
+
 @using System.Reflection
 @using App.CMS.Controllers.Attributes
 @using App.CMS.Models
 @using App.CMS.StaticHelpers
 @using App.CMS.ViewModels
-@inject TypesOptions TypesOptions
-
 @model dynamic
 
 @{
@@ -13,8 +12,8 @@
 
     var type = (Type)Model.GetType();
     var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
-    
-    var modelId = ((IEntity) Model)?.Id;
+
+    var modelId = ((IEntity)Model)?.Id;
 
     var oneToManyImages = properties.Where(w => w.PropertyType == TypesOptions.ListImage).ToList();
 }
@@ -23,14 +22,14 @@
 {
     <div class="row">
         <div class="col-md-12">
-              
+
             @foreach (var propertyInfo in oneToManyImages)
             {
                 var name = ReflectionHelper.GetNameProperty(propertyInfo);
                 var imagesModel = TypesOptions.CastToImage(propertyInfo.GetValue(Model)) as List<ImageModel>;
                 var propertyName = propertyInfo.GetCustomAttribute<OneTwoManyAttribute>()?.PropertyName;
                 var imageViewModel = new OneToMayImageViewModel(imagesModel.Select(w => (w.Id, w.Url)).ToList(), modelId.Value, propertyName);
-    
+
                 <div class="col-md-12" style="margin-bottom: 30px;">
                     <div class="form-group">
                         <div class="col-md-2">

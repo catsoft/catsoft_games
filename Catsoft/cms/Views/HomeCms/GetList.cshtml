@@ -1,107 +1,110 @@
 ﻿@using System.Reflection
 @using App.CMS.Controllers.Attributes
+@using App.cms.Helpers
 @using App.CMS.Models
 @using App.CMS.Repositories.CmsModels
+@using App.cms.Repositories.TextResource
 @using App.CMS.StaticHelpers
 @using App.CMS.ViewModels
 @model IEnumerable<dynamic>
 @inject ICmsCmsModelRepository ModelRepository
+@inject TextResourceRepository TextResourceRepository
 
 
 @{
-	ViewData["TitleToTopLabelE"] = "Список";
-	ViewData["isListing"] = true;
-	Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
-	var type = (Type)ViewBag.Type;
-	var access = type.GetCustomAttribute<AccessAttribute>() ?? new AccessAttribute();
-	var nameType = (string)ViewBag.NameType;
-	var page = (int)ViewBag.Page;
-	var pageCount = (int)ViewBag.PageCount;
-	var cmsSection = ModelRepository.GetByClass(nameType);
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("List");
+    ViewData["isListing"] = true;
+    Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
+    var type = (Type)ViewBag.Type;
+    var access = type.GetCustomAttribute<AccessAttribute>() ?? new AccessAttribute();
+    var nameType = (string)ViewBag.NameType;
+    var page = (int)ViewBag.Page;
+    var pageCount = (int)ViewBag.PageCount;
+    var cmsSection = ModelRepository.GetByClass(nameType);
 
-	var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
+    var properties = ReflectionHelper.GetPropertiesInView(type, ViewData).ToList();
 
-	var paginationModel = new PaginationViewModel($"/HomeCms/GetList?type={nameType}&", page, pageCount);
+    var paginationModel = new PaginationViewModel($"/HomeCms/GetList?type={nameType}&", page, pageCount);
 
-	ViewData["TitleToTopLabelE"] = "Список " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("List") + " " + cmsSection.Title;
 }
 
 
 <div class="offset-md-1 col-md-10">
-	<br />
-	<h2>@cmsSection.Title</h2>
-	<hr />
-	<p>
-		@if (access.OnCreate)
-		{
-			<h3>
-				<a asp-action="Create" asp-route-type="@nameType">Создать новый объект</a>
-			</h3>
-		}
-	</p>
-	<table class="table">
-		<thead>
-			<tr>
+    <br/>
+    <h2>@cmsSection.Title</h2>
+    <hr/>
+    <p>
+        @if (access.OnCreate)
+        {
+            <h3>
+                <a asp-action="Create" asp-route-type="@nameType">@await Html.RenderText("Create_new_object")</a>
+            </h3>
+        }
+    </p>
+    <table class="table">
+        <thead>
+        <tr>
 
-				@foreach (var property in properties)
-				{
-					var name = ReflectionHelper.GetNameProperty(property);
-					<th>
-						@Html.DisplayName(name)
-					</th>
-				}
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					@foreach (var property in properties)
-					{
-						if (property.GetCustomAttribute<ShowTitleAttribute>() != null)
-						{
-							var value = (string)ReflectionHelper.GetValuePropertyAsTitle(property, item)?.ToString();
-							var link = (string)ReflectionHelper.GetValuePropertyAsLink(property, item)?.ToString();
-							<td>
-								<a href="@link">
-									@Html.DisplayFor(modelItem => value)
-								</a>
-							</td>
-						}
-						else
-						{
-							var value = (string)ReflectionHelper.GetValuePropertyAsString(property, item)?.ToString();
-							<td>
-								@Html.DisplayFor(modelItem => value)
-							</td>
-						}
-					}
-					<td>
-						@if (access.OnDetails)
-						{
-							@Html.ActionLink("Посмотреть", "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
-						}
-						@if (access.OnDetails && (access.OnEdit || access.OnDelete))
-						{
-							<span>|</span>
-						}
-						@if (access.OnEdit)
-						{
-							@Html.ActionLink("Редактировать", "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
-						}
-						@if (access.OnDelete && access.OnEdit)
-						{
-							<span>|</span>
-						}
-						@if (access.OnDelete)
-						{
-							@Html.ActionLink("Удалить", "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
-						}
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-	@await Html.PartialAsync("~/CMS/Views/Shared/Pagination.cshtml", paginationModel)
+            @foreach (var property in properties)
+            {
+                var name = ReflectionHelper.GetNameProperty(property);
+                <th>
+                    @Html.DisplayName(name)
+                </th>
+            }
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @foreach (var property in properties)
+                {
+                    if (property.GetCustomAttribute<ShowTitleAttribute>() != null)
+                    {
+                        var value = (string)ReflectionHelper.GetValuePropertyAsTitle(property, item)?.ToString();
+                        var link = (string)ReflectionHelper.GetValuePropertyAsLink(property, item)?.ToString();
+                        <td>
+                            <a href="@link">
+                                @Html.DisplayFor(modelItem => value)
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        var value = (string)ReflectionHelper.GetValuePropertyAsString(property, item)?.ToString();
+                        <td>
+                            @Html.DisplayFor(modelItem => value)
+                        </td>
+                    }
+                }
+                <td>
+                    @if (access.OnDetails)
+                    {
+                        @Html.ActionLink(TextResourceRepository.GetByTag("Object_details"), "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                    }
+                    @if (access.OnDetails && (access.OnEdit || access.OnDelete))
+                    {
+                        <span>|</span>
+                    }
+                    @if (access.OnEdit)
+                    {
+                        @Html.ActionLink(TextResourceRepository.GetByTag("Edit"), "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                    }
+                    @if (access.OnDelete && access.OnEdit)
+                    {
+                        <span>|</span>
+                    }
+                    @if (access.OnDelete)
+                    {
+                        @Html.ActionLink(TextResourceRepository.GetByTag("Delete"), "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    @await Html.PartialAsync("~/CMS/Views/Shared/Pagination.cshtml", paginationModel)
 </div>

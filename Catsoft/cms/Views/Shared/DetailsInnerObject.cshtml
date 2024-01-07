@@ -6,11 +6,10 @@
 @{
     var properties = (IEnumerable<PropertyInfo>)ReflectionHelper.GetPropertiesInView(Model.GetType(), ViewData);
 }
-<br />
+<br/>
 
 @foreach (var property in properties)
 {
-
     <div class="col-md-12" style="margin-bottom: 15px;">
         @{
             var name = ReflectionHelper.GetNameProperty(property);
@@ -25,8 +24,8 @@
 
             @if (property.GetCustomAttribute<ShowTitleAttribute>() != null)
             {
-                var value = (string) ReflectionHelper.GetValuePropertyAsTitle(property, Model)?.ToString();
-                var link = (string) ReflectionHelper.GetValuePropertyAsLink(property, Model)?.ToString();
+                var value = (string)ReflectionHelper.GetValuePropertyAsTitle(property, Model)?.ToString();
+                var link = (string)ReflectionHelper.GetValuePropertyAsLink(property, Model)?.ToString();
 
                 <td>
                     <a href="@link">
@@ -36,7 +35,7 @@
             }
             else
             {
-                var value = (string) ReflectionHelper.GetValuePropertyAsString(property, Model)?.ToString();
+                var value = (string)ReflectionHelper.GetValuePropertyAsString(property, Model)?.ToString();
                 <td>
                     @Html.DisplayFor(modelItem => value)
                 </td>

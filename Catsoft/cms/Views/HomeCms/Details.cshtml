@@ -1,103 +1,105 @@
-﻿@using System.Collections
+﻿@inject ICmsCmsModelRepository ModelRepository
+@inject TextResourceRepository TextResourceRepository
 @using System.Reflection
 @using App.CMS.Controllers.Attributes
+@using App.cms.Helpers
 @using App.CMS.Models
 @using App.CMS.Repositories.CmsModels
+@using App.cms.Repositories.TextResource
 @using App.CMS.StaticHelpers
-@inject ICmsCmsModelRepository ModelRepository
 @model dynamic
 
 @{
     Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
     ViewData["isDetailing"] = true;
-    
+
     var type = ViewBag.Type as Type;
     var access = type.GetCustomAttribute<AccessAttribute>() ?? new AccessAttribute();
     var nameType = (string)ViewBag.NameType;
     var cmsSection = ModelRepository.GetByClass(nameType);
-    
+
     var properties = ReflectionHelper.GetPropertiesInView(type, ViewData);
 
     var stringType = typeof(string);
 
     var id = ((IEntity)Model)?.Id;
 
-    ViewData["TitleToTopLabelE"] = "Просмотр " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("Object_details") + " " + cmsSection.Title;
 }
 
 <div class="offset-md-1 col-md-10">
-    <br />
-    <h2>Просмотр объекта</h2>
-    <hr />
+    <br/>
+    <h2>@await Html.RenderText("Object_details")</h2>
+    <hr/>
     <p>
 
-        <div>
-            <h4>@cmsSection.Title</h4>
-            <hr />
-            <br />
+    <div>
+        <h4>@cmsSection.Title</h4>
+        <hr/>
+        <br/>
 
-            <div class="">
-                @foreach (var property in properties)
-                {
-                    <div class="col-md-12" style="margin-bottom: 30px;">
-                        @{
-                            var name = ReflectionHelper.GetNameProperty(property);
-                            var propertyType = property.PropertyType;
-                            var isArray = ReflectionHelper.IsArray(property);
-                        }
-                        <div class="col-md-2">
-                            <span style="font-weight: bold">
-                                @Html.DisplayName(name)
-                            </span>
-                        </div>
-                        <div class="col-md-10">
+        <div class="">
+            @foreach (var property in properties)
+            {
+                <div class="col-md-12" style="margin-bottom: 30px;">
+                    @{
+                        var name = ReflectionHelper.GetNameProperty(property);
+                        var propertyType = property.PropertyType;
+                        var isArray = ReflectionHelper.IsArray(property);
+                    }
+                    <div class="col-md-2">
+                        <span style="font-weight: bold">
+                            @Html.DisplayName(name)
+                        </span>
+                    </div>
+                    <div class="col-md-10">
 
-                            @if ((propertyType.IsClass || propertyType.IsArray) && propertyType != stringType)
+                        @if ((propertyType.IsClass || propertyType.IsArray) && propertyType != stringType)
+                        {
+                            if (isArray)
                             {
-                                if (isArray)
+                                var values = property.GetValue(Model, null) ?? new List<object>();
+
+                                foreach (var val in values)
                                 {
-                                    var values = property.GetValue(Model, null) ?? new List<object>();
+                                    var viewData = new ViewDataDictionary(ViewData);
+                                    viewData["Type"] = propertyType.GetGenericArguments()[0];
+                                    viewData["NameType"] = propertyType.GetGenericArguments()[0].FullName;
+                                    viewData.Model = val;
 
-                                    foreach (var val in values)
-                                    {
-                                        var viewData = new ViewDataDictionary(ViewData);
-                                        viewData["Type"] = propertyType.GetGenericArguments()[0];
-                                        viewData["NameType"] = propertyType.GetGenericArguments()[0].FullName;
-                                        viewData.Model = val;
-
-                                        <div class="col-md-12" style="color: #ff0000; height: 50px;"></div>
+                                    <div class="col-md-12" style="color: #ff0000; height: 50px;"></div>
                                         @* @await Html.PartialAsync("~/CMS/Views/HomeCms/Details.cshtml", val, viewData) *@
-                                        @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", val as object)
-                                    }
-                                }
-                                else
-                                {
-                                    var value = (object) property.GetValue(Model, null);
-                                    if (value != null)
-                                    {
-                                        @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", value)
-                                    }
+                                    @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", val as object)
                                 }
                             }
                             else
                             {
-                                var value = (string) ReflectionHelper.GetValuePropertyAsString(property, Model);
-                                @Html.DisplayFor(model => value)
+                                var value = (object)property.GetValue(Model, null);
+                                if (value != null)
+                                {
+                                    @await Html.PartialAsync("~/CMS/Views/Shared/DetailsInnerObject.cshtml", value)
+                                }
                             }
+                        }
+                        else
+                        {
+                            var value = (string)ReflectionHelper.GetValuePropertyAsString(property, Model);
+                            @Html.DisplayFor(model => value)
+                        }
 
-                        </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
+    </div>
     <div>
         @if (access.OnEdit)
         {
-            @Html.ActionLink("Редактировать", "Edit", "HomeCms", new { type = nameType, id })
+            @Html.ActionLink(TextResourceRepository.GetByTag("Edit"), "Edit", "HomeCms", new { type = nameType, id })
             <span>|</span>
         }
 
 
-        @Html.ActionLink("К списку", "GetList", "HomeCms", new {type = nameType})
+        @Html.ActionLink(TextResourceRepository.GetByTag("To_List"), "GetList", "HomeCms", new { type = nameType })
     </div>
 </div>

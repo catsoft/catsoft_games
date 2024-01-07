@@ -1,7 +1,7 @@
-﻿@using App.CMS.Models
+﻿@inject TypesOptions TypesOptions
+@using App.CMS.Models
 @using App.CMS.StaticHelpers
 @using App.CMS.ViewModels
-@inject TypesOptions TypesOptions
 @model dynamic
 
 @{
@@ -21,10 +21,10 @@
             {
                 var name = ReflectionHelper.GetNameProperty(propertyInfo);
                 var file = propertyInfo.GetValue(Model) as FileModel;
-                var fileViewModel = new FileViewModel()
+                var fileViewModel = new FileViewModel
                 {
                     Id = file.Id,
-                    FileId = file.Id,
+                    FileId = file.Id
                 };
 
                 <div class="col-md-12" style="margin-bottom: 30px;">

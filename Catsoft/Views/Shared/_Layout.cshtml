@@ -19,9 +19,9 @@
         }
         else
         {
-            headerViewModel.MetaInfo = new SimpleMetaInfo()
+            headerViewModel.MetaInfo = new SimpleMetaInfo
             {
-                MetaTitle = "Попович Диана"
+                MetaTitle = headerViewModel.CompanyName
             };
         }
     }
@@ -31,19 +31,19 @@
 <html lang="ru" prefix="og: http://ogp.me/ns#">
 <head>
     @await Html.PartialAsync("YandexMetrica")
-    
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>@headerViewModel?.MetaInfo?.MetaTitle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    
+
     <meta property="og:title" content="@headerViewModel?.MetaInfo?.MetaTitle">
     <meta property="og:description" content="@headerViewModel?.MetaInfo?.MetaDescription">
     <meta property="og:image:url" content="@headerViewModel?.GetMetaImageUrl(Context.Request)">
     <meta property="og:image:secure_url" content="@headerViewModel?.GetMetaImageUrl(Context.Request)">
-    <meta name="Keywords" content="@headerViewModel?.MetaInfo?.KeyWords"> 
-    
-    <link href='https://fonts.googleapis.com/css?family=Material+Icons|Cousine:400,700&amp;subset=cyrillic' rel='stylesheet' type='text/css'/>
+    <meta name="Keywords" content="@headerViewModel?.MetaInfo?.KeyWords">
+
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Cousine:400,700&amp;subset=cyrillic" rel="stylesheet" type="text/css"/>
     <style>
         font-face {
             font-family: "FontAwesome";
@@ -79,53 +79,53 @@
     <link href="/lib/fancybox/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-share-buttons" async="async"></script>
-    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-reaction-buttons&cms=website' async='async'></script>
+    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-reaction-buttons&cms=website" async="async"></script>
 </head>
 
 <body class="base">
 
-    <div class="cont-wrap">
+<div class="cont-wrap">
 
-        @await Html.PartialAsync("Header", headerViewModel)
+    @await Html.PartialAsync("Header", headerViewModel)
 
-        @RenderBody()
+    @RenderBody()
 
-        @await Html.PartialAsync("Footer", footerViewModel)
-        
-      
-        <script type="text/javascript" src="/lib/jQuery/dist/jquery.js"></script>
-   
-        <script type="text/javascript">
+    @await Html.PartialAsync("Footer", footerViewModel)
+
+
+    <script type="text/javascript" src="/lib/jQuery/dist/jquery.js"></script>
+
+    <script type="text/javascript">
             let $= jQuery.noConflict();
         </script>
-        
-        <script type="text/javascript" src="/js/ulightbox.min.js"></script>
 
-        <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        
-        <script type="text/javascript" src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>  
-        
-        <script type="text/javascript" src="/lib/moment/min/moment.min.js"></script>
-        <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
-        
-        <script src="/js/uwnd.min.js" ></script>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-        
-        <script src="/js/main.js"></script>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
-        
-        <script>
+    <script type="text/javascript" src="/js/ulightbox.min.js"></script>
+
+    <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
+
+    <script type="text/javascript" src="/lib/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
+
+    <script src="/js/uwnd.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
             $(document).ready(function() {
                 $('.menu-a').click(function(){
                 
                     $('header div[id^=\'uNMenuDiv\']').toggleClass('openMenu')
             })})
         </script>
-        
-    </div>
+
+</div>
 
 </body>
 </html>

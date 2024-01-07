@@ -1,4 +1,7 @@
-﻿@model App.CMS.ViewModels.ImageViewModel
+﻿@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@model App.CMS.ViewModels.ImageViewModel
+@inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
@@ -7,7 +10,7 @@
 
 @if (Model?.ImageId == null || Model?.ImageId == Guid.Empty)
 {
-    <input type="file" title="Выберите изображение" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
+    <input type="file" title="@TextResourceRepository.GetByTag("Choose_image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
     <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadImage()"/>
     <script>
         function uploadImage() {
@@ -49,10 +52,10 @@
 }
 else
 {
-    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="Изображение"/>
+    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag("Image")"/>
 
     <div class="col-md-12">
-        <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">Удалить файл</button>
+        <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">@await Html.RenderText("Remove_image")</button>
     </div>
     
     <script>

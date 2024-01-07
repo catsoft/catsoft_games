@@ -1,15 +1,17 @@
 ﻿@using App.CMS.Controllers
 @using App.CMS.Models
+@using App.cms.Repositories.TextResource
 @using App.CMS.StaticHelpers
 @model App.CMS.ViewModels.Properties.PropertyViewModel
+@inject TextResourceRepository TextResourceRepository
 
 @{
     var propertyName = Model.PropertyInfo.Name;
     var dataFor = propertyName + "Id";
     var list = DataHelper.GetList(ContextShared.SharedContext, Model.PropertyInfo.PropertyType);
     var value = Model.Model.GetType().GetProperty(Model.PropertyInfo.Name).GetValue(Model.Model, null) as IEntity;
-    var selectList = list.Select(w => new SelectListItem() { Text = w.Title, Value = w.Id.ToString(), Selected = w.Id == value?.Id}).ToList();
-    selectList.Insert(0, new SelectListItem() { Value = "", Text = "Не выбрано" });
+    var selectList = list.Select(w => new SelectListItem { Text = w.Title, Value = w.Id.ToString(), Selected = w.Id == value?.Id }).ToList();
+    selectList.Insert(0, new SelectListItem { Value = "", Text = TextResourceRepository.GetByTag("Not_selected") });
 }
 
 @Html.DropDownList(dataFor, selectList, new { @class = "form-control" })

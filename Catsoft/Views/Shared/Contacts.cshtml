@@ -1,4 +1,5 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
 @using App.Models
 @model App.ViewModels.Contacts.ContactsPageViewModel
 
@@ -8,14 +9,14 @@
 
 <div id="contacts" class="contacts-container container clr">
 
-    <h2 class="title">Контакты</h2> <br/>
+    <h2 class="title">@await Html.RenderText("Contacts")</h2> <br />
 
     <div class="foot-l">
 
         @if (!string.IsNullOrWhiteSpace(Model.Page.Address))
         {
             <div class="address-wrap">
-                <h6 class="subTitle">Местоположение</h6>
+                <h6 class="subTitle">@await Html.RenderText("Address")</h6>
                 <p>@Model.Page.Address</p>
             </div>
         }
@@ -23,7 +24,7 @@
         @if (!string.IsNullOrWhiteSpace(Model.Page.InstaLink) && !string.IsNullOrWhiteSpace(Model.Page.VkLink))
         {
             <div class="soc-wrap">
-                <h6 class="subTitle">Мы в социальных сетях</h6>
+                <h6 class="subTitle">@await Html.RenderText("Social networks")</h6>
 
                 @if (!string.IsNullOrWhiteSpace(Model.Page.InstaLink))
                 {
@@ -47,7 +48,7 @@
         @if (Model.Page.PhoneModels.Count > 0)
         {
             <div class="phones-wrap">
-                <h6 class="subTitle">Телефоны</h6>
+                <h6 class="subTitle">@await Html.RenderText("Phone numbers")</h6>
                 @foreach (var phone in Model.Page.PhoneModels)
                 {
                     <a href="tel:@phone.Phone">@phone.Phone</a>
@@ -59,7 +60,7 @@
         @if (Model.Page.EmailModels.Count > 0)
         {
             <div class="phones-wrap">
-                <h6 class="subTitle">Emails</h6>
+                <h6 class="subTitle">@await Html.RenderText("Emails")</h6>
                 @foreach (var email in Model.Page.EmailModels)
                 {
                     <a href="mailto:@email.Email">@email.Email</a>

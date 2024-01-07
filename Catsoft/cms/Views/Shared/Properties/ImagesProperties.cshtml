@@ -1,8 +1,8 @@
-﻿@using App.CMS.Models
+﻿@inject TypesOptions TypesOptions
+
+@using App.CMS.Models
 @using App.CMS.StaticHelpers
 @using App.CMS.ViewModels
-@inject TypesOptions TypesOptions
-
 @model dynamic
 
 @{
@@ -22,11 +22,11 @@
             {
                 var name = ReflectionHelper.GetNameProperty(propertyInfo);
                 var image = propertyInfo.GetValue(Model) as ImageModel ?? new ImageModel();
-                var imageViewModel = new ImageViewModel()
+                var imageViewModel = new ImageViewModel
                 {
                     PropertyName = propertyInfo.Name,
                     ImageId = image.Id,
-                    Url = image.Url,
+                    Url = image.Url
                 };
 
                 <div class="col-md-12" style="margin-bottom: 30px;">

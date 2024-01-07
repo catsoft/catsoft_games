@@ -1,4 +1,5 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
 @using App.Models
 @model App.ViewModels.Services.ServicesPageViewModel
 
@@ -8,7 +9,7 @@
 
 <div class="about-us" id="services">
     <div class="container">
-        <h3 class="title">Услуги</h3>
+        <h3 class="title">@await Html.RenderText("Services")</h3>
         <div>
             @Html.Raw(Model.Page.ServicesText)
         </div>

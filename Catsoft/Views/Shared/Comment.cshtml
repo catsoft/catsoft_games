@@ -1,6 +1,9 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
 @using App.Models
 @model App.ViewModels.Comment.CommentViewModel
+@inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
@@ -9,35 +12,38 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h3 class="title">Оставить комментарий</h3>
+            <h3 class="title">@await Html.RenderText("Leave a comment")</h3>
             <form asp-action="Comment" asp-controller="Comment" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Name)
-                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new 
+                    @Html.EditorFor(model => model.Name, new
                     {
-                        @class = "form-control",
-                        placeholder = "Имя"}
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            placeholder = TextResourceRepository.GetByTag("Name")
+                        }
                     })
-                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Text)
                     @Html.TextAreaFor(model => model.Text, new
                     {
-                        placeholder = "Напишите здесь свой комментарий",
+                        placeholder = TextResourceRepository.GetByTag("Write_your_comment"),
                         @class = "form-control",
-                        @style = "height: 112px"
+                        style = "height: 112px"
                     })
-                    @Html.ValidationMessageFor(model => model.Text, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
                 </div>
-                
+
                 @Html.HiddenFor(model => model.ArticleId)
-                
+
                 <div class="form-group text-center">
-                    <button type="submit">Отправить</button>
+                    <button type="submit">@await Html.RenderText("Send")</button>
                 </div>
-                
+
             </form>
         </div>
     </div>

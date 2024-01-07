@@ -1,11 +1,14 @@
 ﻿@using System.Reflection
 @using App.CMS.Controllers.Attributes
+@using App.cms.Helpers
 @using App.CMS.Models
 @using App.CMS.Repositories.CmsModels
+@using App.cms.Repositories.TextResource
 @using App.CMS.StaticHelpers
 @using App.CMS.ViewModels.Properties
 @inject TypesOptions TypesOptions
 @inject ICmsCmsModelRepository ModelRepository
+@inject TextResourceRepository TextResourceRepository
 
 @model dynamic
 
@@ -23,7 +26,7 @@
 
     var modelId = ((IEntity)Model)?.Id;
 
-    ViewData["TitleToTopLabelE"] = "Редактирование " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("Edit") + " " + cmsSection.Title;
 
     var other = properties.Where(w => w.PropertyType != TypesOptions.File && w.PropertyType != TypesOptions.Image && w.PropertyType != TypesOptions.ListImage).ToList();
 
@@ -35,7 +38,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-4">
-                <h2>Редактирование</h2>
+                <h2>@await Html.RenderText("Edit")</h2>
             </div>
             <div class="offset-md-6 col-md-2">
                 @if (!isSingleObject)
@@ -70,7 +73,7 @@
 
                 <div class="col-md-12">
                     <div class="form-group col-md-4 offset-md-2" style="margin-top: 60px; margin-bottom: 50px;">
-                        <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
+                        <input type="submit" value="@await Html.RenderText("Save_changes")" class="btn btn-primary"/>
                     </div>
                 </div>
                 <div style="display: none" id="fileHiddenInputs"></div>
@@ -121,7 +124,7 @@
                     </div>
                 }
                 <div class="form-group col-md-4 offset-md-5" style="margin-top: 60px; margin-bottom: 50px;">
-                    <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
+                    <input type="submit" value="@await Html.RenderText("Save_changes")" class="btn btn-primary"/>
                 </div>
             </form>
         </div>

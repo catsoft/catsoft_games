@@ -1,4 +1,6 @@
-﻿@model App.CMS.ViewModels.OneToManySingleImage
+﻿@using App.cms.Repositories.TextResource
+@model App.CMS.ViewModels.OneToManySingleImage
+@inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
@@ -6,10 +8,10 @@
 }
 
 <div style="margin-top: 20px; margin-bottom: 20px" id="@(divId)">
-    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px; margin-bottom: 10px" alt="Изображение" />
-    
-    <input type="hidden" value="@(Model.Id)" name="id" />
-    <input type="submit" value="Удалить изображение" class="btn btn-primary" onclick="removeOneToManyImageModel('@(Model.Id)', '@(divId)')"/>
+    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px; margin-bottom: 10px" alt="Изображение"/>
+
+    <input type="hidden" value="@(Model.Id)" name="id"/>
+    <input type="submit" value="@TextResourceRepository.GetByTag("Remove_image")" class="btn btn-primary" onclick="removeOneToManyImageModel('@(Model.Id)', '@(divId)')"/>
 </div>
 
 

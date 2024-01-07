@@ -1,5 +1,7 @@
-﻿@using App.CMS.ViewModels
+﻿@using App.cms.Repositories.TextResource
+@using App.CMS.ViewModels
 @model App.CMS.ViewModels.OneToMayImageViewModel
+@inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
@@ -18,7 +20,7 @@
     }
 </div>
 
-<input type="file" title="Выберите изображение" class="btn btn-primary" accept="image/*" id="@(uploaderId)" multiple="multiple"/>
+<input type="file" title="@TextResourceRepository.GetByTag("Choose_image")" class="btn btn-primary" accept="image/*" id="@(uploaderId)" multiple="multiple"/>
 <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadOneToManyImageModel('@Model.LinkPropertyName')"/>
 
 <script>

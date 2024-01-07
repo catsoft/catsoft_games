@@ -1,4 +1,5 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
 @using App.Models
 @model App.ViewModels.Projects.ProjectPageViewModel
 
@@ -13,7 +14,7 @@
         <tr>
             <td class="align-middle text-center">
                 <h2>
-                    Пока тут ничего нет
+                    @await Html.RenderText("Nothing here so far")
                 </h2>
             </td>
         </tr>
@@ -40,9 +41,9 @@ else
                                 <span class="icon-call_made" style="font-weight: bold"></span>
                             </span>
                             <div class="img-info-content">
-                                <h2>Интересный заголовок</h2>
+                                <h2>@await Html.RenderText("Title")</h2>
                                 <div class="scrollbar-inner style-scrollbar-sm js-scrollbar-container">
-                                    <p class="mb-0">интересный текст</p>
+                                    <p class="mb-0">@await Html.RenderText("Text")</p>
                                 </div>
                             </div>
                         </div>

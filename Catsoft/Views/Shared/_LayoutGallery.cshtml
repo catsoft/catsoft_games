@@ -11,7 +11,7 @@
     {
         headerViewModel = commonPageViewModel.HeaderViewModel;
         footerViewModel = commonPageViewModel.FooterViewModel;
-        
+
         var metaInfo = commonPageViewModel.GetMetaPage();
         if (metaInfo != null)
         {
@@ -19,9 +19,9 @@
         }
         else
         {
-            headerViewModel.MetaInfo = new SimpleMetaInfo()
+            headerViewModel.MetaInfo = new SimpleMetaInfo
             {
-                MetaTitle = "Попович Диана"
+                MetaTitle = headerViewModel.CompanyName
             };
         }
     }
@@ -30,7 +30,7 @@
 <!doctype html>
 <html lang="ru" prefix="og: http://ogp.me/ns#">
 <head>
-    
+
     @await Html.PartialAsync("YandexMetrica")
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -42,10 +42,10 @@
     <meta property="og:description" content="@headerViewModel?.MetaInfo?.MetaDescription">
     <meta property="og:image:url" content="@headerViewModel?.GetMetaImageUrl(Context.Request)">
     <meta property="og:image:secure_url" content="@headerViewModel?.GetMetaImageUrl(Context.Request)">
-    <meta name="Keywords" content="@headerViewModel?.MetaInfo?.KeyWords"> 
-    
+    <meta name="Keywords" content="@headerViewModel?.MetaInfo?.KeyWords">
+
     <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Material+Icons|Cousine:400,700&amp;subset=cyrillic' rel='stylesheet' type='text/css'/>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Cousine:400,700&amp;subset=cyrillic" rel="stylesheet" type="text/css"/>
     <style>
         font-face {
             font-family: "FontAwesome";
@@ -104,62 +104,62 @@
 
 <body class="base">
 
-    <div class="cont-wrap">
+<div class="cont-wrap">
 
-        @await Html.PartialAsync("Header", headerViewModel)
+    @await Html.PartialAsync("Header", headerViewModel)
 
-        @RenderBody()
+    @RenderBody()
 
-        @await Html.PartialAsync("Footer", footerViewModel)
-        
+    @await Html.PartialAsync("Footer", footerViewModel)
 
-        <script type="text/javascript">
+
+    <script type="text/javascript">
            let $= jQuery.noConflict();
         </script>
-        <script type="text/javascript" src="/lib/jQuery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/lib/jQuery/dist/jquery.js"></script>
 
 
-        <script type="text/javascript" src="/js/ulightbox.min.js"></script>
+    <script type="text/javascript" src="/js/ulightbox.min.js"></script>
 
-        <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
-        <script type="text/javascript" src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
-        <script type="text/javascript" src="/lib/moment/min/moment.min.js"></script>
-        <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript" src="/lib/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
 
-        <script src="/js/uwnd.min.js" ></script>
+    <script src="/js/uwnd.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 
-        <script src="/js/main.js"></script>
+    <script src="/js/main.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
-        <script>
+    <script>
            $(document).ready(function() {
                $('.menu-a').click(function(){
                
                    $('header div[id^=\'uNMenuDiv\']').toggleClass('openMenu')
            })})
         </script>
-        
-        
-        @* <script src="js/jquery-migrate-3.0.1.min.js"></script> *@
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <!-- <script src="js/jquery.stellar.min.js"></script> -->
-        <script src="js/jquery.countdown.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/bootstrap-datepicker.min.js"></script>
-        <script src="js/aos.js"></script>
 
-        <script src="js/swiper.min.js"></script>
-        <script src="js/jquery.scrollbar.js"></script>
-        <script src="js/thumber.js"></script>
-        
-    </div>
+
+    @* <script src="js/jquery-migrate-3.0.1.min.js"></script> *@
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- <script src="js/jquery.stellar.min.js"></script> -->
+    <script src="js/jquery.countdown.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/aos.js"></script>
+
+    <script src="js/swiper.min.js"></script>
+    <script src="js/jquery.scrollbar.js"></script>
+    <script src="js/thumber.js"></script>
+
+</div>
 
 </body>
 </html>
