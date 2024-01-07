@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     public interface IEntity
     {

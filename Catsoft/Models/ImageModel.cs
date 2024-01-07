@@ -1,11 +1,11 @@
 ﻿using System;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 using App.Models.Pages;
 
 namespace App.Models
 {
     [Access(false, false, false, false)]
-    public class ImageModel : CMS.Models.ImageModel
+    public class ImageModel : cms.Models.ImageModel
     {
         [Show(false, false, false, false)]
         public Guid? MainPageModelGalleryId { get; set; }

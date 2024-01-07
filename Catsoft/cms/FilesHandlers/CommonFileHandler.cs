@@ -1,13 +1,13 @@
 ﻿using System.IO;
-using App.CMS.FilesHandlers.Default;
-using App.CMS.FilesHandlers.Jpeg;
-using App.CMS.FilesHandlers.Png;
-using App.CMS.FilesHandlers.Webpack;
-using App.CMS.Models;
-using App.CMS.StaticHelpers;
+using App.cms.FilesHandlers.Default;
+using App.cms.FilesHandlers.Jpeg;
+using App.cms.FilesHandlers.Png;
+using App.cms.FilesHandlers.Webpack;
+using App.cms.Models;
+using App.cms.StaticHelpers;
 using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.FilesHandlers
+namespace App.cms.FilesHandlers
 {
     public class CommonFileHandler(IWebpackFileHandler webpackFileHandler, IJpegFileHandler jpegFileHandler,
             IPngFileHandler pngFileHandler,

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.CMS.ViewModels
+namespace App.cms.ViewModels
 {
     [DisplayName("Войдите")]
     public class CmsLoginViewModel

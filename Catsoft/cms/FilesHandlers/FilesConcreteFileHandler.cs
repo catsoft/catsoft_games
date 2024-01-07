@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.FilesHandlers
+namespace App.cms.FilesHandlers
 {
     public abstract class FilesConcreteFileHandler(IWebHostEnvironment webHostEnvironment) : IFileHandler
     {

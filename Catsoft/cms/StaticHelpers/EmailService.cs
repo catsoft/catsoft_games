@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public static class EmailService
     {

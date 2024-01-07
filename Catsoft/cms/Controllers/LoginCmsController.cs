@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using App.CMS.Models;
-using App.CMS.Repositories.Admin;
-using App.CMS.ViewModels;
+using App.cms.Models;
+using App.cms.Repositories.Admin;
+using App.cms.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Controllers
+namespace App.cms.Controllers
 {
     public abstract class LoginCmsController<TContext>(TContext catsoftContext, ICmsAdminRepository cmsAdminRepository)
         : CommonCmsController<TContext>(catsoftContext)

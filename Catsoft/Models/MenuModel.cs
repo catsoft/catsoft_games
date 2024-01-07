@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using App.CMS.Controllers.Attributes;
-using App.CMS.Models;
+using App.cms.Controllers.Attributes;
+using App.cms.Models;
 
 namespace App.Models
 {

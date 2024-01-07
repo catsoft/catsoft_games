@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 
 namespace App.Models.Pages
 {

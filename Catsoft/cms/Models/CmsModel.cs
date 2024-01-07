@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     [Access]
     public class CmsModel : Entity<CmsModel>

@@ -1,12 +1,8 @@
-﻿using App.CMS.Controllers.Attributes;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.ComponentModel;
-using System;
-using App.Models;
-using Azure;
+using App.cms.Controllers.Attributes;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     public class TextResourceValueModel: Entity<TextResourceValueModel>
     {

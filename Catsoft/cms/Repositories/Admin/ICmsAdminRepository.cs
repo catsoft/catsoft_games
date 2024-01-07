@@ -1,6 +1,6 @@
-﻿using App.CMS.Models;
+﻿using App.cms.Models;
 
-namespace App.CMS.Repositories.Admin
+namespace App.cms.Repositories.Admin
 {
     public interface ICmsAdminRepository : ICmsBaseRepository<AdminModel>
     {

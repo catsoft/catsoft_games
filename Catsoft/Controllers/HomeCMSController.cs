@@ -1,10 +1,10 @@
-﻿using App.CMS;
-using App.CMS.Controllers;
-using App.CMS.FilesHandlers;
-using App.CMS.Repositories.CmsModels;
-using App.CMS.Repositories.File;
-using App.CMS.Repositories.Image;
-using App.CMS.StaticHelpers;
+﻿using App.cms;
+using App.cms.Controllers;
+using App.cms.FilesHandlers;
+using App.cms.Repositories.CmsModels;
+using App.cms.Repositories.File;
+using App.cms.Repositories.Image;
+using App.cms.StaticHelpers;
 using App.Models;
 using Microsoft.AspNetCore.Hosting;
 

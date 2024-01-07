@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace App.CMS.EntityFrameworkPaginateCore
+namespace App.cms.EntityFrameworkPaginateCore
 {
     /// <summary>
     /// Stores the filtered, sorted and paginated data for the given entity type.

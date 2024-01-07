@@ -1,20 +1,15 @@
 ﻿using System.Linq;
-using App.CMS.Models;
-using App.CMS.Repositories;
+using App.cms.Models;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories.TextResource
 {
-    public class TextResourceRepository : CmsBaseRepository<TextResourceModel, CatsoftContext>
+    public class TextResourceRepository(CatsoftContext context) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
     {
-        public TextResourceRepository(CatsoftContext context) : base(context)
-        {
-        }
-
         public string GetByTag(string tag)
         {
-            var model = CatsoftContext.Set<TextResourceModel>().Include(textResourceModel => textResourceModel.Values)
+            var model = context.TextResourceModels.Include(w => w.Values)
                 .FirstOrDefault(w => w.Tag == tag);
             if (model == null)
             {

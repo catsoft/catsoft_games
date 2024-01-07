@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 
-namespace App.CMS.Repositories
+namespace App.cms.Repositories
 {
     public interface ICmsBaseRepository<TItem>
         where TItem : class, IEntity

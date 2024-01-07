@@ -1,4 +1,4 @@
-﻿namespace App.CMS.ViewModels
+﻿namespace App.cms.ViewModels
 {
     public class PaginationViewModel(string url, int currentPage, int maxPage)
     {

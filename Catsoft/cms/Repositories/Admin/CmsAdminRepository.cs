@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Repositories.Admin
+namespace App.cms.Repositories.Admin
 {
     public class CmsAdminRepository<TContext>
         (TContext catsoftContext) : CmsBaseRepository<AdminModel, TContext>(catsoftContext), ICmsAdminRepository

@@ -1,6 +1,6 @@
-﻿using App.CMS.Models;
+﻿using App.cms.Models;
 
-namespace App.CMS.Repositories.File
+namespace App.cms.Repositories.File
 {
     public interface ICmsFilesRepository : ICmsBaseRepository<FileModel>
     {

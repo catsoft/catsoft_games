@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using App.CMS.Models;
+using App.cms.Models;
 
 namespace App.Models.Pages
 {

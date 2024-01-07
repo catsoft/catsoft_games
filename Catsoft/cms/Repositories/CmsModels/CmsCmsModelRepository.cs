@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Repositories.CmsModels
+namespace App.cms.Repositories.CmsModels
 {
     public class CmsCmsModelRepository<TContext>
         (TContext catsoftContext) : CmsBaseRepository<CmsModel, TContext>(catsoftContext), ICmsCmsModelRepository

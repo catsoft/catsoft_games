@@ -5,22 +5,22 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using App.CMS.Controllers.Attributes;
-using App.CMS.EntityFrameworkPaginateCore;
-using App.CMS.FilesHandlers;
-using App.CMS.Models;
-using App.CMS.Repositories.CmsModels;
-using App.CMS.Repositories.File;
-using App.CMS.Repositories.Image;
-using App.CMS.StaticHelpers;
-using App.CMS.ViewModels;
+using App.cms.Controllers.Attributes;
+using App.cms.EntityFrameworkPaginateCore;
+using App.cms.FilesHandlers;
+using App.cms.Models;
+using App.cms.Repositories.CmsModels;
+using App.cms.Repositories.File;
+using App.cms.Repositories.Image;
+using App.cms.StaticHelpers;
+using App.cms.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Controllers
+namespace App.cms.Controllers
 {
     public abstract class HomeCmsController<TContext> : CommonCmsController<TContext>
         where TContext: DbContext

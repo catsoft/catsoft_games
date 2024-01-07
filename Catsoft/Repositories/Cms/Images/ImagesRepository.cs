@@ -1,4 +1,4 @@
-﻿using App.CMS.Repositories;
+﻿using App.cms.Repositories;
 using App.Models;
 
 namespace App.Repositories.Cms.Images

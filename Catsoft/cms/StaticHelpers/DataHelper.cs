@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public static class DataHelper
     {

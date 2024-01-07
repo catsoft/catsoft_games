@@ -1,4 +1,4 @@
-﻿namespace App.CMS.Controllers.Attributes
+﻿namespace App.cms.Controllers.Attributes
 {
     /// <summary>
     /// Показывает нужно ли отображать это свойство в списке\при детализации\редактировании

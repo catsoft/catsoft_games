@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.CMS.Controllers.Attributes
+namespace App.cms.Controllers.Attributes
 {
     public class OneTwoManyAttribute(string propertyName) : Attribute
     {

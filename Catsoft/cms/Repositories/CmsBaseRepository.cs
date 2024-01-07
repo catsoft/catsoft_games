@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Repositories
+namespace App.cms.Repositories
 {
     public abstract class CmsBaseRepository<TItem, TContext>(TContext catsoftContext) : ICmsBaseRepository<TItem>
         where TItem : class, IEntity

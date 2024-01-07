@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using App.CMS.Models;
-using App.CMS.Repositories.File;
+using App.cms.Models;
+using App.cms.Repositories.File;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.FilesHandlers.Default
+namespace App.cms.FilesHandlers.Default
 {
     public class DefaultFileHandler(IWebHostEnvironment webHostEnvironment, ICmsFilesRepository cmsFilesRepository)
         : IDefaultFileHandler

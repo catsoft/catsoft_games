@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     [Access(false, false, false, false)]
     public class ImageModel : Entity<ImageModel>

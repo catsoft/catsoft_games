@@ -1,4 +1,4 @@
-﻿namespace App.CMS.FilesHandlers.Webpack
+﻿namespace App.cms.FilesHandlers.Webpack
 {
     public interface IWebpackFileHandler : IFileHandler
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using App.CMS.Models;
+using App.cms.Models;
 
-namespace App.CMS.ViewModels
+namespace App.cms.ViewModels
 {
     public class CommonPageHomeCmsViewModel
     {

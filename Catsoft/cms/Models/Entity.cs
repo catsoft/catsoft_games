@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
-using App.CMS.EntityFrameworkPaginateCore;
+using App.cms.Controllers.Attributes;
+using App.cms.EntityFrameworkPaginateCore;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     public class Entity<T> : ISortFilterEntity<T>
         where T : IEntity

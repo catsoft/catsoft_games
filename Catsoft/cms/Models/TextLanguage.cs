@@ -1,4 +1,4 @@
-﻿namespace App.CMS.Models
+﻿namespace App.cms.Models
 {
     public enum TextLanguage   
     {

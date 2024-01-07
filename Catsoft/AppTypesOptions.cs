@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.CMS.StaticHelpers;
+using App.cms.StaticHelpers;
 using App.Models;
 
 namespace App
@@ -12,9 +12,9 @@ namespace App
 
         public override Type Image { get; } = typeof(ImageModel);
 
-        public override List<CMS.Models.ImageModel> CastToImage(dynamic _object)
+        public override List<cms.Models.ImageModel> CastToImage(dynamic _object)
         {
-            return (_object as List<ImageModel> ?? new List<ImageModel>()).Cast<CMS.Models.ImageModel>().ToList();
+            return (_object as List<ImageModel> ?? new List<ImageModel>()).Cast<cms.Models.ImageModel>().ToList();
         }
     }
 }

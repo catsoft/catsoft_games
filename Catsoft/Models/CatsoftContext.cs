@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using App.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 

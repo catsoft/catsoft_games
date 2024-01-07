@@ -1,4 +1,4 @@
-﻿using App.CMS.Repositories.File;
+﻿using App.cms.Repositories.File;
 using App.Models;
 
 namespace App.Repositories.Cms.Files

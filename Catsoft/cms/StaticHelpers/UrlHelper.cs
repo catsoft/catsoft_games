@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public static class UrlHelper
     {

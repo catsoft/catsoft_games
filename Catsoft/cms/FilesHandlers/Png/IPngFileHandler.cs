@@ -1,4 +1,4 @@
-﻿namespace App.CMS.FilesHandlers.Png
+﻿namespace App.cms.FilesHandlers.Png
 {
     public interface IPngFileHandler : IFileHandler
     {

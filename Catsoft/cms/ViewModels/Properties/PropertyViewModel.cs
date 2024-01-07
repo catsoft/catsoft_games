@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace App.CMS.ViewModels.Properties
+namespace App.cms.ViewModels.Properties
 {
     public class PropertyViewModel
     {

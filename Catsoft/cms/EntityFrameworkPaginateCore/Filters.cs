@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace App.CMS.EntityFrameworkPaginateCore
+namespace App.cms.EntityFrameworkPaginateCore
 {
     /// <summary>
     /// Stores and processes your conditional filters.

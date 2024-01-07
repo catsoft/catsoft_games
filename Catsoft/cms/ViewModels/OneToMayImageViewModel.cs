@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace App.CMS.ViewModels
+namespace App.cms.ViewModels
 {
     public class OneToMayImageViewModel(List<(Guid Id, string Url)> images, Guid idObject, string linkPropertyName)
     {

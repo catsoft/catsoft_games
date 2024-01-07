@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
-using App.CMS.Models;
+using App.cms.Controllers.Attributes;
+using App.cms.Models;
 
 namespace App.Models.Pages
 {

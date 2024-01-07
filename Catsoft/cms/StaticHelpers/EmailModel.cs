@@ -1,4 +1,4 @@
-﻿namespace App.CMS.StaticHelpers
+﻿namespace App.cms.StaticHelpers
 {
     public class EmailModel
     {

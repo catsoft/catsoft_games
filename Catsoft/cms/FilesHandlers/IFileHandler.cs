@@ -1,7 +1,7 @@
-﻿using App.CMS.Models;
+﻿using App.cms.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.FilesHandlers
+namespace App.cms.FilesHandlers
 {
     public interface IFileHandler
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using App.CMS.Models;
+using App.cms.Models;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
 

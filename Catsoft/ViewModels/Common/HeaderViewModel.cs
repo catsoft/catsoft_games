@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using App.CMS.StaticHelpers;
+using App.cms.StaticHelpers;
 using App.Models;
 using App.Models.Pages;
 using Microsoft.AspNetCore.Http;

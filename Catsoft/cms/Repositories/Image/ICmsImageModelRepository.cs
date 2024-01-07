@@ -1,6 +1,6 @@
-﻿using App.CMS.Models;
+﻿using App.cms.Models;
 
-namespace App.CMS.Repositories.Image
+namespace App.cms.Repositories.Image
 {
     public interface ICmsImageModelRepository :  ICmsBaseRepository<ImageModel>
     {

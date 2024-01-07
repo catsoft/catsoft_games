@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
 

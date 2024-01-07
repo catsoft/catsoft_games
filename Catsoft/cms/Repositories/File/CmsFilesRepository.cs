@@ -1,7 +1,7 @@
-﻿using App.CMS.Models;
+﻿using App.cms.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Repositories.File
+namespace App.cms.Repositories.File
 {
     public class CmsFilesRepository<TContext>
         (TContext catsoftContext) : CmsBaseRepository<FileModel, TContext>(catsoftContext), ICmsFilesRepository

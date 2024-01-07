@@ -1,4 +1,4 @@
-﻿namespace App.CMS
+﻿namespace App.cms
 {
     public class CmsOptions
     {

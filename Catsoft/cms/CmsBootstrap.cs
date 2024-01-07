@@ -1,11 +1,11 @@
-﻿using App.CMS.FilesHandlers;
-using App.CMS.FilesHandlers.Default;
-using App.CMS.FilesHandlers.Jpeg;
-using App.CMS.FilesHandlers.Png;
-using App.CMS.FilesHandlers.Webpack;
+﻿using App.cms.FilesHandlers;
+using App.cms.FilesHandlers.Default;
+using App.cms.FilesHandlers.Jpeg;
+using App.cms.FilesHandlers.Png;
+using App.cms.FilesHandlers.Webpack;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App.CMS
+namespace App.cms
 {
     public class CmsBootstrap
     {

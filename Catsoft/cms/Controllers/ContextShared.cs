@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.Controllers
+namespace App.cms.Controllers
 {
     public static class ContextShared
     {   

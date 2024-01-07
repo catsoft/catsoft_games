@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Drawing;
-using System.Linq;
-using App.CMS.Models;
+using App.cms.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public static class ImageHelper
     {

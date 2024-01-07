@@ -1,12 +1,12 @@
 ﻿using System.IO;
-using App.CMS.Models;
-using App.CMS.Repositories.Image;
+using App.cms.Models;
+using App.cms.Repositories.Image;
 using ImageProcessor;
 using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace App.CMS.FilesHandlers
+namespace App.cms.FilesHandlers
 {
     public abstract class ImagesConcreteFileHandler(IWebHostEnvironment webHostEnvironment,
             ICmsImageModelRepository imageModelRepository)

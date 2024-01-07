@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace App.CMS.EntityFrameworkPaginateCore
+namespace App.cms.EntityFrameworkPaginateCore
 {
     internal class Filter<T>
     {

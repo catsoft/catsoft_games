@@ -153,4 +153,7 @@
     <_ContentIncludedByDefault Remove="Views\HomeCms\_ViewImports.cshtml" />
     <_ContentIncludedByDefault Remove="Views\LoginCms\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Translator\Translator.csproj" />
+  </ItemGroup>
 </Project>

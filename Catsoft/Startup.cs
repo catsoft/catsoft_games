@@ -1,10 +1,10 @@
-﻿using App.CMS;
-using App.CMS.Repositories.Admin;
-using App.CMS.Repositories.CmsModels;
-using App.CMS.Repositories.File;
-using App.CMS.Repositories.Image;
+﻿using App.cms;
+using App.cms.Repositories.Admin;
+using App.cms.Repositories.CmsModels;
+using App.cms.Repositories.File;
+using App.cms.Repositories.Image;
 using App.cms.Repositories.TextResource;
-using App.CMS.StaticHelpers;
+using App.cms.StaticHelpers;
 using App.Initialize;
 using App.Models;
 using App.Repositories.Cms.Admins;

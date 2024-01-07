@@ -1,5 +1,5 @@
-﻿using App.CMS.Controllers;
-using App.CMS.Repositories.Admin;
+﻿using App.cms.Controllers;
+using App.cms.Repositories.Admin;
 using App.Models;
 
 namespace App.Controllers

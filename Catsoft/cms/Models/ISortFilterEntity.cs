@@ -1,6 +1,6 @@
-﻿using App.CMS.EntityFrameworkPaginateCore;
+﻿using App.cms.EntityFrameworkPaginateCore;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     public interface ISortFilterEntity<T> : IEntity 
         where T : IEntity

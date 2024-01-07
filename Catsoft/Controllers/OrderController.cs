@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using App.CMS;
-using App.CMS.StaticHelpers;
+using App.cms;
+using App.cms.StaticHelpers;
 using App.Models;
 using App.ViewModels.Order;
 using Microsoft.AspNetCore.Mvc;
-using EmailModel = App.CMS.StaticHelpers.EmailModel;
+using EmailModel = App.cms.StaticHelpers.EmailModel;
 
 namespace App.Controllers
 {

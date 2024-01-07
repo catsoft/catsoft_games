@@ -1,7 +1,7 @@
-﻿using App.CMS.Repositories.Image;
+﻿using App.cms.Repositories.Image;
 using Microsoft.AspNetCore.Hosting;
 
-namespace App.CMS.FilesHandlers.Webpack
+namespace App.cms.FilesHandlers.Webpack
 {
     public class WebpackFileHandler(IWebHostEnvironment webHostEnvironment,
             ICmsImageModelRepository imageModelRepository)

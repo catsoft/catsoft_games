@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.EntityFrameworkPaginateCore
+namespace App.cms.EntityFrameworkPaginateCore
 {
     public static class PaginateService
     {

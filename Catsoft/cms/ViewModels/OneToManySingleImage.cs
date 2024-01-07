@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace App.CMS.ViewModels
+namespace App.cms.ViewModels
 {
     public class OneToManySingleImage
     {

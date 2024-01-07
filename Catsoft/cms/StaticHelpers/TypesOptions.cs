@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using App.CMS.Models;
+using App.cms.Models;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public class TypesOptions
     {

@@ -1,4 +1,4 @@
-﻿using App.CMS.Repositories.Admin;
+﻿using App.cms.Repositories.Admin;
 using App.Models;
 
 namespace App.Repositories.Cms.Admins

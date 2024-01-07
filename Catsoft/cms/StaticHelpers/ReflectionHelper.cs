@@ -5,12 +5,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using App.CMS.Controllers.Attributes;
-using App.CMS.Models;
+using App.cms.Controllers.Attributes;
+using App.cms.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.CMS.StaticHelpers
+namespace App.cms.StaticHelpers
 {
     public static class ReflectionHelper
     {

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 
-namespace App.CMS.Models
+namespace App.cms.Models
 {
     [Access()]
     public class TextResourceModel : Entity<TextResourceModel>

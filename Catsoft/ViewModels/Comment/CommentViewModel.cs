@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using App.CMS.Controllers.Attributes;
+using App.cms.Controllers.Attributes;
 
 namespace App.ViewModels.Comment
 {
