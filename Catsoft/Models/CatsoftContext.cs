@@ -48,6 +48,8 @@ namespace App.Models
 
         public DbSet<EmailRecordModel> EmailRecordsModels { get; set; }
 
+        public DbSet<GameModel> GameModels { get; set; }
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -92,6 +94,14 @@ namespace App.Models
                 .WithMany(w => w.Values)
                 .IsRequired(false)
                 .HasForeignKey(w => w.TextResourceModelId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ImageModel>()
+                .HasOne(w => w.GameModel)
+                .WithOne(w => w.ImageModel)
+                .IsRequired(false)
+                .HasForeignKey<GameModel>(w => w.ImageModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
         }

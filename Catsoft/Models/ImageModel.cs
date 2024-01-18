@@ -18,8 +18,14 @@ namespace App.Models
         public Guid? ServiceModelId { get; set; }
 
         public ServiceModel ServiceModel{ get; set; }
-        
-        
+
+
+        [Show(false, false, false, false)]
+        public Guid? GameModelId { get; set; }
+
+        public GameModel GameModel { get; set; }
+
+
         [Show(false, false, false, false)]
         public Guid? ArticleModelId { get; set; }
 

@@ -8,7 +8,6 @@ namespace App.cms.Models
     public class ImageModel : Entity<ImageModel>
     {
         [DataType(DataType.ImageUrl)]
-        [DisplayName("Ссылка на диске")]
         public string Url { get; set; }
         
         public string OriginalUrl { get; set; }

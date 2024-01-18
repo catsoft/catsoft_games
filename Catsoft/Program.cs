@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using App.Initialize;
 using App.Models;
 using Microsoft.AspNetCore;
@@ -17,14 +18,20 @@ namespace App
         {
             var app = BuildWebHost(args);
 
-            DoWithScope(app, scoped =>
-            {
-                scoped.GetRequiredService<DatabaseInitializer>().Init();
+            // DoWithScope(app, scoped =>
+            // {
+            //     scoped.GetRequiredService<DatabaseInitializer>().Init();
+            // });
+            //
+            // DoWithScope(app, scoped =>
+            // {
+            //     scoped.GetRequiredService<TextTranslator>().GenerateDefaultResources();
+            // });
+            //
+            //
+            // Thread.Sleep(1000);
 
-                scoped.GetRequiredService<TextTranslator>().GenerateDefaultResources();
-
-                app.Run();
-            });
+            app.Run();
         }
 
         private static void DoWithScope(IWebHost app, Action<IServiceProvider> action)
@@ -37,7 +44,8 @@ namespace App
             }
             catch (Exception ex)
             {
-                var logger = services.GetRequiredService<ILogger<Program>>();
+                var logger = services.GetService<ILogger<Program>>();
+                Console.WriteLine(ex);
                 logger.LogError(ex, "An error occurred during db init.");
             }
         }
@@ -45,7 +53,7 @@ namespace App
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                //.UseKestrel()
+                // .UseKestrel()
                 .UseStartup<Startup>()
                 .UseIISIntegration()
                 .UseContentRoot(Directory.GetCurrentDirectory())

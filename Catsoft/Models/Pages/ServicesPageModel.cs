@@ -8,7 +8,6 @@ namespace App.Models.Pages
     [Access(false, false, true, false)]
     public class ServicesPageModel : BasePage<ServicesPageModel>
     {
-        [DisplayName("Что-нибудь о услугах")]
         [DataType(DataType.Html)]
         [Show(false)]
         public string ServicesText { get; set; }

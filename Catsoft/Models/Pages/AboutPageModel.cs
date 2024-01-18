@@ -10,7 +10,6 @@ namespace App.Models.Pages
     {
         [DataType(DataType.Html)]
         [Show(false)]
-        [DisplayName("Текст о тебе")]
         public string AboutHtml { get; set; }
     }
 }

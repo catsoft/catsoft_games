@@ -7,7 +7,6 @@ namespace App.cms.Models
     [Access()]
     public class TextResourceModel : Entity<TextResourceModel>
     {
-        [DisplayName("Tag")]
         public string Tag { get; set; }
 
         public override string Title
@@ -22,7 +21,6 @@ namespace App.cms.Models
             }
         }
 
-        [DisplayName("Values")]
         [OneTwoMany("TextResourceModelId")]
         [Show(false, true, true, false)]
         [ShowTitle]

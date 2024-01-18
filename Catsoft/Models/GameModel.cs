@@ -1,19 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
 namespace App.Models
 {
-    public class ServiceModel : Entity<ServiceModel>
+    public class GameModel : Entity<GameModel>
     {
         [Show]
         public override string Title { get; set; }
-
-        [Show(false)]
-        [DataType(DataType.Html)]
-        public string About { get; set; }
 
         [Show(false)]
         public override int Position { get; set; }

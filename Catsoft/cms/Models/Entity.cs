@@ -12,7 +12,6 @@ namespace App.cms.Models
         [Show(false, false, false, false)]
         public Guid Id { get; set; }
 
-        [DisplayName("Дата создания")]
         [DataType(DataType.DateTime)]
         [Show(true, true, false, false)]
         public virtual DateTime DateCreated { get; set; } = DateTime.Now;
@@ -23,7 +22,6 @@ namespace App.cms.Models
         [Show(false, false, false, false)]
         public virtual int Position { get; set; }
         
-        [DisplayName("Удалено")]
         [Show(false, false, false, false)]
         public bool IsDeleted { get; set; }
 

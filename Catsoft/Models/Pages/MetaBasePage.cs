@@ -9,17 +9,14 @@ namespace App.Models.Pages
     public abstract class MetaBasePage<T> : BasePage<T>, IMetaInfo
         where T : IEntity
     {
-        [DisplayName("Мета заголовок")]
         [Show(false)]
         public virtual string MetaTitle { get; set; }
         
-        [DisplayName("Мета описание")]     
         [Show(false)]
         public virtual string MetaDescription { get; set; }
         
         
         [Show(false)]
-        [DisplayName("Ключевые слова")]
         public virtual string KeyWords { get; set; }
     }
 }

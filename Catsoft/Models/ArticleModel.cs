@@ -10,21 +10,17 @@ namespace App.Models
 {
     public class ArticleModel : MetaBasePage<ArticleModel>
     {
-        [DisplayName("Заголовок")]
         [Show]
         public override string Title { get; set; }
 
-        [DisplayName("Статья")]
         [Show(false)]
         [DataType(DataType.Html)]
         public string Text { get; set; }
 
-        [DisplayName("Подзаголовок")]
         [Show(false)]
         public string Subtitle { get; set; }
         
         [Show(false)]
-        [DisplayName("Порядок")]
         public override int Position { get; set; }
 
 
@@ -32,12 +28,10 @@ namespace App.Models
         public Guid? ImageModelId { get; set; }
 
         [Show(false, false)]
-        [DisplayName("Изображение")]
         [Required]
         public ImageModel ImageModel { get; set; }
         
         
-        [DisplayName("Комментарии")]
         [OneTwoMany("ArticleModelId")]
         [Show(false, false, false, false)]
         [ShowTitle]

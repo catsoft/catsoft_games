@@ -1,7 +1,7 @@
 {
   "iisSettings": {
     "windowsAuthentication": true,
-    "anonymousAuthentication": false,
+    "anonymousAuthentication": true,
     "iis": {
       "applicationUrl": "http://localhost/",
       "sslPort": 0
@@ -20,13 +20,13 @@
       },
       "ancmHostingModel": "InProcess"
     },
-    "PhPopovich": {
+    "Catsoft": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://127.0.0.1:5001"
     }
   }
 }
