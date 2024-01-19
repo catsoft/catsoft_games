@@ -1,17 +1,17 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var TooltipUI = /** @class */ (function () {
     function TooltipUI($node, options) {
         this.$node = $node;
-        this.options = jquery_1["default"].extend({}, {
+        this.options = jquery_1.default.extend({}, {
             title: '',
             target: options.container,
             trigger: 'hover focus',
-            placement: 'bottom'
+            placement: 'bottom',
         }, options);
         // create tooltip node
-        this.$tooltip = jquery_1["default"]([
+        this.$tooltip = (0, jquery_1.default)([
             '<div class="note-tooltip">',
             '<div class="note-tooltip-arrow"/>',
             '<div class="note-tooltip-content"/>',
@@ -39,7 +39,7 @@ var TooltipUI = /** @class */ (function () {
     TooltipUI.prototype.show = function () {
         var $node = this.$node;
         var offset = $node.offset();
-        var targetOffset = jquery_1["default"](this.options.target).offset();
+        var targetOffset = (0, jquery_1.default)(this.options.target).offset();
         offset.top -= targetOffset.top;
         offset.left -= targetOffset.left;
         var $tooltip = this.$tooltip;
@@ -55,25 +55,25 @@ var TooltipUI = /** @class */ (function () {
         if (placement === 'bottom') {
             $tooltip.css({
                 top: offset.top + nodeHeight,
-                left: offset.left + (nodeWidth / 2 - tooltipWidth / 2)
+                left: offset.left + (nodeWidth / 2 - tooltipWidth / 2),
             });
         }
         else if (placement === 'top') {
             $tooltip.css({
                 top: offset.top - tooltipHeight,
-                left: offset.left + (nodeWidth / 2 - tooltipWidth / 2)
+                left: offset.left + (nodeWidth / 2 - tooltipWidth / 2),
             });
         }
         else if (placement === 'left') {
             $tooltip.css({
                 top: offset.top + (nodeHeight / 2 - tooltipHeight / 2),
-                left: offset.left - tooltipWidth
+                left: offset.left - tooltipWidth,
             });
         }
         else if (placement === 'right') {
             $tooltip.css({
                 top: offset.top + (nodeHeight / 2 - tooltipHeight / 2),
-                left: offset.left + nodeWidth
+                left: offset.left + nodeWidth,
             });
         }
         $tooltip.addClass('in');
@@ -95,5 +95,5 @@ var TooltipUI = /** @class */ (function () {
     };
     return TooltipUI;
 }());
-exports["default"] = TooltipUI;
+exports.default = TooltipUI;
 //# sourceMappingURL=TooltipUI.js.map

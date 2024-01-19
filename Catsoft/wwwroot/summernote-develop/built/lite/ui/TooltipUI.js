@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var TooltipUI = /** @class */ (function () {
     function TooltipUI($node, options) {
         this.$node = $node;
@@ -88,5 +88,5 @@ var TooltipUI = /** @class */ (function () {
     };
     return TooltipUI;
 }());
-exports["default"] = TooltipUI;
+exports.default = TooltipUI;
 //# sourceMappingURL=TooltipUI.js.map

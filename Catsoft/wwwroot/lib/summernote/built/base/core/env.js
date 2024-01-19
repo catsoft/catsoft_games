@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var isSupportAmd = typeof define === 'function' && define.amd; // eslint-disable-line
 /**
@@ -10,7 +10,7 @@ var isSupportAmd = typeof define === 'function' && define.amd; // eslint-disable
  */
 var genericFontFamilies = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy'];
 function validFontName(fontName) {
-    return (jquery_1["default"].inArray(fontName.toLowerCase(), genericFontFamilies) === -1) ? "'" + fontName + "'" : fontName;
+    return (jquery_1.default.inArray(fontName.toLowerCase(), genericFontFamilies) === -1) ? "'".concat(fontName, "'") : fontName;
 }
 function isFontInstalled(fontName) {
     var testFontName = fontName === 'Comic Sans MS' ? 'Courier New' : 'Comic Sans MS';
@@ -53,7 +53,7 @@ var inputEventName = (isMSIE) ? 'DOMCharacterDataModified DOMSubtreeModified DOM
  * @singleton
  * @alternateClassName env
  */
-exports["default"] = {
+exports.default = {
     isMac: navigator.appVersion.indexOf('Mac') > -1,
     isMSIE: isMSIE,
     isEdge: isEdge,
@@ -63,7 +63,7 @@ exports["default"] = {
     isChrome: !isEdge && /chrome/i.test(userAgent),
     isSafari: !isEdge && /safari/i.test(userAgent) && (!/chrome/i.test(userAgent)),
     browserVersion: browserVersion,
-    jqueryVersion: parseFloat(jquery_1["default"].fn.jquery),
+    jqueryVersion: parseFloat(jquery_1.default.fn.jquery),
     isSupportAmd: isSupportAmd,
     isSupportTouch: isSupportTouch,
     hasCodeMirror: hasCodeMirror,
@@ -71,6 +71,6 @@ exports["default"] = {
     isW3CRangeSupport: !!document.createRange,
     inputEventName: inputEventName,
     genericFontFamilies: genericFontFamilies,
-    validFontName: validFontName
+    validFontName: validFontName,
 };
 //# sourceMappingURL=env.js.map

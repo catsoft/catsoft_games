@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 require("./summernote-en-US");
 require("../summernote");
@@ -28,40 +28,40 @@ var VideoDialog_1 = require("./module/VideoDialog");
 var HelpDialog_1 = require("./module/HelpDialog");
 var AirPopover_1 = require("./module/AirPopover");
 var HintPopover_1 = require("./module/HintPopover");
-jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].summernote, {
+jquery_1.default.summernote = jquery_1.default.extend(jquery_1.default.summernote, {
     version: '@@VERSION@@',
     plugins: {},
-    dom: dom_1["default"],
-    range: range_1["default"],
-    lists: lists_1["default"],
+    dom: dom_1.default,
+    range: range_1.default,
+    lists: lists_1.default,
     options: {
-        langInfo: jquery_1["default"].summernote.lang['en-US'],
+        langInfo: jquery_1.default.summernote.lang['en-US'],
         editing: true,
         modules: {
-            'editor': Editor_1["default"],
-            'clipboard': Clipboard_1["default"],
-            'dropzone': Dropzone_1["default"],
-            'codeview': Codeview_1["default"],
-            'statusbar': Statusbar_1["default"],
-            'fullscreen': Fullscreen_1["default"],
-            'handle': Handle_1["default"],
+            'editor': Editor_1.default,
+            'clipboard': Clipboard_1.default,
+            'dropzone': Dropzone_1.default,
+            'codeview': Codeview_1.default,
+            'statusbar': Statusbar_1.default,
+            'fullscreen': Fullscreen_1.default,
+            'handle': Handle_1.default,
             // FIXME: HintPopover must be front of autolink
             //  - Script error about range when Enter key is pressed on hint popover
-            'hintPopover': HintPopover_1["default"],
-            'autoLink': AutoLink_1["default"],
-            'autoSync': AutoSync_1["default"],
-            'autoReplace': AutoReplace_1["default"],
-            'placeholder': Placeholder_1["default"],
-            'buttons': Buttons_1["default"],
-            'toolbar': Toolbar_1["default"],
-            'linkDialog': LinkDialog_1["default"],
-            'linkPopover': LinkPopover_1["default"],
-            'imageDialog': ImageDialog_1["default"],
-            'imagePopover': ImagePopover_1["default"],
-            'tablePopover': TablePopover_1["default"],
-            'videoDialog': VideoDialog_1["default"],
-            'helpDialog': HelpDialog_1["default"],
-            'airPopover': AirPopover_1["default"]
+            'hintPopover': HintPopover_1.default,
+            'autoLink': AutoLink_1.default,
+            'autoSync': AutoSync_1.default,
+            'autoReplace': AutoReplace_1.default,
+            'placeholder': Placeholder_1.default,
+            'buttons': Buttons_1.default,
+            'toolbar': Toolbar_1.default,
+            'linkDialog': LinkDialog_1.default,
+            'linkPopover': LinkPopover_1.default,
+            'imageDialog': ImageDialog_1.default,
+            'imagePopover': ImagePopover_1.default,
+            'tablePopover': TablePopover_1.default,
+            'videoDialog': VideoDialog_1.default,
+            'helpDialog': HelpDialog_1.default,
+            'airPopover': AirPopover_1.default,
         },
         buttons: {},
         lang: 'en-US',
@@ -101,7 +101,7 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
                 ['table', ['table']],
                 ['insert', ['link', 'picture']],
                 ['view', ['fullscreen', 'codeview']],
-            ]
+            ],
         },
         // air mode: inline editor
         airMode: false,
@@ -162,13 +162,13 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
         ],
         colorButton: {
             foreColor: '#000000',
-            backColor: '#FFFF00'
+            backColor: '#FFFF00',
         },
         lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
         tableClassName: 'table table-bordered',
         insertTableMaxSize: {
             col: 10,
-            row: 10
+            row: 10,
         },
         // By default, dialogs are attached in container.
         dialogsInBody: false,
@@ -192,12 +192,12 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
             onMousedown: null,
             onMouseup: null,
             onPaste: null,
-            onScroll: null
+            onScroll: null,
         },
         codemirror: {
             mode: 'text/html',
             htmlMode: true,
-            lineNumbers: true
+            lineNumbers: true,
         },
         codeviewFilter: false,
         codeviewFilterRegex: /<\/*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|ilayer|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|t(?:itle|extarea)|xml)[^>]*?>/gi,
@@ -242,7 +242,7 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
                 'CTRL+NUM5': 'formatH5',
                 'CTRL+NUM6': 'formatH6',
                 'CTRL+ENTER': 'insertHorizontalRule',
-                'CTRL+K': 'linkDialog.show'
+                'CTRL+K': 'linkDialog.show',
             },
             mac: {
                 'ENTER': 'insertParagraph',
@@ -271,8 +271,8 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
                 'CMD+NUM5': 'formatH5',
                 'CMD+NUM6': 'formatH6',
                 'CMD+ENTER': 'insertHorizontalRule',
-                'CMD+K': 'linkDialog.show'
-            }
+                'CMD+K': 'linkDialog.show',
+            },
         },
         icons: {
             'align': 'note-icon-align',
@@ -321,8 +321,8 @@ jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].
             'underline': 'note-icon-underline',
             'undo': 'note-icon-undo',
             'unorderedlist': 'note-icon-unorderedlist',
-            'video': 'note-icon-video'
-        }
-    }
+            'video': 'note-icon-video',
+        },
+    },
 });
 //# sourceMappingURL=settings.js.map

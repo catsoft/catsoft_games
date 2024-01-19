@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var lists_1 = require("../core/lists");
 var dom_1 = require("../core/dom");
@@ -12,7 +12,7 @@ var ImagePopover = /** @class */ (function () {
     function ImagePopover(context) {
         var _this = this;
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.editable = context.layoutInfo.editable[0];
         this.options = context.options;
         this.events = {
@@ -22,7 +22,7 @@ var ImagePopover = /** @class */ (function () {
         };
     }
     ImagePopover.prototype.shouldInitialize = function () {
-        return !lists_1["default"].isEmpty(this.options.popover.image);
+        return !lists_1.default.isEmpty(this.options.popover.image);
     };
     ImagePopover.prototype.initialize = function () {
         this.$popover = this.ui.popover({
@@ -35,9 +35,9 @@ var ImagePopover = /** @class */ (function () {
         this.$popover.remove();
     };
     ImagePopover.prototype.update = function (target) {
-        if (dom_1["default"].isImg(target)) {
-            var pos = dom_1["default"].posFromPlaceholder(target);
-            var posEditor = dom_1["default"].posFromPlaceholder(this.editable);
+        if (dom_1.default.isImg(target)) {
+            var pos = dom_1.default.posFromPlaceholder(target);
+            var posEditor = dom_1.default.posFromPlaceholder(this.editable);
             this.$popover.css({
                 display: 'block',
                 left: this.options.popatmouse ? event.pageX - 20 : pos.left,
@@ -53,5 +53,5 @@ var ImagePopover = /** @class */ (function () {
     };
     return ImagePopover;
 }());
-exports["default"] = ImagePopover;
+exports.default = ImagePopover;
 //# sourceMappingURL=ImagePopover.js.map

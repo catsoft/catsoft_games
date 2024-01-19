@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var lists_1 = require("../core/lists");
 var func_1 = require("../core/func");
@@ -25,17 +25,17 @@ var Bullet = /** @class */ (function () {
      */
     Bullet.prototype.indent = function (editable) {
         var _this = this;
-        var rng = range_1["default"].create(editable).wrapBodyInlineWithPara();
-        var paras = rng.nodes(dom_1["default"].isPara, { includeAncestor: true });
-        var clustereds = lists_1["default"].clusterBy(paras, func_1["default"].peq2('parentNode'));
-        jquery_1["default"].each(clustereds, function (idx, paras) {
-            var head = lists_1["default"].head(paras);
-            if (dom_1["default"].isLi(head)) {
+        var rng = range_1.default.create(editable).wrapBodyInlineWithPara();
+        var paras = rng.nodes(dom_1.default.isPara, { includeAncestor: true });
+        var clustereds = lists_1.default.clusterBy(paras, func_1.default.peq2('parentNode'));
+        jquery_1.default.each(clustereds, function (idx, paras) {
+            var head = lists_1.default.head(paras);
+            if (dom_1.default.isLi(head)) {
                 _this.wrapList(paras, head.parentNode.nodeName);
             }
             else {
-                jquery_1["default"].each(paras, function (idx, para) {
-                    jquery_1["default"](para).css('marginLeft', function (idx, val) {
+                jquery_1.default.each(paras, function (idx, para) {
+                    (0, jquery_1.default)(para).css('marginLeft', function (idx, val) {
                         return (parseInt(val, 10) || 0) + 25;
                     });
                 });
@@ -48,17 +48,17 @@ var Bullet = /** @class */ (function () {
      */
     Bullet.prototype.outdent = function (editable) {
         var _this = this;
-        var rng = range_1["default"].create(editable).wrapBodyInlineWithPara();
-        var paras = rng.nodes(dom_1["default"].isPara, { includeAncestor: true });
-        var clustereds = lists_1["default"].clusterBy(paras, func_1["default"].peq2('parentNode'));
-        jquery_1["default"].each(clustereds, function (idx, paras) {
-            var head = lists_1["default"].head(paras);
-            if (dom_1["default"].isLi(head)) {
+        var rng = range_1.default.create(editable).wrapBodyInlineWithPara();
+        var paras = rng.nodes(dom_1.default.isPara, { includeAncestor: true });
+        var clustereds = lists_1.default.clusterBy(paras, func_1.default.peq2('parentNode'));
+        jquery_1.default.each(clustereds, function (idx, paras) {
+            var head = lists_1.default.head(paras);
+            if (dom_1.default.isLi(head)) {
                 _this.releaseList([paras]);
             }
             else {
-                jquery_1["default"].each(paras, function (idx, para) {
-                    jquery_1["default"](para).css('marginLeft', function (idx, val) {
+                jquery_1.default.each(paras, function (idx, para) {
+                    (0, jquery_1.default)(para).css('marginLeft', function (idx, val) {
                         val = (parseInt(val, 10) || 0);
                         return val > 25 ? val - 25 : '';
                     });
@@ -74,35 +74,35 @@ var Bullet = /** @class */ (function () {
      */
     Bullet.prototype.toggleList = function (listName, editable) {
         var _this = this;
-        var rng = range_1["default"].create(editable).wrapBodyInlineWithPara();
-        var paras = rng.nodes(dom_1["default"].isPara, { includeAncestor: true });
+        var rng = range_1.default.create(editable).wrapBodyInlineWithPara();
+        var paras = rng.nodes(dom_1.default.isPara, { includeAncestor: true });
         var bookmark = rng.paraBookmark(paras);
-        var clustereds = lists_1["default"].clusterBy(paras, func_1["default"].peq2('parentNode'));
+        var clustereds = lists_1.default.clusterBy(paras, func_1.default.peq2('parentNode'));
         // paragraph to list
-        if (lists_1["default"].find(paras, dom_1["default"].isPurePara)) {
+        if (lists_1.default.find(paras, dom_1.default.isPurePara)) {
             var wrappedParas_1 = [];
-            jquery_1["default"].each(clustereds, function (idx, paras) {
+            jquery_1.default.each(clustereds, function (idx, paras) {
                 wrappedParas_1 = wrappedParas_1.concat(_this.wrapList(paras, listName));
             });
             paras = wrappedParas_1;
             // list to paragraph or change list style
         }
         else {
-            var diffLists = rng.nodes(dom_1["default"].isList, {
+            var diffLists = rng.nodes(dom_1.default.isList, {
                 includeAncestor: true
             }).filter(function (listNode) {
-                return !jquery_1["default"].nodeName(listNode, listName);
+                return !jquery_1.default.nodeName(listNode, listName);
             });
             if (diffLists.length) {
-                jquery_1["default"].each(diffLists, function (idx, listNode) {
-                    dom_1["default"].replace(listNode, listName);
+                jquery_1.default.each(diffLists, function (idx, listNode) {
+                    dom_1.default.replace(listNode, listName);
                 });
             }
             else {
                 paras = this.releaseList(clustereds, true);
             }
         }
-        range_1["default"].createFromParaBookmark(bookmark, paras).select();
+        range_1.default.createFromParaBookmark(bookmark, paras).select();
     };
     /**
      * @param {Node[]} paras
@@ -110,20 +110,20 @@ var Bullet = /** @class */ (function () {
      * @return {Node[]}
      */
     Bullet.prototype.wrapList = function (paras, listName) {
-        var head = lists_1["default"].head(paras);
-        var last = lists_1["default"].last(paras);
-        var prevList = dom_1["default"].isList(head.previousSibling) && head.previousSibling;
-        var nextList = dom_1["default"].isList(last.nextSibling) && last.nextSibling;
-        var listNode = prevList || dom_1["default"].insertAfter(dom_1["default"].create(listName || 'UL'), last);
+        var head = lists_1.default.head(paras);
+        var last = lists_1.default.last(paras);
+        var prevList = dom_1.default.isList(head.previousSibling) && head.previousSibling;
+        var nextList = dom_1.default.isList(last.nextSibling) && last.nextSibling;
+        var listNode = prevList || dom_1.default.insertAfter(dom_1.default.create(listName || 'UL'), last);
         // P to LI
         paras = paras.map(function (para) {
-            return dom_1["default"].isPurePara(para) ? dom_1["default"].replace(para, 'LI') : para;
+            return dom_1.default.isPurePara(para) ? dom_1.default.replace(para, 'LI') : para;
         });
         // append to list(<ul>, <ol>)
-        dom_1["default"].appendChildNodes(listNode, paras);
+        dom_1.default.appendChildNodes(listNode, paras);
         if (nextList) {
-            dom_1["default"].appendChildNodes(listNode, lists_1["default"].from(nextList.childNodes));
-            dom_1["default"].remove(nextList);
+            dom_1.default.appendChildNodes(listNode, lists_1.default.from(nextList.childNodes));
+            dom_1.default.remove(nextList);
         }
         return paras;
     };
@@ -136,40 +136,40 @@ var Bullet = /** @class */ (function () {
      */
     Bullet.prototype.releaseList = function (clustereds, isEscapseToBody) {
         var releasedParas = [];
-        jquery_1["default"].each(clustereds, function (idx, paras) {
-            var head = lists_1["default"].head(paras);
-            var last = lists_1["default"].last(paras);
-            var headList = isEscapseToBody ? dom_1["default"].lastAncestor(head, dom_1["default"].isList) : head.parentNode;
-            var lastList = headList.childNodes.length > 1 ? dom_1["default"].splitTree(headList, {
+        jquery_1.default.each(clustereds, function (idx, paras) {
+            var head = lists_1.default.head(paras);
+            var last = lists_1.default.last(paras);
+            var headList = isEscapseToBody ? dom_1.default.lastAncestor(head, dom_1.default.isList) : head.parentNode;
+            var lastList = headList.childNodes.length > 1 ? dom_1.default.splitTree(headList, {
                 node: last.parentNode,
-                offset: dom_1["default"].position(last) + 1
+                offset: dom_1.default.position(last) + 1
             }, {
                 isSkipPaddingBlankHTML: true
             }) : null;
-            var middleList = dom_1["default"].splitTree(headList, {
+            var middleList = dom_1.default.splitTree(headList, {
                 node: head.parentNode,
-                offset: dom_1["default"].position(head)
+                offset: dom_1.default.position(head)
             }, {
                 isSkipPaddingBlankHTML: true
             });
-            paras = isEscapseToBody ? dom_1["default"].listDescendant(middleList, dom_1["default"].isLi)
-                : lists_1["default"].from(middleList.childNodes).filter(dom_1["default"].isLi);
+            paras = isEscapseToBody ? dom_1.default.listDescendant(middleList, dom_1.default.isLi)
+                : lists_1.default.from(middleList.childNodes).filter(dom_1.default.isLi);
             // LI to P
-            if (isEscapseToBody || !dom_1["default"].isList(headList.parentNode)) {
+            if (isEscapseToBody || !dom_1.default.isList(headList.parentNode)) {
                 paras = paras.map(function (para) {
-                    return dom_1["default"].replace(para, 'P');
+                    return dom_1.default.replace(para, 'P');
                 });
             }
-            jquery_1["default"].each(lists_1["default"].from(paras).reverse(), function (idx, para) {
-                dom_1["default"].insertAfter(para, headList);
+            jquery_1.default.each(lists_1.default.from(paras).reverse(), function (idx, para) {
+                dom_1.default.insertAfter(para, headList);
             });
             // remove empty lists
-            var rootLists = lists_1["default"].compact([headList, middleList, lastList]);
-            jquery_1["default"].each(rootLists, function (idx, rootList) {
-                var listNodes = [rootList].concat(dom_1["default"].listDescendant(rootList, dom_1["default"].isList));
-                jquery_1["default"].each(listNodes.reverse(), function (idx, listNode) {
-                    if (!dom_1["default"].nodeLength(listNode)) {
-                        dom_1["default"].remove(listNode, true);
+            var rootLists = lists_1.default.compact([headList, middleList, lastList]);
+            jquery_1.default.each(rootLists, function (idx, rootList) {
+                var listNodes = [rootList].concat(dom_1.default.listDescendant(rootList, dom_1.default.isList));
+                jquery_1.default.each(listNodes.reverse(), function (idx, listNode) {
+                    if (!dom_1.default.nodeLength(listNode)) {
+                        dom_1.default.remove(listNode, true);
                     }
                 });
             });
@@ -179,5 +179,5 @@ var Bullet = /** @class */ (function () {
     };
     return Bullet;
 }());
-exports["default"] = Bullet;
+exports.default = Bullet;
 //# sourceMappingURL=Bullet.js.map

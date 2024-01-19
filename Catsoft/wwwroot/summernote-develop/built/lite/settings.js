@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var ui_1 = require("./ui");
 require("../base/summernote-en-US");
@@ -24,35 +24,35 @@ var VideoDialog_1 = require("../base/module/VideoDialog");
 var HelpDialog_1 = require("../base/module/HelpDialog");
 var AirPopover_1 = require("../base/module/AirPopover");
 var HintPopover_1 = require("../base/module/HintPopover");
-jquery_1["default"].summernote = jquery_1["default"].extend(jquery_1["default"].summernote, {
+jquery_1.default.summernote = jquery_1.default.extend(jquery_1.default.summernote, {
     version: '@VERSION',
-    ui: ui_1["default"],
+    ui: ui_1.default,
     plugins: {},
     options: {
         modules: {
-            'editor': Editor_1["default"],
-            'clipboard': Clipboard_1["default"],
-            'dropzone': Dropzone_1["default"],
-            'codeview': Codeview_1["default"],
-            'statusbar': Statusbar_1["default"],
-            'fullscreen': Fullscreen_1["default"],
-            'handle': Handle_1["default"],
+            'editor': Editor_1.default,
+            'clipboard': Clipboard_1.default,
+            'dropzone': Dropzone_1.default,
+            'codeview': Codeview_1.default,
+            'statusbar': Statusbar_1.default,
+            'fullscreen': Fullscreen_1.default,
+            'handle': Handle_1.default,
             // FIXME: HintPopover must be front of autolink
             //  - Script error about range when Enter key is pressed on hint popover
-            'hintPopover': HintPopover_1["default"],
-            'autoLink': AutoLink_1["default"],
-            'autoSync': AutoSync_1["default"],
-            'placeholder': Placeholder_1["default"],
-            'buttons': Buttons_1["default"],
-            'toolbar': Toolbar_1["default"],
-            'linkDialog': LinkDialog_1["default"],
-            'linkPopover': LinkPopover_1["default"],
-            'imageDialog': ImageDialog_1["default"],
-            'imagePopover': ImagePopover_1["default"],
-            'tablePopover': TablePopover_1["default"],
-            'videoDialog': VideoDialog_1["default"],
-            'helpDialog': HelpDialog_1["default"],
-            'airPopover': AirPopover_1["default"]
+            'hintPopover': HintPopover_1.default,
+            'autoLink': AutoLink_1.default,
+            'autoSync': AutoSync_1.default,
+            'placeholder': Placeholder_1.default,
+            'buttons': Buttons_1.default,
+            'toolbar': Toolbar_1.default,
+            'linkDialog': LinkDialog_1.default,
+            'linkPopover': LinkPopover_1.default,
+            'imageDialog': ImageDialog_1.default,
+            'imagePopover': ImagePopover_1.default,
+            'tablePopover': TablePopover_1.default,
+            'videoDialog': VideoDialog_1.default,
+            'helpDialog': HelpDialog_1.default,
+            'airPopover': AirPopover_1.default
         },
         buttons: {},
         lang: 'en-US',

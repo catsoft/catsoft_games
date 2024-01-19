@@ -1,10 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
-jquery_1["default"].summernote = jquery_1["default"].summernote || {
+jquery_1.default.summernote = jquery_1.default.summernote || {
     lang: {}
 };
-jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
+jquery_1.default.extend(jquery_1.default.summernote.lang, {
     'en-US': {
         font: {
             bold: 'Bold',

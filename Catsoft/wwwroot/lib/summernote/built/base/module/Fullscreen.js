@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var Fullscreen = /** @class */ (function () {
     function Fullscreen(context) {
@@ -9,11 +9,11 @@ var Fullscreen = /** @class */ (function () {
         this.$toolbar = context.layoutInfo.toolbar;
         this.$editable = context.layoutInfo.editable;
         this.$codable = context.layoutInfo.codable;
-        this.$window = jquery_1["default"](window);
-        this.$scrollbar = jquery_1["default"]('html, body');
+        this.$window = (0, jquery_1.default)(window);
+        this.$scrollbar = (0, jquery_1.default)('html, body');
         this.onResize = function () {
             _this.resizeTo({
-                h: _this.$window.height() - _this.$toolbar.outerHeight()
+                h: _this.$window.height() - _this.$toolbar.outerHeight(),
             });
         };
     }
@@ -49,5 +49,5 @@ var Fullscreen = /** @class */ (function () {
     };
     return Fullscreen;
 }());
-exports["default"] = Fullscreen;
+exports.default = Fullscreen;
 //# sourceMappingURL=Fullscreen.js.map

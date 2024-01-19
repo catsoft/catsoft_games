@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @class core.func
  *
@@ -132,7 +132,7 @@ function debounce(func, wait, immediate) {
         }
     };
 }
-exports["default"] = {
+exports.default = {
     eq: eq,
     eq2: eq2,
     peq2: peq2,

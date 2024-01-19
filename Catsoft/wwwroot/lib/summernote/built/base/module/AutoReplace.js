@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var lists_1 = require("../core/lists");
 var dom_1 = require("../core/dom");
 var key_1 = require("../core/key");
@@ -8,7 +8,7 @@ var AutoReplace = /** @class */ (function () {
         var _this = this;
         this.context = context;
         this.options = context.options.replace || {};
-        this.keys = [key_1["default"].code.ENTER, key_1["default"].code.SPACE, key_1["default"].code.PERIOD, key_1["default"].code.COMMA, key_1["default"].code.SEMICOLON, key_1["default"].code.SLASH];
+        this.keys = [key_1.default.code.ENTER, key_1.default.code.SPACE, key_1.default.code.PERIOD, key_1.default.code.COMMA, key_1.default.code.SEMICOLON, key_1.default.code.SLASH];
         this.previousKeydownCode = null;
         this.events = {
             'summernote.keyup': function (we, e) {
@@ -18,7 +18,7 @@ var AutoReplace = /** @class */ (function () {
             },
             'summernote.keydown': function (we, e) {
                 _this.handleKeydown(e);
-            }
+            },
         };
     }
     AutoReplace.prototype.shouldInitialize = function () {
@@ -40,7 +40,7 @@ var AutoReplace = /** @class */ (function () {
             if (match) {
                 var node = '';
                 if (typeof match === 'string') {
-                    node = dom_1["default"].createText(match);
+                    node = dom_1.default.createText(match);
                 }
                 else if (match instanceof jQuery) {
                     node = match[0];
@@ -59,22 +59,22 @@ var AutoReplace = /** @class */ (function () {
     AutoReplace.prototype.handleKeydown = function (e) {
         // this forces it to remember the last whole word, even if multiple termination keys are pressed
         // before the previous key is let go.
-        if (this.previousKeydownCode && lists_1["default"].contains(this.keys, this.previousKeydownCode)) {
+        if (this.previousKeydownCode && lists_1.default.contains(this.keys, this.previousKeydownCode)) {
             this.previousKeydownCode = e.keyCode;
             return;
         }
-        if (lists_1["default"].contains(this.keys, e.keyCode)) {
+        if (lists_1.default.contains(this.keys, e.keyCode)) {
             var wordRange = this.context.invoke('editor.createRange').getWordRange();
             this.lastWord = wordRange;
         }
         this.previousKeydownCode = e.keyCode;
     };
     AutoReplace.prototype.handleKeyup = function (e) {
-        if (lists_1["default"].contains(this.keys, e.keyCode)) {
+        if (lists_1.default.contains(this.keys, e.keyCode)) {
             this.replace();
         }
     };
     return AutoReplace;
 }());
-exports["default"] = AutoReplace;
+exports.default = AutoReplace;
 //# sourceMappingURL=AutoReplace.js.map

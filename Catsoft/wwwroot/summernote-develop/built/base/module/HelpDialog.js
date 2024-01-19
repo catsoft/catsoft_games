@@ -1,12 +1,12 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var HelpDialog = /** @class */ (function () {
     function HelpDialog(context) {
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
-        this.$body = jquery_1["default"](document.body);
+        this.ui = jquery_1.default.summernote.ui;
+        this.$body = (0, jquery_1.default)(document.body);
         this.$editor = context.layoutInfo.editor;
         this.options = context.options;
         this.lang = this.options.langInfo;
@@ -39,14 +39,14 @@ var HelpDialog = /** @class */ (function () {
     };
     HelpDialog.prototype.createShortcutList = function () {
         var _this = this;
-        var keyMap = this.options.keyMap[env_1["default"].isMac ? 'mac' : 'pc'];
+        var keyMap = this.options.keyMap[env_1.default.isMac ? 'mac' : 'pc'];
         return Object.keys(keyMap).map(function (key) {
             var command = keyMap[key];
-            var $row = jquery_1["default"]('<div><div class="help-list-item"/></div>');
-            $row.append(jquery_1["default"]('<label><kbd>' + key + '</kdb></label>').css({
+            var $row = (0, jquery_1.default)('<div><div class="help-list-item"/></div>');
+            $row.append((0, jquery_1.default)('<label><kbd>' + key + '</kdb></label>').css({
                 'width': 180,
                 'margin-right': 10
-            })).append(jquery_1["default"]('<span/>').html(_this.context.memo('help.' + command) || command));
+            })).append((0, jquery_1.default)('<span/>').html(_this.context.memo('help.' + command) || command));
             return $row.html();
         }).join('');
     };
@@ -57,7 +57,7 @@ var HelpDialog = /** @class */ (function () {
      */
     HelpDialog.prototype.showHelpDialog = function () {
         var _this = this;
-        return jquery_1["default"].Deferred(function (deferred) {
+        return jquery_1.default.Deferred(function (deferred) {
             _this.ui.onDialogShown(_this.$dialog, function () {
                 _this.context.triggerEvent('dialog.shown');
                 deferred.resolve();
@@ -74,5 +74,5 @@ var HelpDialog = /** @class */ (function () {
     };
     return HelpDialog;
 }());
-exports["default"] = HelpDialog;
+exports.default = HelpDialog;
 //# sourceMappingURL=HelpDialog.js.map

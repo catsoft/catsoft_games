@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("./func");
 /**
@@ -60,7 +60,7 @@ function all(array, pred) {
  * returns index of item
  */
 function indexOf(array, item) {
-    return jquery_1["default"].inArray(item, array);
+    return jquery_1.default.inArray(item, array);
 }
 /**
  * returns true if the value is present in the list.
@@ -75,7 +75,7 @@ function contains(array, item) {
  * @param {Function} fn - iterator
  */
 function sum(array, fn) {
-    fn = fn || func_1["default"].self;
+    fn = fn || func_1.default.self;
     return array.reduce(function (memo, v) {
         return memo + fn(v);
     }, 0);
@@ -181,7 +181,7 @@ function prev(array, item) {
  * @singleton
  * @alternateClassName list
  */
-exports["default"] = {
+exports.default = {
     head: head,
     last: last,
     initial: initial,

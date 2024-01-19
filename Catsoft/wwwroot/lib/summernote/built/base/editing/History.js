@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var range_1 = require("../core/range");
 var History = /** @class */ (function () {
     function History($editable) {
@@ -9,11 +9,11 @@ var History = /** @class */ (function () {
         this.editable = $editable[0];
     }
     History.prototype.makeSnapshot = function () {
-        var rng = range_1["default"].create(this.editable);
+        var rng = range_1.default.create(this.editable);
         var emptyBookmark = { s: { path: [], offset: 0 }, e: { path: [], offset: 0 } };
         return {
             contents: this.$editable.html(),
-            bookmark: ((rng && rng.isOnEditable()) ? rng.bookmark(this.editable) : emptyBookmark)
+            bookmark: ((rng && rng.isOnEditable()) ? rng.bookmark(this.editable) : emptyBookmark),
         };
     };
     History.prototype.applySnapshot = function (snapshot) {
@@ -21,7 +21,7 @@ var History = /** @class */ (function () {
             this.$editable.html(snapshot.contents);
         }
         if (snapshot.bookmark !== null) {
-            range_1["default"].createFromBookmark(this.editable, snapshot.bookmark).select();
+            range_1.default.createFromBookmark(this.editable, snapshot.bookmark).select();
         }
     };
     /**
@@ -101,5 +101,5 @@ var History = /** @class */ (function () {
     };
     return History;
 }());
-exports["default"] = History;
+exports.default = History;
 //# sourceMappingURL=History.js.map

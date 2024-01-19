@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var key_1 = require("../core/key");
@@ -28,11 +28,11 @@ var Editor = /** @class */ (function () {
         this.lang = this.options.langInfo;
         this.editable = this.$editable[0];
         this.lastRange = null;
-        this.style = new Style_1["default"]();
-        this.table = new Table_1["default"]();
-        this.typing = new Typing_1["default"]();
-        this.bullet = new Bullet_1["default"]();
-        this.history = new History_1["default"](this.$editable);
+        this.style = new Style_1.default();
+        this.table = new Table_1.default();
+        this.typing = new Typing_1.default();
+        this.bullet = new Bullet_1.default();
+        this.history = new History_1.default(this.$editable);
         this.context.memo('help.undo', this.lang.help.undo);
         this.context.memo('help.redo', this.lang.help.redo);
         this.context.memo('help.tab', this.lang.help.tab);
@@ -97,12 +97,12 @@ var Editor = /** @class */ (function () {
          * @param {Node} node
          */
         this.insertNode = this.wrapCommand(function (node) {
-            if (_this.isLimited(jquery_1["default"](node).text().length)) {
+            if (_this.isLimited((0, jquery_1.default)(node).text().length)) {
                 return;
             }
             var rng = _this.createRange();
             rng.insertNode(node);
-            range_1["default"].createFromNodeAfter(node).select();
+            range_1.default.createFromNodeAfter(node).select();
         });
         /**
          * insert text
@@ -113,8 +113,8 @@ var Editor = /** @class */ (function () {
                 return;
             }
             var rng = _this.createRange();
-            var textNode = rng.insertNode(dom_1["default"].createText(text));
-            range_1["default"].create(textNode, dom_1["default"].nodeLength(textNode)).select();
+            var textNode = rng.insertNode(dom_1.default.createText(text));
+            range_1.default.create(textNode, dom_1.default.nodeLength(textNode)).select();
         });
         /**
          * paste HTML
@@ -125,7 +125,7 @@ var Editor = /** @class */ (function () {
                 return;
             }
             var contents = _this.createRange().pasteHTML(markup);
-            range_1["default"].createFromNodeAfter(lists_1["default"].last(contents)).select();
+            range_1.default.createFromNodeAfter(lists_1.default.last(contents)).select();
         });
         /**
          * formatBlock
@@ -145,9 +145,9 @@ var Editor = /** @class */ (function () {
          * insert horizontal rule
          */
         this.insertHorizontalRule = this.wrapCommand(function () {
-            var hrNode = _this.createRange().insertNode(dom_1["default"].create('HR'));
+            var hrNode = _this.createRange().insertNode(dom_1.default.create('HR'));
             if (hrNode.nextSibling) {
-                range_1["default"].create(hrNode.nextSibling, 0).normalize().select();
+                range_1.default.create(hrNode.nextSibling, 0).normalize().select();
             }
         });
         /**
@@ -185,7 +185,7 @@ var Editor = /** @class */ (function () {
             var anchors = [];
             if (isTextChanged) {
                 rng = rng.deleteContents();
-                var anchor = rng.insertNode(jquery_1["default"]('<A>' + linkText + '</A>')[0]);
+                var anchor = rng.insertNode((0, jquery_1.default)('<A>' + linkText + '</A>')[0]);
                 anchors.push(anchor);
             }
             else {
@@ -195,20 +195,20 @@ var Editor = /** @class */ (function () {
                     onlyPartialContains: true
                 });
             }
-            jquery_1["default"].each(anchors, function (idx, anchor) {
-                jquery_1["default"](anchor).attr('href', linkUrl);
+            jquery_1.default.each(anchors, function (idx, anchor) {
+                (0, jquery_1.default)(anchor).attr('href', linkUrl);
                 if (isNewWindow) {
-                    jquery_1["default"](anchor).attr('target', '_blank');
+                    (0, jquery_1.default)(anchor).attr('target', '_blank');
                 }
                 else {
-                    jquery_1["default"](anchor).removeAttr('target');
+                    (0, jquery_1.default)(anchor).removeAttr('target');
                 }
             });
-            var startRange = range_1["default"].createFromNodeBefore(lists_1["default"].head(anchors));
+            var startRange = range_1.default.createFromNodeBefore(lists_1.default.head(anchors));
             var startPoint = startRange.getStartPoint();
-            var endRange = range_1["default"].createFromNodeAfter(lists_1["default"].last(anchors));
+            var endRange = range_1.default.createFromNodeAfter(lists_1.default.last(anchors));
             var endPoint = endRange.getEndPoint();
-            range_1["default"].create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select();
+            range_1.default.create(startPoint.node, startPoint.offset, endPoint.node, endPoint.offset).select();
         });
         /**
          * setting color
@@ -250,12 +250,12 @@ var Editor = /** @class */ (function () {
          * remove media object and Figure Elements if media object is img with Figure.
          */
         this.removeMedia = this.wrapCommand(function () {
-            var $target = jquery_1["default"](_this.restoreTarget()).parent();
+            var $target = (0, jquery_1.default)(_this.restoreTarget()).parent();
             if ($target.parent('figure').length) {
                 $target.parent('figure').remove();
             }
             else {
-                $target = jquery_1["default"](_this.restoreTarget()).detach();
+                $target = (0, jquery_1.default)(_this.restoreTarget()).detach();
             }
             _this.context.triggerEvent('media.delete', $target, _this.$editable);
         });
@@ -265,7 +265,7 @@ var Editor = /** @class */ (function () {
          * @param {String} value
          */
         this.floatMe = this.wrapCommand(function (value) {
-            var $target = jquery_1["default"](_this.restoreTarget());
+            var $target = (0, jquery_1.default)(_this.restoreTarget());
             $target.toggleClass('note-float-left', value === 'left');
             $target.toggleClass('note-float-right', value === 'right');
             $target.css('float', value);
@@ -275,7 +275,7 @@ var Editor = /** @class */ (function () {
          * @param {String} value
          */
         this.resize = this.wrapCommand(function (value) {
-            var $target = jquery_1["default"](_this.restoreTarget());
+            var $target = (0, jquery_1.default)(_this.restoreTarget());
             $target.css({
                 width: value * 100 + '%',
                 height: ''
@@ -286,7 +286,7 @@ var Editor = /** @class */ (function () {
         var _this = this;
         // bind custom events
         this.$editable.on('keydown', function (event) {
-            if (event.keyCode === key_1["default"].code.ENTER) {
+            if (event.keyCode === key_1.default.code.ENTER) {
                 _this.context.triggerEvent('enter', event);
             }
             _this.context.triggerEvent('keydown', event);
@@ -317,8 +317,8 @@ var Editor = /** @class */ (function () {
             _this.context.triggerEvent('paste', event);
         });
         // init content before set event
-        this.$editable.html(dom_1["default"].html(this.$note) || dom_1["default"].emptyPara);
-        this.$editable.on(env_1["default"].inputEventName, func_1["default"].debounce(function () {
+        this.$editable.html(dom_1.default.html(this.$note) || dom_1.default.emptyPara);
+        this.$editable.on(env_1.default.inputEventName, func_1.default.debounce(function () {
             _this.context.triggerEvent('change', _this.$editable.html());
         }, 100));
         this.$editor.on('focusin', function (event) {
@@ -346,7 +346,7 @@ var Editor = /** @class */ (function () {
         this.$editable.off();
     };
     Editor.prototype.handleKeyMap = function (event) {
-        var keyMap = this.options.keyMap[env_1["default"].isMac ? 'mac' : 'pc'];
+        var keyMap = this.options.keyMap[env_1.default.isMac ? 'mac' : 'pc'];
         var keys = [];
         if (event.metaKey) {
             keys.push('CMD');
@@ -357,7 +357,7 @@ var Editor = /** @class */ (function () {
         if (event.shiftKey) {
             keys.push('SHIFT');
         }
-        var keyName = key_1["default"].nameFromCode[event.keyCode];
+        var keyName = key_1.default.nameFromCode[event.keyCode];
         if (keyName) {
             keys.push(keyName);
         }
@@ -367,23 +367,23 @@ var Editor = /** @class */ (function () {
                 event.preventDefault();
             }
         }
-        else if (key_1["default"].isEdit(event.keyCode)) {
+        else if (key_1.default.isEdit(event.keyCode)) {
             this.afterCommand();
         }
     };
     Editor.prototype.preventDefaultEditableShortCuts = function (event) {
         // B(Bold, 66) / I(Italic, 73) / U(Underline, 85)
         if ((event.ctrlKey || event.metaKey) &&
-            lists_1["default"].contains([66, 73, 85], event.keyCode)) {
+            lists_1.default.contains([66, 73, 85], event.keyCode)) {
             event.preventDefault();
         }
     };
     Editor.prototype.isLimited = function (pad, event) {
         pad = pad || 0;
         if (typeof event !== 'undefined') {
-            if (key_1["default"].isMove(event.keyCode) ||
+            if (key_1.default.isMove(event.keyCode) ||
                 (event.ctrlKey || event.metaKey) ||
-                lists_1["default"].contains([key_1["default"].code.BACKSPACE, key_1["default"].code.DELETE], event.keyCode)) {
+                lists_1.default.contains([key_1.default.code.BACKSPACE, key_1.default.code.DELETE], event.keyCode)) {
                 return false;
             }
         }
@@ -400,7 +400,7 @@ var Editor = /** @class */ (function () {
      */
     Editor.prototype.createRange = function () {
         this.focus();
-        return range_1["default"].create(this.editable);
+        return range_1.default.create(this.editable);
     };
     /**
      * saveRange
@@ -442,7 +442,7 @@ var Editor = /** @class */ (function () {
      * @return {Object|Boolean} unfocus
      */
     Editor.prototype.currentStyle = function () {
-        var rng = range_1["default"].create();
+        var rng = range_1.default.create();
         if (rng) {
             rng = rng.normalize();
         }
@@ -544,7 +544,7 @@ var Editor = /** @class */ (function () {
      */
     Editor.prototype.insertImage = function (src, param) {
         var _this = this;
-        return async_1.createImage(src, param).then(function ($image) {
+        return (0, async_1.createImage)(src, param).then(function ($image) {
             _this.beforeCommand();
             if (typeof param === 'function') {
                 param($image);
@@ -556,8 +556,8 @@ var Editor = /** @class */ (function () {
                 $image.css('width', Math.min(_this.$editable.width(), $image.width()));
             }
             $image.show();
-            range_1["default"].create(_this.editable).insertNode($image[0]);
-            range_1["default"].createFromNodeAfter($image[0]).select();
+            range_1.default.create(_this.editable).insertNode($image[0]);
+            range_1.default.createFromNodeAfter($image[0]).select();
             _this.afterCommand();
         }).fail(function (e) {
             _this.context.triggerEvent('image.upload.error', e);
@@ -569,13 +569,13 @@ var Editor = /** @class */ (function () {
      */
     Editor.prototype.insertImages = function (files) {
         var _this = this;
-        jquery_1["default"].each(files, function (idx, file) {
+        jquery_1.default.each(files, function (idx, file) {
             var filename = file.name;
             if (_this.options.maximumImageFileSize && _this.options.maximumImageFileSize < file.size) {
                 _this.context.triggerEvent('image.upload.error', _this.lang.image.maximumFileSizeError);
             }
             else {
-                async_1.readFileAsDataURL(file).then(function (dataURL) {
+                (0, async_1.readFileAsDataURL)(file).then(function (dataURL) {
                     return _this.insertImage(dataURL, filename);
                 }).fail(function () {
                     _this.context.triggerEvent('image.upload.error');
@@ -606,20 +606,20 @@ var Editor = /** @class */ (function () {
         var rng = this.createRange();
         // if range on anchor, expand range with anchor
         if (rng.isOnAnchor()) {
-            rng = range_1["default"].createFromNode(dom_1["default"].ancestor(rng.sc, dom_1["default"].isAnchor));
+            rng = range_1.default.createFromNode(dom_1.default.ancestor(rng.sc, dom_1.default.isAnchor));
         }
         return rng.toString();
     };
     Editor.prototype.onFormatBlock = function (tagName, $target) {
         // [workaround] for MSIE, IE need `<`
-        tagName = env_1["default"].isMSIE ? '<' + tagName + '>' : tagName;
+        tagName = env_1.default.isMSIE ? '<' + tagName + '>' : tagName;
         document.execCommand('FormatBlock', false, tagName);
         // support custom class
         if ($target && $target.length) {
             var className = $target[0].className || '';
             if (className) {
                 var currentRange = this.createRange();
-                var $parent = jquery_1["default"]([currentRange.sc, currentRange.ec]).closest(tagName);
+                var $parent = (0, jquery_1.default)([currentRange.sc, currentRange.ec]).closest(tagName);
                 $parent.addClass(className);
             }
         }
@@ -631,14 +631,14 @@ var Editor = /** @class */ (function () {
         var rng = this.createRange();
         if (rng) {
             var spans = this.style.styleNodes(rng);
-            jquery_1["default"](spans).css(target, value);
+            (0, jquery_1.default)(spans).css(target, value);
             // [workaround] added styled bogus span for style
             //  - also bogus character needed for cursor position
             if (rng.isCollapsed()) {
-                var firstSpan = lists_1["default"].head(spans);
-                if (firstSpan && !dom_1["default"].nodeLength(firstSpan)) {
-                    firstSpan.innerHTML = dom_1["default"].ZERO_WIDTH_NBSP_CHAR;
-                    range_1["default"].createFromNodeAfter(firstSpan.firstChild).select();
+                var firstSpan = lists_1.default.head(spans);
+                if (firstSpan && !dom_1.default.nodeLength(firstSpan)) {
+                    firstSpan.innerHTML = dom_1.default.ZERO_WIDTH_NBSP_CHAR;
+                    range_1.default.createFromNodeAfter(firstSpan.firstChild).select();
                     this.$editable.data(KEY_BOGUS, firstSpan);
                 }
             }
@@ -652,8 +652,8 @@ var Editor = /** @class */ (function () {
     Editor.prototype.unlink = function () {
         var rng = this.createRange();
         if (rng.isOnAnchor()) {
-            var anchor = dom_1["default"].ancestor(rng.sc, dom_1["default"].isAnchor);
-            rng = range_1["default"].createFromNode(anchor);
+            var anchor = dom_1.default.ancestor(rng.sc, dom_1.default.isAnchor);
+            rng = range_1.default.createFromNode(anchor);
             rng.select();
             this.beforeCommand();
             document.execCommand('unlink');
@@ -670,9 +670,9 @@ var Editor = /** @class */ (function () {
      * @return {String} [return.url=""]
      */
     Editor.prototype.getLinkInfo = function () {
-        var rng = this.createRange().expand(dom_1["default"].isAnchor);
+        var rng = this.createRange().expand(dom_1.default.isAnchor);
         // Get the first anchor on range(for edit).
-        var $anchor = jquery_1["default"](lists_1["default"].head(rng.nodes(dom_1["default"].isAnchor)));
+        var $anchor = (0, jquery_1.default)(lists_1.default.head(rng.nodes(dom_1.default.isAnchor)));
         var linkInfo = {
             range: rng,
             text: rng.toString(),
@@ -768,15 +768,15 @@ var Editor = /** @class */ (function () {
      * @return {Boolean}
      */
     Editor.prototype.isEmpty = function () {
-        return dom_1["default"].isEmpty(this.$editable[0]) || dom_1["default"].emptyPara === this.$editable.html();
+        return dom_1.default.isEmpty(this.$editable[0]) || dom_1.default.emptyPara === this.$editable.html();
     };
     /**
      * Removes all contents and restores the editable instance to an _emptyPara_.
      */
     Editor.prototype.empty = function () {
-        this.context.invoke('code', dom_1["default"].emptyPara);
+        this.context.invoke('code', dom_1.default.emptyPara);
     };
     return Editor;
 }());
-exports["default"] = Editor;
+exports.default = Editor;
 //# sourceMappingURL=Editor.js.map

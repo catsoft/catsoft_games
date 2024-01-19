@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var lists_1 = require("../core/lists");
@@ -8,7 +8,7 @@ var TablePopover = /** @class */ (function () {
     function TablePopover(context) {
         var _this = this;
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.options = context.options;
         this.events = {
             'summernote.mousedown': function (we, e) {
@@ -23,7 +23,7 @@ var TablePopover = /** @class */ (function () {
         };
     }
     TablePopover.prototype.shouldInitialize = function () {
-        return !lists_1["default"].isEmpty(this.options.popover.table);
+        return !lists_1.default.isEmpty(this.options.popover.table);
     };
     TablePopover.prototype.initialize = function () {
         this.$popover = this.ui.popover({
@@ -32,7 +32,7 @@ var TablePopover = /** @class */ (function () {
         var $content = this.$popover.find('.popover-content,.note-popover-content');
         this.context.invoke('buttons.build', $content, this.options.popover.table);
         // [workaround] Disable Firefox's default table editor
-        if (env_1["default"].isFF) {
+        if (env_1.default.isFF) {
             document.execCommand('enableInlineTableEditing', false, false);
         }
     };
@@ -43,9 +43,9 @@ var TablePopover = /** @class */ (function () {
         if (this.context.isDisabled()) {
             return false;
         }
-        var isCell = dom_1["default"].isCell(target);
+        var isCell = dom_1.default.isCell(target);
         if (isCell) {
-            var pos = dom_1["default"].posFromPlaceholder(target);
+            var pos = dom_1.default.posFromPlaceholder(target);
             this.$popover.css({
                 display: 'block',
                 left: pos.left,
@@ -62,5 +62,5 @@ var TablePopover = /** @class */ (function () {
     };
     return TablePopover;
 }());
-exports["default"] = TablePopover;
+exports.default = TablePopover;
 //# sourceMappingURL=TablePopover.js.map

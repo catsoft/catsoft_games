@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var func_1 = require("../core/func");
@@ -10,7 +10,7 @@ var AirPopover = /** @class */ (function () {
     function AirPopover(context) {
         var _this = this;
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.options = context.options;
         this.events = {
             'summernote.keyup summernote.mouseup summernote.scroll': function () {
@@ -22,17 +22,17 @@ var AirPopover = /** @class */ (function () {
             'summernote.focusout': function (we, e) {
                 // [workaround] Firefox doesn't support relatedTarget on focusout
                 //  - Ignore hide action on focus out in FF.
-                if (env_1["default"].isFF) {
+                if (env_1.default.isFF) {
                     return;
                 }
-                if (!e.relatedTarget || !dom_1["default"].ancestor(e.relatedTarget, func_1["default"].eq(_this.$popover[0]))) {
+                if (!e.relatedTarget || !dom_1.default.ancestor(e.relatedTarget, func_1.default.eq(_this.$popover[0]))) {
                     _this.hide();
                 }
             }
         };
     }
     AirPopover.prototype.shouldInitialize = function () {
-        return this.options.airMode && !lists_1["default"].isEmpty(this.options.popover.air);
+        return this.options.airMode && !lists_1.default.isEmpty(this.options.popover.air);
     };
     AirPopover.prototype.initialize = function () {
         this.$popover = this.ui.popover({
@@ -47,9 +47,9 @@ var AirPopover = /** @class */ (function () {
     AirPopover.prototype.update = function () {
         var styleInfo = this.context.invoke('editor.currentStyle');
         if (styleInfo.range && !styleInfo.range.isCollapsed()) {
-            var rect = lists_1["default"].last(styleInfo.range.getClientRects());
+            var rect = lists_1.default.last(styleInfo.range.getClientRects());
             if (rect) {
-                var bnd = func_1["default"].rect2bnd(rect);
+                var bnd = func_1.default.rect2bnd(rect);
                 this.$popover.css({
                     display: 'block',
                     left: Math.max(bnd.left + bnd.width / 2, 0) - AIR_MODE_POPOVER_X_OFFSET,
@@ -67,5 +67,5 @@ var AirPopover = /** @class */ (function () {
     };
     return AirPopover;
 }());
-exports["default"] = AirPopover;
+exports.default = AirPopover;
 //# sourceMappingURL=AirPopover.js.map

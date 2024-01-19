@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var func_1 = require("./func");
 /**
  * returns the first item of an array.
@@ -77,7 +77,7 @@ function contains(array, item) {
  * @param {Function} fn - iterator
  */
 function sum(array, fn) {
-    fn = fn || func_1["default"].self;
+    fn = fn || func_1.default.self;
     return array.reduce(function (memo, v) {
         return memo + fn(v);
     }, 0);
@@ -183,7 +183,7 @@ function prev(array, item) {
  * @singleton
  * @alternateClassName list
  */
-exports["default"] = {
+exports.default = {
     head: head,
     last: last,
     initial: initial,
@@ -198,6 +198,6 @@ exports["default"] = {
     isEmpty: isEmpty,
     clusterBy: clusterBy,
     compact: compact,
-    unique: unique
+    unique: unique,
 };
 //# sourceMappingURL=lists.js.map

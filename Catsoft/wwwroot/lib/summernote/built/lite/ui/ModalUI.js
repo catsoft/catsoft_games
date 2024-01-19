@@ -1,10 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var ModalUI = /** @class */ (function () {
     function ModalUI($node, options) {
         this.$modal = $node;
-        this.$backdrop = jquery_1["default"]('<div class="note-modal-backdrop"/>');
+        this.$backdrop = (0, jquery_1.default)('<div class="note-modal-backdrop"/>');
     }
     ModalUI.prototype.show = function () {
         var _this = this;
@@ -27,5 +27,5 @@ var ModalUI = /** @class */ (function () {
     };
     return ModalUI;
 }());
-exports["default"] = ModalUI;
+exports.default = ModalUI;
 //# sourceMappingURL=ModalUI.js.map

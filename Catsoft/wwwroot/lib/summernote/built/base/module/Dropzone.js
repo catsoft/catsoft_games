@@ -1,16 +1,16 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var Dropzone = /** @class */ (function () {
     function Dropzone(context) {
         this.context = context;
-        this.$eventListener = jquery_1["default"](document);
+        this.$eventListener = (0, jquery_1.default)(document);
         this.$editor = context.layoutInfo.editor;
         this.$editable = context.layoutInfo.editable;
         this.options = context.options;
         this.lang = this.options.langInfo;
         this.documentEventHandlers = {};
-        this.$dropzone = jquery_1["default"]([
+        this.$dropzone = (0, jquery_1.default)([
             '<div class="note-dropzone">',
             '<div class="note-dropzone-message"/>',
             '</div>',
@@ -38,7 +38,7 @@ var Dropzone = /** @class */ (function () {
      */
     Dropzone.prototype.attachDragAndDropEvent = function () {
         var _this = this;
-        var collection = jquery_1["default"]();
+        var collection = (0, jquery_1.default)();
         var $dropzoneMessage = this.$dropzone.find('.note-dropzone-message');
         this.documentEventHandlers.onDragenter = function (e) {
             var isCodeview = _this.context.invoke('codeview.isActivated');
@@ -55,12 +55,12 @@ var Dropzone = /** @class */ (function () {
             collection = collection.not(e.target);
             // If nodeName is BODY, then just make it over (fix for IE)
             if (!collection.length || e.target.nodeName === 'BODY') {
-                collection = jquery_1["default"]();
+                collection = (0, jquery_1.default)();
                 _this.$editor.removeClass('dragover');
             }
         };
         this.documentEventHandlers.onDrop = function () {
-            collection = jquery_1["default"]();
+            collection = (0, jquery_1.default)();
             _this.$editor.removeClass('dragover');
         };
         // show dropzone on dragenter when dragging a object to document
@@ -86,7 +86,7 @@ var Dropzone = /** @class */ (function () {
                 _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
             }
             else {
-                jquery_1["default"].each(dataTransfer.types, function (idx, type) {
+                jquery_1.default.each(dataTransfer.types, function (idx, type) {
                     // skip moz-specific types
                     if (type.toLowerCase().indexOf('_moz_') > -1) {
                         return;
@@ -96,7 +96,7 @@ var Dropzone = /** @class */ (function () {
                         _this.context.invoke('editor.pasteHTML', content);
                     }
                     else {
-                        jquery_1["default"](content).each(function (idx, item) {
+                        (0, jquery_1.default)(content).each(function (idx, item) {
                             _this.context.invoke('editor.insertNode', item);
                         });
                     }
@@ -113,5 +113,5 @@ var Dropzone = /** @class */ (function () {
     };
     return Dropzone;
 }());
-exports["default"] = Dropzone;
+exports.default = Dropzone;
 //# sourceMappingURL=Dropzone.js.map

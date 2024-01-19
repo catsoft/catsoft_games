@@ -162,6 +162,96 @@ namespace App.Migrations
                     b.ToTable("EmailRecordsModels");
                 });
 
+            modelBuilder.Entity("App.Models.EventModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ImageModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageModelId")
+                        .IsUnique()
+                        .HasFilter("[ImageModelId] IS NOT NULL");
+
+                    b.ToTable("EventsModels");
+                });
+
+            modelBuilder.Entity("App.Models.ExperienceModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ImageModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageModelId")
+                        .IsUnique()
+                        .HasFilter("[ImageModelId] IS NOT NULL");
+
+                    b.ToTable("ExperiencesModels");
+                });
+
+            modelBuilder.Entity("App.Models.GameModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ImageModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageModelId")
+                        .IsUnique()
+                        .HasFilter("[ImageModelId] IS NOT NULL");
+
+                    b.ToTable("GameModels");
+                });
+
             modelBuilder.Entity("App.Models.ImageModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -174,8 +264,17 @@ namespace App.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("EventModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ExperienceModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Extension")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GameModelId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageType")
                         .HasColumnType("nvarchar(max)");
@@ -720,6 +819,36 @@ namespace App.Migrations
                     b.Navigation("ArticleModel");
                 });
 
+            modelBuilder.Entity("App.Models.EventModel", b =>
+                {
+                    b.HasOne("App.Models.ImageModel", "ImageModel")
+                        .WithOne("EventModel")
+                        .HasForeignKey("App.Models.EventModel", "ImageModelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ImageModel");
+                });
+
+            modelBuilder.Entity("App.Models.ExperienceModel", b =>
+                {
+                    b.HasOne("App.Models.ImageModel", "ImageModel")
+                        .WithOne("ExperienceModel")
+                        .HasForeignKey("App.Models.ExperienceModel", "ImageModelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ImageModel");
+                });
+
+            modelBuilder.Entity("App.Models.GameModel", b =>
+                {
+                    b.HasOne("App.Models.ImageModel", "ImageModel")
+                        .WithOne("GameModel")
+                        .HasForeignKey("App.Models.GameModel", "ImageModelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ImageModel");
+                });
+
             modelBuilder.Entity("App.Models.ImageModel", b =>
                 {
                     b.HasOne("App.Models.Pages.MainPageModel", "MainPageModelGallery")
@@ -758,6 +887,12 @@ namespace App.Migrations
             modelBuilder.Entity("App.Models.ImageModel", b =>
                 {
                     b.Navigation("ArticleModel");
+
+                    b.Navigation("EventModel");
+
+                    b.Navigation("ExperienceModel");
+
+                    b.Navigation("GameModel");
 
                     b.Navigation("ServiceModel");
                 });

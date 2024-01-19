@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = require("../core/dom");
 /**
  * textarea auto sync.
@@ -15,9 +15,9 @@ var AutoSync = /** @class */ (function () {
         };
     }
     AutoSync.prototype.shouldInitialize = function () {
-        return dom_1["default"].isTextarea(this.$note[0]);
+        return dom_1.default.isTextarea(this.$note[0]);
     };
     return AutoSync;
 }());
-exports["default"] = AutoSync;
+exports.default = AutoSync;
 //# sourceMappingURL=AutoSync.js.map

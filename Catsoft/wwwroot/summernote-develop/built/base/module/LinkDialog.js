@@ -1,13 +1,13 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var key_1 = require("../core/key");
 var LinkDialog = /** @class */ (function () {
     function LinkDialog(context) {
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
-        this.$body = jquery_1["default"](document.body);
+        this.ui = jquery_1.default.summernote.ui;
+        this.$body = (0, jquery_1.default)(document.body);
         this.$editor = context.layoutInfo.editor;
         this.options = context.options;
         this.lang = this.options.langInfo;
@@ -17,15 +17,15 @@ var LinkDialog = /** @class */ (function () {
         var $container = this.options.dialogsInBody ? this.$body : this.$editor;
         var body = [
             '<div class="form-group note-form-group">',
-            "<label class=\"note-form-label\">" + this.lang.link.textToDisplay + "</label>",
+            "<label class=\"note-form-label\">".concat(this.lang.link.textToDisplay, "</label>"),
             '<input class="note-link-text form-control note-form-control  note-input" type="text" />',
             '</div>',
             '<div class="form-group note-form-group">',
-            "<label class=\"note-form-label\">" + this.lang.link.url + "</label>",
+            "<label class=\"note-form-label\">".concat(this.lang.link.url, "</label>"),
             '<input class="note-link-url form-control note-form-control note-input" type="text" value="http://" />',
             '</div>',
             !this.options.disableLinkTarget
-                ? jquery_1["default"]('<div/>').append(this.ui.checkbox({
+                ? (0, jquery_1.default)('<div/>').append(this.ui.checkbox({
                     id: 'sn-checkbox-open-in-new-window',
                     text: this.lang.link.openInNewWindow,
                     checked: true
@@ -33,7 +33,7 @@ var LinkDialog = /** @class */ (function () {
                 : ''
         ].join('');
         var buttonClass = 'btn btn-primary note-btn note-btn-primary note-link-btn';
-        var footer = "<button type=\"submit\" href=\"#\" class=\"" + buttonClass + "\" disabled>" + this.lang.link.insert + "</button>";
+        var footer = "<button type=\"submit\" href=\"#\" class=\"".concat(buttonClass, "\" disabled>").concat(this.lang.link.insert, "</button>");
         this.$dialog = this.ui.dialog({
             className: 'link-dialog',
             title: this.lang.link.insert,
@@ -48,7 +48,7 @@ var LinkDialog = /** @class */ (function () {
     };
     LinkDialog.prototype.bindEnterKey = function ($input, $btn) {
         $input.on('keypress', function (event) {
-            if (event.keyCode === key_1["default"].code.ENTER) {
+            if (event.keyCode === key_1.default.code.ENTER) {
                 event.preventDefault();
                 $btn.trigger('click');
             }
@@ -68,7 +68,7 @@ var LinkDialog = /** @class */ (function () {
      */
     LinkDialog.prototype.showLinkDialog = function (linkInfo) {
         var _this = this;
-        return jquery_1["default"].Deferred(function (deferred) {
+        return jquery_1.default.Deferred(function (deferred) {
             var $linkText = _this.$dialog.find('.note-link-text');
             var $linkUrl = _this.$dialog.find('.note-link-url');
             var $linkBtn = _this.$dialog.find('.note-link-btn');
@@ -100,7 +100,7 @@ var LinkDialog = /** @class */ (function () {
                 $linkUrl.on('input', handleLinkUrlUpdate).on('paste', function () {
                     setTimeout(handleLinkUrlUpdate, 0);
                 }).val(linkInfo.url);
-                if (!env_1["default"].isSupportTouch) {
+                if (!env_1.default.isSupportTouch) {
                     $linkUrl.trigger('focus');
                 }
                 _this.toggleLinkBtn($linkBtn, $linkText, $linkUrl);
@@ -148,5 +148,5 @@ var LinkDialog = /** @class */ (function () {
     };
     return LinkDialog;
 }());
-exports["default"] = LinkDialog;
+exports.default = LinkDialog;
 //# sourceMappingURL=LinkDialog.js.map

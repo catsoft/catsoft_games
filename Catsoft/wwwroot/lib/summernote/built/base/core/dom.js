@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("./func");
 var lists_1 = require("./lists");
@@ -15,7 +15,7 @@ var ZERO_WIDTH_NBSP_CHAR = '\ufeff';
  * @return {Boolean}
  */
 function isEditable(node) {
-    return node && jquery_1["default"](node).hasClass('note-editable');
+    return node && (0, jquery_1.default)(node).hasClass('note-editable');
 }
 /**
  * @method isControlSizing
@@ -26,7 +26,7 @@ function isEditable(node) {
  * @return {Boolean}
  */
 function isControlSizing(node) {
-    return node && jquery_1["default"](node).hasClass('note-control-sizing');
+    return node && (0, jquery_1.default)(node).hasClass('note-control-sizing');
 }
 /**
  * @method makePredByNodeName
@@ -135,7 +135,7 @@ function isClosestSibling(nodeA, nodeB) {
  * @return {Node[]}
  */
 function withClosestSiblings(node, pred) {
-    pred = pred || func_1["default"].ok;
+    pred = pred || func_1.default.ok;
     var siblings = [];
     if (node.previousSibling && pred(node.previousSibling)) {
         siblings.push(node.previousSibling);
@@ -151,7 +151,7 @@ function withClosestSiblings(node, pred) {
  * - [workaround] old IE only works with &nbsp;
  * - [workaround] IE11 and other browser works with bogus br
  */
-var blankHTML = env_1["default"].isMSIE && env_1["default"].browserVersion < 11 ? '&nbsp;' : '<br>';
+var blankHTML = env_1.default.isMSIE && env_1.default.browserVersion < 11 ? '&nbsp;' : '<br>';
 /**
  * @method nodeLength
  *
@@ -196,7 +196,7 @@ function isEmpty(node) {
         // ex) <p><br></p>, <span><br></span>
         return true;
     }
-    else if (lists_1["default"].all(node.childNodes, isText) && node.innerHTML === '') {
+    else if (lists_1.default.all(node.childNodes, isText) && node.innerHTML === '') {
         // ex) <p></p>, <span></span>
         return true;
     }
@@ -257,7 +257,7 @@ function singleChildAncestor(node, pred) {
  * @param {Function} [optional] pred - predicate function
  */
 function listAncestor(node, pred) {
-    pred = pred || func_1["default"].fail;
+    pred = pred || func_1.default.fail;
     var ancestors = [];
     ancestor(node, function (el) {
         if (!isEditable(el)) {
@@ -272,7 +272,7 @@ function listAncestor(node, pred) {
  */
 function lastAncestor(node, pred) {
     var ancestors = listAncestor(node);
-    return lists_1["default"].last(ancestors.filter(pred));
+    return lists_1.default.last(ancestors.filter(pred));
 }
 /**
  * returns common ancestor node between two nodes.
@@ -295,7 +295,7 @@ function commonAncestor(nodeA, nodeB) {
  * @param {Function} [optional] pred - predicate function
  */
 function listPrev(node, pred) {
-    pred = pred || func_1["default"].fail;
+    pred = pred || func_1.default.fail;
     var nodes = [];
     while (node) {
         if (pred(node)) {
@@ -313,7 +313,7 @@ function listPrev(node, pred) {
  * @param {Function} [pred] - predicate function
  */
 function listNext(node, pred) {
-    pred = pred || func_1["default"].fail;
+    pred = pred || func_1.default.fail;
     var nodes = [];
     while (node) {
         if (pred(node)) {
@@ -332,7 +332,7 @@ function listNext(node, pred) {
  */
 function listDescendant(node, pred) {
     var descendants = [];
-    pred = pred || func_1["default"].ok;
+    pred = pred || func_1.default.ok;
     // start DFS(depth first search) with node
     (function fnWalk(current) {
         if (node !== current && pred(current)) {
@@ -353,7 +353,7 @@ function listDescendant(node, pred) {
  */
 function wrap(node, wrapperName) {
     var parent = node.parentNode;
-    var wrapper = jquery_1["default"]('<' + wrapperName + '>')[0];
+    var wrapper = (0, jquery_1.default)('<' + wrapperName + '>')[0];
     parent.insertBefore(wrapper, node);
     wrapper.appendChild(node);
     return wrapper;
@@ -382,7 +382,7 @@ function insertAfter(node, preceding) {
  * @param {Collection} aChild
  */
 function appendChildNodes(node, aChild) {
-    jquery_1["default"].each(aChild, function (idx, child) {
+    jquery_1.default.each(aChild, function (idx, child) {
         node.appendChild(child);
     });
     return node;
@@ -509,7 +509,7 @@ function prevPoint(point, isSkipInnerOffset) {
     }
     return {
         node: node,
-        offset: offset
+        offset: offset,
     };
 }
 /**
@@ -547,7 +547,7 @@ function nextPoint(point, isSkipInnerOffset) {
     }
     return {
         node: node,
-        offset: offset
+        offset: offset,
     };
 }
 /**
@@ -666,7 +666,7 @@ function walkPoint(startPoint, endPoint, handler, isSkipInnerOffset) {
  * @param {Node} node
  */
 function makeOffsetPath(ancestor, node) {
-    var ancestors = listAncestor(node, func_1["default"].eq(ancestor));
+    var ancestors = listAncestor(node, func_1.default.eq(ancestor));
     return ancestors.map(position).reverse();
 }
 /**
@@ -755,7 +755,7 @@ function splitNode(point, options) {
  */
 function splitTree(root, point, options) {
     // ex) [#text, <span>, <p>]
-    var ancestors = listAncestor(point.node, func_1["default"].eq(root));
+    var ancestors = listAncestor(point.node, func_1.default.eq(root));
     if (!ancestors.length) {
         return null;
     }
@@ -768,7 +768,7 @@ function splitTree(root, point, options) {
         }
         return splitNode({
             node: parent,
-            offset: node ? position(node) : nodeLength(parent)
+            offset: node ? position(node) : nodeLength(parent),
         }, options);
     });
 }
@@ -785,7 +785,7 @@ function splitPoint(point, isInline) {
     //  - block: splitRoot is a child of bodyContainer
     var pred = isInline ? isPara : isBodyContainer;
     var ancestors = listAncestor(point.node, pred);
-    var topAncestor = lists_1["default"].last(ancestors) || point.node;
+    var topAncestor = lists_1.default.last(ancestors) || point.node;
     var splitRoot, container;
     if (pred(topAncestor)) {
         splitRoot = ancestors[ancestors.length - 2];
@@ -798,7 +798,7 @@ function splitPoint(point, isInline) {
     // if splitRoot is exists, split with splitTree
     var pivot = splitRoot && splitTree(splitRoot, point, {
         isSkipPaddingBlankHTML: isInline,
-        isNotSplitEdgePoint: isInline
+        isNotSplitEdgePoint: isInline,
     });
     // if container is point.node, find pivot with point.offset
     if (!pivot && container === point.node) {
@@ -806,7 +806,7 @@ function splitPoint(point, isInline) {
     }
     return {
         rightNode: pivot,
-        container: container
+        container: container,
     };
 }
 function create(nodeName) {
@@ -875,7 +875,7 @@ function replace(node, nodeName) {
     if (node.style.cssText) {
         newNode.style.cssText = node.style.cssText;
     }
-    appendChildNodes(newNode, lists_1["default"].from(node.childNodes));
+    appendChildNodes(newNode, lists_1.default.from(node.childNodes));
     insertAfter(newNode, node);
     remove(node);
     return newNode;
@@ -916,12 +916,12 @@ function html($node, isNewlineOnBlock) {
     return markup;
 }
 function posFromPlaceholder(placeholder) {
-    var $placeholder = jquery_1["default"](placeholder);
+    var $placeholder = (0, jquery_1.default)(placeholder);
     var pos = $placeholder.offset();
     var height = $placeholder.outerHeight(true); // include margin
     return {
         left: pos.left,
-        top: pos.top + height
+        top: pos.top + height,
     };
 }
 function attachEvents($node, events) {
@@ -943,9 +943,9 @@ function detachEvents($node, events) {
  * @param {Node} an HTML DOM node
  */
 function isCustomStyleTag(node) {
-    return node && !isText(node) && lists_1["default"].contains(node.classList, 'note-styletag');
+    return node && !isText(node) && lists_1.default.contains(node.classList, 'note-styletag');
 }
-exports["default"] = {
+exports.default = {
     /** @property {String} NBSP_CHAR */
     NBSP_CHAR: NBSP_CHAR,
     /** @property {String} ZERO_WIDTH_NBSP_CHAR */
@@ -953,7 +953,7 @@ exports["default"] = {
     /** @property {String} blank */
     blank: blankHTML,
     /** @property {String} emptyPara */
-    emptyPara: "<p>" + blankHTML + "</p>",
+    emptyPara: "<p>".concat(blankHTML, "</p>"),
     makePredByNodeName: makePredByNodeName,
     isEditable: isEditable,
     isControlSizing: isControlSizing,
@@ -964,7 +964,7 @@ exports["default"] = {
     isPurePara: isPurePara,
     isHeading: isHeading,
     isInline: isInline,
-    isBlock: func_1["default"].not(isInline),
+    isBlock: func_1.default.not(isInline),
     isBodyInline: isBodyInline,
     isBody: isBody,
     isParaInline: isParaInline,
@@ -988,7 +988,7 @@ exports["default"] = {
     isTextarea: isTextarea,
     deepestChildIsEmpty: deepestChildIsEmpty,
     isEmpty: isEmpty,
-    isEmptyAnchor: func_1["default"].and(isAnchor, isEmpty),
+    isEmptyAnchor: func_1.default.and(isAnchor, isEmpty),
     isClosestSibling: isClosestSibling,
     withClosestSiblings: withClosestSiblings,
     nodeLength: nodeLength,
@@ -1035,6 +1035,6 @@ exports["default"] = {
     posFromPlaceholder: posFromPlaceholder,
     attachEvents: attachEvents,
     detachEvents: detachEvents,
-    isCustomStyleTag: isCustomStyleTag
+    isCustomStyleTag: isCustomStyleTag,
 };
 //# sourceMappingURL=dom.js.map

@@ -1,13 +1,13 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var renderer_1 = require("../base/renderer");
-var editor = renderer_1["default"].create('<div class="note-editor note-frame card"/>');
-var toolbar = renderer_1["default"].create('<div class="note-toolbar-wrapper"><div class="note-toolbar card-header"></div></div>');
-var editingArea = renderer_1["default"].create('<div class="note-editing-area"/>');
-var codable = renderer_1["default"].create('<textarea class="note-codable"/>');
-var editable = renderer_1["default"].create('<div class="note-editable card-block" contentEditable="true"/>');
-var statusbar = renderer_1["default"].create([
+var editor = renderer_1.default.create('<div class="note-editor note-frame card"/>');
+var toolbar = renderer_1.default.create('<div class="note-toolbar-wrapper"><div class="note-toolbar card-header"></div></div>');
+var editingArea = renderer_1.default.create('<div class="note-editing-area"/>');
+var codable = renderer_1.default.create('<textarea class="note-codable"/>');
+var editable = renderer_1.default.create('<div class="note-editable card-block" contentEditable="true"/>');
+var statusbar = renderer_1.default.create([
     '<div class="note-statusbar">',
     '  <div class="note-resizebar">',
     '    <div class="note-icon-bar"/>',
@@ -16,11 +16,11 @@ var statusbar = renderer_1["default"].create([
     '  </div>',
     '</div>'
 ].join(''));
-var airEditor = renderer_1["default"].create('<div class="note-editor"/>');
-var airEditable = renderer_1["default"].create('<div class="note-editable" contentEditable="true"/>');
-var buttonGroup = renderer_1["default"].create('<div class="note-btn-group btn-group">');
-var dropdown = renderer_1["default"].create('<div class="dropdown-menu">', function ($node, options) {
-    var markup = jquery_1["default"].isArray(options.items) ? options.items.map(function (item) {
+var airEditor = renderer_1.default.create('<div class="note-editor"/>');
+var airEditable = renderer_1.default.create('<div class="note-editable" contentEditable="true"/>');
+var buttonGroup = renderer_1.default.create('<div class="note-btn-group btn-group">');
+var dropdown = renderer_1.default.create('<div class="dropdown-menu">', function ($node, options) {
+    var markup = jquery_1.default.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
         var option = (typeof item === 'object') ? item.option : undefined;
@@ -33,15 +33,15 @@ var dropdown = renderer_1["default"].create('<div class="dropdown-menu">', funct
 var dropdownButtonContents = function (contents) {
     return contents;
 };
-var dropdownCheck = renderer_1["default"].create('<div class="dropdown-menu note-check">', function ($node, options) {
-    var markup = jquery_1["default"].isArray(options.items) ? options.items.map(function (item) {
+var dropdownCheck = renderer_1.default.create('<div class="dropdown-menu note-check">', function ($node, options) {
+    var markup = jquery_1.default.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
         return '<a class="dropdown-item" href="#" data-value="' + value + '">' + icon(options.checkClassName) + ' ' + content + '</a>';
     }).join('') : options.items;
     $node.html(markup);
 });
-var palette = renderer_1["default"].create('<div class="note-color-palette"/>', function ($node, options) {
+var palette = renderer_1.default.create('<div class="note-color-palette"/>', function ($node, options) {
     var contents = [];
     for (var row = 0, rowSize = options.colors.length; row < rowSize; row++) {
         var eventName = options.eventName;
@@ -69,7 +69,7 @@ var palette = renderer_1["default"].create('<div class="note-color-palette"/>', 
         });
     }
 });
-var dialog = renderer_1["default"].create('<div class="modal" aria-hidden="false" tabindex="-1"/>', function ($node, options) {
+var dialog = renderer_1.default.create('<div class="modal" aria-hidden="false" tabindex="-1"/>', function ($node, options) {
     if (options.fade) {
         $node.addClass('fade');
     }
@@ -88,7 +88,7 @@ var dialog = renderer_1["default"].create('<div class="modal" aria-hidden="false
         '</div>'
     ].join(''));
 });
-var popover = renderer_1["default"].create([
+var popover = renderer_1.default.create([
     '<div class="note-popover popover in">',
     '  <div class="arrow"/>',
     '  <div class="popover-content note-children-container"/>',
@@ -100,7 +100,7 @@ var popover = renderer_1["default"].create([
         $node.find('.arrow').hide();
     }
 });
-var checkbox = renderer_1["default"].create('<label class="custom-control custom-checkbox"></label>', function ($node, options) {
+var checkbox = renderer_1.default.create('<label class="custom-control custom-checkbox"></label>', function ($node, options) {
     if (options.id) {
         $node.attr('for', options.id);
     }
@@ -136,7 +136,7 @@ var ui = {
     checkbox: checkbox,
     options: {},
     button: function ($node, options) {
-        return renderer_1["default"].create('<button type="button" class="note-btn btn btn-light btn-sm" tabindex="-1">', function ($node, options) {
+        return renderer_1.default.create('<button type="button" class="note-btn btn btn-light btn-sm" tabindex="-1">', function ($node, options) {
             if (options && options.tooltip) {
                 $node.attr({
                     title: options.tooltip
@@ -197,5 +197,5 @@ var ui = {
         $note.show();
     }
 };
-exports["default"] = ui;
+exports.default = ui;
 //# sourceMappingURL=ui.js.map

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var lists_1 = require("../core/lists");
 var Clipboard = /** @class */ (function () {
     function Clipboard(context) {
@@ -17,7 +17,7 @@ var Clipboard = /** @class */ (function () {
     Clipboard.prototype.pasteByEvent = function (event) {
         var clipboardData = event.originalEvent.clipboardData;
         if (clipboardData && clipboardData.items && clipboardData.items.length) {
-            var item = lists_1["default"].head(clipboardData.items);
+            var item = lists_1.default.head(clipboardData.items);
             if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
                 this.context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
             }
@@ -26,5 +26,5 @@ var Clipboard = /** @class */ (function () {
     };
     return Clipboard;
 }());
-exports["default"] = Clipboard;
+exports.default = Clipboard;
 //# sourceMappingURL=Clipboard.js.map

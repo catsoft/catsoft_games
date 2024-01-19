@@ -1,9 +1,9 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var env_1 = require("../core/env");
 var dom_1 = require("../core/dom");
 var CodeMirror;
-if (env_1["default"].hasCodeMirror) {
+if (env_1.default.hasCodeMirror) {
     CodeMirror = window.CodeMirror;
 }
 /**
@@ -19,7 +19,7 @@ var CodeView = /** @class */ (function () {
     }
     CodeView.prototype.sync = function () {
         var isCodeview = this.isActivated();
-        if (isCodeview && env_1["default"].hasCodeMirror) {
+        if (isCodeview && env_1.default.hasCodeMirror) {
             this.$codable.data('cmEditor').save();
         }
     };
@@ -76,13 +76,13 @@ var CodeView = /** @class */ (function () {
      */
     CodeView.prototype.activate = function () {
         var _this = this;
-        this.$codable.val(dom_1["default"].html(this.$editable, this.options.prettifyHtml));
+        this.$codable.val(dom_1.default.html(this.$editable, this.options.prettifyHtml));
         this.$codable.height(this.$editable.height());
         this.context.invoke('toolbar.updateCodeview', true);
         this.$editor.addClass('codeview');
         this.$codable.focus();
         // activate CodeMirror as codable
-        if (env_1["default"].hasCodeMirror) {
+        if (env_1.default.hasCodeMirror) {
             var cmEditor_1 = CodeMirror.fromTextArea(this.$codable[0], this.options.codemirror);
             // CodeMirror TernServer
             if (this.options.codemirror.tern) {
@@ -116,12 +116,12 @@ var CodeView = /** @class */ (function () {
      */
     CodeView.prototype.deactivate = function () {
         // deactivate CodeMirror as codable
-        if (env_1["default"].hasCodeMirror) {
+        if (env_1.default.hasCodeMirror) {
             var cmEditor = this.$codable.data('cmEditor');
             this.$codable.val(cmEditor.getValue());
             cmEditor.toTextArea();
         }
-        var value = this.purify(dom_1["default"].value(this.$codable, this.options.prettifyHtml) || dom_1["default"].emptyPara);
+        var value = this.purify(dom_1.default.value(this.$codable, this.options.prettifyHtml) || dom_1.default.emptyPara);
         var isChange = this.$editable.html() !== value;
         this.$editable.html(value);
         this.$editable.height(this.options.height ? this.$codable.height() : 'auto');
@@ -139,5 +139,5 @@ var CodeView = /** @class */ (function () {
     };
     return CodeView;
 }());
-exports["default"] = CodeView;
+exports.default = CodeView;
 //# sourceMappingURL=Codeview.js.map

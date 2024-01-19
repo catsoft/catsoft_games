@@ -1,5 +1,6 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createImage = exports.readFileAsDataURL = void 0;
 var jquery_1 = require("jquery");
 /**
  * @method readFileAsDataURL
@@ -10,15 +11,15 @@ var jquery_1 = require("jquery");
  * @return {Promise} - then: dataUrl
  */
 function readFileAsDataURL(file) {
-    return jquery_1["default"].Deferred(function (deferred) {
-        jquery_1["default"].extend(new FileReader(), {
+    return jquery_1.default.Deferred(function (deferred) {
+        jquery_1.default.extend(new FileReader(), {
             onload: function (e) {
                 var dataURL = e.target.result;
                 deferred.resolve(dataURL);
             },
             onerror: function (err) {
                 deferred.reject(err);
-            }
+            },
         }).readAsDataURL(file);
     }).promise();
 }
@@ -32,8 +33,8 @@ exports.readFileAsDataURL = readFileAsDataURL;
  * @return {Promise} - then: $image
  */
 function createImage(url) {
-    return jquery_1["default"].Deferred(function (deferred) {
-        var $img = jquery_1["default"]('<img>');
+    return jquery_1.default.Deferred(function (deferred) {
+        var $img = (0, jquery_1.default)('<img>');
         $img.one('load', function () {
             $img.off('error abort');
             deferred.resolve($img);
@@ -41,7 +42,7 @@ function createImage(url) {
             $img.off('load').detach();
             deferred.reject($img);
         }).css({
-            display: 'none'
+            display: 'none',
         }).appendTo(document.body).attr('src', url);
     }).promise();
 }

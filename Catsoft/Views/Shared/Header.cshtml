@@ -1,9 +1,20 @@
 ﻿@using App.cms.Helpers
+@using App.cms.Models
 @using App.Models
 @model App.ViewModels.Common.HeaderViewModel
 
 @{
     Layout = null;
+    var virtualityMenus = new List<Menu>
+    {
+        Menu.Home,
+        Menu.Book,
+        Menu.Services,
+        Menu.Contacts
+    };
+
+    var languages = Enum.GetValues<TextLanguage>();
+    var currentLanguage = languages.FirstOrDefault();
 }
 
 <header class="header" style="background: white">
@@ -39,7 +50,7 @@
                     <nav id="catmenu">
                         <div id="uNMenuDiv1" class="uMenuV">
                             <ul class="uMenuRoot">
-                                @foreach (var menu in Model.Menus)
+                                @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
                                 {
                                     <li>
                                         <a class="menu-a @(menu.Menu == Model.CurrentPage ? "uMenuItemA" : "")" href="@menu.Href">
@@ -49,10 +60,36 @@
                                 }
                             </ul>
                         </div>
-                        <div class="clr"></div>
                     </nav>
                 </div>
             }
+            
+            <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"
+            />
+
+            <div>
+                <select class="form-select" aria-label="Default select example">
+                @foreach (var language in languages)
+                {
+                    var flag = "";
+                    switch (language)
+                    {
+                        case TextLanguage.English:
+                            flag = "en";
+                            break;
+                        case TextLanguage.Russian:
+                            flag = "ru";
+                            break;
+                        case TextLanguage.Portuguese:
+                            flag = "pt";
+                            break;
+                    }
+                    <option value="@language"><span class="@flag fi fi-gr"></span> @language</option>
+                }
+                </select>
+            </div>
         </div>
     </div>
 </header>

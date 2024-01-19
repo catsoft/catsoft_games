@@ -50,6 +50,10 @@ namespace App.Models
 
         public DbSet<GameModel> GameModels { get; set; }
 
+        public DbSet<EventModel> EventsModels { get; set; }
+
+        public DbSet<ExperienceModel> ExperiencesModels { get; set; }
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -94,6 +98,22 @@ namespace App.Models
                 .WithMany(w => w.Values)
                 .IsRequired(false)
                 .HasForeignKey(w => w.TextResourceModelId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ImageModel>()
+                .HasOne(w => w.EventModel)
+                .WithOne(w => w.ImageModel)
+                .IsRequired(false)
+                .HasForeignKey<EventModel>(w => w.ImageModelId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ImageModel>()
+                .HasOne(w => w.ExperienceModel)
+                .WithOne(w => w.ImageModel)
+                .IsRequired(false)
+                .HasForeignKey<ExperienceModel>(w => w.ImageModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
 

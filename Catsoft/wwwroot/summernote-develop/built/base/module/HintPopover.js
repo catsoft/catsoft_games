@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("../core/func");
 var lists_1 = require("../core/lists");
@@ -11,12 +11,12 @@ var HintPopover = /** @class */ (function () {
     function HintPopover(context) {
         var _this = this;
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.$editable = context.layoutInfo.editable;
         this.options = context.options;
         this.hint = this.options.hint || [];
         this.direction = this.options.hintDirection || 'bottom';
-        this.hints = jquery_1["default"].isArray(this.hint) ? this.hint : [this.hint];
+        this.hints = jquery_1.default.isArray(this.hint) ? this.hint : [this.hint];
         this.events = {
             'summernote.keyup': function (we, e) {
                 if (!e.isDefaultPrevented()) {
@@ -46,7 +46,7 @@ var HintPopover = /** @class */ (function () {
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
         this.$content.on('click', '.note-hint-item', function () {
             _this.$content.find('.active').removeClass('active');
-            jquery_1["default"](_this).addClass('active');
+            (0, jquery_1.default)(_this).addClass('active');
             _this.replace();
         });
     };
@@ -92,7 +92,7 @@ var HintPopover = /** @class */ (function () {
             var node = this.nodeFromItem($item);
             // XXX: consider to move codes to editor for recording redo/undo.
             this.lastWordRange.insertNode(node);
-            range_1["default"].createFromNode(node).collapse().select();
+            range_1.default.createFromNode(node).collapse().select();
             this.lastWordRange = null;
             this.hide();
             this.context.triggerEvent('change', this.$editable.html(), this.$editable[0]);
@@ -104,14 +104,14 @@ var HintPopover = /** @class */ (function () {
         var item = $item.data('item');
         var node = hint.content ? hint.content(item) : item;
         if (typeof node === 'string') {
-            node = dom_1["default"].createText(node);
+            node = dom_1.default.createText(node);
         }
         return node;
     };
     HintPopover.prototype.createItemTemplates = function (hintIdx, items) {
         var hint = this.hints[hintIdx];
         return items.map(function (item, idx) {
-            var $item = jquery_1["default"]('<div class="note-hint-item"/>');
+            var $item = (0, jquery_1.default)('<div class="note-hint-item"/>');
             $item.append(hint.template ? hint.template(item) : item + '');
             $item.data({
                 'index': hintIdx,
@@ -124,15 +124,15 @@ var HintPopover = /** @class */ (function () {
         if (!this.$popover.is(':visible')) {
             return;
         }
-        if (e.keyCode === key_1["default"].code.ENTER) {
+        if (e.keyCode === key_1.default.code.ENTER) {
             e.preventDefault();
             this.replace();
         }
-        else if (e.keyCode === key_1["default"].code.UP) {
+        else if (e.keyCode === key_1.default.code.UP) {
             e.preventDefault();
             this.moveUp();
         }
-        else if (e.keyCode === key_1["default"].code.DOWN) {
+        else if (e.keyCode === key_1.default.code.DOWN) {
             e.preventDefault();
             this.moveDown();
         }
@@ -149,7 +149,7 @@ var HintPopover = /** @class */ (function () {
     };
     HintPopover.prototype.createGroup = function (idx, keyword) {
         var _this = this;
-        var $group = jquery_1["default"]('<div class="note-hint-group note-hint-group-' + idx + '"/>');
+        var $group = (0, jquery_1.default)('<div class="note-hint-group note-hint-group-' + idx + '"/>');
         this.searchKeyword(idx, keyword, function (items) {
             items = items || [];
             if (items.length) {
@@ -161,12 +161,12 @@ var HintPopover = /** @class */ (function () {
     };
     HintPopover.prototype.handleKeyup = function (e) {
         var _this = this;
-        if (!lists_1["default"].contains([key_1["default"].code.ENTER, key_1["default"].code.UP, key_1["default"].code.DOWN], e.keyCode)) {
+        if (!lists_1.default.contains([key_1.default.code.ENTER, key_1.default.code.UP, key_1.default.code.DOWN], e.keyCode)) {
             var wordRange = this.context.invoke('editor.createRange').getWordRange();
             var keyword_1 = wordRange.toString();
             if (this.hints.length && keyword_1) {
                 this.$content.empty();
-                var bnd = func_1["default"].rect2bnd(lists_1["default"].last(wordRange.getClientRects()));
+                var bnd = func_1.default.rect2bnd(lists_1.default.last(wordRange.getClientRects()));
                 if (bnd) {
                     this.$popover.hide();
                     this.lastWordRange = wordRange;
@@ -205,5 +205,5 @@ var HintPopover = /** @class */ (function () {
     };
     return HintPopover;
 }());
-exports["default"] = HintPopover;
+exports.default = HintPopover;
 //# sourceMappingURL=HintPopover.js.map

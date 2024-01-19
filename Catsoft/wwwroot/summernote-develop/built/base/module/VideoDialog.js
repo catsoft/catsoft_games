@@ -1,13 +1,13 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var key_1 = require("../core/key");
 var VideoDialog = /** @class */ (function () {
     function VideoDialog(context) {
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
-        this.$body = jquery_1["default"](document.body);
+        this.ui = jquery_1.default.summernote.ui;
+        this.$body = (0, jquery_1.default)(document.body);
         this.$editor = context.layoutInfo.editor;
         this.options = context.options;
         this.lang = this.options.langInfo;
@@ -16,12 +16,12 @@ var VideoDialog = /** @class */ (function () {
         var $container = this.options.dialogsInBody ? this.$body : this.$editor;
         var body = [
             '<div class="form-group note-form-group row-fluid">',
-            "<label class=\"note-form-label\">" + this.lang.video.url + " <small class=\"text-muted\">" + this.lang.video.providers + "</small></label>",
+            "<label class=\"note-form-label\">".concat(this.lang.video.url, " <small class=\"text-muted\">").concat(this.lang.video.providers, "</small></label>"),
             '<input class="note-video-url form-control note-form-control note-input" type="text" />',
             '</div>'
         ].join('');
         var buttonClass = 'btn btn-primary note-btn note-btn-primary note-video-btn';
-        var footer = "<button type=\"submit\" href=\"#\" class=\"" + buttonClass + "\" disabled>" + this.lang.video.insert + "</button>";
+        var footer = "<button type=\"submit\" href=\"#\" class=\"".concat(buttonClass, "\" disabled>").concat(this.lang.video.insert, "</button>");
         this.$dialog = this.ui.dialog({
             title: this.lang.video.insert,
             fade: this.options.dialogsFade,
@@ -35,7 +35,7 @@ var VideoDialog = /** @class */ (function () {
     };
     VideoDialog.prototype.bindEnterKey = function ($input, $btn) {
         $input.on('keypress', function (event) {
-            if (event.keyCode === key_1["default"].code.ENTER) {
+            if (event.keyCode === key_1.default.code.ENTER) {
                 event.preventDefault();
                 $btn.trigger('click');
             }
@@ -68,13 +68,13 @@ var VideoDialog = /** @class */ (function () {
         var $video;
         if (ytMatch && ytMatch[1].length === 11) {
             var youtubeId = ytMatch[1];
-            $video = jquery_1["default"]('<iframe>')
+            $video = (0, jquery_1.default)('<iframe>')
                 .attr('frameborder', 0)
                 .attr('src', '//www.youtube.com/embed/' + youtubeId)
                 .attr('width', '640').attr('height', '360');
         }
         else if (igMatch && igMatch[0].length) {
-            $video = jquery_1["default"]('<iframe>')
+            $video = (0, jquery_1.default)('<iframe>')
                 .attr('frameborder', 0)
                 .attr('src', 'https://instagram.com/p/' + igMatch[1] + '/embed/')
                 .attr('width', '612').attr('height', '710')
@@ -82,26 +82,26 @@ var VideoDialog = /** @class */ (function () {
                 .attr('allowtransparency', 'true');
         }
         else if (vMatch && vMatch[0].length) {
-            $video = jquery_1["default"]('<iframe>')
+            $video = (0, jquery_1.default)('<iframe>')
                 .attr('frameborder', 0)
                 .attr('src', vMatch[0] + '/embed/simple')
                 .attr('width', '600').attr('height', '600')
                 .attr('class', 'vine-embed');
         }
         else if (vimMatch && vimMatch[3].length) {
-            $video = jquery_1["default"]('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            $video = (0, jquery_1.default)('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
                 .attr('frameborder', 0)
                 .attr('src', '//player.vimeo.com/video/' + vimMatch[3])
                 .attr('width', '640').attr('height', '360');
         }
         else if (dmMatch && dmMatch[2].length) {
-            $video = jquery_1["default"]('<iframe>')
+            $video = (0, jquery_1.default)('<iframe>')
                 .attr('frameborder', 0)
                 .attr('src', '//www.dailymotion.com/embed/video/' + dmMatch[2])
                 .attr('width', '640').attr('height', '360');
         }
         else if (youkuMatch && youkuMatch[1].length) {
-            $video = jquery_1["default"]('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            $video = (0, jquery_1.default)('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
                 .attr('frameborder', 0)
                 .attr('height', '498')
                 .attr('width', '510')
@@ -109,14 +109,14 @@ var VideoDialog = /** @class */ (function () {
         }
         else if ((qqMatch && qqMatch[1].length) || (qqMatch2 && qqMatch2[2].length)) {
             var vid = ((qqMatch && qqMatch[1].length) ? qqMatch[1] : qqMatch2[2]);
-            $video = jquery_1["default"]('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            $video = (0, jquery_1.default)('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
                 .attr('frameborder', 0)
                 .attr('height', '310')
                 .attr('width', '500')
                 .attr('src', 'http://v.qq.com/iframe/player.html?vid=' + vid + '&amp;auto=0');
         }
         else if (mp4Match || oggMatch || webmMatch) {
-            $video = jquery_1["default"]('<video controls>')
+            $video = (0, jquery_1.default)('<video controls>')
                 .attr('src', url)
                 .attr('width', '640').attr('height', '360');
         }
@@ -153,7 +153,7 @@ var VideoDialog = /** @class */ (function () {
      */
     VideoDialog.prototype.showVideoDialog = function (text) {
         var _this = this;
-        return jquery_1["default"].Deferred(function (deferred) {
+        return jquery_1.default.Deferred(function (deferred) {
             var $videoUrl = _this.$dialog.find('.note-video-url');
             var $videoBtn = _this.$dialog.find('.note-video-btn');
             _this.ui.onDialogShown(_this.$dialog, function () {
@@ -161,7 +161,7 @@ var VideoDialog = /** @class */ (function () {
                 $videoUrl.val(text).on('input', function () {
                     _this.ui.toggleBtn($videoBtn, $videoUrl.val());
                 });
-                if (!env_1["default"].isSupportTouch) {
+                if (!env_1.default.isSupportTouch) {
                     $videoUrl.trigger('focus');
                 }
                 $videoBtn.click(function (event) {
@@ -182,5 +182,5 @@ var VideoDialog = /** @class */ (function () {
     };
     return VideoDialog;
 }());
-exports["default"] = VideoDialog;
+exports.default = VideoDialog;
 //# sourceMappingURL=VideoDialog.js.map

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var lists_1 = require("../core/lists");
 var key_1 = require("../core/key");
@@ -17,7 +17,7 @@ var AutoLink = /** @class */ (function () {
             },
             'summernote.keydown': function (we, e) {
                 _this.handleKeydown(e);
-            }
+            },
         };
     }
     AutoLink.prototype.initialize = function () {
@@ -35,9 +35,9 @@ var AutoLink = /** @class */ (function () {
         if (match && (match[1] || match[2])) {
             var link = match[1] ? keyword : defaultScheme + keyword;
             var urlText = keyword.replace(/^(?:https?:\/\/)?(?:tel?:?)?(?:mailto?:?)?(?:www\.)?/i, '').split('/')[0];
-            var node = jquery_1["default"]('<a />').html(urlText).attr('href', link)[0];
+            var node = (0, jquery_1.default)('<a />').html(urlText).attr('href', link)[0];
             if (this.context.options.linkTargetBlank) {
-                jquery_1["default"](node).attr('target', '_blank');
+                (0, jquery_1.default)(node).attr('target', '_blank');
             }
             this.lastWordRange.insertNode(node);
             this.lastWordRange = null;
@@ -45,17 +45,17 @@ var AutoLink = /** @class */ (function () {
         }
     };
     AutoLink.prototype.handleKeydown = function (e) {
-        if (lists_1["default"].contains([key_1["default"].code.ENTER, key_1["default"].code.SPACE], e.keyCode)) {
+        if (lists_1.default.contains([key_1.default.code.ENTER, key_1.default.code.SPACE], e.keyCode)) {
             var wordRange = this.context.invoke('editor.createRange').getWordRange();
             this.lastWordRange = wordRange;
         }
     };
     AutoLink.prototype.handleKeyup = function (e) {
-        if (lists_1["default"].contains([key_1["default"].code.ENTER, key_1["default"].code.SPACE], e.keyCode)) {
+        if (lists_1.default.contains([key_1.default.code.ENTER, key_1.default.code.SPACE], e.keyCode)) {
             this.replace();
         }
     };
     return AutoLink;
 }());
-exports["default"] = AutoLink;
+exports.default = AutoLink;
 //# sourceMappingURL=AutoLink.js.map

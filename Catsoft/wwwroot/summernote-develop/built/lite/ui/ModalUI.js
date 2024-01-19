@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var ModalUI = /** @class */ (function () {
     function ModalUI($node, options) {
         this.options = $.extend({}, {
@@ -29,5 +29,5 @@ var ModalUI = /** @class */ (function () {
     };
     return ModalUI;
 }());
-exports["default"] = ModalUI;
+exports.default = ModalUI;
 //# sourceMappingURL=ModalUI.js.map

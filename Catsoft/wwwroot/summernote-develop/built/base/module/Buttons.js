@@ -1,24 +1,24 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("../core/func");
 var lists_1 = require("../core/lists");
 var env_1 = require("../core/env");
 var Buttons = /** @class */ (function () {
     function Buttons(context) {
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.context = context;
         this.$toolbar = context.layoutInfo.toolbar;
         this.options = context.options;
         this.lang = this.options.langInfo;
-        this.invertedKeyMap = func_1["default"].invertObject(this.options.keyMap[env_1["default"].isMac ? 'mac' : 'pc']);
+        this.invertedKeyMap = func_1.default.invertObject(this.options.keyMap[env_1.default.isMac ? 'mac' : 'pc']);
     }
     Buttons.prototype.representShortcut = function (editorMethod) {
         var shortcut = this.invertedKeyMap[editorMethod];
         if (!this.options.shortcuts || !shortcut) {
             return '';
         }
-        if (env_1["default"].isMac) {
+        if (env_1.default.isMac) {
             shortcut = shortcut.replace('CMD', '⌘').replace('SHIFT', '⇧');
         }
         shortcut = shortcut.replace('BACKSLASH', '\\')
@@ -46,15 +46,15 @@ var Buttons = /** @class */ (function () {
     };
     Buttons.prototype.isFontInstalled = function (name) {
         if (!this.fontInstalledMap.hasOwnProperty(name)) {
-            this.fontInstalledMap[name] = env_1["default"].isFontInstalled(name) ||
-                lists_1["default"].contains(this.options.fontNamesIgnoreCheck, name);
+            this.fontInstalledMap[name] = env_1.default.isFontInstalled(name) ||
+                lists_1.default.contains(this.options.fontNamesIgnoreCheck, name);
         }
         return this.fontInstalledMap[name];
     };
     Buttons.prototype.isFontDeservedToAdd = function (name) {
         var genericFamilies = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy'];
         name = name.toLowerCase();
-        return ((name !== '') && this.isFontInstalled(name) && (jquery_1["default"].inArray(name, genericFamilies) === -1));
+        return ((name !== '') && this.isFontInstalled(name) && (jquery_1.default.inArray(name, genericFamilies) === -1));
     };
     Buttons.prototype.addToolbarButtons = function () {
         var _this = this;
@@ -158,10 +158,10 @@ var Buttons = /** @class */ (function () {
         this.context.memo('button.fontname', function () {
             var styleInfo = _this.context.invoke('editor.currentStyle');
             // Add 'default' fonts into the fontnames array if not exist
-            jquery_1["default"].each(styleInfo['font-family'].split(','), function (idx, fontname) {
+            jquery_1.default.each(styleInfo['font-family'].split(','), function (idx, fontname) {
                 fontname = fontname.trim().replace(/['"]+/g, '');
                 if (_this.isFontDeservedToAdd(fontname)) {
-                    if (jquery_1["default"].inArray(fontname, _this.options.fontNames) === -1) {
+                    if (jquery_1.default.inArray(fontname, _this.options.fontNames) === -1) {
                         _this.options.fontNames.push(fontname);
                     }
                 }
@@ -213,7 +213,7 @@ var Buttons = /** @class */ (function () {
                         contents: _this.ui.icon(_this.options.icons.font + ' note-recent-color'),
                         tooltip: _this.lang.color.recent,
                         click: function (e) {
-                            var $button = jquery_1["default"](e.currentTarget);
+                            var $button = (0, jquery_1.default)(e.currentTarget);
                             _this.context.invoke('editor.color', {
                                 backColor: $button.attr('data-backColor'),
                                 foreColor: $button.attr('data-foreColor')
@@ -256,7 +256,7 @@ var Buttons = /** @class */ (function () {
                         ].join(''),
                         callback: function ($dropdown) {
                             $dropdown.find('.note-holder').each(function (idx, item) {
-                                var $holder = jquery_1["default"](item);
+                                var $holder = (0, jquery_1.default)(item);
                                 $holder.append(_this.ui.palette({
                                     colors: _this.options.colors,
                                     eventName: $holder.data('event'),
@@ -266,7 +266,7 @@ var Buttons = /** @class */ (function () {
                             });
                         },
                         click: function (event) {
-                            var $button = jquery_1["default"](event.target);
+                            var $button = (0, jquery_1.default)(event.target);
                             var eventName = $button.data('event');
                             var value = $button.data('value');
                             if (eventName && value) {
@@ -326,12 +326,12 @@ var Buttons = /** @class */ (function () {
             tooltip: this.lang.paragraph.indent + this.representShortcut('indent'),
             click: this.context.createInvokeHandler('editor.indent')
         });
-        this.context.memo('button.justifyLeft', func_1["default"].invoke(justifyLeft, 'render'));
-        this.context.memo('button.justifyCenter', func_1["default"].invoke(justifyCenter, 'render'));
-        this.context.memo('button.justifyRight', func_1["default"].invoke(justifyRight, 'render'));
-        this.context.memo('button.justifyFull', func_1["default"].invoke(justifyFull, 'render'));
-        this.context.memo('button.outdent', func_1["default"].invoke(outdent, 'render'));
-        this.context.memo('button.indent', func_1["default"].invoke(indent, 'render'));
+        this.context.memo('button.justifyLeft', func_1.default.invoke(justifyLeft, 'render'));
+        this.context.memo('button.justifyCenter', func_1.default.invoke(justifyCenter, 'render'));
+        this.context.memo('button.justifyRight', func_1.default.invoke(justifyRight, 'render'));
+        this.context.memo('button.justifyFull', func_1.default.invoke(justifyFull, 'render'));
+        this.context.memo('button.outdent', func_1.default.invoke(outdent, 'render'));
+        this.context.memo('button.indent', func_1.default.invoke(indent, 'render'));
         this.context.memo('button.paragraph', function () {
             return _this.ui.buttonGroup([
                 _this.button({
@@ -617,8 +617,8 @@ var Buttons = /** @class */ (function () {
     Buttons.prototype.build = function ($container, groups) {
         for (var groupIdx = 0, groupLen = groups.length; groupIdx < groupLen; groupIdx++) {
             var group = groups[groupIdx];
-            var groupName = jquery_1["default"].isArray(group) ? group[0] : group;
-            var buttons = jquery_1["default"].isArray(group) ? ((group.length === 1) ? [group[0]] : group[1]) : [group];
+            var groupName = jquery_1.default.isArray(group) ? group[0] : group;
+            var buttons = jquery_1.default.isArray(group) ? ((group.length === 1) ? [group[0]] : group[1]) : [group];
             var $group = this.ui.buttonGroup({
                 className: 'note-' + groupName
             }).render();
@@ -664,9 +664,9 @@ var Buttons = /** @class */ (function () {
                     .replace(/\s+$/, '')
                     .replace(/^\s+/, '');
             });
-            var fontName_1 = lists_1["default"].find(fontNames, this.isFontInstalled.bind(this));
+            var fontName_1 = lists_1.default.find(fontNames, this.isFontInstalled.bind(this));
             $cont.find('.dropdown-fontname a').each(function (idx, item) {
-                var $item = jquery_1["default"](item);
+                var $item = (0, jquery_1.default)(item);
                 // always compare string to avoid creating another func.
                 var isChecked = ($item.data('value') + '') === (fontName_1 + '');
                 $item.toggleClass('checked', isChecked);
@@ -676,7 +676,7 @@ var Buttons = /** @class */ (function () {
         if (styleInfo['font-size']) {
             var fontSize_1 = styleInfo['font-size'];
             $cont.find('.dropdown-fontsize a').each(function (idx, item) {
-                var $item = jquery_1["default"](item);
+                var $item = (0, jquery_1.default)(item);
                 // always compare with string to avoid creating another func.
                 var isChecked = ($item.data('value') + '') === (fontSize_1 + '');
                 $item.toggleClass('checked', isChecked);
@@ -687,20 +687,20 @@ var Buttons = /** @class */ (function () {
             var lineHeight_1 = styleInfo['line-height'];
             $cont.find('.dropdown-line-height li a').each(function (idx, item) {
                 // always compare with string to avoid creating another func.
-                var isChecked = (jquery_1["default"](item).data('value') + '') === (lineHeight_1 + '');
+                var isChecked = ((0, jquery_1.default)(item).data('value') + '') === (lineHeight_1 + '');
                 _this.className = isChecked ? 'checked' : '';
             });
         }
     };
     Buttons.prototype.updateBtnStates = function ($container, infos) {
         var _this = this;
-        jquery_1["default"].each(infos, function (selector, pred) {
+        jquery_1.default.each(infos, function (selector, pred) {
             _this.ui.toggleBtnActive($container.find(selector), pred());
         });
     };
     Buttons.prototype.tableMoveHandler = function (event) {
         var PX_PER_EM = 18;
-        var $picker = jquery_1["default"](event.target.parentNode); // target is mousecatcher
+        var $picker = (0, jquery_1.default)(event.target.parentNode); // target is mousecatcher
         var $dimensionDisplay = $picker.next();
         var $catcher = $picker.find('.note-dimension-picker-mousecatcher');
         var $highlighted = $picker.find('.note-dimension-picker-highlighted');
@@ -708,7 +708,7 @@ var Buttons = /** @class */ (function () {
         var posOffset;
         // HTML5 with jQuery - e.offsetX is undefined in Firefox
         if (event.offsetX === undefined) {
-            var posCatcher = jquery_1["default"](event.target).offset();
+            var posCatcher = (0, jquery_1.default)(event.target).offset();
             posOffset = {
                 x: event.pageX - posCatcher.left,
                 y: event.pageY - posCatcher.top
@@ -736,5 +736,5 @@ var Buttons = /** @class */ (function () {
     };
     return Buttons;
 }());
-exports["default"] = Buttons;
+exports.default = Buttons;
 //# sourceMappingURL=Buttons.js.map

@@ -1,15 +1,15 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var renderer_1 = require("../base/renderer");
 var TooltipUI_1 = require("./ui/TooltipUI");
 var DropdownUI_1 = require("./ui/DropdownUI");
 var ModalUI_1 = require("./ui/ModalUI");
-var editor = renderer_1["default"].create('<div class="note-editor note-frame"/>');
-var toolbar = renderer_1["default"].create('<div class="note-toolbar"/>');
-var editingArea = renderer_1["default"].create('<div class="note-editing-area"/>');
-var codable = renderer_1["default"].create('<textarea class="note-codable"/>');
-var editable = renderer_1["default"].create('<div class="note-editable" contentEditable="true"/>');
-var statusbar = renderer_1["default"].create([
+var editor = renderer_1.default.create('<div class="note-editor note-frame"/>');
+var toolbar = renderer_1.default.create('<div class="note-toolbar"/>');
+var editingArea = renderer_1.default.create('<div class="note-editing-area"/>');
+var codable = renderer_1.default.create('<textarea class="note-codable"/>');
+var editable = renderer_1.default.create('<div class="note-editable" contentEditable="true"/>');
+var statusbar = renderer_1.default.create([
     '<div class="note-statusbar">',
     '  <div class="note-resizebar">',
     '    <div class="note-icon-bar"/>',
@@ -18,13 +18,13 @@ var statusbar = renderer_1["default"].create([
     '  </div>',
     '</div>'
 ].join(''));
-var airEditor = renderer_1["default"].create('<div class="note-editor"/>');
-var airEditable = renderer_1["default"].create('<div class="note-editable" contentEditable="true"/>');
-var buttonGroup = renderer_1["default"].create('<div class="note-btn-group">');
-var button = renderer_1["default"].create('<button type="button" class="note-btn">', function ($node, options) {
+var airEditor = renderer_1.default.create('<div class="note-editor"/>');
+var airEditable = renderer_1.default.create('<div class="note-editable" contentEditable="true"/>');
+var buttonGroup = renderer_1.default.create('<div class="note-btn-group">');
+var button = renderer_1.default.create('<button type="button" class="note-btn">', function ($node, options) {
     // set button type
     if (options && options.tooltip) {
-        $node.data('_lite_tooltip', new TooltipUI_1["default"]($node, {
+        $node.data('_lite_tooltip', new TooltipUI_1.default($node, {
             title: options.tooltip,
             container: options.container
         }));
@@ -33,12 +33,12 @@ var button = renderer_1["default"].create('<button type="button" class="note-btn
         $node.html(options.contents);
     }
     if (options && options.data && options.data.toggle === 'dropdown') {
-        $node.data('_lite_dropdown', new DropdownUI_1["default"]($node, {
+        $node.data('_lite_dropdown', new DropdownUI_1.default($node, {
             container: options.container
         }));
     }
 });
-var dropdown = renderer_1["default"].create('<div class="note-dropdown-menu">', function ($node, options) {
+var dropdown = renderer_1.default.create('<div class="note-dropdown-menu">', function ($node, options) {
     var markup = $.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
@@ -59,7 +59,7 @@ var dropdown = renderer_1["default"].create('<div class="note-dropdown-menu">', 
         }
     });
 });
-var dropdownCheck = renderer_1["default"].create('<div class="note-dropdown-menu note-check">', function ($node, options) {
+var dropdownCheck = renderer_1.default.create('<div class="note-dropdown-menu note-check">', function ($node, options) {
     var markup = $.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
@@ -213,7 +213,7 @@ var tableDropdownButton = function (opt) {
         }
     }).render();
 };
-var palette = renderer_1["default"].create('<div class="note-color-palette"/>', function ($node, options) {
+var palette = renderer_1.default.create('<div class="note-color-palette"/>', function ($node, options) {
     var contents = [];
     for (var row = 0, rowSize = options.colors.length; row < rowSize; row++) {
         var eventName = options.eventName;
@@ -234,7 +234,7 @@ var palette = renderer_1["default"].create('<div class="note-color-palette"/>', 
     }
     $node.html(contents.join(''));
     $node.find('.note-color-btn').each(function () {
-        $(this).data('_lite_tooltip', new TooltipUI_1["default"]($(this), {
+        $(this).data('_lite_tooltip', new TooltipUI_1.default($(this), {
             container: options.container
         }));
     });
@@ -331,7 +331,7 @@ var colorDropdownButton = function (opt, type) {
         ]
     }).render();
 };
-var dialog = renderer_1["default"].create('<div class="note-modal" tabindex="-1"/>', function ($node, options) {
+var dialog = renderer_1.default.create('<div class="note-modal" tabindex="-1"/>', function ($node, options) {
     if (options.fade) {
         $node.addClass('fade');
     }
@@ -347,7 +347,7 @@ var dialog = renderer_1["default"].create('<div class="note-modal" tabindex="-1"
             ? '    <div class="note-modal-footer">' + options.footer + '</div>' : ''),
         '  </div>'
     ].join(''));
-    $node.data('modal', new ModalUI_1["default"]($node, options));
+    $node.data('modal', new ModalUI_1.default($node, options));
 });
 var videoDialog = function (opt) {
     var body = '<div class="note-form-group">' +
@@ -417,7 +417,7 @@ var linkDialog = function (opt) {
         footer: footer
     }).render();
 };
-var popover = renderer_1["default"].create([
+var popover = renderer_1.default.create([
     '<div class="note-popover bottom">',
     '  <div class="note-popover-arrow"/>',
     '  <div class="note-popover-content note-children-container"/>',
@@ -429,7 +429,7 @@ var popover = renderer_1["default"].create([
         $node.find('.note-popover-arrow').hide();
     }
 });
-var checkbox = renderer_1["default"].create('<div class="checkbox"></div>', function ($node, options) {
+var checkbox = renderer_1.default.create('<div class="checkbox"></div>', function ($node, options) {
     $node.html([
         ' <label' + (options.id ? ' for="' + options.id + '"' : '') + '>',
         ' <input type="checkbox"' + (options.id ? ' id="' + options.id + '"' : ''),
@@ -541,5 +541,5 @@ var ui = {
         $note.show();
     }
 };
-exports["default"] = ui;
+exports.default = ui;
 //# sourceMappingURL=ui.js.map

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var lists_1 = require("./lists");
 var func_1 = require("./func");
 var KEY_MAP = {
@@ -44,7 +44,7 @@ var KEY_MAP = {
     'HOME': 36,
     'END': 35,
     'PAGEUP': 33,
-    'PAGEDOWN': 34
+    'PAGEDOWN': 34,
 };
 /**
  * @class core.key
@@ -54,7 +54,7 @@ var KEY_MAP = {
  * @singleton
  * @alternateClassName key
  */
-exports["default"] = {
+exports.default = {
     /**
      * @method isEdit
      *
@@ -62,7 +62,7 @@ exports["default"] = {
      * @return {Boolean}
      */
     isEdit: function (keyCode) {
-        return lists_1["default"].contains([
+        return lists_1.default.contains([
             KEY_MAP.BACKSPACE,
             KEY_MAP.TAB,
             KEY_MAP.ENTER,
@@ -77,7 +77,7 @@ exports["default"] = {
      * @return {Boolean}
      */
     isMove: function (keyCode) {
-        return lists_1["default"].contains([
+        return lists_1.default.contains([
             KEY_MAP.LEFT,
             KEY_MAP.UP,
             KEY_MAP.RIGHT,
@@ -91,7 +91,7 @@ exports["default"] = {
      * @return {Boolean}
      */
     isNavigation: function (keyCode) {
-        return lists_1["default"].contains([
+        return lists_1.default.contains([
             KEY_MAP.HOME,
             KEY_MAP.END,
             KEY_MAP.PAGEUP,
@@ -102,7 +102,7 @@ exports["default"] = {
      * @property {Object} nameFromCode
      * @property {String} nameFromCode.8 "BACKSPACE"
      */
-    nameFromCode: func_1["default"].invertObject(KEY_MAP),
-    code: KEY_MAP
+    nameFromCode: func_1.default.invertObject(KEY_MAP),
+    code: KEY_MAP,
 };
 //# sourceMappingURL=key.js.map

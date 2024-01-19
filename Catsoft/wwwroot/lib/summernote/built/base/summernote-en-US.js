@@ -1,10 +1,10 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
-jquery_1["default"].summernote = jquery_1["default"].summernote || {
-    lang: {}
+jquery_1.default.summernote = jquery_1.default.summernote || {
+    lang: {},
 };
-jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
+jquery_1.default.extend(jquery_1.default.summernote.lang, {
     'en-US': {
         font: {
             bold: 'Bold',
@@ -17,7 +17,7 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             subscript: 'Subscript',
             superscript: 'Superscript',
             size: 'Font Size',
-            sizeunit: 'Font Size Unit'
+            sizeunit: 'Font Size Unit',
         },
         image: {
             image: 'Picture',
@@ -40,14 +40,14 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             maximumFileSizeError: 'Maximum file size exceeded.',
             url: 'Image URL',
             remove: 'Remove Image',
-            original: 'Original'
+            original: 'Original',
         },
         video: {
             video: 'Video',
             videoLink: 'Video Link',
             insert: 'Insert Video',
             url: 'Video URL',
-            providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)'
+            providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion or Youku)',
         },
         link: {
             link: 'Link',
@@ -57,7 +57,7 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             textToDisplay: 'Text to display',
             url: 'To what URL should this link go?',
             openInNewWindow: 'Open in new window',
-            useProtocol: 'Use default protocol'
+            useProtocol: 'Use default protocol',
         },
         table: {
             table: 'Table',
@@ -67,10 +67,10 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             addColRight: 'Add column right',
             delRow: 'Delete row',
             delCol: 'Delete column',
-            delTable: 'Delete table'
+            delTable: 'Delete table',
         },
         hr: {
-            insert: 'Insert Horizontal Rule'
+            insert: 'Insert Horizontal Rule',
         },
         style: {
             style: 'Style',
@@ -82,16 +82,16 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             h3: 'Header 3',
             h4: 'Header 4',
             h5: 'Header 5',
-            h6: 'Header 6'
+            h6: 'Header 6',
         },
         lists: {
             unordered: 'Unordered list',
-            ordered: 'Ordered list'
+            ordered: 'Ordered list',
         },
         options: {
             help: 'Help',
             fullscreen: 'Full Screen',
-            codeview: 'Code View'
+            codeview: 'Code View',
         },
         paragraph: {
             paragraph: 'Paragraph',
@@ -100,7 +100,7 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             left: 'Align left',
             center: 'Align center',
             right: 'Align right',
-            justify: 'Justify full'
+            justify: 'Justify full',
         },
         color: {
             recent: 'Recent Color',
@@ -111,7 +111,7 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             setTransparent: 'Set transparent',
             reset: 'Reset',
             resetToDefault: 'Reset to default',
-            cpSelect: 'Select'
+            cpSelect: 'Select',
         },
         shortcut: {
             shortcuts: 'Keyboard shortcuts',
@@ -120,7 +120,7 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             action: 'Action',
             paragraphFormatting: 'Paragraph formatting',
             documentStyle: 'Document Style',
-            extraKeys: 'Extra keys'
+            extraKeys: 'Extra keys',
         },
         help: {
             'insertParagraph': 'Insert Paragraph',
@@ -149,19 +149,19 @@ jquery_1["default"].extend(jquery_1["default"].summernote.lang, {
             'formatH5': 'Change current block\'s format as H5',
             'formatH6': 'Change current block\'s format as H6',
             'insertHorizontalRule': 'Insert horizontal rule',
-            'linkDialog.show': 'Show Link Dialog'
+            'linkDialog.show': 'Show Link Dialog',
         },
         history: {
             undo: 'Undo',
-            redo: 'Redo'
+            redo: 'Redo',
         },
         specialChar: {
             specialChar: 'SPECIAL CHARACTERS',
-            select: 'Select Special characters'
+            select: 'Select Special characters',
         },
         output: {
-            noSelection: 'No Selection Made!'
-        }
-    }
+            noSelection: 'No Selection Made!',
+        },
+    },
 });
 //# sourceMappingURL=summernote-en-US.js.map

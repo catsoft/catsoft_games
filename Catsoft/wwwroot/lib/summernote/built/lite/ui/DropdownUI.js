@@ -1,11 +1,11 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var DropdownUI = /** @class */ (function () {
     function DropdownUI($node, options) {
         this.$button = $node;
-        this.options = jquery_1["default"].extend({}, {
-            target: options.container
+        this.options = jquery_1.default.extend({}, {
+            target: options.container,
         }, options);
         this.setEvent();
     }
@@ -17,7 +17,7 @@ var DropdownUI = /** @class */ (function () {
         });
     };
     DropdownUI.prototype.clear = function () {
-        var $parent = jquery_1["default"]('.note-btn-group.open');
+        var $parent = (0, jquery_1.default)('.note-btn-group.open');
         $parent.find('.note-btn.active').removeClass('active');
         $parent.removeClass('open');
     };
@@ -27,8 +27,8 @@ var DropdownUI = /** @class */ (function () {
         var $dropdown = this.$button.next();
         var offset = $dropdown.offset();
         var width = $dropdown.outerWidth();
-        var windowWidth = jquery_1["default"](window).width();
-        var targetMarginRight = parseFloat(jquery_1["default"](this.options.target).css('margin-right'));
+        var windowWidth = (0, jquery_1.default)(window).width();
+        var targetMarginRight = parseFloat((0, jquery_1.default)(this.options.target).css('margin-right'));
         if (offset.left + width > windowWidth - targetMarginRight) {
             $dropdown.css('margin-left', windowWidth - targetMarginRight - (offset.left + width));
         }
@@ -52,15 +52,15 @@ var DropdownUI = /** @class */ (function () {
     };
     return DropdownUI;
 }());
-jquery_1["default"](document).on('click', function (e) {
-    if (!jquery_1["default"](e.target).closest('.note-btn-group').length) {
-        jquery_1["default"]('.note-btn-group.open').removeClass('open');
-        jquery_1["default"]('.note-btn-group .note-btn.active').removeClass('active');
+(0, jquery_1.default)(document).on('click', function (e) {
+    if (!(0, jquery_1.default)(e.target).closest('.note-btn-group').length) {
+        (0, jquery_1.default)('.note-btn-group.open').removeClass('open');
+        (0, jquery_1.default)('.note-btn-group .note-btn.active').removeClass('active');
     }
 });
-jquery_1["default"](document).on('click.note-dropdown-menu', function (e) {
-    jquery_1["default"](e.target).closest('.note-dropdown-menu').parent().removeClass('open');
-    jquery_1["default"](e.target).closest('.note-dropdown-menu').parent().find('.note-btn.active').removeClass('active');
+(0, jquery_1.default)(document).on('click.note-dropdown-menu', function (e) {
+    (0, jquery_1.default)(e.target).closest('.note-dropdown-menu').parent().removeClass('open');
+    (0, jquery_1.default)(e.target).closest('.note-dropdown-menu').parent().find('.note-btn.active').removeClass('active');
 });
-exports["default"] = DropdownUI;
+exports.default = DropdownUI;
 //# sourceMappingURL=DropdownUI.js.map

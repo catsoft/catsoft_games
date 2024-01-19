@@ -1,13 +1,13 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var env_1 = require("../core/env");
 var key_1 = require("../core/key");
 var ImageDialog = /** @class */ (function () {
     function ImageDialog(context) {
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
-        this.$body = jquery_1["default"](document.body);
+        this.ui = jquery_1.default.summernote.ui;
+        this.$body = (0, jquery_1.default)(document.body);
         this.$editor = context.layoutInfo.editor;
         this.options = context.options;
         this.lang = this.options.langInfo;
@@ -19,7 +19,7 @@ var ImageDialog = /** @class */ (function () {
             var unit = Math.floor(Math.log(this.options.maximumImageFileSize) / Math.log(1024));
             var readableSize = (this.options.maximumImageFileSize / Math.pow(1024, unit)).toFixed(2) * 1 +
                 ' ' + ' KMGTP'[unit] + 'B';
-            imageLimitation = "<small>" + (this.lang.image.maximumFileSize + ' : ' + readableSize) + "</small>";
+            imageLimitation = "<small>".concat(this.lang.image.maximumFileSize + ' : ' + readableSize, "</small>");
         }
         var body = [
             '<div class="form-group note-form-group note-group-select-from-files">',
@@ -35,7 +35,7 @@ var ImageDialog = /** @class */ (function () {
             '</div>'
         ].join('');
         var buttonClass = 'btn btn-primary note-btn note-btn-primary note-image-btn';
-        var footer = "<button type=\"submit\" href=\"#\" class=\"" + buttonClass + "\" disabled>" + this.lang.image.insert + "</button>";
+        var footer = "<button type=\"submit\" href=\"#\" class=\"".concat(buttonClass, "\" disabled>").concat(this.lang.image.insert, "</button>");
         this.$dialog = this.ui.dialog({
             title: this.lang.image.insert,
             fade: this.options.dialogsFade,
@@ -49,7 +49,7 @@ var ImageDialog = /** @class */ (function () {
     };
     ImageDialog.prototype.bindEnterKey = function ($input, $btn) {
         $input.on('keypress', function (event) {
-            if (event.keyCode === key_1["default"].code.ENTER) {
+            if (event.keyCode === key_1.default.code.ENTER) {
                 event.preventDefault();
                 $btn.trigger('click');
             }
@@ -80,7 +80,7 @@ var ImageDialog = /** @class */ (function () {
      */
     ImageDialog.prototype.showImageDialog = function () {
         var _this = this;
-        return jquery_1["default"].Deferred(function (deferred) {
+        return jquery_1.default.Deferred(function (deferred) {
             var $imageInput = _this.$dialog.find('.note-image-input');
             var $imageUrl = _this.$dialog.find('.note-image-url');
             var $imageBtn = _this.$dialog.find('.note-image-btn');
@@ -98,7 +98,7 @@ var ImageDialog = /** @class */ (function () {
                     var url = $imageUrl.val();
                     _this.ui.toggleBtn($imageBtn, url);
                 }).val('');
-                if (!env_1["default"].isSupportTouch) {
+                if (!env_1.default.isSupportTouch) {
                     $imageUrl.trigger('focus');
                 }
                 _this.bindEnterKey($imageUrl, $imageBtn);
@@ -116,5 +116,5 @@ var ImageDialog = /** @class */ (function () {
     };
     return ImageDialog;
 }());
-exports["default"] = ImageDialog;
+exports.default = ImageDialog;
 //# sourceMappingURL=ImageDialog.js.map

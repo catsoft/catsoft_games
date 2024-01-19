@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var PopoverUI = /** @class */ (function () {
     function PopoverUI($node, options) {
         this.$node = $node;
@@ -91,5 +91,5 @@ var PopoverUI = /** @class */ (function () {
     };
     return PopoverUI;
 }());
-exports["default"] = PopoverUI;
+exports.default = PopoverUI;
 //# sourceMappingURL=PopoverUI.js.map

@@ -27,6 +27,18 @@ namespace App.Models
 
 
         [Show(false, false, false, false)]
+        public Guid? EventModelId { get; set; }
+
+        public EventModel EventModel { get; set; }
+
+
+        [Show(false, false, false, false)]
+        public Guid? ExperienceModelId { get; set; }
+
+        public ExperienceModel ExperienceModel { get; set; }
+
+
+        [Show(false, false, false, false)]
         public Guid? ArticleModelId { get; set; }
 
         public ArticleModel ArticleModel { get; set; }

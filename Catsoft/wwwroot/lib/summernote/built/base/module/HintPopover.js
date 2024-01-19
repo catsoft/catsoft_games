@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("../core/func");
 var lists_1 = require("../core/lists");
@@ -11,7 +11,7 @@ var HintPopover = /** @class */ (function () {
     function HintPopover(context) {
         var _this = this;
         this.context = context;
-        this.ui = jquery_1["default"].summernote.ui;
+        this.ui = jquery_1.default.summernote.ui;
         this.$editable = context.layoutInfo.editable;
         this.options = context.options;
         this.hint = this.options.hint || [];
@@ -28,7 +28,7 @@ var HintPopover = /** @class */ (function () {
             },
             'summernote.disable summernote.dialog.shown summernote.blur': function () {
                 _this.hide();
-            }
+            },
         };
     }
     HintPopover.prototype.shouldInitialize = function () {
@@ -41,13 +41,13 @@ var HintPopover = /** @class */ (function () {
         this.$popover = this.ui.popover({
             className: 'note-hint-popover',
             hideArrow: true,
-            direction: ''
+            direction: '',
         }).render().appendTo(this.options.container);
         this.$popover.hide();
         this.$content = this.$popover.find('.popover-content,.note-popover-content');
         this.$content.on('click', '.note-hint-item', function (e) {
             _this.$content.find('.active').removeClass('active');
-            jquery_1["default"](e.currentTarget).addClass('active');
+            (0, jquery_1.default)(e.currentTarget).addClass('active');
             _this.replace();
         });
         this.$popover.on('mousedown', function (e) { e.preventDefault(); });
@@ -106,11 +106,11 @@ var HintPopover = /** @class */ (function () {
             this.lastWordRange.insertNode(node);
             if (this.options.hintSelect === 'next') {
                 var blank = document.createTextNode('');
-                jquery_1["default"](node).after(blank);
-                range_1["default"].createFromNodeBefore(blank).select();
+                (0, jquery_1.default)(node).after(blank);
+                range_1.default.createFromNodeBefore(blank).select();
             }
             else {
-                range_1["default"].createFromNodeAfter(node).select();
+                range_1.default.createFromNodeAfter(node).select();
             }
             this.lastWordRange = null;
             this.hide();
@@ -122,18 +122,18 @@ var HintPopover = /** @class */ (function () {
         var item = $item.data('item');
         var node = hint.content ? hint.content(item) : item;
         if (typeof node === 'string') {
-            node = dom_1["default"].createText(node);
+            node = dom_1.default.createText(node);
         }
         return node;
     };
     HintPopover.prototype.createItemTemplates = function (hintIdx, items) {
         var hint = this.hints[hintIdx];
         return items.map(function (item, idx) {
-            var $item = jquery_1["default"]('<div class="note-hint-item"/>');
+            var $item = (0, jquery_1.default)('<div class="note-hint-item"/>');
             $item.append(hint.template ? hint.template(item) : item + '');
             $item.data({
                 'index': hintIdx,
-                'item': item
+                'item': item,
             });
             return $item;
         });
@@ -142,15 +142,15 @@ var HintPopover = /** @class */ (function () {
         if (!this.$popover.is(':visible')) {
             return;
         }
-        if (e.keyCode === key_1["default"].code.ENTER) {
+        if (e.keyCode === key_1.default.code.ENTER) {
             e.preventDefault();
             this.replace();
         }
-        else if (e.keyCode === key_1["default"].code.UP) {
+        else if (e.keyCode === key_1.default.code.UP) {
             e.preventDefault();
             this.moveUp();
         }
-        else if (e.keyCode === key_1["default"].code.DOWN) {
+        else if (e.keyCode === key_1.default.code.DOWN) {
             e.preventDefault();
             this.moveDown();
         }
@@ -168,7 +168,7 @@ var HintPopover = /** @class */ (function () {
     };
     HintPopover.prototype.createGroup = function (idx, keyword) {
         var _this = this;
-        var $group = jquery_1["default"]('<div class="note-hint-group note-hint-group-' + idx + '"/>');
+        var $group = (0, jquery_1.default)('<div class="note-hint-group note-hint-group-' + idx + '"/>');
         this.searchKeyword(idx, keyword, function (items) {
             items = items || [];
             if (items.length) {
@@ -180,7 +180,7 @@ var HintPopover = /** @class */ (function () {
     };
     HintPopover.prototype.handleKeyup = function (e) {
         var _this = this;
-        if (!lists_1["default"].contains([key_1["default"].code.ENTER, key_1["default"].code.UP, key_1["default"].code.DOWN], e.keyCode)) {
+        if (!lists_1.default.contains([key_1.default.code.ENTER, key_1.default.code.UP, key_1.default.code.DOWN], e.keyCode)) {
             var range_2 = this.context.invoke('editor.getLastRange');
             var wordRange_1, keyword_1;
             if (this.options.hintMode === 'words') {
@@ -204,8 +204,8 @@ var HintPopover = /** @class */ (function () {
             }
             if (this.hints.length && keyword_1) {
                 this.$content.empty();
-                var bnd = func_1["default"].rect2bnd(lists_1["default"].last(wordRange_1.getClientRects()));
-                var containerOffset = jquery_1["default"](this.options.container).offset();
+                var bnd = func_1.default.rect2bnd(lists_1.default.last(wordRange_1.getClientRects()));
+                var containerOffset = (0, jquery_1.default)(this.options.container).offset();
                 if (bnd) {
                     bnd.top -= containerOffset.top;
                     bnd.left -= containerOffset.left;
@@ -222,13 +222,13 @@ var HintPopover = /** @class */ (function () {
                     if (this.direction === 'top') {
                         this.$popover.css({
                             left: bnd.left,
-                            top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST
+                            top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST,
                         });
                     }
                     else {
                         this.$popover.css({
                             left: bnd.left,
-                            top: bnd.top + bnd.height + POPOVER_DIST
+                            top: bnd.top + bnd.height + POPOVER_DIST,
                         });
                     }
                 }
@@ -246,5 +246,5 @@ var HintPopover = /** @class */ (function () {
     };
     return HintPopover;
 }());
-exports["default"] = HintPopover;
+exports.default = HintPopover;
 //# sourceMappingURL=HintPopover.js.map

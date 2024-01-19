@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var Placeholder = /** @class */ (function () {
     function Placeholder(context) {
@@ -17,7 +17,7 @@ var Placeholder = /** @class */ (function () {
             },
             'summernote.codeview.toggled': function () {
                 _this.update();
-            }
+            },
         };
     }
     Placeholder.prototype.shouldInitialize = function () {
@@ -25,7 +25,7 @@ var Placeholder = /** @class */ (function () {
     };
     Placeholder.prototype.initialize = function () {
         var _this = this;
-        this.$placeholder = jquery_1["default"]('<div class="note-placeholder">');
+        this.$placeholder = (0, jquery_1.default)('<div class="note-placeholder">');
         this.$placeholder.on('click', function () {
             _this.context.invoke('focus');
         }).html(this.options.placeholder).prependTo(this.$editingArea);
@@ -40,5 +40,5 @@ var Placeholder = /** @class */ (function () {
     };
     return Placeholder;
 }());
-exports["default"] = Placeholder;
+exports.default = Placeholder;
 //# sourceMappingURL=Placeholder.js.map

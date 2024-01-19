@@ -1,13 +1,13 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var renderer_1 = require("../base/renderer");
-var editor = renderer_1["default"].create('<div class="note-editor note-frame panel panel-default"/>');
-var toolbar = renderer_1["default"].create('<div class="note-toolbar panel-heading" role="toolbar"></div></div>');
-var editingArea = renderer_1["default"].create('<div class="note-editing-area"/>');
-var codable = renderer_1["default"].create('<textarea class="note-codable" aria-multiline="true"/>');
-var editable = renderer_1["default"].create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');
-var statusbar = renderer_1["default"].create([
+var editor = renderer_1.default.create('<div class="note-editor note-frame panel panel-default"/>');
+var toolbar = renderer_1.default.create('<div class="note-toolbar panel-heading" role="toolbar"></div></div>');
+var editingArea = renderer_1.default.create('<div class="note-editing-area"/>');
+var codable = renderer_1.default.create('<textarea class="note-codable" aria-multiline="true"/>');
+var editable = renderer_1.default.create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');
+var statusbar = renderer_1.default.create([
     '<output class="note-status-output" role="status" aria-live="polite"/>',
     '<div class="note-statusbar" role="status">',
     '<div class="note-resizebar" aria-label="Resize">',
@@ -17,13 +17,13 @@ var statusbar = renderer_1["default"].create([
     '</div>',
     '</div>',
 ].join(''));
-var airEditor = renderer_1["default"].create('<div class="note-editor note-airframe"/>');
-var airEditable = renderer_1["default"].create([
+var airEditor = renderer_1.default.create('<div class="note-editor note-airframe"/>');
+var airEditable = renderer_1.default.create([
     '<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>',
     '<output class="note-status-output" role="status" aria-live="polite"/>',
 ].join(''));
-var buttonGroup = renderer_1["default"].create('<div class="note-btn-group btn-group">');
-var dropdown = renderer_1["default"].create('<ul class="note-dropdown-menu dropdown-menu">', function ($node, options) {
+var buttonGroup = renderer_1.default.create('<div class="note-btn-group btn-group">');
+var dropdown = renderer_1.default.create('<ul class="note-dropdown-menu dropdown-menu">', function ($node, options) {
     var markup = Array.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
@@ -37,7 +37,7 @@ var dropdown = renderer_1["default"].create('<ul class="note-dropdown-menu dropd
 var dropdownButtonContents = function (contents, options) {
     return contents + ' ' + icon(options.icons.caret, 'span');
 };
-var dropdownCheck = renderer_1["default"].create('<ul class="note-dropdown-menu dropdown-menu note-check">', function ($node, options) {
+var dropdownCheck = renderer_1.default.create('<ul class="note-dropdown-menu dropdown-menu note-check">', function ($node, options) {
     var markup = Array.isArray(options.items) ? options.items.map(function (item) {
         var value = (typeof item === 'string') ? item : (item.value || '');
         var content = options.template ? options.template(item) : item;
@@ -45,12 +45,12 @@ var dropdownCheck = renderer_1["default"].create('<ul class="note-dropdown-menu 
     }).join('') : options.items;
     $node.html(markup).attr({ 'aria-label': options.title });
 });
-var dialog = renderer_1["default"].create('<div class="modal note-modal" aria-hidden="false" tabindex="-1" role="dialog"/>', function ($node, options) {
+var dialog = renderer_1.default.create('<div class="modal note-modal" aria-hidden="false" tabindex="-1" role="dialog"/>', function ($node, options) {
     if (options.fade) {
         $node.addClass('fade');
     }
     $node.attr({
-        'aria-label': options.title
+        'aria-label': options.title,
     });
     $node.html([
         '<div class="modal-dialog">',
@@ -65,7 +65,7 @@ var dialog = renderer_1["default"].create('<div class="modal note-modal" aria-hi
         '</div>',
     ].join(''));
 });
-var popover = renderer_1["default"].create([
+var popover = renderer_1.default.create([
     '<div class="note-popover popover in">',
     '<div class="arrow"/>',
     '<div class="popover-content note-children-container"/>',
@@ -77,7 +77,7 @@ var popover = renderer_1["default"].create([
         $node.find('.arrow').hide();
     }
 });
-var checkbox = renderer_1["default"].create('<div class="checkbox"></div>', function ($node, options) {
+var checkbox = renderer_1.default.create('<div class="checkbox"></div>', function ($node, options) {
     $node.html([
         '<label' + (options.id ? ' for="note-' + options.id + '"' : '') + '>',
         '<input type="checkbox"' + (options.id ? ' id="note-' + options.id + '"' : ''),
@@ -111,7 +111,7 @@ var ui = function (editorOptions) {
         icon: icon,
         options: editorOptions,
         palette: function ($node, options) {
-            return renderer_1["default"].create('<div class="note-color-palette"/>', function ($node, options) {
+            return renderer_1.default.create('<div class="note-color-palette"/>', function ($node, options) {
                 var contents = [];
                 for (var row = 0, rowSize = options.colors.length; row < rowSize; row++) {
                     var eventName = options.eventName;
@@ -138,23 +138,23 @@ var ui = function (editorOptions) {
                     $node.find('.note-color-btn').tooltip({
                         container: options.container || editorOptions.container,
                         trigger: 'hover',
-                        placement: 'bottom'
+                        placement: 'bottom',
                     });
                 }
             })($node, options);
         },
         button: function ($node, options) {
-            return renderer_1["default"].create('<button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1">', function ($node, options) {
+            return renderer_1.default.create('<button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1">', function ($node, options) {
                 if (options && options.tooltip) {
                     $node.attr({
                         title: options.tooltip,
-                        'aria-label': options.tooltip
+                        'aria-label': options.tooltip,
                     }).tooltip({
                         container: options.container || editorOptions.container,
                         trigger: 'hover',
-                        placement: 'bottom'
+                        placement: 'bottom',
                     }).on('click', function (e) {
-                        jquery_1["default"](e.currentTarget).tooltip('hide');
+                        (0, jquery_1.default)(e.currentTarget).tooltip('hide');
                     });
                 }
             })($node, options);
@@ -209,15 +209,15 @@ var ui = function (editorOptions) {
                 editingArea: $editor.find('.note-editing-area'),
                 editable: $editor.find('.note-editable'),
                 codable: $editor.find('.note-codable'),
-                statusbar: $editor.find('.note-statusbar')
+                statusbar: $editor.find('.note-statusbar'),
             };
         },
         removeLayout: function ($note, layoutInfo) {
             $note.html(layoutInfo.editable.html());
             layoutInfo.editor.remove();
             $note.show();
-        }
+        },
     };
 };
-exports["default"] = ui;
+exports.default = ui;
 //# sourceMappingURL=ui.js.map

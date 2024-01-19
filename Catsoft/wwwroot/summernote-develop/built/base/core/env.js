@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var isSupportAmd = typeof define === 'function' && define.amd; // eslint-disable-line
 /**
@@ -10,7 +10,7 @@ var isSupportAmd = typeof define === 'function' && define.amd; // eslint-disable
  */
 function isFontInstalled(fontName) {
     var testFontName = fontName === 'Comic Sans MS' ? 'Courier New' : 'Comic Sans MS';
-    var $tester = jquery_1["default"]('<div>').css({
+    var $tester = (0, jquery_1.default)('<div>').css({
         position: 'absolute',
         left: '-9999px',
         top: '-9999px',
@@ -82,7 +82,7 @@ var inputEventName = (isMSIE || isEdge) ? 'DOMCharacterDataModified DOMSubtreeMo
  * @singleton
  * @alternateClassName env
  */
-exports["default"] = {
+exports.default = {
     isMac: navigator.appVersion.indexOf('Mac') > -1,
     isMSIE: isMSIE,
     isEdge: isEdge,
@@ -92,7 +92,7 @@ exports["default"] = {
     isChrome: !isEdge && /chrome/i.test(userAgent),
     isSafari: !isEdge && /safari/i.test(userAgent),
     browserVersion: browserVersion,
-    jqueryVersion: parseFloat(jquery_1["default"].fn.jquery),
+    jqueryVersion: parseFloat(jquery_1.default.fn.jquery),
     isSupportAmd: isSupportAmd,
     isSupportTouch: isSupportTouch,
     hasCodeMirror: hasCodeMirror,

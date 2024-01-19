@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 /**
  * @class core.func
@@ -77,12 +77,12 @@ function uniqueId(prefix) {
  * @return {Number} bounds.height
  */
 function rect2bnd(rect) {
-    var $document = jquery_1["default"](document);
+    var $document = (0, jquery_1.default)(document);
     return {
         top: rect.top + $document.scrollTop(),
         left: rect.left + $document.scrollLeft(),
         width: rect.right - rect.left,
-        height: rect.bottom - rect.top
+        height: rect.bottom - rect.top,
     };
 }
 /**
@@ -148,7 +148,7 @@ function isValidUrl(url) {
     var expression = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
     return expression.test(url);
 }
-exports["default"] = {
+exports.default = {
     eq: eq,
     eq2: eq2,
     peq2: peq2,
@@ -164,6 +164,6 @@ exports["default"] = {
     invertObject: invertObject,
     namespaceToCamel: namespaceToCamel,
     debounce: debounce,
-    isValidUrl: isValidUrl
+    isValidUrl: isValidUrl,
 };
 //# sourceMappingURL=func.js.map

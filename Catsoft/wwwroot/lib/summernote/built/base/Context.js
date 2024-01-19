@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jquery_1 = require("jquery");
 var func_1 = require("./core/func");
 var lists_1 = require("./core/lists");
@@ -14,10 +14,10 @@ var Context = /** @class */ (function () {
         this.memos = {};
         this.modules = {};
         this.layoutInfo = {};
-        this.options = jquery_1["default"].extend(true, {}, options);
+        this.options = jquery_1.default.extend(true, {}, options);
         // init ui with options
-        jquery_1["default"].summernote.ui = jquery_1["default"].summernote.ui_template(this.options);
-        this.ui = jquery_1["default"].summernote.ui;
+        jquery_1.default.summernote.ui = jquery_1.default.summernote.ui_template(this.options);
+        this.ui = jquery_1.default.summernote.ui;
         this.initialize();
     }
     /**
@@ -42,7 +42,7 @@ var Context = /** @class */ (function () {
      */
     Context.prototype.reset = function () {
         var disabled = this.isDisabled();
-        this.code(dom_1["default"].emptyPara);
+        this.code(dom_1.default.emptyPara);
         this._destroy();
         this._initialize();
         if (disabled) {
@@ -52,15 +52,15 @@ var Context = /** @class */ (function () {
     Context.prototype._initialize = function () {
         var _this = this;
         // set own id
-        this.options.id = func_1["default"].uniqueId(jquery_1["default"].now());
+        this.options.id = func_1.default.uniqueId(jquery_1.default.now());
         // set default container for tooltips, popovers, and dialogs
         this.options.container = this.options.container || this.layoutInfo.editor;
         // add optional buttons
-        var buttons = jquery_1["default"].extend({}, this.options.buttons);
+        var buttons = jquery_1.default.extend({}, this.options.buttons);
         Object.keys(buttons).forEach(function (key) {
             _this.memo('button.' + key, buttons[key]);
         });
-        var modules = jquery_1["default"].extend({}, this.options.modules, jquery_1["default"].summernote.plugins || {});
+        var modules = jquery_1.default.extend({}, this.options.modules, jquery_1.default.summernote.plugins || {});
         // add and initialize modules
         Object.keys(modules).forEach(function (key) {
             _this.module(key, modules[key], true);
@@ -118,9 +118,9 @@ var Context = /** @class */ (function () {
         this.triggerEvent('disable', true);
     };
     Context.prototype.triggerEvent = function () {
-        var namespace = lists_1["default"].head(arguments);
-        var args = lists_1["default"].tail(lists_1["default"].from(arguments));
-        var callback = this.options.callbacks[func_1["default"].namespaceToCamel(namespace, 'on')];
+        var namespace = lists_1.default.head(arguments);
+        var args = lists_1.default.tail(lists_1.default.from(arguments));
+        var callback = this.options.callbacks[func_1.default.namespaceToCamel(namespace, 'on')];
         if (callback) {
             callback.apply(this.$note[0], args);
         }
@@ -128,7 +128,7 @@ var Context = /** @class */ (function () {
     };
     Context.prototype.initializeModule = function (key) {
         var module = this.modules[key];
-        module.shouldInitialize = module.shouldInitialize || func_1["default"].ok;
+        module.shouldInitialize = module.shouldInitialize || func_1.default.ok;
         if (!module.shouldInitialize()) {
             return;
         }
@@ -138,7 +138,7 @@ var Context = /** @class */ (function () {
         }
         // attach events
         if (module.events) {
-            dom_1["default"].attachEvents(this.$note, module.events);
+            dom_1.default.attachEvents(this.$note, module.events);
         }
     };
     Context.prototype.module = function (key, ModuleClass, withoutIntialize) {
@@ -154,7 +154,7 @@ var Context = /** @class */ (function () {
         var module = this.modules[key];
         if (module.shouldInitialize()) {
             if (module.events) {
-                dom_1["default"].detachEvents(this.$note, module.events);
+                dom_1.default.detachEvents(this.$note, module.events);
             }
             if (module.destroy) {
                 module.destroy();
@@ -188,17 +188,17 @@ var Context = /** @class */ (function () {
         var _this = this;
         return function (event) {
             event.preventDefault();
-            var $target = jquery_1["default"](event.target);
+            var $target = (0, jquery_1.default)(event.target);
             _this.invoke(namespace, value || $target.closest('[data-value]').data('value'), $target);
         };
     };
     Context.prototype.invoke = function () {
-        var namespace = lists_1["default"].head(arguments);
-        var args = lists_1["default"].tail(lists_1["default"].from(arguments));
+        var namespace = lists_1.default.head(arguments);
+        var args = lists_1.default.tail(lists_1.default.from(arguments));
         var splits = namespace.split('.');
         var hasSeparator = splits.length > 1;
-        var moduleName = hasSeparator && lists_1["default"].head(splits);
-        var methodName = hasSeparator ? lists_1["default"].last(splits) : lists_1["default"].head(splits);
+        var moduleName = hasSeparator && lists_1.default.head(splits);
+        var methodName = hasSeparator ? lists_1.default.last(splits) : lists_1.default.head(splits);
         var module = this.modules[moduleName || 'editor'];
         if (!moduleName && this[methodName]) {
             return this[methodName].apply(this, args);
@@ -209,5 +209,5 @@ var Context = /** @class */ (function () {
     };
     return Context;
 }());
-exports["default"] = Context;
+exports.default = Context;
 //# sourceMappingURL=Context.js.map

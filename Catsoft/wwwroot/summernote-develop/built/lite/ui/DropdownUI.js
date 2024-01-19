@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var DropdownUI = /** @class */ (function () {
     function DropdownUI($node, options) {
         this.$button = $node;
@@ -55,5 +55,5 @@ $(document).on('click', function (e) {
 $(document).on('click.note-dropdown-menu', function (e) {
     $(e.target).closest('.note-dropdown-menu').parent().removeClass('open');
 });
-exports["default"] = DropdownUI;
+exports.default = DropdownUI;
 //# sourceMappingURL=DropdownUI.js.map
