@@ -349,3 +349,6 @@ Mobile/Out/Resharper/
 
 # Rider local files
 .idea/
+/Catsoft/appsettings.json
+/Catsoft/appsettings.Development.json
+/Catsoft/Properties/launchSettings.json

@@ -1,4 +1,5 @@
-﻿@using App.Models
+﻿@using App.cms.Models
+@using App.Models
 @using App.Models.Pages
 @using App.ViewModels.Common
 @inject CatsoftContext CatsoftContextDb
@@ -25,17 +26,32 @@
             };
         }
     }
+
+    var currentLanguage = TextLanguage.English;
+    var langShort = "";
+    switch (currentLanguage)
+    {
+        case TextLanguage.English:
+            langShort = "en";
+            break;
+        case TextLanguage.Russian:
+            langShort = "ru";
+            break;
+        case TextLanguage.Portuguese:
+            langShort = "pt";
+            break;
+    }
 }
 
 <!doctype html>
-<html lang="ru" prefix="og: http://ogp.me/ns#">
+<html lang="@langShort">
 <head>
     @await Html.PartialAsync("YandexMetrica")
-
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>@headerViewModel?.MetaInfo?.MetaTitle</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <meta property="og:title" content="@headerViewModel?.MetaInfo?.MetaTitle">
     <meta property="og:description" content="@headerViewModel?.MetaInfo?.MetaDescription">
@@ -65,20 +81,10 @@
             let currentModuleTemplate = 'index';
     </script>
 
-    <link type="text/css" rel="StyleSheet" href="/css/1806.css"/>
-
-    <link rel="stylesheet" href="/css/base.min.css"/>
-    <link rel="stylesheet" href="/css/layer7.min.css"/>
-    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="/css/ulightbox.min.css"/>
-
-    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/bootstrap-grid.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/bootstrap-reboot.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/bootstrap-utilities.css" rel="stylesheet" type="text/css"/>
-
-    <link href="/lib/fancybox/dist/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+   <!-- <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
 
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-share-buttons" async="async"></script>
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-reaction-buttons&cms=website" async="async"></script>
@@ -95,26 +101,16 @@
     @await Html.PartialAsync("Footer", footerViewModel)
 
 
-    <script type="text/javascript" src="/lib/jQuery/dist/jquery.js"></script>
-
     <script type="text/javascript">
             let $= jQuery.noConflict();
-        </script>
-
-    <script type="text/javascript" src="/js/ulightbox.min.js"></script>
-
-    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
-
-    <script type="text/javascript" src="/lib/moment/min/moment.min.js"></script>
-    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
-
-    <script src="/js/uwnd.min.js"></script>
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 
-    <script src="/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>

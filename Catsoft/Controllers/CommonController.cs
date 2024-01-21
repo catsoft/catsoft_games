@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using App.Models;
 using App.ViewModels.Common;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Controllers
 {
-    public class CommonController : Controller
+    public class CommonController : CookieController
     {
         protected CatsoftContext CatsoftContext { get; set; }
 
