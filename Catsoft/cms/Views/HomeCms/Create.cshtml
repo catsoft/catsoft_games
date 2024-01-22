@@ -1,7 +1,9 @@
 ﻿@using App.cms.Helpers
 @using App.cms.Repositories.CmsModels
 @using App.cms.StaticHelpers
+@using App.cms.ViewModels
 @using App.cms.ViewModels.Properties
+@using App.Models
 @inject ICmsCmsModelRepository ModelRepository
 @inject TypesOptions TypesOptions
 @model dynamic
@@ -21,6 +23,8 @@
     ViewData["TitleToTopLabelE"] = cmsSection.Title;
 
     var other = properties.Where(w => w.PropertyType != TypesOptions.File && w.PropertyType != TypesOptions.Image).ToList();
+
+    var isImage = ReflectionHelper.IsImage(type);
 }
 
 
@@ -38,75 +42,82 @@
         </div>
     </div>
     <div class="col-md-12">
-        <hr />
+        <hr/>
     </div>
 
     <div class="col-md-12">
-
         <h4>@(cmsSection.Title)</h4>
     </div>
     <div class="col-md-12">
 
-        <hr />
+        <hr/>
     </div>
-    
-    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/FilesProperties.cshtml", Model, ViewData)
-    
-    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/ImagesProperties.cshtml", Model, ViewData)
 
-    <div class="row">
-        <div class="col-md-12">
-            <form asp-action="Create" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div style="display: none" id="fileHiddenInputs"></div>
-                <div style="display: none" id="imagesHiddenInputs"></div>
-                
-                @Html.Hidden("type", type.Name)
-                @foreach (var propertyInfo in other)
-                {
-                    <div class="col-md-12" style="margin-bottom: 30px;">
-                        @{
-                            var name = ReflectionHelper.GetNameProperty(propertyInfo);
-                            var propertyType = propertyInfo.PropertyType;
-                            var isHtml = ReflectionHelper.IsHtml(propertyInfo);
-                            var isArray = ReflectionHelper.IsArray(propertyInfo);
-                        }
 
-                        <div class="form-group">
-                            <div class="col-md-2">
-                                <span style="font-weight: bold">
-                                    @Html.DisplayName(name)
-                                </span>
-                            </div>
-                            <div class="col-md-10">
-                                @if (isHtml)
-                                {
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/HtmlProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
-                                }
-                                else if (isArray)
-                                {
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToManyProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
-                                }
-                                else if (propertyType.IsClass && propertyType != stringType)
-                                {
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToOneProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
-                                }
-                                else if (propertyType.IsEnum)
-                                {
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/EnumProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
-                                }
-                                else
-                                {
-                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/SimpleTypeProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
-                                }
+    @if (isImage)
+    {
+        @await Html.PartialAsync("~/CMS/Views/HomeCms/Image.cshtml", new ImageViewModel())
+    }
+    else
+    {
+        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/FilesProperties.cshtml", Model, ViewData)
+
+        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/ImagesProperties.cshtml", Model, ViewData)
+
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div style="display: none" id="fileHiddenInputs"></div>
+                    <div style="display: none" id="imagesHiddenInputs"></div>
+
+                    @Html.Hidden("type", type.Name)
+                    @foreach (var propertyInfo in other)
+                    {
+                        <div class="col-md-12" style="margin-bottom: 30px;">
+                            @{
+                                var name = ReflectionHelper.GetNameProperty(propertyInfo);
+                                var propertyType = propertyInfo.PropertyType;
+                                var isHtml = ReflectionHelper.IsHtml(propertyInfo);
+                                var isArray = ReflectionHelper.IsArray(propertyInfo);
+                            }
+
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <span style="font-weight: bold">
+                                        @Html.DisplayName(name)
+                                    </span>
+                                </div>
+                                <div class="col-md-10">
+                                    @if (isHtml)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/HtmlProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else if (isArray)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToManyProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else if (propertyType.IsClass && propertyType != stringType)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/OneToOneProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else if (propertyType.IsEnum)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/EnumProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/SimpleTypeProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                </div>
                             </div>
                         </div>
+                    }
+                    <div class="form-group col-md-4 offset-md-5" style="margin-top: 60px; margin-bottom: 50px;">
+                        <input type="submit" value="Создать" class="btn btn-primary"/>
                     </div>
-                }
-                <div class="form-group col-md-4 offset-md-5" style="margin-top: 60px; margin-bottom: 50px;">
-                    <input type="submit" value="Создать" class="btn btn-primary" />
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    }
 </div>

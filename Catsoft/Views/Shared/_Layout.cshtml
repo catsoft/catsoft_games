@@ -46,84 +46,20 @@
 <!doctype html>
 <html lang="@langShort">
 <head>
-    @await Html.PartialAsync("YandexMetrica")
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>@headerViewModel?.MetaInfo?.MetaTitle</title>
-
-    <meta property="og:title" content="@headerViewModel?.MetaInfo?.MetaTitle">
-    <meta property="og:description" content="@headerViewModel?.MetaInfo?.MetaDescription">
-    <meta name="Keywords" content="@headerViewModel?.MetaInfo?.KeyWords">
-
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Cousine:400,700&amp;subset=cyrillic" rel="stylesheet" type="text/css"/>
-    <style>
-        font-face {
-            font-family: "FontAwesome";
-            font-style: normal;
-            font-weight: normal;
-            src: url("/font/fontawesome-webfont.eot?#iefix&v=4.3.0") 
-                 format("embedded-opentype"), 
-                 url("/font/fontawesome-webfont.woff2?v=4.3.0") 
-                 format("woff2"), 
-                 url("/font/fontawesome-webfont.woff?v=4.3.0") 
-                 format("woff"), 
-                 url("/font/fontawesome-webfont.ttf?v=4.3.0") 
-                 format("truetype"), 
-                 url("/font/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") 
-                 format("svg");
-        }
-    </style>
-
-    <script type="text/javascript">
-            let currentPageIdTemplate = 'sitePage1';
-            let currentModuleTemplate = 'index';
-    </script>
-
-    <link type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
-   <!-- <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
-
-    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-share-buttons" async="async"></script>
-    <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5e4178b1bd8e8a0012b108f2&product=inline-reaction-buttons&cms=website" async="async"></script>
+    @await Html.PartialAsync("CommonHead", headerViewModel)
 </head>
 
-<body class="base">
+<body class="d-flex flex-column h-100">
 
-<div class="cont-wrap">
+@await Html.PartialAsync("Header", headerViewModel)
 
-    @await Html.PartialAsync("Header", headerViewModel)
-
+<main class="flex-shrink-0">
     @RenderBody()
+</main>
 
-    @await Html.PartialAsync("Footer", footerViewModel)
+@await Html.PartialAsync("Footer", footerViewModel)
 
-
-    <script type="text/javascript">
-            let $= jQuery.noConflict();
-    </script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
-
-    <script>
-            $(document).ready(function() {
-                $('.menu-a').click(function(){
-                
-                    $('header div[id^=\'uNMenuDiv\']').toggleClass('openMenu')
-            })})
-        </script>
-
-</div>
+@await Html.PartialAsync("JsImports")
 
 </body>
 </html>

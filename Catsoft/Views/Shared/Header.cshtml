@@ -3,6 +3,7 @@
 @using App.cms.StaticHelpers
 @using App.Models
 @model App.ViewModels.Common.HeaderViewModel
+@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = null;
@@ -11,17 +12,13 @@
         Menu.Home,
         Menu.Book,
         Menu.Services,
-        Menu.Contacts
+        Menu.Contacts,
+        Menu.Gallery,
     };
 
     var languages = Enum.GetValues<TextLanguage>();
     var currentLanguage = CookieHelper.GetLanguage(Context);
 }
-
-
-<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
 
 <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
 
@@ -54,17 +51,31 @@
             }
         }
     </ul>
-    
-    
+
+    <script>
+        function getFlagEmoji(countryCode) {
+            const codePoints = countryCode
+                .toUpperCase()
+                .split('')
+                .map(char => 127397 + char.charCodeAt());
+            return String.fromCodePoint(...codePoints);
+        }
+    </script>
+
     <div class="d-flex me-5 ms-5">
-        <select class="form-select .form-select-lg" aria-label=".form-select-lg" data-style="btn btn-primary" onchange="changeLanguage()">
+        @* <div style="font-family: 'Noto Color Emoji'"> *@
+        @*     <blockquote> *@
+        @*         🇦🇫 🇦🇱 🇩🇿 🇦🇩 🇦🇴 🇦🇬 🇦🇷 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇹 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇨🇻 🇰🇭 🇨🇲 🇨🇦 🇨🇫 🇹🇩 🇨🇱 🇨🇴 🇰🇲 🇨🇩 🇨🇷 🇨🇮 🇭🇷 🇨🇺 🇨🇾 🇨🇿 🇰🇵 🇨🇬 🇩🇰 🇩🇯 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇬🇶 🇪🇷 🇪🇪 🇸🇿 🇪🇹 🇫🇯 🇫🇮 🇫🇷 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇷 🇬🇩 🇬🇹 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇷 🇮🇶 🇮🇪 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇴 🇰🇿 🇰🇪 🇰🇮 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇧 🇱🇸 🇱🇷 🇱🇾 🇱🇮 🇱🇹 🇱🇺 🇲🇬 🇲🇼 🇲🇾 🇲🇻 🇲🇱 🇲🇹 🇲🇭 🇲🇷 🇲🇺 🇲🇽 🇫🇲 🇲🇨 🇲🇳 🇲🇪 🇲🇦 🇲🇿 🇲🇲 🇳🇦 🇳🇷 🇳🇵 🇳🇱 🇳🇿 🇳🇮 🇳🇪 🇳🇬 🇲🇰 🇳🇴 🇴🇲 🇵🇰 🇵🇼 🇵🇦 🇵🇬 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇰🇷 🇲🇩 🇷🇴 🇷🇺 🇷🇼 🇰🇳 🇱🇨 🇻🇨 🇼🇸 🇸🇲 🇸🇹 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇰 🇸🇮 🇸🇧 🇸🇴 🇿🇦 🇸🇸 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇪 🇨🇭 🇸🇾 🇹🇯 🇹🇭 🇹🇱 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇲 🇹🇻 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇹🇿 🇺🇸 🇺🇾 🇺🇿 🇻🇺 🇻🇪 🇻🇳 🇾🇪 🇿🇲 🇿🇼 *@
+        @*     </blockquote> *@
+        @* </div> *@
+        <select style="font-family: 'Noto Color Emoji'" class="form-select .form-select-lg" aria-label=".form-select-lg" data-style="btn btn-primary" onchange="changeLanguage()">
             @foreach (var language in languages)
             {
                 var flag = "";
                 switch (language)
                 {
                     case TextLanguage.English:
-                        flag = "en";
+                        flag = "gb";
                         break;
                     case TextLanguage.Russian:
                         flag = "ru";
@@ -73,10 +84,11 @@
                         flag = "pt";
                         break;
                 }
-                <option value="@language" @(currentLanguage == language ? "selected" : "")>@language</option>
+                var emoji = flag.IsoCountryCodeToFlagEmoji();
+                <option style="font-family: 'Noto Color Emoji'" value="@language" @(currentLanguage == language ? "selected" : "")>@emoji @language</option>
             }
         </select>
-        
+
         <script>
             function changeLanguage() {
                 var language = document.querySelector("select").value;

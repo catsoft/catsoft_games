@@ -51,10 +51,10 @@ namespace App.Controllers
 
             var contactsModel = await CatsoftContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
 
-            var contactsInfoText = _textResourceRepository.GetByTag("Contact_information");
-            var nameText = _textResourceRepository.GetByTag("Name");
-            var commentText = _textResourceRepository.GetByTag("Comment");
-            var newOrderText = _textResourceRepository.GetByTag("New order");
+            var contactsInfoText = _textResourceRepository.GetByTag(HttpContext, "Contact_information");
+            var nameText = _textResourceRepository.GetByTag(HttpContext, "Name");
+            var commentText = _textResourceRepository.GetByTag(HttpContext, "Comment");
+            var newOrderText = _textResourceRepository.GetByTag(HttpContext, "New order");
 
             var text = $"{contactsInfoText} : {orderModel.EmailOrPhone}\n" +
                        $"{nameText} : {orderModel.Name}\n" +

@@ -5,6 +5,7 @@ using App.cms.FilesHandlers.Png;
 using App.cms.FilesHandlers.Webpack;
 using App.cms.Models;
 using App.cms.StaticHelpers;
+using App.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace App.cms.FilesHandlers

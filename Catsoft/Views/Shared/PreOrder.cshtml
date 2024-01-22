@@ -21,7 +21,7 @@
                         htmlAttributes = new
                         {
                             @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag("Name")
+                                placeholder = TextResourceRepository.GetByTag(Context, "Name")
                         }
                     })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
                         htmlAttributes = new
                         {
                             @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag("Phone or email")
+                                placeholder = TextResourceRepository.GetByTag(Context, "Phone or email")
                         }
                     })
                     @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
@@ -53,7 +53,7 @@
                         htmlAttributes = new
                         {
                             @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag("Comment")
+                                placeholder = TextResourceRepository.GetByTag(Context, "Comment")
                         }
                     })
                     @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })

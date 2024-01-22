@@ -1,4 +1,5 @@
 ﻿using App.cms.Models;
+using App.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories.Image

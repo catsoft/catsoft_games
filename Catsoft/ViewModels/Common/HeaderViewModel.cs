@@ -13,5 +13,13 @@ namespace App.ViewModels.Common
         public Menu CurrentPage { get; set; }
 
         public List<MenuViewModel> Menus { get; set; }
+
+        public static HeaderViewModel DefaultCms()
+        {
+            return new HeaderViewModel()
+            {
+                CurrentPage = Menu.Cms,
+            };
+        }   
     }
 }

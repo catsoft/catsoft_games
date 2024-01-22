@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using App.cms.Models;
 using App.cms.Repositories.Image;
+using App.Models;
 using ImageProcessor;
 using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using Microsoft.AspNetCore.Hosting;

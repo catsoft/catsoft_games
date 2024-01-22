@@ -12,9 +12,9 @@ namespace App
 
         public override Type Image { get; } = typeof(ImageModel);
 
-        public override List<cms.Models.ImageModel> CastToImage(dynamic _object)
+        public override List<ImageModel> CastToImage(dynamic _object)
         {
-            return (_object as List<ImageModel> ?? new List<ImageModel>()).Cast<cms.Models.ImageModel>().ToList();
+            return (_object as List<ImageModel> ?? new List<ImageModel>()).Cast<ImageModel>().ToList();
         }
     }
 }

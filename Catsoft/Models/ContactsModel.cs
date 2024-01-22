@@ -5,7 +5,7 @@ using App.cms.Models;
 namespace App.Models
 {
     [Access]
-    public class ContactsModel : Entity<MenuModel>
+    public class ContactsModel : Entity<ContactsModel>
     {
         public string Link { get; set; }
 

@@ -21,7 +21,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ImageModel = App.cms.Models.ImageModel;
 
 namespace App.cms.Controllers
 {
@@ -459,7 +458,7 @@ namespace App.cms.Controllers
 
             if (currentUser == null || cmsObject == null || (currentUser.Role != cmsObject.Role && currentUser.Role == AdminRoles.SuperUser))
             {
-                var message = _textResourceRepository.GetByTag("You don\'t have rights to manage this object");
+                var message = _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
                 throw new Exception(message);
             }
         }

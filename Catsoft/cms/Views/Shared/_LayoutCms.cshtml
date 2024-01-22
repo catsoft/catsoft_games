@@ -3,15 +3,15 @@
 @using App.cms.Models
 @using App.cms.Repositories.CmsModels
 @using App.Models
-@using Microsoft.AspNetCore.Http
+@using App.ViewModels.Common
 @inject ICmsCmsModelRepository ModelRepository
 @inject CatsoftContext Context
 
 @{
     var userName = User.Claims.FirstOrDefault()?.Subject?.Name;
 
-    var claims = ClaimsPrincipal.Current?.Identities.First().Claims.ToList();    
-    
+    var claims = ClaimsPrincipal.Current?.Identities.First().Claims.ToList();
+
     var user = Context.AdminModels.FirstOrDefault(w => w.Login == userName);
 
     var role = user?.Role ?? AdminRoles.None;
@@ -21,20 +21,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@ViewData["TitleToTopLabelE"]</title>
-
-    <script src="/lib/jQuery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-
-    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-   
-
-    <link href="/lib/summernote/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="/lib/summernote/dist/summernote-bs4.min.js"></script>
-
+    @await Html.PartialAsync("CommonHead", HeaderViewModel.DefaultCms())
 </head>
 
 <body>
@@ -87,32 +74,11 @@
     </div>
 </nav>
 
-@RenderBody()
+<main class="flex-shrink-0">
+    @RenderBody()
+</main>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.summernote').summernote({
-            placeholder: 'Введите текст',
-            lang: 'ru-RU',
-            height: 200, 
-            toolbar: [
-              ['style', ['style']],
-              ['font', ['bold', 'underline',  'strikethrough', 'superscript', 'subscript', 'clear']],
-              ['fontname', ['fontname']],
-              ['fontsize', ['fontsize']],
-              ['fontsizeunit', ['fontsizeunit']],
-              ['color', ['color']],
-              ['para', ['ul', 'ol', 'paragraph', 'heigth']],
-              ['table', ['table']],
-              ['insert', ['hr']],
-              ['view', ['fullscreen', 'codeview', 'undo', 'redo', 'help']],
-            ],
-        });
+@await Html.PartialAsync("JsImports")
 
-        $(':input').serialize();
-    });
-</script>
-    <script src="~/js/main.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

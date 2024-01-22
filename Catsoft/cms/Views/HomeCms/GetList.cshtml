@@ -12,7 +12,7 @@
 
 
 @{
-    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("List");
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag(Context, "List");
     ViewData["isListing"] = true;
     Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
     var type = (Type)ViewBag.Type;
@@ -26,7 +26,7 @@
 
     var paginationModel = new PaginationViewModel($"/HomeCms/GetList?type={nameType}&", page, pageCount);
 
-    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag("List") + " " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag(Context, "List") + " " + cmsSection.Title;
 }
 
 
@@ -76,6 +76,14 @@
                     {
                         var value = (string)ReflectionHelper.GetValuePropertyAsString(property, item)?.ToString();
                         <td>
+                            @{
+                                var isImageUrl = ReflectionHelper.IsImageUrl(property);
+                            }
+                            @if (isImageUrl)
+                            {
+                                <img src="@value" style="max-width: 100px; max-height: 100px;"/>
+                            }
+                            
                             @Html.DisplayFor(modelItem => value)
                         </td>
                     }
@@ -83,7 +91,7 @@
                 <td>
                     @if (access.OnDetails)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag("Object_details"), "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Object_details"), "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                     @if (access.OnDetails && (access.OnEdit || access.OnDelete))
                     {
@@ -91,7 +99,7 @@
                     }
                     @if (access.OnEdit)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag("Edit"), "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Edit"), "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                     @if (access.OnDelete && access.OnEdit)
                     {
@@ -99,7 +107,7 @@
                     }
                     @if (access.OnDelete)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag("Delete"), "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Delete"), "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                 </td>
             </tr>

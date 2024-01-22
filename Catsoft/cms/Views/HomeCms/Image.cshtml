@@ -1,18 +1,21 @@
 ﻿@using App.cms.Helpers
 @using App.cms.Repositories.TextResource
+@using App.Models
 @model App.cms.ViewModels.ImageViewModel
 @inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
+
+    var imageLink = "/HomeCms/GetList?type=" + typeof(ImageModel);
 }
 
 
 @if (Model?.ImageId == null || Model?.ImageId == Guid.Empty)
 {
-    <input type="file" title="@TextResourceRepository.GetByTag("Choose_image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
+    <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
     <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadImage()"/>
-    <script>
+    <script type="text/javascript">
         function uploadImage() {
             var file = $("#@(Model?.PropertyName)image")[0].files[0];
             var formData = new FormData();
@@ -35,6 +38,11 @@
                         processData: false,
                         async: true,
                         success: function (data) {
+                            if (!'@(Model?.PropertyName)' || '@(Model?.PropertyName)'.length === 0) {
+                                // Redirect to the home page
+                                window.location.href = "@imageLink";
+                                return; // Exit the script
+                            }
                             var input = $("#@(Model?.PropertyName)Id");
                             if (input.length === 0) {
                                 var filesDiv = $("#imagesHiddenInputs");
@@ -52,7 +60,7 @@
 }
 else
 {
-    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag("Image")"/>
+    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag(Context, "Image")"/>
 
     <div class="col-md-12">
         <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">@await Html.RenderText("Remove_image")</button>

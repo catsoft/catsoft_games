@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using App.cms.Models;
+using App.Models;
 
 namespace App.cms.StaticHelpers
 {

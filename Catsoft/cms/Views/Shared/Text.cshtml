@@ -1,9 +1,10 @@
 ﻿@inject TextResourceRepository Repository
 @using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
 @model string
 
 @{
     Layout = null;
 }
 
-@Repository.GetByTag(Model)
+@Repository.GetByTag(Context, Model)

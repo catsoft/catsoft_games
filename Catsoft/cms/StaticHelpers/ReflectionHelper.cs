@@ -9,6 +9,7 @@ using App.cms.Controllers.Attributes;
 using App.cms.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using ImageModel = App.Models.ImageModel;
 
 namespace App.cms.StaticHelpers
 {
@@ -151,6 +152,17 @@ namespace App.cms.StaticHelpers
         {
             var type = info.GetCustomAttribute<DataTypeAttribute>();
             return type?.DataType == DataType.Html;
+        }
+
+        public static bool IsImageUrl(PropertyInfo info)
+        {
+            var type = info.GetCustomAttribute<DataTypeAttribute>();
+            return type?.DataType == DataType.ImageUrl;
+        }
+
+        public static bool IsImage(Type info)
+        {
+            return info == typeof(ImageModel);
         }
 
         public static bool IsArray(PropertyInfo info)

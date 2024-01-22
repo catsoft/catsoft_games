@@ -1,11 +1,10 @@
-﻿using App.cms.StaticHelpers;
+﻿using System;
+using App.cms.Models;
+using App.cms.StaticHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Data.SqlClient;
-using System.Globalization;
-using System.Threading;
-using System;
-using App.cms.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 
 namespace App.Controllers
 {
@@ -15,11 +14,16 @@ namespace App.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            var routes = filterContext.RouteData.Values;
+            var routes = filterContext.HttpContext.Request.Query ?? new QueryCollection();
 
-            string language = (routes["language"] ?? TextLanguage.English.ToString()).ToString();
+            string language = routes["language"].ToString();
+            if (language.IsNullOrEmpty())
+            {
+                language = CookieHelper.GetLanguage(HttpContext).ToString();
+            }
+            var languageEnum = Enum.Parse<TextLanguage>(language);
 
-            CookieHelper.SetLanguage(language, HttpContext);
+            CookieHelper.SetLanguage(languageEnum, HttpContext);
         }
     }
 }

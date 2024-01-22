@@ -10,7 +10,7 @@ namespace App.cms.Models
         where T : IEntity
     {
         [Show(false, false, false, false)]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [DataType(DataType.DateTime)]
         [Show(true, true, false, false)]

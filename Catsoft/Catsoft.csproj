@@ -163,4 +163,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Translator\Translator.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Shared\CommonHead.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

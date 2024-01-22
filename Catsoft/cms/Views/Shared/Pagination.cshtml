@@ -3,7 +3,7 @@
 @inject TextResourceRepository TextResourceRepository
 
 @{
-    var pageText = TextResourceRepository.GetByTag("Page") + "= "; 
+    var pageText = TextResourceRepository.GetByTag(Context, "Page") + "= "; 
 }
 
 @if (Model.MaxPage <= 1)
