@@ -25,10 +25,10 @@ namespace App
             //     scoped.GetRequiredService<DatabaseInitializer>().Init();
             // });
             //
-            await DoWithScope(app,async scoped =>
-            {
-                await scoped.GetRequiredService<TextTranslator>().ForceTranslateLanguage(TextLanguage.Portuguese);
-            });
+            // await DoWithScope(app,async scoped =>
+            // {
+            //     await scoped.GetRequiredService<TextTranslator>().ForceTranslateLanguage(TextLanguage.Portuguese);
+            // });
 
             await app.RunAsync();
         }
