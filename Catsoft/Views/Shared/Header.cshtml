@@ -20,7 +20,7 @@
     var currentLanguage = CookieHelper.GetLanguage(Context);
 }
 
-<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
 
     <a href="/logincms" class="d-flex align-items-center mb-3 mb-md-0 me-3 ms-5 link-body-emphasis text-decoration-none">
         <span class="fs-4">@await Html.RenderText("Login")</span>
@@ -45,7 +45,7 @@
             {
                 <li class="nav-item">
                     <a class="nav-link @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
-                        <span>@menu.Title</span>
+                        <span>@await Html.RenderText(@menu.Title)</span>
                     </a>
                 </li>
             }

@@ -55,7 +55,6 @@
   <ItemGroup>
     <Folder Include="Enums\" />
     <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
