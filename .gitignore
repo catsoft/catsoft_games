@@ -352,3 +352,4 @@ Mobile/Out/Resharper/
 /Catsoft/appsettings.json
 /Catsoft/appsettings.Development.json
 /Catsoft/Properties/launchSettings.json
+/Catsoft/SecretsCredentials.cs

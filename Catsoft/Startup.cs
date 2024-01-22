@@ -60,8 +60,8 @@ namespace App
 
             services.AddSingleton(new CmsOptions()
             {
-                SmptCredentialsMail = "support@ph-popovich.com",
-                SmptCredentialsPassword = "8U_f41xu"
+                SmptCredentialsMail = SecretsCredentials.SmptCredentialsMail,
+                SmptCredentialsPassword = SecretsCredentials.SmptCredentialsPassword
             });
 
             services.AddSingleton(new AppTypesOptions());
