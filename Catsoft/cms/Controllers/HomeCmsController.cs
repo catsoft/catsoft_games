@@ -456,7 +456,7 @@ namespace App.cms.Controllers
             var currentUserName = User.Claims.FirstOrDefault()?.Subject.Name;
             var currentUser = CatsoftContext.AdminModels.FirstOrDefault(w => w.Login == currentUserName);
 
-            if (currentUser == null || cmsObject == null || (currentUser.Role != cmsObject.Role && currentUser.Role == AdminRoles.SuperUser))
+            if (currentUser == null || cmsObject == null || (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
             {
                 var message = _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
                 throw new Exception(message);

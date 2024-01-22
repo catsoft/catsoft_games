@@ -1,0 +1,15 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.Models
+@model GameModel
+
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <figure>
+        <img class="squareImage" src="@Model.ImageModel?.Url" alt="img">
+        <figcaption><span class="fw-bold fs-4">@Html.Raw(Model.Title)</span></figcaption>
+    </figure>
+}

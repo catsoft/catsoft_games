@@ -9,7 +9,6 @@ namespace App.Models
     {
         public string Link { get; set; }
 
-        [Show(false, false, false, false)]
         public ContactType ContactType { get; set; }
 
         [Show]

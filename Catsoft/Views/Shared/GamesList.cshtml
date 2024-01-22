@@ -1,0 +1,30 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@model List<App.Models.GameModel>
+
+@{
+    Layout = null;
+}
+
+<div class="container px-4 py-5">
+    
+    <div class="row mb-4">
+        <span class="mb-3 fs-1 fw-bold text-center">
+            @await Html.RenderText("All favorites and popular games")
+        </span>
+    </div>
+
+    <div class="row flex-row justify-content-center">
+        @{
+            foreach (var gameModel in Model ?? new List<GameModel>())
+            {
+                <div class="col-auto">
+                    <div class="">
+                        @await Html.PartialAsync("Game", gameModel)
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -5,6 +5,7 @@ using App.cms.Models;
 using App.Models;
 using App.ViewModels.About;
 using App.ViewModels.Contacts;
+using App.ViewModels.Games;
 using App.ViewModels.Home;
 using App.ViewModels.Services;
 using ImageProcessor;
@@ -48,7 +49,17 @@ namespace App.Controllers
                 .Take(home.Page?.ServicesCount ?? 0)
                 .ToList();
 
+            var games = CatsoftContext.GameModels
+                .OrderBy(w => w.Position)
+                .Include(w => w.ImageModel)
+                .ToList();
+
             home.ServicesPageViewModel.ServiceModels = services;
+
+            home.GamesViewModel = new GamesViewModel()
+            {
+                GameModels = games
+            };
 
             home.HeaderViewModel.CurrentPage = Menu.Home;
 

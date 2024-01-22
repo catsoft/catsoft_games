@@ -10,27 +10,36 @@
     var virtualityMenus = new List<Menu>
     {
         Menu.Home,
-        Menu.Book,
-        Menu.Services,
-        Menu.Contacts,
-        Menu.Gallery,
+        // Menu.Book,
+        // Menu.Services,
+        // Menu.Contacts,
+        // Menu.Gallery,
     };
 
     var languages = Enum.GetValues<TextLanguage>();
     var currentLanguage = CookieHelper.GetLanguage(Context);
 }
 
-<header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+<header class="container-fluid d-flex flex-wrap py-3 border-bottom">
+    
+    <div class="row col flex-row justify-content-between align-items-center align-self-stretch">
+        
+        <div class="col-12 col-md-3 ms-md-3 d-flex justify-content-center justify-content-md-start">
+            @{
+                #if DEBUG
+                <a href="/logincms" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
+                    <span class="fs-4">@await Html.RenderText("Login")</span>
+                </a>
+                #endif
+            }
 
-    <a href="/logincms" class="d-flex align-items-center mb-3 mb-md-0 me-3 ms-5 link-body-emphasis text-decoration-none">
-        <span class="fs-4">@await Html.RenderText("Login")</span>
-    </a>
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 link-body-emphasis text-decoration-none">
+                <span class="fs-4 fw-bolder">@(Model.CompanyName)</span>
+            </a>
+        </div>
 
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto me-5 link-body-emphasis text-decoration-none">
-        <span class="fs-4">@(Model.CompanyName)</span>
-    </a>
 
-    <ul class="nav nav-pills">
+        <ul class="col-12 col-md-5 ps-2 mt-2 mt-md-0 nav nav-pills d-flex justify-content-center justify-content-md-center">
         @if (Model.CurrentPage == Menu.Blog)
         {
             <li class="nav-item">
@@ -62,34 +71,34 @@
         }
     </script>
 
-    <div class="d-flex me-5 ms-5">
-        @* <div style="font-family: 'Noto Color Emoji'"> *@
-        @*     <blockquote> *@
-        @*         🇦🇫 🇦🇱 🇩🇿 🇦🇩 🇦🇴 🇦🇬 🇦🇷 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇹 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇨🇻 🇰🇭 🇨🇲 🇨🇦 🇨🇫 🇹🇩 🇨🇱 🇨🇴 🇰🇲 🇨🇩 🇨🇷 🇨🇮 🇭🇷 🇨🇺 🇨🇾 🇨🇿 🇰🇵 🇨🇬 🇩🇰 🇩🇯 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇬🇶 🇪🇷 🇪🇪 🇸🇿 🇪🇹 🇫🇯 🇫🇮 🇫🇷 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇷 🇬🇩 🇬🇹 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇷 🇮🇶 🇮🇪 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇴 🇰🇿 🇰🇪 🇰🇮 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇧 🇱🇸 🇱🇷 🇱🇾 🇱🇮 🇱🇹 🇱🇺 🇲🇬 🇲🇼 🇲🇾 🇲🇻 🇲🇱 🇲🇹 🇲🇭 🇲🇷 🇲🇺 🇲🇽 🇫🇲 🇲🇨 🇲🇳 🇲🇪 🇲🇦 🇲🇿 🇲🇲 🇳🇦 🇳🇷 🇳🇵 🇳🇱 🇳🇿 🇳🇮 🇳🇪 🇳🇬 🇲🇰 🇳🇴 🇴🇲 🇵🇰 🇵🇼 🇵🇦 🇵🇬 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇰🇷 🇲🇩 🇷🇴 🇷🇺 🇷🇼 🇰🇳 🇱🇨 🇻🇨 🇼🇸 🇸🇲 🇸🇹 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇰 🇸🇮 🇸🇧 🇸🇴 🇿🇦 🇸🇸 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇪 🇨🇭 🇸🇾 🇹🇯 🇹🇭 🇹🇱 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇲 🇹🇻 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇹🇿 🇺🇸 🇺🇾 🇺🇿 🇻🇺 🇻🇪 🇻🇳 🇾🇪 🇿🇲 🇿🇼 *@
-        @*     </blockquote> *@
-        @* </div> *@
-        <select style="font-family: 'Noto Color Emoji'" class="form-select .form-select-lg" aria-label=".form-select-lg" data-style="btn btn-primary" onchange="changeLanguage()">
-            @foreach (var language in languages)
-            {
-                var flag = "";
-                switch (language)
+        <div class="col-12 col-md-auto me-md-5 mt-2 mt-md-0">
+            @* <div style="font-family: 'Noto Color Emoji'"> *@
+            @*     <blockquote> *@
+            @*         🇦🇫 🇦🇱 🇩🇿 🇦🇩 🇦🇴 🇦🇬 🇦🇷 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇹 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇨🇻 🇰🇭 🇨🇲 🇨🇦 🇨🇫 🇹🇩 🇨🇱 🇨🇴 🇰🇲 🇨🇩 🇨🇷 🇨🇮 🇭🇷 🇨🇺 🇨🇾 🇨🇿 🇰🇵 🇨🇬 🇩🇰 🇩🇯 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇬🇶 🇪🇷 🇪🇪 🇸🇿 🇪🇹 🇫🇯 🇫🇮 🇫🇷 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇷 🇬🇩 🇬🇹 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇷 🇮🇶 🇮🇪 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇴 🇰🇿 🇰🇪 🇰🇮 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇧 🇱🇸 🇱🇷 🇱🇾 🇱🇮 🇱🇹 🇱🇺 🇲🇬 🇲🇼 🇲🇾 🇲🇻 🇲🇱 🇲🇹 🇲🇭 🇲🇷 🇲🇺 🇲🇽 🇫🇲 🇲🇨 🇲🇳 🇲🇪 🇲🇦 🇲🇿 🇲🇲 🇳🇦 🇳🇷 🇳🇵 🇳🇱 🇳🇿 🇳🇮 🇳🇪 🇳🇬 🇲🇰 🇳🇴 🇴🇲 🇵🇰 🇵🇼 🇵🇦 🇵🇬 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇰🇷 🇲🇩 🇷🇴 🇷🇺 🇷🇼 🇰🇳 🇱🇨 🇻🇨 🇼🇸 🇸🇲 🇸🇹 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇰 🇸🇮 🇸🇧 🇸🇴 🇿🇦 🇸🇸 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇪 🇨🇭 🇸🇾 🇹🇯 🇹🇭 🇹🇱 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇲 🇹🇻 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇹🇿 🇺🇸 🇺🇾 🇺🇿 🇻🇺 🇻🇪 🇻🇳 🇾🇪 🇿🇲 🇿🇼 *@
+            @*     </blockquote> *@
+            @* </div> *@
+            <select style="font-family: 'Noto Color Emoji'; width=auto" class="align-self-end form-select .form-select-lg" aria-label=".form-select-lg" data-style="btn btn-primary" onchange="changeLanguage()">
+                @foreach (var language in languages)
                 {
-                    case TextLanguage.English:
-                        flag = "gb";
-                        break;
-                    case TextLanguage.Russian:
-                        flag = "ru";
-                        break;
-                    case TextLanguage.Portuguese:
-                        flag = "pt";
-                        break;
+                    var flag = "";
+                    switch (language)
+                    {
+                        case TextLanguage.English:
+                            flag = "gb";
+                            break;
+                        case TextLanguage.Russian:
+                            flag = "ru";
+                            break;
+                        case TextLanguage.Portuguese:
+                            flag = "pt";
+                            break;
+                    }
+                    var emoji = flag.IsoCountryCodeToFlagEmoji();
+                    <option style="font-family: 'Noto Color Emoji'" value="@language" @(currentLanguage == language ? "selected" : "")>@emoji @language</option>
                 }
-                var emoji = flag.IsoCountryCodeToFlagEmoji();
-                <option style="font-family: 'Noto Color Emoji'" value="@language" @(currentLanguage == language ? "selected" : "")>@emoji @language</option>
-            }
-        </select>
+            </select>
 
-        <script>
+            <script>
             function changeLanguage() {
                 var language = document.querySelector("select").value;
 
@@ -103,6 +112,7 @@
                 window.location.href = url.toString();
             }
         </script>
+        </div>
     </div>
 
 </header>

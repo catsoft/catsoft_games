@@ -2,9 +2,14 @@
 	background-repeat: no-repeat;
 	background-attachment: local;
 	background-size: cover;
+	background-position: center;
 	height: 666px;
 	width: 100%;
-	display: block;
+}
+
+.squareImage {
+	height: 245px;
+	width: 245px;
 }
 
 .mapBox {
