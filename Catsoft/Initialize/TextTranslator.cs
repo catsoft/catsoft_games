@@ -35,6 +35,28 @@ namespace App.Initialize
             catsoftContext.SaveChanges();
         }
 
+        public void ForceTranslateLanguage(TextLanguage forcedLanguage)
+        {
+            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
+            foreach (var textResource in textResources)
+            {
+                var value = (textResource.Values ?? new List<TextResourceValueModel>()).FirstOrDefault(w => w.Language == forcedLanguage);
+
+                if (value == null)
+                {
+                    value = new TextResourceValueModel()
+                    {
+                        Language = forcedLanguage,
+                    };
+                }
+                value.Value = TranslateText(textResource, forcedLanguage);
+                catsoftContext.Add(value);
+                catsoftContext.SaveChanges();
+            }
+
+            catsoftContext.SaveChanges();
+        }
+
         public void GenerateDefaultResources()
         {
             var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);

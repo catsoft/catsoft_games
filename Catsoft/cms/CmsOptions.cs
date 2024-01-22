@@ -2,14 +2,14 @@
 {
     public class CmsOptions
     {
-        public string SmptClientServer { get; set; } = "mail.hosting.reg.ru";
+        public string SmptClientServer { get; set; } = "smtp-relay.gmail.com";
 
-        public int SmptClientPort { get; set; } = 25;
+        public int SmptClientPort { get; set; } = 587;
         
         public string SmptCredentialsMail { get; set; }
         
         public string SmptCredentialsPassword { get; set; }
 
-        public string AppName { get; set; } = "App";
+        public string AppName { get; set; } = "Virtuality";
     }
 }

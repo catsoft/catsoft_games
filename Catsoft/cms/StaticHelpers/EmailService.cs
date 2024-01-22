@@ -8,9 +8,9 @@ namespace App.cms.StaticHelpers
         public static void Send(EmailModel emailModel, CmsOptions cmsOptions)
         {
             var client = new SmtpClient(cmsOptions.SmptClientServer, cmsOptions.SmptClientPort);
-            client.UseDefaultCredentials = true;
             client.Credentials = new NetworkCredential(cmsOptions.SmptCredentialsMail, cmsOptions.SmptCredentialsPassword);
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
 
             var mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(emailModel.From);

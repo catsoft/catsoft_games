@@ -353,3 +353,4 @@ Mobile/Out/Resharper/
 /Catsoft/appsettings.Development.json
 /Catsoft/Properties/launchSettings.json
 /Catsoft/SecretsCredentials.cs
+/Translator/gpt/GptCreds.cs
