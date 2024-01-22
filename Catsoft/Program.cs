@@ -2,6 +2,8 @@
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
+using System.Threading.Tasks;
+using App.cms.Models;
 using App.Initialize;
 using App.Models;
 using Microsoft.AspNetCore;
@@ -14,7 +16,7 @@ namespace App
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var app = BuildWebHost(args);
 
@@ -23,24 +25,21 @@ namespace App
             //     scoped.GetRequiredService<DatabaseInitializer>().Init();
             // });
             //
-            // DoWithScope(app, scoped =>
-            // {
-            //     scoped.GetRequiredService<TextTranslator>().GenerateDefaultResources();
-            // });
-            //
-            //
-            // Thread.Sleep(1000);
+            await DoWithScope(app,async scoped =>
+            {
+                await scoped.GetRequiredService<TextTranslator>().ForceTranslateLanguage(TextLanguage.Portuguese);
+            });
 
-            app.Run();
+            await app.RunAsync();
         }
 
-        private static void DoWithScope(IWebHost app, Action<IServiceProvider> action)
+        private static async Task DoWithScope(IWebHost app, Func<IServiceProvider, Task> action)
         {
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             try
             {
-                action(services);
+                await action(services);
             }
             catch (Exception ex)
             {

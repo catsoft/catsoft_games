@@ -8,10 +8,9 @@ namespace Translator.gpt;
 
 public class GPTRealApi
 {
-    private static readonly string apiKey = "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";
     private static readonly int _chunkSize = 2000;
 
-    private readonly OpenAIAPI _api = new(apiKey);
+    private readonly OpenAIAPI _api = new(GptCreds.ApiKey);
 
 
     public GPTRealApi()

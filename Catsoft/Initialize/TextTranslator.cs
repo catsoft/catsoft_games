@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using App.cms.Models;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
+using Translator.gpt;
 
 namespace App.Initialize
 {
     public class TextTranslator(CatsoftContext catsoftContext)
     {
-        public void Translate()
+        private GPTRealApi _gptRealApi = new GPTRealApi();
+
+        public async Task Translate()
         {
             var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
             var languages = Enum.GetValues(typeof(TextLanguage)).Cast<TextLanguage>().ToList();
@@ -24,37 +28,45 @@ namespace App.Initialize
                         var newValue = new TextResourceValueModel
                         {
                             Language = language,
-                            Value = TranslateText(textResource, language)
+                            Value = await TranslateText(textResource, language)
                         };
                         catsoftContext.Add(newValue);
-                        catsoftContext.SaveChanges();
+                        await catsoftContext.SaveChangesAsync();
                     }
                 }
             }
 
-            catsoftContext.SaveChanges();
+            await catsoftContext.SaveChangesAsync();
         }
 
-        public void ForceTranslateLanguage(TextLanguage forcedLanguage)
+        public async Task ForceTranslateLanguage(TextLanguage forcedLanguage)
         {
-            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
+            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values).ToList();
             foreach (var textResource in textResources)
             {
-                var value = (textResource.Values ?? new List<TextResourceValueModel>()).FirstOrDefault(w => w.Language == forcedLanguage);
+                var value = (textResource.Values?.ToList() ?? new List<TextResourceValueModel>()).FirstOrDefault(w => w.Language == forcedLanguage);
+
+                var newValue = await TranslateText(textResource, forcedLanguage);
 
                 if (value == null)
                 {
                     value = new TextResourceValueModel()
                     {
                         Language = forcedLanguage,
+                        Value = newValue,
+                        TextResourceModelId = textResource.Id
                     };
+                    catsoftContext.Add(value);
                 }
-                value.Value = TranslateText(textResource, forcedLanguage);
-                catsoftContext.Add(value);
-                catsoftContext.SaveChanges();
+                else
+                {
+                    value.Value = newValue;
+                    catsoftContext.Update(value);
+                }
+                await catsoftContext.SaveChangesAsync();
             }
 
-            catsoftContext.SaveChanges();
+            await catsoftContext.SaveChangesAsync();
         }
 
         public void GenerateDefaultResources()
@@ -87,9 +99,9 @@ namespace App.Initialize
             catsoftContext.SaveChanges();
         }
 
-        private static string TranslateText(TextResourceModel textResource, TextLanguage language)
+        private async Task<string> TranslateText(TextResourceModel textResource, TextLanguage language)
         {
-            return textResource.Tag;
+            return await _gptRealApi.Translate(language.ToString(), textResource.Tag);
         }
     }
 }
