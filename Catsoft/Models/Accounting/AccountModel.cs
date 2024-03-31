@@ -18,13 +18,13 @@ namespace App.Models.Accounting
 
 
         [OneTwoMany("AccountFromId")]
-        [Show(false, false, false, false)]
+        [Show(false, true, false, false)]
         [ShowTitle]
         public List<TransactionModel> TransactionFromModels { get; set; }
 
 
         [OneTwoMany("AccountToId")]
-        [Show(false, false, false, false)]
+        [Show(false, true, false, false)]
         [ShowTitle]
         public List<TransactionModel> TransactionToModels { get; set; }
     }
