@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using App.cms.Models;
 using App.cms.StaticHelpers;
+using App.Models.Accounting;
 using App.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +55,14 @@ namespace App.Models
 
         public DbSet<ExperienceModel> ExperiencesModels { get; set; }
 
-        
+
+
+
+        public DbSet<AccountModel> AccountModels { get; set; }
+
+        public DbSet<TransactionModel> TransactionModels { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -124,7 +132,54 @@ namespace App.Models
                 .HasForeignKey<GameModel>(w => w.ImageModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
+
+
+            OnModelCreatingAccounting(modelBuilder);
         }
+
+
+        private void OnModelCreatingAccounting(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<TransactionModel>()
+                .HasOne(w => w.AccountFromModel)
+                .WithMany(w => w.TransactionFromModels)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(w => w.AccountFromId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<TransactionModel>()
+                .HasOne(w => w.AccountToModel)
+                .WithMany(w => w.TransactionToModels)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(w => w.AccountToId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<TransactionModel>()
+                .HasOne(w => w.TemplateTransaction)
+                .WithMany(w => w.ActualTransactions)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasForeignKey(w => w.TemplateTransactionId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<TransactionModel>()
+                .HasOne(w => w.BillFile)
+                .WithOne(w => w.TransactionModel)
+                .IsRequired(false)
+                .HasForeignKey<FileModel>(w => w.TransactionId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
+
 
         public IQueryable<T> GetDbSet<T>(T type)
             where T : class

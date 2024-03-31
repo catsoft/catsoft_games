@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240331163734_accouting3")]
+    partial class accouting3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,6 +30,9 @@ namespace App.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BusinessType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -49,6 +55,9 @@ namespace App.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("AccountModels");
@@ -66,7 +75,7 @@ namespace App.Migrations
                     b.Property<Guid?>("AccountToId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal?>("ActualAmount")
+                    b.Property<decimal>("ActualAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("BillFileId")
@@ -102,10 +111,13 @@ namespace App.Migrations
                     b.Property<bool>("IsTemplate")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Items")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("PlannedAmount")
+                    b.Property<decimal>("PlannedAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Position")
@@ -120,7 +132,7 @@ namespace App.Migrations
                     b.Property<DateTime?>("RecurringStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("TemplateAmount")
+                    b.Property<decimal>("TemplateAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("TemplateTransactionId")
@@ -129,10 +141,10 @@ namespace App.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("TypeAmount")
+                    b.Property<decimal>("TypeAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("TypeQuantity")
+                    b.Property<decimal>("TypeQuantity")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");

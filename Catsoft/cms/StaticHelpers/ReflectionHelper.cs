@@ -154,6 +154,11 @@ namespace App.cms.StaticHelpers
             return type?.DataType == DataType.Html;
         }
 
+        public static bool IsBool(PropertyInfo info)
+        {
+            return info.PropertyType == typeof(bool) || info.PropertyType == typeof(Boolean);
+        }
+
         public static bool IsImageUrl(PropertyInfo info)
         {
             var type = info.GetCustomAttribute<DataTypeAttribute>();

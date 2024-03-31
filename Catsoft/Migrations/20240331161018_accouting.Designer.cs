@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240331161018_accouting")]
+    partial class accouting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace App.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("App.Models.Accounting.AccountModel", b =>
+            modelBuilder.Entity("App.Models.AccountModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,98 +55,6 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AccountModels");
-                });
-
-            modelBuilder.Entity("App.Models.Accounting.TransactionModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AccountFromId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AccountToId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("ActualAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("BillFileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BillLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("ForRecell")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRecurring")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTemplate")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("PlannedAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RecurringEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RecurringFrequency")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("RecurringStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("TemplateAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("TemplateTransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("TypeAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("TypeQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountFromId");
-
-                    b.HasIndex("AccountToId");
-
-                    b.HasIndex("TemplateTransactionId");
-
-                    b.ToTable("TransactionModels");
                 });
 
             modelBuilder.Entity("App.Models.ArticleModel", b =>
@@ -764,6 +675,101 @@ namespace App.Migrations
                     b.ToTable("ServiceModels");
                 });
 
+            modelBuilder.Entity("App.Models.TransactionModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountFromId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountToId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ActualAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("BillFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BillLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ForRecell")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Items")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PlannedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RecurringEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RecurringFrequency")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RecurringStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TemplateAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("TemplateTransactionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TypeAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TypeQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountFromId");
+
+                    b.HasIndex("AccountToId");
+
+                    b.HasIndex("TemplateTransactionId");
+
+                    b.ToTable("TransactionModels");
+                });
+
             modelBuilder.Entity("App.cms.Models.AdminModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -930,30 +936,6 @@ namespace App.Migrations
                     b.ToTable("TextResourceValuesModels");
                 });
 
-            modelBuilder.Entity("App.Models.Accounting.TransactionModel", b =>
-                {
-                    b.HasOne("App.Models.Accounting.AccountModel", "AccountFromModel")
-                        .WithMany("TransactionFromModels")
-                        .HasForeignKey("AccountFromId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("App.Models.Accounting.AccountModel", "AccountToModel")
-                        .WithMany("TransactionToModels")
-                        .HasForeignKey("AccountToId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("App.Models.Accounting.TransactionModel", "TemplateTransaction")
-                        .WithMany("ActualTransactions")
-                        .HasForeignKey("TemplateTransactionId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("AccountFromModel");
-
-                    b.Navigation("AccountToModel");
-
-                    b.Navigation("TemplateTransaction");
-                });
-
             modelBuilder.Entity("App.Models.ArticleModel", b =>
                 {
                     b.HasOne("App.Models.ImageModel", "ImageModel")
@@ -1024,9 +1006,33 @@ namespace App.Migrations
                     b.Navigation("ImageModel");
                 });
 
+            modelBuilder.Entity("App.Models.TransactionModel", b =>
+                {
+                    b.HasOne("App.Models.AccountModel", "AccountFromModel")
+                        .WithMany("TransactionFromModels")
+                        .HasForeignKey("AccountFromId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("App.Models.AccountModel", "AccountToModel")
+                        .WithMany("TransactionToModels")
+                        .HasForeignKey("AccountToId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("App.Models.TransactionModel", "TemplateTransaction")
+                        .WithMany("ActualTransactions")
+                        .HasForeignKey("TemplateTransactionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("AccountFromModel");
+
+                    b.Navigation("AccountToModel");
+
+                    b.Navigation("TemplateTransaction");
+                });
+
             modelBuilder.Entity("App.cms.Models.FileModel", b =>
                 {
-                    b.HasOne("App.Models.Accounting.TransactionModel", "TransactionModel")
+                    b.HasOne("App.Models.TransactionModel", "TransactionModel")
                         .WithOne("BillFile")
                         .HasForeignKey("App.cms.Models.FileModel", "TransactionId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -1044,18 +1050,11 @@ namespace App.Migrations
                     b.Navigation("TextResourceModel");
                 });
 
-            modelBuilder.Entity("App.Models.Accounting.AccountModel", b =>
+            modelBuilder.Entity("App.Models.AccountModel", b =>
                 {
                     b.Navigation("TransactionFromModels");
 
                     b.Navigation("TransactionToModels");
-                });
-
-            modelBuilder.Entity("App.Models.Accounting.TransactionModel", b =>
-                {
-                    b.Navigation("ActualTransactions");
-
-                    b.Navigation("BillFile");
                 });
 
             modelBuilder.Entity("App.Models.ArticleModel", b =>
@@ -1079,6 +1078,13 @@ namespace App.Migrations
             modelBuilder.Entity("App.Models.Pages.MainPageModel", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("App.Models.TransactionModel", b =>
+                {
+                    b.Navigation("ActualTransactions");
+
+                    b.Navigation("BillFile");
                 });
 
             modelBuilder.Entity("App.cms.Models.TextResourceModel", b =>

@@ -380,7 +380,7 @@ namespace App.cms.Controllers
                 RedirectToAction("GetList", new { type = "PreOrder" });
             }
 
-            var typeName = Request.Form["type"];
+            var typeName = Request.Form["type"][0];
             var type = GetTypeByName(typeName);
             CheckRole(type);
 

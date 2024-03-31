@@ -15,10 +15,10 @@ namespace App.cms.Models
         [Show]
         public string Class { get; set; }
 
-        [Show(false, false, false, false)]
+        [Show]
         public int NewCount { get; set; }
 
-        [Show(false, false, false, false)]
+        [Show]
         public bool IsSinglePage { get; set; }
 
         public AdminRoles Role { get; set; }
