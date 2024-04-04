@@ -24,7 +24,7 @@
         <span class="fs-5">@Model.GetAmount()</span>
     </div>
     <div class="col">
-        @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Post))
+        @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Get))
         {
             <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
             <button type="submit">@await Html.RenderText("Edit")</button>

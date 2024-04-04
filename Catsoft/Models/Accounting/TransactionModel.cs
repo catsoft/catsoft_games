@@ -10,17 +10,14 @@ namespace App.Models.Accounting
     [Access]
     public class TransactionModel : Entity<TransactionModel>
     {
-        [Show(false, false, false, false)] public Guid? AccountFromId { get; set; }
-
+        [Show(false, false, false, false)] public Guid? AccountFromModelId { get; set; }
         [Show(false)]
-        [ForeignKey("AccountFromId")]
         public AccountModel AccountFromModel { get; set; }
 
-
-        [Show(false, false, false, false)] public Guid? AccountToId { get; set; }
+        
+        [Show(false, false, false, false)] public Guid? AccountToModelId { get; set; }
 
         [Show(false)]
-        [ForeignKey("AccountToId")]
         public AccountModel AccountToModel { get; set; }
 
 

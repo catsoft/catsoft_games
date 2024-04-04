@@ -8,6 +8,7 @@ using App.ViewModels.Accounting;
 using App.ViewModels.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace App.Controllers
 {
@@ -111,18 +112,26 @@ namespace App.Controllers
 
         public IActionResult TransactionEditCreate(string transactionUuid)
         {
-            Guid? id = transactionUuid != null ? Guid.Parse(transactionUuid) : null;
-            var transaction = CatsoftContext.TransactionModels
-                .Include(w => w.AccountFromModel)
-                .Include(w => w.AccountToModel)
-                .Include(w => w.TemplateTransaction)
-                .FirstOrDefault(w => w.Id == id);
+            TransactionModel transactionModel;
+            if (transactionUuid.IsNullOrEmpty())
+            {
+                transactionModel = new TransactionModel();
+            }
+            else
+            {
+                var id = Guid.Parse(transactionUuid);
+                transactionModel = CatsoftContext.TransactionModels
+                    .Include(w => w.AccountFromModel)
+                    .Include(w => w.AccountToModel)
+                    .Include(w => w.TemplateTransaction)
+                    .FirstOrDefault(w => w.Id == id);
+            }
             
             var home = new TransactionViewModel()
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                TransactionModel = transaction,
+                TransactionModel = transactionModel,
             };
 
             return View(home);
@@ -138,7 +147,7 @@ namespace App.Controllers
         }
         
         private List<KeyValueViewModel> GetAccountSelector() => CatsoftContext.AccountModels
-                .Select(w => new KeyValueViewModel(w.Id.ToString(), w.Name))
+                .Select(w => new KeyValueViewModel(w.Name, w.Id.ToString()))
                 .ToList();
 
         private IQueryable<TransactionModel> FilterTransactions(IQueryable<TransactionModel> transactions,
@@ -180,13 +189,13 @@ namespace App.Controllers
             if (filter.AccountFrom != null)
             {
                 var accountGuid = Guid.Parse(filter.AccountFrom);
-                transactions = transactions.Where(w => w.AccountFromId == accountGuid);
+                transactions = transactions.Where(w => w.AccountFromModelId == accountGuid);
             }
 
             if (filter.AccountTo != null)
             {
                 var accountGuid = Guid.Parse(filter.AccountTo);
-                transactions = transactions.Where(w => w.AccountToId == accountGuid);
+                transactions = transactions.Where(w => w.AccountToModelId == accountGuid);
             }
 
             if (filter.DateTimeFrom != null)

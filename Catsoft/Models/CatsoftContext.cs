@@ -142,7 +142,7 @@ namespace App.Models
                 .WithMany(w => w.TransactionFromModels)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(w => w.AccountFromId)
+                .HasForeignKey(w => w.AccountFromModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -152,7 +152,7 @@ namespace App.Models
                 .WithMany(w => w.TransactionToModels)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(w => w.AccountToId)
+                .HasForeignKey(w => w.AccountToModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
 

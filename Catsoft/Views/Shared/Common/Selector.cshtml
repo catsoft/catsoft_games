@@ -1,30 +1,51 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@inject TextResourceRepository TextResourceRepository
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
 @using App.Models
 @using App.Utils
 @model App.ViewModels.Views.SelectorViewModel
 
 @{
     Layout = null;
-  
-    var selectedItem = Model.Options.FirstOrDefault(w => w.Value == Model.SelectedValue);
+    // var selectedItem = Model.Options.FirstOrDefault(w => w.Value == Model.SelectedValue);
 }
 
-<div class="dropdown">
-  <button
-    class="btn btn-primary dropdown-toggle"
-    type="button"
-    id="@(Model.Label.RemoveWhitespace())"
-    data-mdb-dropdown-init
-    data-mdb-ripple-init
-    data-bs-toggle="dropdown"
-    aria-expanded="false"
-  >
-    @(selectedItem?.Label ?? Model.Label)
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="@(Model.Label.RemoveWhitespace())">
-    @foreach(var item in Model.Options)
-    {
-        <li><a class="dropdown-item" href="/@item.Value">@item.Label</a></li>
-    }
-  </ul>
-</div>
+@* <div class="dropdown"> *@
+@*   <button *@
+@*     class="btn btn-primary dropdown-toggle" *@
+@*     type="button" *@
+@*     id="@(Model.Label.RemoveWhitespace())" *@
+@*     data-mdb-dropdown-init *@
+@*     data-mdb-ripple-init *@
+@*     data-bs-toggle="dropdown" *@
+@*     aria-expanded="false" *@
+@*   > *@
+@*     @(selectedItem?.Label ?? Model.Label) *@
+@*   </button> *@
+@*   <ul class="dropdown-menu" aria-labelledby="@(Model.Label.RemoveWhitespace())"> *@
+@*     @foreach(var item in Model.Options) *@
+@*     { *@
+@*         <li><a class="dropdown-item" href="/@item.Value">@item.Label</a></li> *@
+@*     } *@
+@*   </ul> *@
+@* </div> *@
+
+
+@{
+  var propertyName = Model.Label.RemoveWhitespace();
+  var text = TextResourceRepository.GetByTag(Context, "Not_selected");
+  var selectList = Model.Options.Select(w => new SelectListItem
+  {
+    Text = w.Label,
+    Value = w.Value,
+    Selected = w.Value == Model.SelectedValue
+  }).ToList();
+  selectList.Insert(0, new SelectListItem { Value = "", Text = text });
+}
+
+<span class="fw-bold">
+    @await Html.RenderText(Model.Label)
+</span>
+
+@Html.DropDownList(propertyName, selectList, new { @class = "form-control", multiple = "true" })
