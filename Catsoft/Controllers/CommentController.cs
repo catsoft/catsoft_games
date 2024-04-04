@@ -11,11 +11,11 @@ namespace App.Controllers
         {
             CatsoftContext = catsoftContext;
         }
- 
+
         [HttpPost]
         public async Task<IActionResult> Comment(CommentViewModel comment)
         {
-            var orderModel = new CommentModel()
+            var orderModel = new CommentModel
             {
                 Text = comment.Text,
                 Name = comment.Name,

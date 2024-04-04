@@ -1,13 +1,13 @@
-﻿using App.cms.Controllers.Attributes;
+﻿using System.Collections.Generic;
+using App.cms.Controllers.Attributes;
 using App.cms.Models;
-using System.Collections.Generic;
 
 namespace App.Models.Accounting
 {
     [Access]
     public class AccountModel : Entity<AccountModel>
     {
-        public override string Title { get => Name; }
+        public override string Title => Name;
 
 
         public string Name { get; set; }

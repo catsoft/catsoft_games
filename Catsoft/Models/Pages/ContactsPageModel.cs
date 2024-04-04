@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using App.cms.Controllers.Attributes;
+﻿using App.cms.Controllers.Attributes;
 
 namespace App.Models.Pages
 {

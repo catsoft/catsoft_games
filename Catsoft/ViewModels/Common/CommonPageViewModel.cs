@@ -4,11 +4,8 @@ namespace App.ViewModels.Common
 {
     public class CommonPageViewModel<T> : CommonPageViewModel
     {
-        public T Page { get; set; }
-
         public CommonPageViewModel()
         {
-            
         }
 
         public CommonPageViewModel(T page, HeaderViewModel headerViewModel, FooterViewModel footerViewModel)
@@ -17,6 +14,8 @@ namespace App.ViewModels.Common
             FooterViewModel = footerViewModel;
             Page = page;
         }
+
+        public T Page { get; set; }
 
         public override IMetaInfo GetMetaPage()
         {

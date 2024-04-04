@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace App.cms.EntityFrameworkPaginateCore
 {
     /// <summary>
-    /// Stores and processes your conditional filters.
+    ///     Stores and processes your conditional filters.
     /// </summary>
     /// <typeparam name="T">Type of Entity for which the filters are applicable.</typeparam>
     public class Filters<T>
@@ -14,7 +14,7 @@ namespace App.cms.EntityFrameworkPaginateCore
         private readonly List<Filter<T>> _filterList = new();
 
         /// <summary>
-        /// Adds a conditional filter for your query.
+        ///     Adds a conditional filter for your query.
         /// </summary>
         /// <param name="condition">The condition on which the the given filter will run.</param>
         /// <param name="expression">Filter expression.</param>

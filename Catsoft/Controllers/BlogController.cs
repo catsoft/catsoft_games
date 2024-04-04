@@ -16,7 +16,7 @@ namespace App.Controllers
 
         public IActionResult Index()
         {
-            var home = new BlogPageViewModel()
+            var home = new BlogPageViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
@@ -36,8 +36,8 @@ namespace App.Controllers
                 .Where(w => w.ArticleModelId == id)
                 .OrderBy(w => w.DateCreated)
                 .ToList();
-            
-            var home = new ArticleViewModel()
+
+            var home = new ArticleViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
@@ -47,7 +47,7 @@ namespace App.Controllers
             };
 
             home.Page.CommentModels = sortedComments;
-            
+
             home.HeaderViewModel.CurrentPage = Menu.Blog;
             return View(home);
         }

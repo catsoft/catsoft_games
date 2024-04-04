@@ -14,6 +14,7 @@ using App.Repositories.Cms.Images;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -34,10 +35,7 @@ namespace App
             services.AddDbContext<CatsoftContext>(options => options.UseSqlServer(connection));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
-                });
+                .AddCookie(options => { options.LoginPath = new PathString("/Home/Index"); });
 
             var cmsBootstrap = new CmsBootstrap();
             cmsBootstrap.Build(services);
@@ -48,9 +46,9 @@ namespace App
 
             services.AddScoped<IImageRepository, ImagesRepository>();
             services.AddScoped<ICmsImageModelRepository, ImageCmsFakeRepository>();
-            
+
             services.AddScoped<ICmsAdminRepository, AdminRepository>();
-            
+
             services.AddScoped<ICmsFilesRepository, FileRepository>();
 
             services.AddScoped<ICmsCmsModelRepository, CmsModelRepository>();
@@ -58,7 +56,7 @@ namespace App
             services.AddScoped<TextResourceRepository>();
 
 
-            services.AddSingleton(new CmsOptions()
+            services.AddSingleton(new CmsOptions
             {
                 SmptCredentialsMail = SecretsCredentials.SmptCredentialsMail,
                 SmptCredentialsPassword = SecretsCredentials.SmptCredentialsPassword
@@ -66,30 +64,30 @@ namespace App
 
             services.AddSingleton(new AppTypesOptions());
             services.AddSingleton<TypesOptions>(provider => provider.GetService<AppTypesOptions>());
-            
+
             services.Configure<RazorViewEngineOptions>(option =>
             {
                 option.ViewLocationFormats.Add("/CMS/Views/{0}" + RazorViewEngine.ViewExtension);
                 option.ViewLocationFormats.Add("/CMS/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
                 option.ViewLocationFormats.Add("/CMS/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
                 option.ViewLocationFormats.Add("/CMS/Views/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
-                
+
                 option.AreaViewLocationFormats.Add("/CMS/Views/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaViewLocationFormats.Add("/CMS/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaViewLocationFormats.Add("/CMS/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaViewLocationFormats.Add("/CMS/Views/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
-                
+
                 option.PageViewLocationFormats.Add("/CMS/Views/{0}" + RazorViewEngine.ViewExtension);
                 option.PageViewLocationFormats.Add("/CMS/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
                 option.PageViewLocationFormats.Add("/CMS/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
                 option.PageViewLocationFormats.Add("/CMS/Views/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
-                
+
                 option.AreaPageViewLocationFormats.Add("/CMS/Views/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaPageViewLocationFormats.Add("/CMS/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaPageViewLocationFormats.Add("/CMS/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
                 option.AreaPageViewLocationFormats.Add("/CMS/Views/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
-                
-                
+
+
                 option.ViewLocationFormats.Add("/{2}/Views/{0}" + RazorViewEngine.ViewExtension);
                 option.ViewLocationFormats.Add("/{2}/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
                 option.ViewLocationFormats.Add("/{2}/Views/Shared/{0}" + RazorViewEngine.ViewExtension);

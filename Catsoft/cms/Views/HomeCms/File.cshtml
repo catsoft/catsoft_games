@@ -8,8 +8,8 @@
 
 @if (Model?.FileId == null)
 {
-    <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_file")" class="btn btn-primary" id="@(Model?.Id)files" />
-    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadFiles()" />
+    <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_file")" class="btn btn-primary" id="@(Model?.Id)files"/>
+    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadFiles()"/>
     <script>
         uploadFiles = function() {
             var file = $("#@(Model?.Id)files")[0].files[0];
@@ -51,10 +51,10 @@
 else
 {
     <form asp-controller="HomeCms" asp-action="RemoveFile" method="post" data-ajax="true" data-ajax-update="#@(Model?.Id)" data-ajax-success="onDelete()">
-        <input type="hidden" value="@(Model.FileId)" name="id" />
-        <input type="hidden" value="@(Model.Id)" name="idFileProperty" />
+        <input type="hidden" value="@(Model.FileId)" name="id"/>
+        <input type="hidden" value="@(Model.Id)" name="idFileProperty"/>
 
-        <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Remove_file")" class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px;" />
+        <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Remove_file")" class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px;"/>
     </form>
 
     <script>

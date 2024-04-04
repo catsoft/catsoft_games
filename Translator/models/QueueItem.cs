@@ -1,8 +1,9 @@
-﻿namespace Translator.models;
-
-public class QueueItem
+﻿namespace Translator.models
 {
-    public string Language { get; set; }
-    
-    public string Status { get; set; }
+    public class QueueItem
+    {
+        public string Language { get; set; }
+
+        public string Status { get; set; }
+    }
 }

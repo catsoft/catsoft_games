@@ -1,0 +1,15 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.Utils
+@using Microsoft.IdentityModel.Tokens
+@model App.ViewModels.Views.KeyValueViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="row mb-3">
+    <span class="fw-bold fs-3">@await Html.RenderText(Model.Label)</span>
+    <span class="fs-4">@(Model.Value.IsNullOrEmpty() ? await Html.RenderText("None") : Model.Value)</span>
+</div>

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using App.Models;
 using App.ViewModels.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace App.Controllers
 {
@@ -11,11 +10,11 @@ namespace App.Controllers
 
         protected HeaderViewModel GetHeaderViewModel()
         {
-            var header = new HeaderViewModel()
+            var header = new HeaderViewModel
             {
                 CurrentPage = Menu.Home,
                 Menus = CatsoftContext.Menus.OrderBy(w => w.Position).ToList()
-                    .Select(w => new MenuViewModel(w.Name, w.Href, w.Menu)).ToList(),
+                    .Select(w => new MenuViewModel(w.Name, w.Href, w.Menu)).ToList()
             };
             return header;
         }

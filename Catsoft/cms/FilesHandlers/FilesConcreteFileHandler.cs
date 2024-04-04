@@ -10,13 +10,19 @@ namespace App.cms.FilesHandlers
     {
         protected IWebHostEnvironment WebHostEnvironment { get; } = webHostEnvironment;
 
-        protected virtual string GetCompressedPath(ImageModel imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_compressed." + extension;
-
-        protected virtual string GetOriginalPath(ImageModel imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_original." + extension;
-
         public abstract IEntity Handle(IFormFile formFile);
 
         public abstract void Remove(IEntity entity);
+
+        protected virtual string GetCompressedPath(ImageModel imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_compressed." + extension;
+        }
+
+        protected virtual string GetOriginalPath(ImageModel imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_original." + extension;
+        }
 
         protected void SaveOriginalImage(IFormFile formFile, string path)
         {

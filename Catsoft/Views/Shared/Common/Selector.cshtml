@@ -1,0 +1,30 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.Models
+@using App.Utils
+@model App.ViewModels.Views.SelectorViewModel
+
+@{
+    Layout = null;
+  
+    var selectedItem = Model.Options.FirstOrDefault(w => w.Value == Model.SelectedValue);
+}
+
+<div class="dropdown">
+  <button
+    class="btn btn-primary dropdown-toggle"
+    type="button"
+    id="@(Model.Label.RemoveWhitespace())"
+    data-mdb-dropdown-init
+    data-mdb-ripple-init
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    @(selectedItem?.Label ?? Model.Label)
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="@(Model.Label.RemoveWhitespace())">
+    @foreach(var item in Model.Options)
+    {
+        <li><a class="dropdown-item" href="/@item.Value">@item.Label</a></li>
+    }
+  </ul>
+</div>

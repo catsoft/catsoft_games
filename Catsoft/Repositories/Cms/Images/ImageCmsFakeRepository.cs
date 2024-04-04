@@ -9,7 +9,7 @@ namespace App.Repositories.Cms.Images
     {
         public void Add(ImageModel entity)
         {
-            imagesRepository.Add(entity as ImageModel);
+            imagesRepository.Add(entity);
         }
 
         public void Remove(Guid id)
@@ -19,7 +19,7 @@ namespace App.Repositories.Cms.Images
 
         public void Update(ImageModel entity)
         {
-            imagesRepository.Update(entity as ImageModel);
+            imagesRepository.Update(entity);
         }
 
         public ImageModel Get(Guid id)

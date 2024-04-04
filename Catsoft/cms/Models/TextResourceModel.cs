@@ -1,24 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using App.cms.Controllers.Attributes;
 
 namespace App.cms.Models
 {
-    [Access()]
+    [Access]
     public class TextResourceModel : Entity<TextResourceModel>
     {
         public string Tag { get; set; }
 
         public override string Title
         {
-            get
-            {
-                return Tag;
-            }
-            set
-            {
-                Tag = value;
-            }
+            get => Tag;
+            set => Tag = value;
         }
 
         [OneTwoMany("TextResourceModelId")]

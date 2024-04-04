@@ -9,7 +9,7 @@ namespace App.cms.ViewModels
         [Required(ErrorMessage = "Введите логин")]
         [DisplayName("Логин")]
         public string Login { get; set; }
-        
+
         [Required(ErrorMessage = "Введите пароль")]
         [DisplayName("Пароль")]
         public string Password { get; set; }

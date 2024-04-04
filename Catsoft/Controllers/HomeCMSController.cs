@@ -14,7 +14,7 @@ namespace App.Controllers
     public class HomeCmsController(CatsoftContext catsoftContext, IWebHostEnvironment appEnvironment,
             CmsOptions cmsOptions, TypesOptions typesOptions, ICmsImageModelRepository imageRepository,
             ICmsFilesRepository filesRepository, ICmsCmsModelRepository cmsCmsModelRepository, IFileHandler fileHandler,
-
             TextResourceRepository textResourceRepository)
-        : HomeCmsController<CatsoftContext>(catsoftContext, appEnvironment, cmsOptions, typesOptions, imageRepository, filesRepository, cmsCmsModelRepository, textResourceRepository, fileHandler);
+        : HomeCmsController<CatsoftContext>(catsoftContext, appEnvironment, cmsOptions, typesOptions, imageRepository,
+            filesRepository, cmsCmsModelRepository, textResourceRepository, fileHandler);
 }

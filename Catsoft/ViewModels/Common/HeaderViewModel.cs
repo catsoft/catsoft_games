@@ -16,10 +16,10 @@ namespace App.ViewModels.Common
 
         public static HeaderViewModel DefaultCms()
         {
-            return new HeaderViewModel()
+            return new HeaderViewModel
             {
-                CurrentPage = Menu.Cms,
+                CurrentPage = Menu.Cms
             };
-        }   
+        }
     }
 }

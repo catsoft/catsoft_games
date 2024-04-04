@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories.TextResource
 {
-    public class TextResourceRepository(CatsoftContext context) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
+    public class TextResourceRepository
+        (CatsoftContext context) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
     {
         public string GetByTag(HttpContext httpContext, string tag)
         {

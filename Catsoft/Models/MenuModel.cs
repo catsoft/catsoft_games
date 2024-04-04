@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using App.cms.Controllers.Attributes;
+﻿using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
 namespace App.Models
@@ -11,10 +10,8 @@ namespace App.Models
 
         public string Href { get; set; }
 
-        [Show(false, false, false, false)]
-        public Menu Menu { get; set; }
+        [Show(false, false, false, false)] public Menu Menu { get; set; }
 
-        [Show]
-        public override int Position { get; set; }
+        [Show] public override int Position { get; set; }
     }
 }

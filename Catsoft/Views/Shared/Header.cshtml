@@ -9,7 +9,7 @@
     Layout = null;
     var virtualityMenus = new List<Menu>
     {
-        Menu.Home,
+        Menu.Home
         // Menu.Book,
         // Menu.Services,
         // Menu.Contacts,
@@ -21,14 +21,20 @@
 }
 
 <header class="container-fluid d-flex flex-wrap py-3 border-bottom">
-    
+
     <div class="row col flex-row justify-content-between align-items-center align-self-stretch">
-        
+
         <div class="col-12 col-md-3 ms-md-3 d-flex justify-content-center justify-content-md-start">
             @{
                 #if DEBUG
                 <a href="/logincms" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
                     <span class="fs-4">@await Html.RenderText("Login")</span>
+                </a>
+                #endif
+
+                #if DEBUG
+                <a href="/accounting/transactionlist" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
+                    <span class="fs-4">@await Html.RenderText("Accounting")</span>
                 </a>
                 #endif
             }
@@ -40,28 +46,28 @@
 
 
         <ul class="col-12 col-md-5 ps-2 mt-2 mt-md-0 nav nav-pills d-flex justify-content-center justify-content-md-center">
-        @if (Model.CurrentPage == Menu.Blog)
-        {
-            <li class="nav-item">
-                <a class="nav-link active" href="/Blog/Index">
-                    <span>@await Html.RenderText("Blog")</span>
-                </a>
-            </li>
-        }
-        else
-        {
-            @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
+            @if (Model.CurrentPage == Menu.Blog)
             {
                 <li class="nav-item">
-                    <a class="nav-link @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
-                        <span>@await Html.RenderText(@menu.Title)</span>
+                    <a class="nav-link active" href="/Blog/Index">
+                        <span>@await Html.RenderText("Blog")</span>
                     </a>
                 </li>
             }
-        }
-    </ul>
+            else
+            {
+                @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
+                            <span>@await Html.RenderText(menu.Title)</span>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
 
-    <script>
+        <script>
         function getFlagEmoji(countryCode) {
             const codePoints = countryCode
                 .toUpperCase()

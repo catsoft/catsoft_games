@@ -13,25 +13,32 @@ namespace App.cms.FilesHandlers
             ICmsImageModelRepository imageModelRepository)
         : FilesConcreteFileHandler(webHostEnvironment)
     {
-        private string GetCompressedPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_compressed." + extension;
-        private string GetOriginalPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_original." + extension;
+        private string GetCompressedPath(IEntity imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_compressed." + extension;
+        }
+
+        private string GetOriginalPath(IEntity imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_original." + extension;
+        }
 
         public override IEntity Handle(IFormFile formFile)
         {
             var realExtension = Path.GetExtension(formFile.FileName);
-            
+
             var image = imageModelRepository.AddImage(formFile.FileName, formFile.ContentType, realExtension);
 
             var originalPath = GetOriginalPath(image, realExtension);
             SaveOriginalImage(formFile, originalPath);
-            
+
             var extension = "webp";
             var compressedPath = GetCompressedPath(image, extension);
             SaveCompressedImage(formFile, compressedPath);
-            
+
             image.Url = compressedPath;
             image.OriginalUrl = originalPath;
-            
+
             imageModelRepository.Update(image);
 
             return image;
@@ -39,13 +46,13 @@ namespace App.cms.FilesHandlers
 
         public override void Remove(IEntity entity)
         {
-            if (entity is ImageModel fileModel) 
+            if (entity is ImageModel fileModel)
             {
                 if (File.Exists(fileModel.Url))
                 {
                     File.Delete(fileModel.Url);
                 }
-                
+
                 if (File.Exists(fileModel.OriginalUrl))
                 {
                     File.Delete(fileModel.OriginalUrl);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 
@@ -9,8 +8,7 @@ namespace App.Models.Pages
     [Access(false, false, true, false)]
     public class MainPageModel : MetaBasePage<MainPageModel>
     {
-        [DataType(DataType.Html)]
-        public string MainTitle { get; set; }
+        [DataType(DataType.Html)] public string MainTitle { get; set; }
 
         [OneTwoMany("MainPageModelGalleryId")]
         [Show(false, true, true, false)]

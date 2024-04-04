@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using App.cms.Controllers.Attributes;
+﻿using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
 namespace App.Models
@@ -11,7 +10,6 @@ namespace App.Models
 
         public ContactType ContactType { get; set; }
 
-        [Show]
-        public override int Position { get; set; }
+        [Show] public override int Position { get; set; }
     }
 }

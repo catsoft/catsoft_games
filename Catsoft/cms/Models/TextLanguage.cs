@@ -1,9 +1,9 @@
 ﻿namespace App.cms.Models
 {
-    public enum TextLanguage   
+    public enum TextLanguage
     {
         English,
         Russian,
-        Portuguese,
+        Portuguese
     }
 }

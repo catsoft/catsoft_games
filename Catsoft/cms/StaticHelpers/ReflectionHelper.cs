@@ -7,9 +7,9 @@ using System.Linq;
 using System.Reflection;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
+using App.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-using ImageModel = App.Models.ImageModel;
 
 namespace App.cms.StaticHelpers
 {
@@ -156,7 +156,7 @@ namespace App.cms.StaticHelpers
 
         public static bool IsBool(PropertyInfo info)
         {
-            return info.PropertyType == typeof(bool) || info.PropertyType == typeof(Boolean);
+            return info.PropertyType == typeof(bool) || info.PropertyType == typeof(bool);
         }
 
         public static bool IsImageUrl(PropertyInfo info)

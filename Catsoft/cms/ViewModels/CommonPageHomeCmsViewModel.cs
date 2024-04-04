@@ -5,6 +5,6 @@ namespace App.cms.ViewModels
 {
     public class CommonPageHomeCmsViewModel
     {
-        public  List<CmsModel> Pages { get; set; }
+        public List<CmsModel> Pages { get; set; }
     }
 }

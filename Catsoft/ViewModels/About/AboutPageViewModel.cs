@@ -7,12 +7,10 @@ namespace App.ViewModels.About
     {
         public AboutPageViewModel()
         {
-            
         }
 
         public AboutPageViewModel(AboutPageModel aboutPageModel) : base(aboutPageModel)
         {
-            
         }
     }
 }

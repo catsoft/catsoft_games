@@ -1,6 +1,4 @@
-﻿using System;
-using App.cms.Models;
-using App.Models;
+﻿using App.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
@@ -12,9 +10,9 @@ namespace App.cms.StaticHelpers
         {
             if (imageModel == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
-            
+
             var url = $@"{HttpScheme.Http}://{httpRequest.Host.Value}{imageModel.Url}";
             return url;
         }

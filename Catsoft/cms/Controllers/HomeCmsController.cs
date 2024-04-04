@@ -304,7 +304,9 @@ namespace App.cms.Controllers
 
             foreach (var key in existsProperties)
             {
-                var value = Request.Form.ContainsKey(key.Name) ? Request.Form[key.Name] : Request.Form["model." + key.Name];
+                var value = Request.Form.ContainsKey(key.Name)
+                    ? Request.Form[key.Name]
+                    : Request.Form["model." + key.Name];
                 var strValue = value.ToString();
 
                 //TODO Костыль ебаный
@@ -400,7 +402,9 @@ namespace App.cms.Controllers
 
             foreach (var key in existsProperties)
             {
-                var value = Request.Form.ContainsKey(key.Name) ? Request.Form[key.Name] : Request.Form["model." + key.Name];
+                var value = Request.Form.ContainsKey(key.Name)
+                    ? Request.Form[key.Name]
+                    : Request.Form["model." + key.Name];
 
                 var strValue = value.ToString();
 
@@ -456,9 +460,11 @@ namespace App.cms.Controllers
             var currentUserName = User.Claims.FirstOrDefault()?.Subject.Name;
             var currentUser = CatsoftContext.AdminModels.FirstOrDefault(w => w.Login == currentUserName);
 
-            if (currentUser == null || cmsObject == null || (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
+            if (currentUser == null || cmsObject == null ||
+                (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
             {
-                var message = _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
+                var message =
+                    _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
                 throw new Exception(message);
             }
         }

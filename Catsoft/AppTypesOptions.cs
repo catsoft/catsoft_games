@@ -14,7 +14,7 @@ namespace App
 
         public override List<ImageModel> CastToImage(dynamic _object)
         {
-            return (_object as List<ImageModel> ?? new List<ImageModel>()).Cast<ImageModel>().ToList();
+            return (_object as List<ImageModel> ?? new List<ImageModel>()).ToList();
         }
     }
 }

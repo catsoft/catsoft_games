@@ -1,7 +1,7 @@
-﻿@using System.Globalization
+﻿@inject CatsoftContext DbCatsoftContext
+@using System.Globalization
 @using App.Models
 @using App.ViewModels.Comment
-@inject CatsoftContext DbCatsoftContext
 @model App.ViewModels.Blog.ArticleViewModel
 
 @{
@@ -12,17 +12,19 @@
     <div class="col-md-10 offset-md-1">
         <div class="row">
             <div class="mt-4 mb-4 offset-3 col-6">
-                <img src="@Model.Page.ImageModel?.Url" />
+                <img src="@Model.Page.ImageModel?.Url"/>
             </div>
             <h1>@Model.Page.Title</h1>
             <div>@Html.Raw(Model.Page.Text)</div>
             <hr class="col-12"/>
             <div class="mt-2 mb-2 text-left sharethis-inline-share-buttons"></div>
             <hr class="col-12"/>
-            
-            @await Html.PartialAsync("Comment", new CommentViewModel() { ArticleId = Model.Page.Id})
 
-            <div class="m-2 mt-4"><h3>Комментарии</h3></div>
+            @await Html.PartialAsync("Comment", new CommentViewModel { ArticleId = Model.Page.Id })
+
+            <div class="m-2 mt-4">
+                <h3>Комментарии</h3>
+            </div>
             @foreach (var commentModel in Model.Page.CommentModels)
             {
                 <hr class="col-12"/>

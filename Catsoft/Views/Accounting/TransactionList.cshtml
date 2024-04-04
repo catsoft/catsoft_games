@@ -1,0 +1,50 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@model App.ViewModels.Accounting.TransactionListViewModel
+
+@{
+    Layout = "Accounting/_Layout";
+}
+
+
+<div class="row pt-5">
+    <div class="col-2 ml-2">
+        <p>
+            @await Html.PartialAsync("TransactionFilter", Model.AccountingFilterViewModel)
+        </p>
+    </div>
+
+    <div class="container col-8">
+        <span class="fw-bold fs-3 pb-3">@await Html.RenderText("Operations")</span>
+        <div class="row">
+            <div class="col bg-secondary">
+                <span class="fs-5 text-light">@await Html.RenderText("Date")</span>
+            </div>
+            <div class="col bg-secondary">
+                <span class="fs-5 text-light">@await Html.RenderText("From")</span>
+            </div>
+            <div class="col bg-secondary">
+                <span class="fs-5 text-light">@await Html.RenderText("To")</span>
+            </div>
+            <div class="col bg-secondary">
+                <span class="fs-5 text-light">@await Html.RenderText("Category")</span>
+            </div>
+            <div class="col bg-secondary">
+                <span class="fs-5 text-light">@await Html.RenderText("Amount")</span>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col">
+            </div>
+            <div class="w-100"></div>
+
+            @foreach (var transaction in Model.Transactions)
+            {
+                @await Html.PartialAsync("Accounting/TransactionRow", transaction)
+                <div class="w-100"></div>
+            }
+        </div>
+    </div>
+
+</div>

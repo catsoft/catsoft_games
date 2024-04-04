@@ -1,12 +1,11 @@
-﻿
-namespace App.Models.Pages
+﻿namespace App.Models.Pages
 {
     public interface IMetaInfo
     {
         string MetaTitle { get; set; }
-        
+
         string MetaDescription { get; set; }
-        
+
         string KeyWords { get; set; }
     }
 }

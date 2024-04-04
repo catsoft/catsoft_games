@@ -7,7 +7,6 @@ using App.Models;
 using App.ViewModels.PreOrder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EmailModel = App.cms.StaticHelpers.EmailModel;
 
 namespace App.Controllers
 {
@@ -24,11 +23,11 @@ namespace App.Controllers
 
         public IActionResult Index()
         {
-            var home = new PreOrderPageViewModel()
+            var home = new PreOrderPageViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.PreOrderPageModels.FirstOrDefault(),
+                Page = CatsoftContext.PreOrderPageModels.FirstOrDefault()
             };
 
             home.HeaderViewModel.CurrentPage = Menu.PreOrder;
@@ -39,7 +38,7 @@ namespace App.Controllers
         [HttpPost]
         public async Task<IActionResult> MakePreOrder(PreOrderDto preOrderDto, CmsOptions cmsOptions)
         {
-            var orderModel = new PreOrderModel()
+            var orderModel = new PreOrderModel
             {
                 Comment = preOrderDto.Comment,
                 Name = preOrderDto.Name,
@@ -49,7 +48,8 @@ namespace App.Controllers
             await CatsoftContext.OrderModels.AddAsync(orderModel);
             await CatsoftContext.SaveChangesAsync();
 
-            var contactsModel = await CatsoftContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
+            var contactsModel =
+                await CatsoftContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
 
             var contactsInfoText = _textResourceRepository.GetByTag(HttpContext, "Contact_information");
             var nameText = _textResourceRepository.GetByTag(HttpContext, "Name");
@@ -59,15 +59,15 @@ namespace App.Controllers
             var text = $"{contactsInfoText} : {orderModel.EmailOrPhone}\n" +
                        $"{nameText} : {orderModel.Name}\n" +
                        $"\n{commentText} : {orderModel.Comment}";
-            
-            EmailService.Send(new EmailModel()
+
+            EmailService.Send(new EmailModel
             {
                 From = contactsModel.Link,
                 To = contactsModel.Link,
                 Subject = newOrderText,
                 Body = text
             }, cmsOptions);
-            
+
             return RedirectToAction("Index", "Home");
         }
     }

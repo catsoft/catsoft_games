@@ -1,5 +1,4 @@
 ﻿using App.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Controllers

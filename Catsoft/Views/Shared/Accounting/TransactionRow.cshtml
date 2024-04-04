@@ -1,0 +1,42 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@model App.ViewModels.Accounting.TransactionViewModel
+
+@{
+    Layout = null;
+}
+
+<a class="row" href="/Accounting/TransactionDetails?transactionUuid=@(Model.TransactionModel.Id)">
+    <div class="col-auto col">
+        <span class="fs-5">@Model.GetDate()</span>
+    </div>
+    <div class="col">
+        <span class="fs-5">@Model.AccountFromName()</span>
+    </div>
+    <div class="col">
+        <span class="fs-5">@Model.AccountToName()</span>
+    </div>
+    <div class="col">
+        <span class="fs-5">@Model.GetCategoryName()</span>
+    </div>
+    <div class="col">
+        <span class="fs-5">@Model.GetAmount()</span>
+    </div>
+    <div class="col">
+        @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Post))
+        {
+            <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
+            <button type="submit">@await Html.RenderText("Edit")</button>
+        }
+    </div>
+    <div class="col">
+        @if (!Model.TransactionModel.IsPaid)
+        {
+            @using (Html.BeginForm("TransactionPay", "Accounting", FormMethod.Post))
+            {
+                <button type="submit">@await Html.RenderText("Pay")</button>
+            }
+        }
+    </div>
+</a>

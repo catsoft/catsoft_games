@@ -6,6 +6,6 @@
         Blog,
         BookAdmin,
         User,
-        None,
+        None
     }
 }

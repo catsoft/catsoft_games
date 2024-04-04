@@ -5,7 +5,6 @@ using System.Reflection;
 using App.cms.Models;
 using App.Models;
 using App.Models.Pages;
-using Microsoft.Extensions.Logging;
 
 namespace App.Initialize
 {

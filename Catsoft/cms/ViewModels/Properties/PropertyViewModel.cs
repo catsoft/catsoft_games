@@ -4,13 +4,8 @@ namespace App.cms.ViewModels.Properties
 {
     public class PropertyViewModel
     {
-        public dynamic Model { get; set; }
-        
-        public PropertyInfo PropertyInfo { get; set; }
-
         public PropertyViewModel()
         {
-            
         }
 
         public PropertyViewModel(dynamic model, PropertyInfo propertyInfo)
@@ -18,5 +13,9 @@ namespace App.cms.ViewModels.Properties
             Model = model;
             PropertyInfo = propertyInfo;
         }
+
+        public dynamic Model { get; set; }
+
+        public PropertyInfo PropertyInfo { get; set; }
     }
 }

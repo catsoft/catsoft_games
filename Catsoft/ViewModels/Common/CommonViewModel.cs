@@ -4,13 +4,8 @@ namespace App.ViewModels.Common
 {
     public class CommonPageViewModel
     {
-        public HeaderViewModel HeaderViewModel { get; set; }
-
-        public FooterViewModel FooterViewModel { get; set; }
-
         public CommonPageViewModel()
         {
-            
         }
 
         public CommonPageViewModel(HeaderViewModel headerViewModel, FooterViewModel footerViewModel)
@@ -18,6 +13,10 @@ namespace App.ViewModels.Common
             HeaderViewModel = headerViewModel;
             FooterViewModel = footerViewModel;
         }
+
+        public HeaderViewModel HeaderViewModel { get; set; }
+
+        public FooterViewModel FooterViewModel { get; set; }
 
         public virtual IMetaInfo GetMetaPage()
         {

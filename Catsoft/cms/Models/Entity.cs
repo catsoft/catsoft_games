@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.EntityFrameworkPaginateCore;
@@ -9,21 +8,17 @@ namespace App.cms.Models
     public class Entity<T> : ISortFilterEntity<T>
         where T : IEntity
     {
-        [Show(false, false, false, false)]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Show(false, false, false, false)] public virtual int Position { get; set; }
+
+        [Show(false, false, false, false)] public bool IsDeleted { get; set; }
+
+        [Show(false, false, false, false)] public Guid Id { get; set; } = Guid.NewGuid();
 
         [DataType(DataType.DateTime)]
         [Show(true, true, false, false)]
         public virtual DateTime DateCreated { get; set; } = DateTime.Now;
 
-        [Show(false, false, false, false)]
-        public virtual string Title { get; set; }
-
-        [Show(false, false, false, false)]
-        public virtual int Position { get; set; }
-        
-        [Show(false, false, false, false)]
-        public bool IsDeleted { get; set; }
+        [Show(false, false, false, false)] public virtual string Title { get; set; }
 
         public virtual string GetValueFromNameProperty(string nameProperty)
         {

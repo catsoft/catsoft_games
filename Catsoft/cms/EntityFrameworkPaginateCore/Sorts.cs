@@ -6,8 +6,8 @@ using System.Linq.Expressions;
 namespace App.cms.EntityFrameworkPaginateCore
 {
     /// <summary>
-    /// Stores and processes your conditional sorts.
-    /// This sorting is mutually exclusive and the first sort satisfying the condition will be applied.
+    ///     Stores and processes your conditional sorts.
+    ///     This sorting is mutually exclusive and the first sort satisfying the condition will be applied.
     /// </summary>
     /// <typeparam name="T">Type of Entity for which the sort is applicable.</typeparam>
     public class Sorts<T>
@@ -15,7 +15,7 @@ namespace App.cms.EntityFrameworkPaginateCore
         private readonly List<dynamic> _sortList = new();
 
         /// <summary>
-        /// Adds a conditional sort for your query.
+        ///     Adds a conditional sort for your query.
         /// </summary>
         /// <typeparam name="TKey">The data type for the sort object.</typeparam>
         /// <param name="condition">The condition on which the the given sort will run.</param>
@@ -41,7 +41,10 @@ namespace App.cms.EntityFrameworkPaginateCore
             return _sortList.Any(s => s.Condition);
         }
 
-        internal dynamic Get() => _sortList.FirstOrDefault(s => s.Condition);
+        internal dynamic Get()
+        {
+            return _sortList.FirstOrDefault(s => s.Condition);
+        }
 
         public IEnumerable<dynamic> Power()
         {

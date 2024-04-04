@@ -9,14 +9,12 @@ namespace App.ViewModels.Services
     {
         public ServicesPageViewModel()
         {
-            
         }
 
         public ServicesPageViewModel(ServicesPageModel servicesPageModel) : base(servicesPageModel)
         {
-            
         }
-        
+
         public List<ServiceModel> ServiceModels { get; set; }
     }
 }

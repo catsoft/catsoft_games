@@ -8,11 +8,11 @@ namespace App.cms.Repositories
         where TItem : class, IEntity
     {
         public void Add(TItem entity);
-     
+
         public void Remove(Guid id);
-     
+
         public void Update(TItem entity);
-     
+
         public TItem Get(Guid id);
 
         public IQueryable<TItem> GetAll();

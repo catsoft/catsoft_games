@@ -1,7 +1,6 @@
-﻿using App.cms.Controllers.Attributes;
-using App.Models;
+﻿using System;
+using App.cms.Controllers.Attributes;
 using App.Models.Accounting;
-using System;
 
 namespace App.cms.Models
 {
@@ -14,10 +13,8 @@ namespace App.cms.Models
         public string FileType { get; set; }
 
 
-        [Show(false, false, false, false)]
-        public Guid? TransactionId { get; set; }
+        [Show(false, false, false, false)] public Guid? TransactionId { get; set; }
 
-        [Show(false, false, false, false)]
-        public TransactionModel TransactionModel { get; set; }
+        [Show(false, false, false, false)] public TransactionModel TransactionModel { get; set; }
     }
 }

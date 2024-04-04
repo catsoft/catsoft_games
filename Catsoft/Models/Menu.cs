@@ -15,9 +15,8 @@ namespace App.Models
         Cms
     }
 
-    public static class MenuLinks {
-        
-       
+    public static class MenuLinks
+    {
         public static List<KeyValuePair<Menu, string>> links = new()
         {
             new KeyValuePair<Menu, string>(Menu.Home, "/Home/Index"),
@@ -28,7 +27,7 @@ namespace App.Models
             new KeyValuePair<Menu, string>(Menu.Services, "/Home/Index#services"),
             new KeyValuePair<Menu, string>(Menu.Contacts, "/Home/Index#Contacts"),
             new KeyValuePair<Menu, string>(Menu.Blog, "/Blog/Index"),
-            new KeyValuePair<Menu, string>(Menu.Gallery, "/Gallery/Index"),
+            new KeyValuePair<Menu, string>(Menu.Gallery, "/Gallery/Index")
         };
     }
 }

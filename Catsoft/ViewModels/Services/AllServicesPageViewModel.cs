@@ -6,10 +6,10 @@ namespace App.ViewModels.Services
     {
         public AllServicesPageViewModel()
         {
-
         }
 
-        public AllServicesPageViewModel(HeaderViewModel headerViewModel, FooterViewModel footerViewModel) : base(headerViewModel, footerViewModel)
+        public AllServicesPageViewModel(HeaderViewModel headerViewModel, FooterViewModel footerViewModel) : base(
+            headerViewModel, footerViewModel)
         {
         }
     }

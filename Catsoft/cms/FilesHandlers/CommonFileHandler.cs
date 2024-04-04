@@ -45,7 +45,7 @@ namespace App.cms.FilesHandlers
                 ".png" => pngFileHandler,
                 ".webp" => webpackFileHandler,
                 ".webpack" => webpackFileHandler,
-                _ => defaultFileHandler,
+                _ => defaultFileHandler
             };
         }
     }

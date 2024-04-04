@@ -1,0 +1,65 @@
+﻿@using App.cms.Models
+@using App.Models
+@using App.Models.Pages
+@using App.ViewModels.Common
+@inject CatsoftContext CatsoftContextDb
+@inject CatsoftContext Database
+@{
+    HeaderViewModel headerViewModel = null;
+    FooterViewModel footerViewModel = null;
+
+    if (Model is CommonPageViewModel commonPageViewModel)
+    {
+        headerViewModel = commonPageViewModel.HeaderViewModel;
+        footerViewModel = commonPageViewModel.FooterViewModel;
+
+        var metaInfo = commonPageViewModel.GetMetaPage();
+        if (metaInfo != null)
+        {
+            headerViewModel.MetaInfo = metaInfo;
+        }
+        else
+        {
+            headerViewModel.MetaInfo = new SimpleMetaInfo
+            {
+                MetaTitle = headerViewModel.CompanyName
+            };
+        }
+    }
+
+    var currentLanguage = TextLanguage.English;
+    var langShort = "";
+    switch (currentLanguage)
+    {
+        case TextLanguage.English:
+            langShort = "en";
+            break;
+        case TextLanguage.Russian:
+            langShort = "ru";
+            break;
+        case TextLanguage.Portuguese:
+            langShort = "pt";
+            break;
+    }
+}
+
+<!doctype html>
+<html lang="@langShort">
+<head>
+    @await Html.PartialAsync("CommonHead", headerViewModel)
+</head>
+
+<body class="d-flex flex-column h-100">
+
+@await Html.PartialAsync("Header", headerViewModel)
+
+<main class="flex-shrink-0">
+    @RenderBody()
+</main>
+
+@await Html.PartialAsync("Footer", footerViewModel)
+
+@await Html.PartialAsync("JsImports")
+
+</body>
+</html>

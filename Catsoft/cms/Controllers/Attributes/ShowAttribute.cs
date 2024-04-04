@@ -1,11 +1,13 @@
-﻿namespace App.cms.Controllers.Attributes
+﻿using System;
+
+namespace App.cms.Controllers.Attributes
 {
     /// <summary>
-    /// Показывает нужно ли отображать это свойство в списке\при детализации\редактировании
+    ///     Показывает нужно ли отображать это свойство в списке\при детализации\редактировании
     /// </summary>
     public class ShowAttribute(bool showInList = true, bool showInDetails = true, bool showInEdit = true,
             bool showInCreate = true)
-        : System.Attribute
+        : Attribute
     {
         public bool ShowInList { get; set; } = showInList;
         public bool ShowInDetails { get; set; } = showInDetails;

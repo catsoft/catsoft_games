@@ -21,10 +21,11 @@
                     <p class="card-text">@Html.Raw(Model.Subtitle)</p>
                     <a href="@url" class="btn btn-primary">@await Html.RenderText("Read more")</a>
                     <div class="mt-4 text-left sharethis-inline-share-buttons"
-                        data-url="@url"
-                        data-title="@Model.Title"
-                        data-image="@image"
-                        data-description="@Model.Subtitle"></div>
+                         data-url="@url"
+                         data-title="@Model.Title"
+                         data-image="@image"
+                         data-description="@Model.Subtitle">
+                    </div>
                 </div>
             </div>
         </div>

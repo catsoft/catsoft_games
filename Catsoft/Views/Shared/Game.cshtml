@@ -1,6 +1,6 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.Models
-@model GameModel
+@model App.Models.GameModel
 
 @{
     Layout = null;
@@ -10,6 +10,8 @@
 {
     <figure>
         <img class="squareImage" src="@Model.ImageModel?.Url" alt="img">
-        <figcaption><span class="fw-bold fs-4">@Html.Raw(Model.Title)</span></figcaption>
+        <figcaption>
+            <span class="fw-bold fs-4">@Html.Raw(Model.Title)</span>
+        </figcaption>
     </figure>
 }

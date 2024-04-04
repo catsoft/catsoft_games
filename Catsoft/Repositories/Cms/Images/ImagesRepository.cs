@@ -13,7 +13,7 @@ namespace App.Repositories.Cms.Images
             model.Title = title;
             model.ImageType = imageType;
             model.Extension = extension;
-            
+
             CatsoftContext.Add(model);
             CatsoftContext.SaveChanges();
 

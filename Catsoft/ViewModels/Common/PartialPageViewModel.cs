@@ -2,16 +2,15 @@
 {
     public class PartialPageViewModel<T>
     {
-        public T Page { get; set; }
-
         public PartialPageViewModel()
         {
-
         }
 
         public PartialPageViewModel(T page)
         {
             Page = page;
         }
+
+        public T Page { get; set; }
     }
 }

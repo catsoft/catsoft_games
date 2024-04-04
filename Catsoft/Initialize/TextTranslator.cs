@@ -11,7 +11,7 @@ namespace App.Initialize
 {
     public class TextTranslator(CatsoftContext catsoftContext)
     {
-        private GPTRealApi _gptRealApi = new GPTRealApi();
+        private readonly GPTRealApi _gptRealApi = new();
 
         public async Task Translate()
         {
@@ -44,13 +44,14 @@ namespace App.Initialize
             var textResources = catsoftContext.TextResourceModels.Include(w => w.Values).ToList();
             foreach (var textResource in textResources)
             {
-                var value = (textResource.Values?.ToList() ?? new List<TextResourceValueModel>()).FirstOrDefault(w => w.Language == forcedLanguage);
+                var value = (textResource.Values?.ToList() ?? new List<TextResourceValueModel>()).FirstOrDefault(w =>
+                    w.Language == forcedLanguage);
 
                 var newValue = await TranslateText(textResource, forcedLanguage);
 
                 if (value == null)
                 {
-                    value = new TextResourceValueModel()
+                    value = new TextResourceValueModel
                     {
                         Language = forcedLanguage,
                         Value = newValue,
@@ -63,6 +64,7 @@ namespace App.Initialize
                     value.Value = newValue;
                     catsoftContext.Update(value);
                 }
+
                 await catsoftContext.SaveChangesAsync();
             }
 
@@ -72,9 +74,9 @@ namespace App.Initialize
         public void GenerateDefaultResources()
         {
             var textResources = catsoftContext.TextResourceModels.Include(w => w.Values);
-            var languages = new List<TextLanguage>()
+            var languages = new List<TextLanguage>
             {
-                TextLanguage.English,
+                TextLanguage.English
             };
             foreach (var textResource in textResources)
             {

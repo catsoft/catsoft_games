@@ -1,10 +1,7 @@
-﻿using App.Models;
-using App.ViewModels.Blog;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System;
+﻿using System.Linq;
+using App.Models;
 using App.ViewModels.Book;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App.Controllers
 {
@@ -17,11 +14,11 @@ namespace App.Controllers
 
         public IActionResult Index()
         {
-            var home = new BookPageViewModel()
+            var home = new BookPageViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.BookPageModels.FirstOrDefault(),
+                Page = CatsoftContext.BookPageModels.FirstOrDefault()
             };
             home.HeaderViewModel.CurrentPage = Menu.Book;
 

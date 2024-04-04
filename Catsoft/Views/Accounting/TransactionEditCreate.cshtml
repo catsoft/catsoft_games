@@ -1,0 +1,30 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.ViewModels.Views
+@model App.ViewModels.Accounting.TransactionViewModel
+
+@{
+    Layout = "Accounting/_Layout";
+}
+
+
+<div class="container row pt-5 offset-2">
+    @{
+        <span class="fs-2 fw-bold">@(await Html.RenderText("Transaction details"))</span>
+        await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("Date", Model.GetDate()));
+        await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("Account from", Model.AccountFromName()));
+        await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("Account to", Model.AccountToName()));
+        await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("Category", Model.GetCategoryName()));
+        await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("Amount", Model.GetAmount()));
+        if (Model.TransactionModel.PlannedAmount != null)
+        {
+            await Html.RenderPartialAsync("Common/KeyValue", new KeyValueViewModel("BillLink", Model.GetPlannedAmount()));
+        }
+
+        if (!Model.TransactionModel.IsPaid)
+        {
+            <button>@await Html.RenderText("Pay")</button>
+        }
+    } 
+</div>

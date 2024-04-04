@@ -1,0 +1,38 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.Models.Accounting
+@using App.ViewModels.Views
+@model App.ViewModels.Accounting.AccountingFilterViewModel
+
+@{
+    Layout = null;
+
+    var categories = Enum.GetValues<TransactionCategory>();
+    var pairs = categories.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList();
+}
+
+<div class="offset-2">
+
+    <span class="fw-bold fs-3 pb-3 pt-2">
+        <p>@await Html.RenderText("Filters")</p>
+    </span>
+
+    @using (Html.BeginForm("SaveFilter", "Accounting", FormMethod.Post))
+    {
+        await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("Paid", Model.Paid));
+        await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("Not paid", Model.NotPaid));
+        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Account from", Model.AccountFrom, Model.AccountingPairs));
+        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Account to", Model.AccountTo, Model.AccountingPairs));
+        await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("Have Bill", Model.HaveBill));
+        await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("No Bill", Model.NoBill));
+        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Category", Model.Category, pairs));
+
+        <button type="submit">Update</button>
+    }
+    
+    @using (Html.BeginForm("CleanFilter", "Accounting", FormMethod.Post))
+    {
+        <button type="submit">Clean Filter</button>
+    }
+</div>

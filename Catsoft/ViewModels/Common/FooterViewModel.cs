@@ -4,16 +4,15 @@ namespace App.ViewModels.Common
 {
     public class FooterViewModel
     {
-        public ContactsPageModel ContactsPageModel { get; set; }
-
         public FooterViewModel()
         {
-            
         }
 
         public FooterViewModel(ContactsPageModel contactsPageModel)
         {
             ContactsPageModel = contactsPageModel;
         }
+
+        public ContactsPageModel ContactsPageModel { get; set; }
     }
 }

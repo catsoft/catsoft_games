@@ -11,7 +11,8 @@
             <Button Content="Auth" Click="AuthOnClick" Height="50" />
             <Button Content="Load Videos" Click="LoadVideosClick" Height="50" />
 
-            <ListView SelectionChanged="VideosSelected" VerticalAlignment="Stretch" ItemsSource="{Binding Videos}" Margin="0" Height="900">
+            <ListView SelectionChanged="VideosSelected" VerticalAlignment="Stretch" ItemsSource="{Binding Videos}"
+                      Margin="0" Height="900">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
@@ -21,15 +22,16 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        
-        <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Left" Margin="400 0 0 0">
-            <Label Content="{Binding SelectedVideo.Snippet.Title}"></Label>
-            <Label Content="{Binding SelectedVideo.Snippet.Description}"></Label>
-            <Label Content="{Binding SelectedVideo.Snippet.ResourceId.VideoId}"></Label>
-            <Button Content="Load Captions" Click="LoadCaptions" Height="50"></Button>
-            <Button Content="Open Video" Click="OpenVideo" Height="50"></Button>
 
-            <ListView SelectionChanged="CaptionSelected" VerticalAlignment="Stretch" ItemsSource="{Binding Captions}" Margin="0" Height="200">
+        <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Left" Margin="400 0 0 0">
+            <Label Content="{Binding SelectedVideo.Snippet.Title}" />
+            <Label Content="{Binding SelectedVideo.Snippet.Description}" />
+            <Label Content="{Binding SelectedVideo.Snippet.ResourceId.VideoId}" />
+            <Button Content="Load Captions" Click="LoadCaptions" Height="50" />
+            <Button Content="Open Video" Click="OpenVideo" Height="50" />
+
+            <ListView SelectionChanged="CaptionSelected" VerticalAlignment="Stretch" ItemsSource="{Binding Captions}"
+                      Margin="0" Height="200">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
@@ -38,16 +40,16 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
+
         </StackPanel>
-        
+
         <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Left" Margin="800 0 0 0">
-            <Button Content="Load Caption text" Click="DownloadCaption" Height="50"></Button>
-            <Button Content="Translate all" Click="TranslateAll" Height="50"></Button>
-            <Button Content="Delete all not original" Click="DeleteAllCaptions" Height="50"></Button>
-            <Label Content="{Binding Caption.Language}"></Label>
+            <Button Content="Load Caption text" Click="DownloadCaption" Height="50" />
+            <Button Content="Translate all" Click="TranslateAll" Height="50" />
+            <Button Content="Delete all not original" Click="DeleteAllCaptions" Height="50" />
+            <Label Content="{Binding Caption.Language}" />
             <ScrollViewer Height="200">
-                <Label Content="{Binding SelectedCaptionText}" ></Label>
+                <Label Content="{Binding SelectedCaptionText}" />
             </ScrollViewer>
             <ListView VerticalAlignment="Stretch" ItemsSource="{Binding LoadQueue}" Margin="0" Height="300">
                 <ListView.ItemTemplate>
@@ -61,11 +63,12 @@
             </ListView>
         </StackPanel>
         <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Left" Margin="1200 0 0 0">
-            <Button Content="Load Localizations" Click="LoadLocalizations" Height="50"></Button>
-            <Button Content="Translate all (rational)" Click="TranslateLocalizations" Height="50"></Button>
-            <Button Content="Translate all (forced)" Click="TranslateLocalizationsForced" Height="50"></Button>
-            
-            <ListView VerticalAlignment="Stretch" ItemsSource="{Binding VideoWithLocalizations.Localizations}" Margin="0" Height="200">
+            <Button Content="Load Localizations" Click="LoadLocalizations" Height="50" />
+            <Button Content="Translate all (rational)" Click="TranslateLocalizations" Height="50" />
+            <Button Content="Translate all (forced)" Click="TranslateLocalizationsForced" Height="50" />
+
+            <ListView VerticalAlignment="Stretch" ItemsSource="{Binding VideoWithLocalizations.Localizations}"
+                      Margin="0" Height="200">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
@@ -74,7 +77,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
+
         </StackPanel>
     </Grid>
 </Window>

@@ -1,0 +1,22 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.Utils
+@model App.ViewModels.Views.CheckboxViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="form-check">
+    <input data-val="true"
+           id="@(Model.NameTag.RemoveWhitespace())"
+           name="@(Model.NameTag.RemoveWhitespace())"
+           type="checkbox"
+           value="true"
+           @* checked="@(Model.Checked ? "true" : "")" *@
+            @(Model.Checked ? "checked" : "")>
+    <label class="form-check-label" for="@(Model.NameTag.RemoveWhitespace())">
+        @await Html.RenderText(Model.NameTag)
+    </label>
+</div>

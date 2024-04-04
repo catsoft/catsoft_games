@@ -1,15 +1,15 @@
 ﻿.fullWidthImage {
-	background-repeat: no-repeat;
-	background-attachment: local;
-	background-size: cover;
-	background-position: center;
-	height: 666px;
-	width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    background-size: cover;
+    background-position: center;
+    height: 666px;
+    width: 100%;
 }
 
 .squareImage {
-	height: 245px;
-	width: 245px;
+    height: 245px;
+    width: 245px;
 }
 
 .mapBox {

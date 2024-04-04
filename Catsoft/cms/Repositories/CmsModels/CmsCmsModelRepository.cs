@@ -6,7 +6,7 @@ namespace App.cms.Repositories.CmsModels
 {
     public class CmsCmsModelRepository<TContext>
         (TContext catsoftContext) : CmsBaseRepository<CmsModel, TContext>(catsoftContext), ICmsCmsModelRepository
-        where TContext: DbContext
+        where TContext : DbContext
     {
         public CmsModel GetByClass(string type)
         {

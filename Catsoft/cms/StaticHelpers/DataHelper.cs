@@ -13,7 +13,7 @@ namespace App.cms.StaticHelpers
             dynamic instance = Activator.CreateInstance(type);
             return GetDbSet(dbContext, instance);
         }
-        
+
         // ReSharper disable once UnusedParameter.Local
         private static IQueryable<T> GetDbSet<T>(DbContext dbContext, T type)
             where T : class

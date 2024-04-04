@@ -11,64 +11,64 @@
 
 
 <div style="background: rgba(255,213,79,1);" class="container-fluid">
-<div class="container py-5" id="order">
-    <div class="row">
-        <div class="col-8 offset-2">
-            <div class="row mb-3">
-                <span class="fw-bold fs-1 text-center">@await Html.RenderText("Preorder booking")</span>
+    <div class="container py-5" id="order">
+        <div class="row">
+            <div class="col-8 offset-2">
+                <div class="row mb-3">
+                    <span class="fw-bold fs-1 text-center">@await Html.RenderText("Preorder booking")</span>
+                </div>
+                <form asp-action="MakePreOrder" asp-controller="PreOrder" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <span class="d-block mb-1 fw-bold">@await Html.RenderText("Name")</span>
+                        @Html.EditorFor(model => model.Name, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                placeholder = TextResourceRepository.GetByTag(Context, "Name")
+                            }
+                        })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <span class="d-block mb-1 mt-4 fw-bold">@await Html.RenderText("Email or phone")</span>
+                        @Html.EditorFor(model => model.EmailOrPhone, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                placeholder = TextResourceRepository.GetByTag(Context, "Phone or email")
+                            }
+                        })
+                        @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
+                    </div>
+
+                    @* <div class="form-group"> *@
+                    @*     @Html.LabelFor(model => model.DesireDate) *@
+                    @*     @Html.EditorFor(model => model.DesireDate, new { htmlAttributes = new { @class = "form-control" } }) *@
+                    @*     @Html.ValidationMessageFor(model => model.DesireDate, "", new { @class = "text-danger" }) *@
+                    @* </div> *@
+
+                    <div class="form-group">
+                        <span class="d-block mb-1 mt-4 fw-bold">@await Html.RenderText("Comment (optional)")</span>
+                        @Html.EditorFor(model => model.Comment, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                placeholder = TextResourceRepository.GetByTag(Context, "Comment")
+                            }
+                        })
+                        @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group text-center mt-5">
+                        <button class="btn btn-primary" type="submit">@await Html.RenderText("Notify me")</button>
+                    </div>
+
+                </form>
             </div>
-            <form asp-action="MakePreOrder" asp-controller="PreOrder" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <span class="d-block mb-1 fw-bold">@await Html.RenderText("Name")</span>
-                    @Html.EditorFor(model => model.Name, new
-                    {
-                        htmlAttributes = new
-                        {
-                            @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag(Context, "Name")
-                        }
-                    })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group">
-                    <span class="d-block mb-1 mt-4 fw-bold">@await Html.RenderText("Email or phone")</span>
-                    @Html.EditorFor(model => model.EmailOrPhone, new
-                    {
-                        htmlAttributes = new
-                        {
-                            @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag(Context, "Phone or email")
-                        }
-                    })
-                    @Html.ValidationMessageFor(model => model.EmailOrPhone, "", new { @class = "text-danger" })
-                </div>
-
-                @* <div class="form-group"> *@
-                @*     @Html.LabelFor(model => model.DesireDate) *@
-                @*     @Html.EditorFor(model => model.DesireDate, new { htmlAttributes = new { @class = "form-control" } }) *@
-                @*     @Html.ValidationMessageFor(model => model.DesireDate, "", new { @class = "text-danger" }) *@
-                @* </div> *@
-
-                <div class="form-group">
-                    <span class="d-block mb-1 mt-4 fw-bold">@await Html.RenderText("Comment (optional)")</span>
-                    @Html.EditorFor(model => model.Comment, new
-                    {
-                        htmlAttributes = new
-                        {
-                            @class = "form-control",
-                            placeholder = TextResourceRepository.GetByTag(Context, "Comment")
-                        }
-                    })
-                    @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group text-center mt-5">
-                    <button class="btn btn-primary" type="submit">@await Html.RenderText("Notify me")</button>
-                </div>
-
-            </form>
         </div>
     </div>
-</div>
 </div>

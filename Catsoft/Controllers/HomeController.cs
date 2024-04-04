@@ -13,8 +13,6 @@ using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using ImageModel = App.Models.ImageModel;
 
 namespace App.Controllers
 {
@@ -30,7 +28,7 @@ namespace App.Controllers
 
         public IActionResult Index()
         {
-            var home = new HomePageViewModel()
+            var home = new HomePageViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
@@ -40,7 +38,7 @@ namespace App.Controllers
                     .Include(w => w.Images)
                     .FirstOrDefault(),
                 AboutPageViewModel = new AboutPageViewModel(CatsoftContext.AboutPageModels.FirstOrDefault()),
-                ServicesPageViewModel = new ServicesPageViewModel(CatsoftContext.ServicesPageModels.FirstOrDefault()),
+                ServicesPageViewModel = new ServicesPageViewModel(CatsoftContext.ServicesPageModels.FirstOrDefault())
             };
 
             var services = CatsoftContext.ServiceModels
@@ -56,7 +54,7 @@ namespace App.Controllers
 
             home.ServicesPageViewModel.ServiceModels = services;
 
-            home.GamesViewModel = new GamesViewModel()
+            home.GamesViewModel = new GamesViewModel
             {
                 GameModels = games
             };
@@ -69,11 +67,11 @@ namespace App.Controllers
         public IActionResult CleanImages()
         {
             CleanImagesWithoutReferences();
-            
+
             CleanImagesWithoutEntity();
-            
+
             GenerateImagesWithoutOriginalPath();
-            
+
             return RedirectToAction("Index");
         }
 
@@ -81,12 +79,14 @@ namespace App.Controllers
         {
             var images = CatsoftContext.Images.ToList();
 
-            var servicesImages = CatsoftContext.ServiceModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
-            var articleImages = CatsoftContext.ArticleModels.Include(w => w.ImageModel).Select(w => w.ImageModel).ToList();
+            var servicesImages = CatsoftContext.ServiceModels.Include(w => w.ImageModel).Select(w => w.ImageModel)
+                .ToList();
+            var articleImages = CatsoftContext.ArticleModels.Include(w => w.ImageModel).Select(w => w.ImageModel)
+                .ToList();
             var imagesWithReferences =
                 images.Where(w => w.MainPageModelGalleryId != null).ToList();
 
-            var allImagesIds = new List<List<ImageModel>>()
+            var allImagesIds = new List<List<ImageModel>>
             {
                 servicesImages, articleImages, imagesWithReferences
             }.SelectMany(w => w).Where(w => w != null).Select(w => w.Id).ToList();
@@ -106,7 +106,7 @@ namespace App.Controllers
         {
             var images = CatsoftContext.Images.ToList();
 
-            var pathes = images.SelectMany(w => new string[] {w.Url, w.OriginalUrl}).ToList();
+            var pathes = images.SelectMany(w => new[] { w.Url, w.OriginalUrl }).ToList();
 
             var files = Directory.GetFiles(_webHostEnvironment.WebRootPath + "/UploadImages/");
 
@@ -124,7 +124,7 @@ namespace App.Controllers
             var images = CatsoftContext.Images.ToList();
 
             var allImagesWithoutCompressed = images.Where(w => string.IsNullOrEmpty(w.OriginalUrl)).ToList();
-            
+
             foreach (var imageModel in allImagesWithoutCompressed)
             {
                 var originalExtension = Path.GetExtension(imageModel.Url);
@@ -139,7 +139,7 @@ namespace App.Controllers
                     CatsoftContext.SaveChanges();
                     continue;
                 }
-                
+
                 SaveCompressedImage(oldUrl, compressedUrl, original);
 
                 imageModel.Url = compressedUrl;
@@ -148,15 +148,23 @@ namespace App.Controllers
                 CatsoftContext.SaveChanges();
             }
         }
-        
-        private string GetCompressedPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_compressed." + extension;
-        private string GetOriginalPath(IEntity imageModel, string extension) => "/UploadImages/" + imageModel.Id + "_original." + extension;
-        
+
+        private string GetCompressedPath(IEntity imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_compressed." + extension;
+        }
+
+        private string GetOriginalPath(IEntity imageModel, string extension)
+        {
+            return "/UploadImages/" + imageModel.Id + "_original." + extension;
+        }
+
         private void SaveCompressedImage(string formFile, string compressedPath, string originalPath)
         {
             var streamReader = System.IO.File.OpenRead(_webHostEnvironment.WebRootPath + formFile);
-            
-            using (var webPFileStream = new FileStream(_webHostEnvironment.WebRootPath + compressedPath, FileMode.Create))
+
+            using (var webPFileStream =
+                   new FileStream(_webHostEnvironment.WebRootPath + compressedPath, FileMode.Create))
             {
                 using (var imageFactory = new ImageFactory())
                 {
@@ -167,7 +175,7 @@ namespace App.Controllers
                         .Save(webPFileStream);
                 }
             }
-            
+
             streamReader.CopyTo(System.IO.File.OpenWrite(_webHostEnvironment.WebRootPath + originalPath));
         }
     }

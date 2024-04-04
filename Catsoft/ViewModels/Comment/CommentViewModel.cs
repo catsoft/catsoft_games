@@ -10,12 +10,12 @@ namespace App.ViewModels.Comment
         [DisplayName("Имя")]
         [Required(ErrorMessage = "Укажите свое имя")]
         public string Name { get; set; }
-        
+
         [Show(false)]
         [DisplayName("Комментарий")]
         [Required(ErrorMessage = "Напишите ваш комментарий")]
         public string Text { get; set; }
-        
+
         public Guid ArticleId { get; set; }
     }
 }

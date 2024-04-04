@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using App.cms.Models;
-using App.cms.StaticHelpers;
 using App.Models.Accounting;
 using App.Models.Pages;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +15,9 @@ namespace App.Models
         public DbSet<ImageModel> Images { get; set; }
 
         public DbSet<CmsModel> CmsModels { get; set; }
-        
+
         public DbSet<MainPageModel> MainPageModels { get; set; }
-      
+
         public DbSet<MenuModel> Menus { get; set; }
 
         public DbSet<AboutPageModel> AboutPageModels { get; set; }
@@ -36,9 +35,9 @@ namespace App.Models
         public DbSet<ServiceModel> ServiceModels { get; set; }
 
         public DbSet<PreOrderModel> OrderModels { get; set; }
-        
+
         public DbSet<CommentModel> CommentModels { get; set; }
-        
+
         public DbSet<ArticleModel> ArticleModels { get; set; }
 
         public DbSet<TextResourceModel> TextResourceModels { get; set; }
@@ -54,8 +53,6 @@ namespace App.Models
         public DbSet<EventModel> EventsModels { get; set; }
 
         public DbSet<ExperienceModel> ExperiencesModels { get; set; }
-
-
 
 
         public DbSet<AccountModel> AccountModels { get; set; }
@@ -74,7 +71,7 @@ namespace App.Models
                 .HasForeignKey<ServiceModel>(w => w.ImageModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             modelBuilder.Entity<ImageModel>()
                 .HasOne(w => w.ArticleModel)
                 .WithOne(w => w.ImageModel)
@@ -91,7 +88,7 @@ namespace App.Models
                 .HasForeignKey(w => w.MainPageModelGalleryId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             modelBuilder.Entity<ArticleModel>()
                 .HasMany(w => w.CommentModels)
                 .WithOne(w => w.ArticleModel)
@@ -140,7 +137,6 @@ namespace App.Models
 
         private void OnModelCreatingAccounting(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<TransactionModel>()
                 .HasOne(w => w.AccountFromModel)
                 .WithMany(w => w.TransactionFromModels)
@@ -184,7 +180,6 @@ namespace App.Models
         public IQueryable<T> GetDbSet<T>(T type)
             where T : class
         {
-
             return Set<T>()?.AsQueryable();
         }
     }

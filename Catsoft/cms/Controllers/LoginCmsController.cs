@@ -14,7 +14,7 @@ namespace App.cms.Controllers
     public abstract class LoginCmsController<TContext>(TContext catsoftContext, ICmsAdminRepository cmsAdminRepository)
         : CommonCmsController<TContext>(catsoftContext)
         where TContext : DbContext
-        
+
     {
         public IActionResult Index()
         {
@@ -41,7 +41,8 @@ namespace App.cms.Controllers
             {
                 new(ClaimsIdentity.DefaultNameClaimType, userName)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
