@@ -90,6 +90,7 @@
                             var propertyType = propertyInfo.PropertyType;
                             var isHtml = ReflectionHelper.IsHtml(propertyInfo);
                             var isArray = ReflectionHelper.IsArray(propertyInfo);
+                            var isBool = ReflectionHelper.IsBool(propertyInfo);
                         }
 
                         <div class="form-group">
@@ -114,6 +115,10 @@
                                 else if (propertyType.IsEnum)
                                 {
                                     @await Html.PartialAsync("~/CMS/Views/Shared/Properties/EnumProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                }
+                                else if (isBool)
+                                {
+                                    @await Html.PartialAsync("~/CMS/Views/Shared/Properties/BoolProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                 }
                                 else
                                 {

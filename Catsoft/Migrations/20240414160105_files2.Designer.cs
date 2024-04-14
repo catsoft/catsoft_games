@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240414160105_files2")]
+    partial class files2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,10 +69,13 @@ namespace App.Migrations
                     b.Property<Guid?>("AccountToModelId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("ActualAmount")
-                        .HasColumnType("real");
+                    b.Property<decimal?>("ActualAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("BillFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BillImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("BillImageModelId")
@@ -90,7 +96,7 @@ namespace App.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ForResell")
+                    b.Property<bool>("ForRecell")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
@@ -108,8 +114,8 @@ namespace App.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("PlannedAmount")
-                        .HasColumnType("real");
+                    b.Property<decimal?>("PlannedAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -424,7 +430,7 @@ namespace App.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TransactionModelId")
+                    b.Property<Guid?>("TransactionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
@@ -434,9 +440,9 @@ namespace App.Migrations
 
                     b.HasIndex("MainPageModelGalleryId");
 
-                    b.HasIndex("TransactionModelId")
+                    b.HasIndex("TransactionId")
                         .IsUnique()
-                        .HasFilter("[TransactionModelId] IS NOT NULL");
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.ToTable("Images");
                 });
@@ -1023,7 +1029,7 @@ namespace App.Migrations
 
                     b.HasOne("App.Models.Accounting.TransactionModel", "TransactionModel")
                         .WithOne("BillImageModel")
-                        .HasForeignKey("App.Models.ImageModel", "TransactionModelId")
+                        .HasForeignKey("App.Models.ImageModel", "TransactionId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MainPageModelGallery");

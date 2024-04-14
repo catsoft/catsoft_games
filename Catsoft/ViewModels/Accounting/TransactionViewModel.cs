@@ -49,12 +49,23 @@ namespace App.ViewModels.Accounting
         
         public string GetBillLink()
         {
-            var bill = TransactionModel.BillLink;
+            var bill = TransactionModel.BillImageModel.OriginalUrl;
+            
             if (bill.IsNullOrEmpty())
             {
-                bill = "file/"+ TransactionModel.BillFile?.Path;
+                bill = TransactionModel.BillFile?.Path;
+            }
+
+            if (bill.IsNullOrEmpty())
+            {
+                bill = TransactionModel.BillLink;
             }
             return bill;
+        }
+
+        public bool HaveBill()
+        {
+            return TransactionModel.BillImageModel != null || TransactionModel.BillFile != null || !TransactionModel.BillLink.IsNullOrEmpty();
         }
     }
 }

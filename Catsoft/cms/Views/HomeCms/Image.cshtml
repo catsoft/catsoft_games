@@ -14,7 +14,7 @@
 @if (Model?.ImageId == null || Model?.ImageId == Guid.Empty)
 {
     <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
-    <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadImage()"/>
+    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadImage()"/>
     <script type="text/javascript">
         function uploadImage() {
             var file = $("#@(Model?.PropertyName)image")[0].files[0];
@@ -60,7 +60,7 @@
 }
 else
 {
-    <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag(Context, "Image")"/>
+    <img src="@(Model?.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag(Context, "Image")"/>
 
     <div class="col-md-12">
         <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">@await Html.RenderText("Remove_image")</button>
@@ -69,8 +69,8 @@ else
     <script>
         function removeImage() {
             let formData = new FormData();
-            formData.append("idImageProperty", "@(Model.PropertyName)");
-            formData.append("id", "@(Model.ImageId)");
+            formData.append("idImageProperty", "@(Model?.PropertyName)");
+            formData.append("id", "@(Model?.ImageId)");
 
             $.ajax({
                 url: "/HomeCms/RemoveImage",

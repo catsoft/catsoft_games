@@ -3,6 +3,7 @@ using App.cms.Models;
 using App.Models.Accounting;
 using App.Models.Pages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace App.Models
 {
@@ -134,6 +135,11 @@ namespace App.Models
             OnModelCreatingAccounting(modelBuilder);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.NavigationBaseIncludeIgnored));
+        }
 
         private void OnModelCreatingAccounting(ModelBuilder modelBuilder)
         {
@@ -172,6 +178,14 @@ namespace App.Models
                 .WithOne(w => w.TransactionModel)
                 .IsRequired(false)
                 .HasForeignKey<FileModel>(w => w.TransactionId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<TransactionModel>()
+                .HasOne(w => w.BillImageModel)
+                .WithOne(w => w.TransactionModel)
+                .IsRequired(false)
+                .HasForeignKey<ImageModel>(w => w.TransactionModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
         }

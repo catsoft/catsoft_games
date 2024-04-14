@@ -310,11 +310,17 @@ namespace App.cms.Controllers
                 var strValue = value.ToString();
 
                 //TODO Костыль ебаный
-                if (key.PropertyType == _typesOptions.Bool && strValue == "true,false")
+                if (key.PropertyType == _typesOptions.Bool && String.Equals("true,false", strValue, StringComparison.OrdinalIgnoreCase))
                 {
                     strValue = "true";
                 }
 
+                //TODO Костыль ебаный
+                if (key.PropertyType == _typesOptions.Bool && String.Equals("false,false", strValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    strValue = "false";
+                }
+                
                 var typeConvert = key.PropertyType;
                 if (typeConvert.IsGenericType && typeConvert.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
@@ -348,6 +354,11 @@ namespace App.cms.Controllers
                     }
                     else
                     {
+                        if (key.PropertyType == typeof(float) || key.PropertyType == typeof(double))
+                        {
+                            strValue = strValue.Replace(".", ",");
+                        }
+                        
                         var changedType = Convert.ChangeType(strValue, key.PropertyType);
 
                         key.SetValue(editObject, changedType);

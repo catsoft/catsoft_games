@@ -8,6 +8,7 @@ using App.ViewModels.Accounting;
 using App.ViewModels.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.IdentityModel.Tokens;
 
 namespace App.Controllers
@@ -29,13 +30,7 @@ namespace App.Controllers
             }
             filter.AccountingPairs = GetAccountSelector();
 
-            
-            var transactionQuery = CatsoftContext.TransactionModels
-                .Include(w => w.AccountFromModel)
-                .Include(w => w.AccountToModel)
-                .Include(w => w.TemplateTransaction)
-                .Include(w => w.BillFile);
-
+            var transactionQuery = GetTransactions();
 
             var transaction = FilterTransactions(transactionQuery, filter)
                 .Select(w => new TransactionViewModel
@@ -45,6 +40,8 @@ namespace App.Controllers
                     AccountToViewModel = new AccountViewModel(w.AccountToModel)
                 })
                 .ToList();
+
+            transaction = LoadImages(transaction.ToList());
             
             var home = new TransactionListViewModel
             {
@@ -55,6 +52,24 @@ namespace App.Controllers
             };
 
             return View(home);
+        }
+
+        private IQueryable<TransactionModel> GetTransactions()
+        {
+            return CatsoftContext.TransactionModels
+                .Where(w => w.IsDeleted == false)
+                .Include(w => w.BillImageModel)
+                .Include(w => w.AccountFromModel)
+                .Include(w => w.AccountToModel)
+                .Include(w => w.TemplateTransaction)
+                .Include(w => w.BillFile);   
+        }
+        
+        private List<TransactionViewModel> LoadImages(List<TransactionViewModel> transactions)
+        {
+            transactions.ForEach(w =>
+                w.TransactionModel.BillImageModel = CatsoftContext.Images.FirstOrDefault(c => c.Id == w.TransactionModel.BillImageModelId));
+            return transactions;
         }
         
         [HttpPost]
@@ -110,6 +125,26 @@ namespace App.Controllers
             return RedirectToAction("TransactionList");
         }
 
+                
+        [HttpPost]
+        public IActionResult TransactionDelete(string transactionUuid)
+        {
+            var id = Guid.Parse(transactionUuid);
+            var transaction = CatsoftContext.TransactionModels
+                .Include(w => w.AccountFromModel)
+                .Include(w => w.AccountToModel)
+                .Include(w => w.TemplateTransaction)
+                .FirstOrDefault(w => w.Id == id);
+
+            if (transaction != null) 
+            {
+                transaction.IsDeleted = true;
+                CatsoftContext.Update(transaction);
+                CatsoftContext.SaveChanges();
+            }
+            return RedirectToAction("TransactionList");
+        }
+        
         public IActionResult TransactionEditCreate(string transactionUuid)
         {
             TransactionModel transactionModel;

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using App.cms.Controllers.Attributes;
 using App.cms.EntityFrameworkPaginateCore;
 using App.cms.Models;
+using App.Models.Accounting;
 using App.Models.Pages;
 
 namespace App.Models
@@ -49,6 +51,14 @@ namespace App.Models
         [Show(false, false, false, false)] public ArticleModel ArticleModel { get; set; }
 
 
+        
+        [Show(false, false, false, false)] public Guid? TransactionModelId { get; set; }
+
+        [Show(false, false, false, false)]
+        [ForeignKey("TransactionModelId")]
+        public TransactionModel TransactionModel { get; set; }
+        
+        
         Filters<ImageModel> ISortFilterEntity<ImageModel>.GetDefaultFilters(params string[] filters)
         {
             var filter = new Filters<ImageModel>();

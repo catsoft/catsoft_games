@@ -8,11 +8,11 @@ namespace App.cms.Models
     public class Entity<T> : ISortFilterEntity<T>
         where T : IEntity
     {
-        [Show(false, false, false, false)] public virtual int Position { get; set; }
+        [Show(false, false, true, false)] public virtual int Position { get; set; }
 
-        [Show(false, false, false, false)] public bool IsDeleted { get; set; }
+        [Show(false, false, true, false)] public bool IsDeleted { get; set; }
 
-        [Show(false, false, false, false)] public Guid Id { get; set; } = Guid.NewGuid();
+        [Show(false, true, false, false)] public Guid Id { get; set; } = Guid.NewGuid();
 
         [DataType(DataType.DateTime)]
         [Show(true, true, false, false)]

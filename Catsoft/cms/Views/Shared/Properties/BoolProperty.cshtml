@@ -3,9 +3,7 @@
 @{
     var dataFor = Model.PropertyInfo.Name;
 
-    var list = new List<bool> { true, false };
     var value = Model.Model.GetType().GetProperty(Model.PropertyInfo.Name).GetValue(Model.Model, null);
-    var selectList = list.Select(w => new SelectListItem { Text = w.ToString(), Value = w.ToString(), Selected = value.ToString() == w.ToString() }).ToList();
 }
 
-@Html.DropDownList(dataFor, selectList, new { @class = "form-control" })
+@Html.CheckBox(dataFor, value,new { value="true", @checked = "checked" })

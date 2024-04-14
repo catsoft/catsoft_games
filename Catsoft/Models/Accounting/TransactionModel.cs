@@ -10,6 +10,9 @@ namespace App.Models.Accounting
     [Access]
     public class TransactionModel : Entity<TransactionModel>
     {
+        public override string Title => AccountFromModel?.Title + " -> " + AccountToModel?.Title + " " + ActualAmount;
+
+
         [Show(false, false, false, false)] public Guid? AccountFromModelId { get; set; }
         [Show(false)]
         public AccountModel AccountFromModel { get; set; }
@@ -19,10 +22,10 @@ namespace App.Models.Accounting
 
         [Show(false)]
         public AccountModel AccountToModel { get; set; }
-
-
-        public decimal? ActualAmount { get; set; }
-        public decimal? PlannedAmount { get; set; }
+        
+        public float ActualAmount { get; set; }
+        
+        public float PlannedAmount { get; set; }
 
         [Show(false)] public string Description { get; set; }
 
@@ -34,7 +37,7 @@ namespace App.Models.Accounting
 
         public bool IsPaid { get; set; }
 
-        public bool ForRecell { get; set; }
+        public bool ForResell { get; set; }
 
 
         [Show(false)] public decimal? TemplateAmount { get; set; }
@@ -65,12 +68,21 @@ namespace App.Models.Accounting
         [Show(false)] public DateTime? RecurringEnd { get; set; }
 
 
-        [Show(false)] public string BillLink { get; set; }
+        [Show(false)]
+        [DataType(DataType.Url)]
+        public string BillLink { get; set; }
 
 
         [Show(false, false, false, false)] public Guid? BillFileId { get; set; }
 
         [Show(false, false)] [Required] public FileModel BillFile { get; set; }
+        
+        
+        
+        [Show(false, false, false, false)] public Guid? BillImageModelId { get; set; }
+
+        [ForeignKey("BillImageModelId")]
+        public ImageModel BillImageModel { get; set; }
 
 
         //public List<string> Items { get; set; }

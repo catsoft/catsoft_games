@@ -154,6 +154,12 @@ namespace App.cms.StaticHelpers
             return type?.DataType == DataType.Html;
         }
 
+        public static bool IsLink(PropertyInfo info)
+        {
+            var type = info.GetCustomAttribute<DataTypeAttribute>();
+            return type?.DataType == DataType.Url || type?.DataType == DataType.ImageUrl;
+        }
+        
         public static bool IsBool(PropertyInfo info)
         {
             return info.PropertyType == typeof(bool) || info.PropertyType == typeof(bool);
@@ -162,7 +168,7 @@ namespace App.cms.StaticHelpers
         public static bool IsImageUrl(PropertyInfo info)
         {
             var type = info.GetCustomAttribute<DataTypeAttribute>();
-            return type?.DataType == DataType.ImageUrl;
+            return type?.DataType == DataType.ImageUrl || type?.DataType == DataType.Url;
         }
 
         public static bool IsImage(Type info)

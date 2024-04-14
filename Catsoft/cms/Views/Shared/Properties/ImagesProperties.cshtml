@@ -20,12 +20,12 @@
             @foreach (var propertyInfo in imagePropertyInfos)
             {
                 var name = ReflectionHelper.GetNameProperty(propertyInfo);
-                var image = propertyInfo.GetValue(Model) as ImageModel ?? new ImageModel();
+                var image = propertyInfo.GetValue(Model) as ImageModel;
                 var imageViewModel = new ImageViewModel
                 {
                     PropertyName = propertyInfo.Name,
-                    ImageId = image.Id,
-                    Url = image.Url
+                    ImageId = image?.Id,
+                    Url = image?.Url
                 };
 
                 <div class="col-md-12" style="margin-bottom: 30px;">

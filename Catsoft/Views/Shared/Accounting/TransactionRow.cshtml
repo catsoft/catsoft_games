@@ -24,19 +24,37 @@
         <span class="fs-5">@Model.GetAmount()</span>
     </div>
     <div class="col">
-        @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Get))
+        @if (Model.HaveBill())
         {
-            <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
-            <button type="submit">@await Html.RenderText("Edit")</button>
+            <form action="@Model.GetBillLink()" method="get" target="_blank">
+                <input type="submit" value="@await Html.RenderText("Bill")" name="Submit" id="frm1_submit" />
+            </form>
         }
     </div>
-    <div class="col">
-        @if (!Model.TransactionModel.IsPaid)
-        {
-            @using (Html.BeginForm("TransactionPay", "Accounting", FormMethod.Post))
+    <div class="col col-auto row">
+        <div class="col">
+            @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Get))
             {
-                <button type="submit">@await Html.RenderText("Pay")</button>
+                <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
+                <button type="submit">@await Html.RenderText("Edit")</button>
             }
-        }
+        </div>
+        <div class="col">
+            @if (!Model.TransactionModel.IsPaid)
+            {
+                @using (Html.BeginForm("TransactionPay", "Accounting", FormMethod.Post))
+                {
+                    <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
+                    <button type="submit">@await Html.RenderText("Pay")</button>
+                }
+            }
+        </div>
+        <div class="col">
+            @using (Html.BeginForm("TransactionDelete", "Accounting", FormMethod.Post))
+            {
+                <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
+                <button type="submit">@await Html.RenderText("Delete")</button>
+            }
+        </div>
     </div>
 </a>

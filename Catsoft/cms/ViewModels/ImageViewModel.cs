@@ -6,7 +6,7 @@ namespace App.cms.ViewModels
     {
         public string PropertyName { get; set; }
 
-        public Guid ImageId { get; set; }
+        public Guid? ImageId { get; set; }
 
         public string Url { get; set; }
     }
