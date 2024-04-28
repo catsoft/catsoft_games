@@ -288,7 +288,7 @@ namespace App.Controllers
             if (filter.Template != null)
             {
                 var templateId = Guid.Parse(filter.Template);
-                transactions = transactions.Where(w => w.TemplateTransactionId == templateId);
+                transactions = transactions.Where(w => w.TemplateTransactionId == templateId || w.Id == templateId);
             }
             
             if (filter.DateFrom != null)
