@@ -1,9 +1,7 @@
 ﻿@inject TextResourceRepository Repository
 @using App.cms.Repositories.TextResource
 @model string
-
 @{
     Layout = null;
 }
-
-@Repository.GetByTag(Context, Model)
+@Repository.GetByTag(Context, Model).Trim()

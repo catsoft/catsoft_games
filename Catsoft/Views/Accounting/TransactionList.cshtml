@@ -1,10 +1,18 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@inject TextResourceRepository TextRepository
 @using App.cms.Helpers
+@using App.cms.Repositories.TextResource
 @using App.Models
+@using App.ViewModels.Accounting
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.ViewModels.Accounting.TransactionListViewModel
 
 @{
     Layout = "Accounting/_Layout";
+
+    var splitted = Model.Transactions.GroupBy(t => t.TransactionModel.IsTemplate).ToDictionary(w => w.Key, w => w.ToList());
+    var templateTransactions = splitted.GetValueOrDefault(true) ?? new List<TransactionViewModel>();
+    var transactions = splitted.GetValueOrDefault(false) ?? new List<TransactionViewModel>();
 }
 
 
@@ -16,7 +24,45 @@
     </div>
 
     <div class="container col-8">
+        <span class="fw-bold fs-3 pb-3">@await Html.RenderText("Templates")</span>
+
+        <br/>
+
+        <div class="row">
+            <div class="col">
+                <form action="/Accounting/CreateTemplate" method="get">
+                    <input type="submit" value="@TextRepository.GetByTag(Context, "Create template")" name="Submit" class="btn btn-primary"/>
+                </form>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            @foreach (var transaction in templateTransactions)
+            {
+                @await Html.PartialAsync("Accounting/TransactionRow", transaction)
+                <div class="w-100"></div>
+            }
+        </div>
+
+        <hr/>
+
         <span class="fw-bold fs-3 pb-3">@await Html.RenderText("Operations")</span>
+
+        <br/>
+
+        <div class="row">
+            <div class="col">
+                <form action="/Accounting/TransactionGetAllBills" method="get" target="_blank">
+                    <input type="submit" value="@TextRepository.GetByTag(Context, "Download all bills")" name="Submit" id="frm1_submit" class="btn btn-primary"/>
+                </form>
+            </div>
+            @await Html.PartialAsync("Accounting/TotalAmount", Model.GetTotalAmount())
+        </div>
+
+        <br/>
+
         <div class="row">
             <div class="col bg-secondary">
                 <span class="fs-5 text-light">@await Html.RenderText("Date")</span>
@@ -40,7 +86,7 @@
             </div>
             <div class="w-100"></div>
 
-            @foreach (var transaction in Model.Transactions)
+            @foreach (var transaction in transactions)
             {
                 @await Html.PartialAsync("Accounting/TransactionRow", transaction)
                 <div class="w-100"></div>

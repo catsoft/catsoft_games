@@ -16,12 +16,12 @@ namespace App.cms.FilesHandlers
 
         protected virtual string GetCompressedPath(ImageModel imageModel, string extension)
         {
-            return "/UploadImages/" + imageModel.Id + "_compressed." + extension;
+            return "/UploadFiles/" + imageModel.Id + "_compressed." + extension;
         }
 
         protected virtual string GetOriginalPath(ImageModel imageModel, string extension)
         {
-            return "/UploadImages/" + imageModel.Id + "_original." + extension;
+            return "/UploadFiles/" + imageModel.Id + "_original." + extension;
         }
 
         protected void SaveOriginalImage(IFormFile formFile, string path)

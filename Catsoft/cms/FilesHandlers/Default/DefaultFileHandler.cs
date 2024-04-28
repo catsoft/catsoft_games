@@ -46,7 +46,7 @@ namespace App.cms.FilesHandlers.Default
 
         private string GetOriginalPath(IEntity entity, string extension)
         {
-            return "/Files/" + entity.Id + "." + extension;
+            return "/UploadFiles/" + entity.Id + "." + extension;
         }
     }
 }

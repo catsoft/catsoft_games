@@ -75,7 +75,9 @@ namespace App.Models.Accounting
 
         [Show(false, false, false, false)] public Guid? BillFileId { get; set; }
 
-        [Show(false, false)] [Required] public FileModel BillFile { get; set; }
+        [Show(false, false)]
+        [ForeignKey("BillFileId")]
+        public FileModel BillFile { get; set; }
         
         
         

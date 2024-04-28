@@ -1,5 +1,7 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@inject TextResourceRepository TextRepository
 @using App.cms.Helpers
+@using App.cms.Repositories.TextResource
 @using App.Models
 @model App.ViewModels.Accounting.TransactionViewModel
 
@@ -23,12 +25,15 @@
     <div class="col">
         <span class="fs-5">@Model.GetAmount()</span>
     </div>
-    <div class="col">
+    <div class="col d-flex flex-row">
         @if (Model.HaveBill())
         {
-            <form action="@Model.GetBillLink()" method="get" target="_blank">
-                <input type="submit" value="@await Html.RenderText("Bill")" name="Submit" id="frm1_submit" />
-            </form>
+            @foreach(var bill in Model.GetBillLinks())
+            {
+                <form action="@bill" method="get" target="_blank">
+                    <input type="submit" value="@TextRepository.GetByTag(Context, "Bill")" name="Submit" id="frm1_submit"  class="btn btn-primary" />
+                </form>
+            }
         }
     </div>
     <div class="col col-auto row">
@@ -36,7 +41,7 @@
             @using (Html.BeginForm("TransactionEditCreate", "Accounting", FormMethod.Get))
             {
                 <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
-                <button type="submit">@await Html.RenderText("Edit")</button>
+                <button class="btn btn-secondary" type="submit">@await Html.RenderText("Edit")</button>
             }
         </div>
         <div class="col">
@@ -45,7 +50,7 @@
                 @using (Html.BeginForm("TransactionPay", "Accounting", FormMethod.Post))
                 {
                     <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
-                    <button type="submit">@await Html.RenderText("Pay")</button>
+                    <button class="btn btn-success" type="submit">@await Html.RenderText("Pay")</button>
                 }
             }
         </div>
@@ -53,7 +58,7 @@
             @using (Html.BeginForm("TransactionDelete", "Accounting", FormMethod.Post))
             {
                 <input id="transactionUuid" name="transactionUuid" value="@Model.TransactionModel.Id.ToString()" hidden="hidden"/>
-                <button type="submit">@await Html.RenderText("Delete")</button>
+                <button class="btn btn-danger" type="submit">@await Html.RenderText("Delete")</button>
             }
         </div>
     </div>

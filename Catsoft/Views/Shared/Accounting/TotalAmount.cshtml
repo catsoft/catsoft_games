@@ -1,0 +1,16 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@inject TextResourceRepository TextRepository
+@using App.cms.Repositories.TextResource
+@using App.Models
+@model float
+
+@{
+    Layout = null;
+}
+
+<div class="col">
+    <p>
+        @TextRepository.GetByTag(Context, "Total amount") : @Model
+    </p>
+</div>
+    

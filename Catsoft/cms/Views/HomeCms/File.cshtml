@@ -1,73 +1,104 @@
-﻿@using App.cms.Repositories.TextResource
+﻿@using App.cms.Helpers
+@using App.cms.Models
+@using App.cms.Repositories.TextResource
+@using App.Models
 @model App.cms.ViewModels.FileViewModel
 @inject TextResourceRepository TextResourceRepository
 
 @{
-    Layout = null;
+Layout = null;
+
+var fileLink = "/HomeCms/GetList?type=" + typeof(FileModel);
 }
 
-@if (Model?.FileId == null)
-{
-    <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_file")" class="btn btn-primary" id="@(Model?.Id)files"/>
-    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadFiles()"/>
-    <script>
-        uploadFiles = function() {
-            var file = $("#@(Model?.Id)files")[0].files[0];
-            var formData = new FormData();
-            formData.append("uploadedFile", file);
 
-            $.ajax({
-                url: "/HomeCms/AddFile",
-                type: "POST",
-                contentType: false,
-                data: formData,
-                cache: false,
-                processData: false,
-                async: true,
-                success: function (id) {
-                    $.ajax({
-                        url: "/HomeCms/AddFile?id=" + id + "&idFileProperty=" + "@(Model?.Id)",
-                        type: "GET",
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        async: true,
-                        success: function (data) {
-                            var input = $("#@(Model?.Id)Id");
-                            if (input.length === 0) {
-                                var filesDiv = $("#fileHiddenInputs");
-                                filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.Id)Id" name="@(Model?.Id)Id" value="' + id + '"/>');
-                            } else {
-                                input.val(id);
-                            }
-                            $("#@(Model?.Id)").html(data);
+@if (Model?.FileId == null || Model?.FileId == Guid.Empty)
+{
+<input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_file")" class="btn btn-primary" id="@(Model?.PropertyName)file" accept="file/*"/>
+<input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadFile()"/>
+<script type="text/javascript">
+    function uploadFile() {
+        var file = $("#@(Model?.PropertyName)file")[0].files[0];
+        var formData = new FormData();
+        formData.append("uploadedFile", file);
+
+        $.ajax({
+            url: "/HomeCms/AddFile",
+            type: "POST",
+            contentType: false,
+            data: formData,
+            cache: false,
+            processData: false,
+            async: true,
+            success: function (id) {
+                $.ajax({
+                    url: "/HomeCms/AddFile?id=" + id + "&idFileProperty=" + "@(Model?.PropertyName)",
+                    type: "GET",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    async: true,
+                    success: function (data) {
+                        if (!'@(Model?.PropertyName)' || '@(Model?.PropertyName)'.length === 0) {
+                            // Redirect to the home page
+                            window.location.href = "@fileLink";
+                            return; // Exit the script
                         }
-                    });
-                }
-            });
-        };
-    </script>
+                        var input = $("#@(Model?.PropertyName)Id");
+                        if (input.length === 0) {
+                            var filesDiv = $("#filesHiddenInputs");
+                            filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.PropertyName)Id" name="@(Model?.PropertyName)Id" value="' + id + '"/>');
+                        } else {
+                            input.val(id);
+                        }
+                        $("#@(Model?.PropertyName)").html(data);
+                    }
+                });
+            }
+        });
+    }
+</script>
 }
 else
 {
-    <form asp-controller="HomeCms" asp-action="RemoveFile" method="post" data-ajax="true" data-ajax-update="#@(Model?.Id)" data-ajax-success="onDelete()">
-        <input type="hidden" value="@(Model.FileId)" name="id"/>
-        <input type="hidden" value="@(Model.Id)" name="idFileProperty"/>
-
-        <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Remove_file")" class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px;"/>
+<div class="col-md-12">
+    <form action="@Model.Url" method="get" target="_blank">
+        <input type="submit" class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" value="@await Html.RenderText("Open file")" name="Submit" id="frm1_submit" />
     </form>
+</div>
+    
+<div class="col-md-12">
+    <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeFile()">@await Html.RenderText("Remove_file")</button>
+</div>
 
-    <script>
-        onDelete = function () {
-            var input = $("#@(Model?.Id)Id");
-            if (input.length === 0) {
-                var filesDiv = $("#fileHiddenInputs");
-                filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.Id)Id" name="@(Model?.Id)Id" value=""/>');
-            } else {
-                input.val("");
+<script>
+    function removeFile() {
+        let formData = new FormData();
+        formData.append("idFileProperty", "@(Model?.PropertyName)");
+        formData.append("id", "@(Model?.FileId)");
+
+        $.ajax({
+            url: "/HomeCms/RemoveFile",
+            type: "POST",
+            contentType: false,
+            data: formData,
+            cache: false,
+            processData: false,
+            async: true,
+            success: function(data) {
+                console.log("123")
+                var input = $("#@(Model?.PropertyName)Id");
+                if (input.length === 0) {
+                    var filesDiv = $("#filesHiddenInputs");
+                    filesDiv.html(filesDiv.html() + '<input type="hidden" id="@(Model?.PropertyName)Id" name="@(Model?.PropertyName)Id" value=""/>');
+                } else {
+                    input.val("");
+                }
+                $("#@(Model?.PropertyName)").html(data);
             }
-        };
-    </script>
+        })
+    }
+</script>
 }
 <br>
 

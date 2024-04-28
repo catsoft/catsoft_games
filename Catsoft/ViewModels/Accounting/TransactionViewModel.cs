@@ -1,4 +1,7 @@
-﻿using App.Models.Accounting;
+﻿using System.Collections.Generic;
+using System.Reflection.Emit;
+using App.Models.Accounting;
+using App.Utils;
 using App.ViewModels.Common;
 using Microsoft.IdentityModel.Tokens;
 
@@ -47,25 +50,20 @@ namespace App.ViewModels.Accounting
             return TransactionModel.IsPaid;
         }
         
-        public string GetBillLink()
+        public List<string> GetBillLinks()
         {
-            var bill = TransactionModel.BillImageModel.OriginalUrl;
+            var result = new List<string>();
             
-            if (bill.IsNullOrEmpty())
-            {
-                bill = TransactionModel.BillFile?.Path;
-            }
+            result.AddIfNotEmpty(TransactionModel.BillImageModel?.OriginalUrl);
+            result.AddIfNotEmpty(TransactionModel.BillFile?.Path);
+            result.AddIfNotEmpty(TransactionModel.BillLink);
 
-            if (bill.IsNullOrEmpty())
-            {
-                bill = TransactionModel.BillLink;
-            }
-            return bill;
+            return result;
         }
 
         public bool HaveBill()
         {
-            return TransactionModel.BillImageModel != null || TransactionModel.BillFile != null || !TransactionModel.BillLink.IsNullOrEmpty();
+            return !GetBillLinks().IsNullOrEmpty();
         }
     }
 }

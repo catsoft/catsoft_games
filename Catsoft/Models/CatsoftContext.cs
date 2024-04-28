@@ -177,7 +177,7 @@ namespace App.Models
                 .HasOne(w => w.BillFile)
                 .WithOne(w => w.TransactionModel)
                 .IsRequired(false)
-                .HasForeignKey<FileModel>(w => w.TransactionId)
+                .HasForeignKey<TransactionModel>(w => w.BillFileId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
             

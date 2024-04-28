@@ -23,8 +23,9 @@
                 var file = propertyInfo.GetValue(Model) as FileModel;
                 var fileViewModel = new FileViewModel
                 {
-                    Id = file?.Id,
-                    FileId = file?.Id
+                    Url = file?.Path,
+                    FileId = file?.Id,
+                    PropertyName = propertyInfo.Name
                 };
 
                 <div class="col-md-12" style="margin-bottom: 30px;">
@@ -34,7 +35,7 @@
                                 @Html.DisplayName(name)
                             </span>
                         </div>
-                        <div class="col-md-10" id="@(fileViewModel.Id)">
+                        <div class="col-md-10" id="@(fileViewModel.PropertyName)">
                             @await Html.PartialAsync("~/CMS/Views/HomeCms/File.cshtml", fileViewModel)
                         </div>
                     </div>

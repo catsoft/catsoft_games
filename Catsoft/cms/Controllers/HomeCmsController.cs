@@ -213,7 +213,7 @@ namespace App.cms.Controllers
 
             return classesSet.FirstOrDefault(w => w.Id == id);
         }
-
+        
         [HttpGet]
         [Authorize]
         public IActionResult Create(string type)
@@ -547,25 +547,27 @@ namespace App.cms.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddFile(Guid id, Guid idFileProperty)
+        public IActionResult AddFile(Guid id, string idFileProperty)
         {
-            var fileViewModel = new FileViewModel
+            var file = _filesRepository.Get(id);
+
+            var fileViewModel = new FileViewModel()
             {
-                Id = idFileProperty,
-                FileId = id
+                FileId = id,
+                PropertyName = idFileProperty,
+                Url = file?.Path
             };
 
             return View("File", fileViewModel);
         }
-
-        public IActionResult RemoveFile(Guid id, Guid idFileProperty)
+        
+        [HttpPost]
+        public IActionResult RemoveFile(Guid id, string idFileProperty)
         {
-            var fileViewModel = new FileViewModel
-            {
-                Id = idFileProperty
-            };
+            var fileViewModel = new FileViewModel();
+            fileViewModel.PropertyName = idFileProperty;
 
-            _fileHandler.Remove(_filesRepository.Get(id));
+            _fileHandler.Remove(_imageRepository.Get(id));
 
             _filesRepository.Remove(id);
 

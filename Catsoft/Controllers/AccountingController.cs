@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using App.cms.FilesHandlers;
 using App.cms.StaticHelpers;
 using App.Models;
 using App.Models.Accounting;
@@ -15,34 +17,19 @@ namespace App.Controllers
 {
     public class AccountingController : CommonController
     {
-        public AccountingController(CatsoftContext catsoftContext)
+        private readonly IZipHandler _zipHandler;
+
+        public AccountingController(CatsoftContext catsoftContext, IZipHandler zipHandler)
         {
+            _zipHandler = zipHandler;
             CatsoftContext = catsoftContext;
         }
 
         public IActionResult TransactionList()
         {
-            var filter = CookieHelper.GetValue<AccountingFilterViewModel>(HttpContext, "AccountingFilter");
-            
-            if (filter == null)
-            {
-                filter = new AccountingFilterViewModel();
-            }
-            filter.AccountingPairs = GetAccountSelector();
+            var transaction = GetTransactionByFilter();
+            var filter = GetFilter();
 
-            var transactionQuery = GetTransactions();
-
-            var transaction = FilterTransactions(transactionQuery, filter)
-                .Select(w => new TransactionViewModel
-                {
-                    TransactionModel = w,
-                    AccountFromViewModel = new AccountViewModel(w.AccountFromModel),
-                    AccountToViewModel = new AccountViewModel(w.AccountToModel)
-                })
-                .ToList();
-
-            transaction = LoadImages(transaction.ToList());
-            
             var home = new TransactionListViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
@@ -63,13 +50,6 @@ namespace App.Controllers
                 .Include(w => w.AccountToModel)
                 .Include(w => w.TemplateTransaction)
                 .Include(w => w.BillFile);   
-        }
-        
-        private List<TransactionViewModel> LoadImages(List<TransactionViewModel> transactions)
-        {
-            transactions.ForEach(w =>
-                w.TransactionModel.BillImageModel = CatsoftContext.Images.FirstOrDefault(c => c.Id == w.TransactionModel.BillImageModelId));
-            return transactions;
         }
         
         [HttpPost]
@@ -179,6 +159,75 @@ namespace App.Controllers
             CatsoftContext.SaveChanges();
 
             return RedirectToAction("TransactionList");
+        }
+
+        public IActionResult TransactionGetAllBills()
+        {
+            var transactions = GetTransactionByFilter();
+            
+            var files = transactions.SelectMany(w => w.GetBillLinks()).ToList();
+            var zipFile = _zipHandler.GenerateZip(files);
+
+            var date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var fileName = "bills_"+ date + ".zip";
+            
+            return File(System.IO.File.ReadAllBytes(zipFile), "application/zip", fileName);
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateTemplate()
+        {
+            var transaction = new TransactionViewModel()
+            {
+                HeaderViewModel = GetHeaderViewModel(),
+                FooterViewModel = GetFooterViewModel(),
+                TransactionModel = new TransactionModel()
+                {
+                    IsTemplate = true
+                }
+            };
+
+            return View("HomeCms/Create", typeof(TransactionModel));
+            
+            // return View("Accounting/TransactionEditCreate", transaction);
+        }
+        
+        
+        [HttpPost]
+        public IActionResult CreateTemplate(TransactionModel transactionModel)
+        {
+            CatsoftContext.Add(transactionModel);
+            CatsoftContext.SaveChanges();
+            return RedirectToAction("TransactionList");
+        }
+        
+
+        private List<TransactionViewModel> GetTransactionByFilter()
+        {
+            var filter = GetFilter();
+            var transactionQuery = GetTransactions();
+
+            return FilterTransactions(transactionQuery, filter)
+                .Select(w => new TransactionViewModel
+                {
+                    TransactionModel = w,
+                    AccountFromViewModel = new AccountViewModel(w.AccountFromModel),
+                    AccountToViewModel = new AccountViewModel(w.AccountToModel)
+                })
+                .ToList();   
+        }
+
+        private AccountingFilterViewModel GetFilter()
+        {
+            var filter = CookieHelper.GetValue<AccountingFilterViewModel>(HttpContext, "AccountingFilter");
+            
+            if (filter == null)
+            {
+                filter = new AccountingFilterViewModel();
+            }
+            filter.AccountingPairs = GetAccountSelector();
+            return filter;
         }
         
         private List<KeyValueViewModel> GetAccountSelector() => CatsoftContext.AccountModels
