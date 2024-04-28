@@ -9,7 +9,7 @@
     Layout = "_Layout";
     var firstImage = Model.Page?.Images?.FirstOrDefault();
 
-    var mapHtml = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50970.587047781424!2d-7.946110777752769!3d37.017866511653004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0552e72290faa7%3A0x8d73c2d4494aff5a!2sFaro!5e0!3m2!1sen!2spt!4v1705887575167!5m2!1sen!2spt\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
+    var mapHtml = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1400.9547568430396!2d-7.420237106767184!3d37.19450966157094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd10239f35bdc05f%3A0x91e6e5c9f447ab24!2sVIRTUALITY%2C%20UNIPESSOAL%20LDA!5e0!3m2!1sen!2spt!4v1714339139266!5m2!1sen!2spt\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
     var mapModel = new MapViewModel
     {
         Location = mapHtml
@@ -23,7 +23,7 @@
         <p class="fs-1 mb-5 fw-normal">@await Html.RenderText("Lost in the game, find yourself in experience")</p>
         <div style="background-color:aliceblue" class="ps-2 pb-5 pt-1 ms-2">
             <span class="fs-4">
-                @await Html.RenderText("Located in")<span class="fw-bold">@await Html.RenderText("Faro")</span>
+                @await Html.RenderText("Located in")<span class="fw-bold"> @await Html.RenderText("Vila Real De Santo Antonio")</span>
             </span>
             @await Html.PartialAsync("~/CMS/Views/Shared/Common/Map.cshtml", mapModel)
         </div>
