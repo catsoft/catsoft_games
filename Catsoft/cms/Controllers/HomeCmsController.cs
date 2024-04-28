@@ -9,6 +9,7 @@ using App.cms.Controllers.Attributes;
 using App.cms.EntityFrameworkPaginateCore;
 using App.cms.FilesHandlers;
 using App.cms.Models;
+using App.cms.ObjectInterceptors;
 using App.cms.Repositories.CmsModels;
 using App.cms.Repositories.File;
 using App.cms.Repositories.Image;
@@ -16,6 +17,7 @@ using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
 using App.cms.ViewModels;
 using App.Models;
+using App.Models.Accounting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +36,9 @@ namespace App.cms.Controllers
         private readonly ICmsFilesRepository _filesRepository;
         private readonly ICmsImageModelRepository _imageRepository;
         private readonly TextResourceRepository _textResourceRepository;
+        private readonly IObjectInterceptor _objectInterceptor;
         private readonly TypesOptions _typesOptions;
+        
 
         public HomeCmsController(TContext catsoftContext,
             IWebHostEnvironment appEnvironment,
@@ -44,6 +48,7 @@ namespace App.cms.Controllers
             ICmsFilesRepository filesRepository,
             ICmsCmsModelRepository cmsCmsModelRepository,
             TextResourceRepository textResourceRepository,
+            IObjectInterceptor objectInterceptor,
             IFileHandler fileHandler) : base(catsoftContext)
         {
             _appEnvironment = appEnvironment;
@@ -54,6 +59,7 @@ namespace App.cms.Controllers
             _cmsCmsModelRepository = cmsCmsModelRepository;
             _fileHandler = fileHandler;
             _textResourceRepository = textResourceRepository;
+            _objectInterceptor = objectInterceptor;
 
             ContextShared.SharedContext = catsoftContext;
         }
@@ -368,6 +374,8 @@ namespace App.cms.Controllers
 
             CatsoftContext.Update(editObject);
             CatsoftContext.SaveChanges();
+            
+            _objectInterceptor.Intercept(newObject);
 
             return CheckIsSingle(type)
                 ? RedirectToAction("EditFirst", new { type = typeName })
@@ -460,10 +468,11 @@ namespace App.cms.Controllers
 
             CatsoftContext.Add(newObject);
             CatsoftContext.SaveChanges();
+            
+            _objectInterceptor.Intercept(newObject);
 
             return RedirectToAction("GetList", new { type = typeName });
         }
-
 
         private void CheckRole(Type type)
         {

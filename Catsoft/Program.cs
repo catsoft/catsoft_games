@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using App.Initialize;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,11 @@ namespace App
 
             // DoWithScope(app, scoped =>
             // {
+                // scoped.GetRequiredService<DatabaseCleaner>().CleanTX();
+            // });
+            
+            // DoWithScope(app, scoped =>
+            // {
             //     scoped.GetRequiredService<DatabaseInitializer>().Init();
             // });
             //
@@ -27,6 +33,22 @@ namespace App
             await app.RunAsync();
         }
 
+        private static async Task DoWithScope(IWebHost app, Action<IServiceProvider> action)
+        {
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                action(services);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetService<ILogger<Program>>();
+                Console.WriteLine(ex);
+                logger.LogError(ex, "An error occurred during db init.");
+            }
+        }
+        
         private static async Task DoWithScope(IWebHost app, Func<IServiceProvider, Task> action)
         {
             using var scope = app.Services.CreateScope();

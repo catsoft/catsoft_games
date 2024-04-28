@@ -37,7 +37,8 @@ namespace App.ViewModels.Accounting
 
         public string GetAmount()
         {
-            return TransactionModel.ActualAmount.ToString();
+            var amount = TransactionModel.IsTemplate ? TransactionModel.TemplateAmount : TransactionModel.ActualAmount;
+            return amount.ToString();
         }
 
         public string GetPlannedAmount()

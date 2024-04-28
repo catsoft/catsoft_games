@@ -12,7 +12,7 @@ namespace App.ViewModels.Accounting
 
         public float GetTotalAmount()
         {
-            return Transactions.Sum(w => w.TransactionModel.ActualAmount);
+            return Transactions.Sum(w => w.TransactionModel.ActualAmount ?? 0.0f);
         }
     }
 }

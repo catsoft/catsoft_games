@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using App.Models.Accounting;
 using App.ViewModels.Views;
 
 namespace App.ViewModels.Accounting
@@ -20,11 +21,15 @@ namespace App.ViewModels.Accounting
         
         public string Category { get; set; }
 
-        public DateTime? DateTimeFrom { get; set; }
+        public DateOnly? DateFrom { get; set; }
         
-        public DateTime? DateTimeTo { get; set; }
+        public DateOnly? DateTo { get; set; }
+        
+        public string Template { get; set; }
+        
 
-        
+        public List<KeyValueViewModel> TemplatesPairs { get; set; }
+
         public List<KeyValueViewModel> AccountingPairs { get; set; }
     }
 }

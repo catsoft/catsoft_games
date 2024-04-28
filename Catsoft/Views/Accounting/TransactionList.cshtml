@@ -10,7 +10,7 @@
 @{
     Layout = "Accounting/_Layout";
 
-    var splitted = Model.Transactions.GroupBy(t => t.TransactionModel.IsTemplate).ToDictionary(w => w.Key, w => w.ToList());
+    var splitted = Model.Transactions.GroupBy(t => t.TransactionModel.IsTemplate && t.TransactionModel.IsRecurring).ToDictionary(w => w.Key, w => w.ToList());
     var templateTransactions = splitted.GetValueOrDefault(true) ?? new List<TransactionViewModel>();
     var transactions = splitted.GetValueOrDefault(false) ?? new List<TransactionViewModel>();
 }

@@ -4,6 +4,7 @@ using App.cms.FilesHandlers.Jpeg;
 using App.cms.FilesHandlers.Png;
 using App.cms.FilesHandlers.Webpack;
 using App.cms.FilesHandlers.Zip;
+using App.cms.ObjectInterceptors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace App.cms
@@ -17,6 +18,7 @@ namespace App.cms
             services.AddScoped<IWebpackFileHandler, WebpackFileHandler>();
             services.AddScoped<IFileHandler, CommonFileHandler>();
             services.AddScoped<IZipHandler, ZipHandler>();
+            services.AddScoped<IObjectInterceptor, ObjectInterceptor>();
             services.AddScoped<IDefaultFileHandler, DefaultFileHandler>();
         }
     }

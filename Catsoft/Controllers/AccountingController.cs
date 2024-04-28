@@ -127,29 +127,35 @@ namespace App.Controllers
         
         public IActionResult TransactionEditCreate(string transactionUuid)
         {
-            TransactionModel transactionModel;
-            if (transactionUuid.IsNullOrEmpty())
+            return RedirectToAction("Edit", "HomeCms", routeValues: new
             {
-                transactionModel = new TransactionModel();
-            }
-            else
-            {
-                var id = Guid.Parse(transactionUuid);
-                transactionModel = CatsoftContext.TransactionModels
-                    .Include(w => w.AccountFromModel)
-                    .Include(w => w.AccountToModel)
-                    .Include(w => w.TemplateTransaction)
-                    .FirstOrDefault(w => w.Id == id);
-            }
+                type = typeof(TransactionModel).FullName,
+                id = transactionUuid
+            } );
             
-            var home = new TransactionViewModel()
-            {
-                HeaderViewModel = GetHeaderViewModel(),
-                FooterViewModel = GetFooterViewModel(),
-                TransactionModel = transactionModel,
-            };
-
-            return View(home);
+            // TransactionModel transactionModel;
+            // if (transactionUuid.IsNullOrEmpty())
+            // {
+            //     transactionModel = new TransactionModel();
+            // }
+            // else
+            // {
+            //     var id = Guid.Parse(transactionUuid);
+            //     transactionModel = CatsoftContext.TransactionModels
+            //         .Include(w => w.AccountFromModel)
+            //         .Include(w => w.AccountToModel)
+            //         .Include(w => w.TemplateTransaction)
+            //         .FirstOrDefault(w => w.Id == id);
+            // }
+            //
+            // var home = new TransactionViewModel()
+            // {
+            //     HeaderViewModel = GetHeaderViewModel(),
+            //     FooterViewModel = GetFooterViewModel(),
+            //     TransactionModel = transactionModel,
+            // };
+            //
+            // return View(home);
         }
 
         [HttpPost]
@@ -178,19 +184,7 @@ namespace App.Controllers
         [HttpGet]
         public IActionResult CreateTemplate()
         {
-            var transaction = new TransactionViewModel()
-            {
-                HeaderViewModel = GetHeaderViewModel(),
-                FooterViewModel = GetFooterViewModel(),
-                TransactionModel = new TransactionModel()
-                {
-                    IsTemplate = true
-                }
-            };
-
-            return View("HomeCms/Create", typeof(TransactionModel));
-            
-            // return View("Accounting/TransactionEditCreate", transaction);
+            return RedirectToAction("Create", "HomeCms", routeValues: new { type = typeof(TransactionModel).FullName} );
         }
         
         
@@ -227,6 +221,7 @@ namespace App.Controllers
                 filter = new AccountingFilterViewModel();
             }
             filter.AccountingPairs = GetAccountSelector();
+            filter.TemplatesPairs = GetTemplatesSelector();
             return filter;
         }
         
@@ -234,6 +229,14 @@ namespace App.Controllers
                 .Select(w => new KeyValueViewModel(w.Name, w.Id.ToString()))
                 .ToList();
 
+        private List<KeyValueViewModel> GetTemplatesSelector() => CatsoftContext.TransactionModels
+            .Where(w => w.IsTemplate && w.IsRecurring)
+            .Include(w => w.AccountFromModel)
+            .Include(w => w.AccountToModel)
+            .ToList()
+            .Select(w => new KeyValueViewModel(w.Title, w.Id.ToString()))
+            .ToList();
+        
         private IQueryable<TransactionModel> FilterTransactions(IQueryable<TransactionModel> transactions,
             AccountingFilterViewModel filter)
         {
@@ -282,14 +285,20 @@ namespace App.Controllers
                 transactions = transactions.Where(w => w.AccountToModelId == accountGuid);
             }
 
-            if (filter.DateTimeFrom != null)
+            if (filter.Template != null)
             {
-                transactions = transactions.Where(w => w.Date >= filter.DateTimeFrom);
+                var templateId = Guid.Parse(filter.Template);
+                transactions = transactions.Where(w => w.TemplateTransactionId == templateId);
             }
             
-            if (filter.DateTimeTo != null)
+            if (filter.DateFrom != null)
             {
-                transactions = transactions.Where(w => w.Date <= filter.DateTimeTo);
+                transactions = transactions.Where(w => w.Date >= filter.DateFrom);
+            }
+            
+            if (filter.DateTo != null)
+            {
+                transactions = transactions.Where(w => w.Date <= filter.DateTo);
             }
             
             return transactions;

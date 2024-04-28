@@ -32,6 +32,11 @@ namespace App.Initialize
             TryRemove(catsoftContext.Menus);
         }
 
+        public void CleanTX()
+        {
+            TryRemove(catsoftContext.TransactionModels);
+        }
+        
         private void TryRemove<T>(DbSet<T> entites)
             where T : class, IEntity
         {

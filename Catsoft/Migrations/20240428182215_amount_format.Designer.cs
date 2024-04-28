@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240428182215_amount_format")]
+    partial class amount_format
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +69,7 @@ namespace App.Migrations
                     b.Property<Guid?>("AccountToModelId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float?>("ActualAmount")
+                    b.Property<float>("ActualAmount")
                         .HasColumnType("real");
 
                     b.Property<Guid?>("BillFileId")
@@ -81,8 +84,8 @@ namespace App.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -108,20 +111,20 @@ namespace App.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("PlannedAmount")
+                    b.Property<float>("PlannedAmount")
                         .HasColumnType("real");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly?>("RecurringEnd")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("RecurringEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RecurringFrequency")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly?>("RecurringStart")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("RecurringStart")
+                        .HasColumnType("datetime2");
 
                     b.Property<float?>("TemplateAmount")
                         .HasColumnType("real");
@@ -131,6 +134,12 @@ namespace App.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("TypeAmount")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("TypeQuantity")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

@@ -24,9 +24,12 @@
         await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("Not paid", Model.NotPaid));
         await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Account from", Model.AccountFrom, Model.AccountingPairs));
         await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Account to", Model.AccountTo, Model.AccountingPairs));
+        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Template", Model.Template, Model.TemplatesPairs));
+        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Category", Model.Category, pairs));
         await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("Have Bill", Model.HaveBill));
         await Html.RenderPartialAsync("Common/CheckBox", new CheckboxViewModel("No Bill", Model.NoBill));
-        await Html.RenderPartialAsync("Common/Selector", new SelectorViewModel("Category", Model.Category, pairs));
+        await Html.RenderPartialAsync("Common/Date", new DateViewModel("Date from", Model.DateFrom));
+        await Html.RenderPartialAsync("Common/Date", new DateViewModel("date to", Model.DateTo));
 
         <button type="submit">Update</button>
     }

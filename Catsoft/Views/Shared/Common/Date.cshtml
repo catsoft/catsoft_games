@@ -1,0 +1,22 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.Utils
+@model App.ViewModels.Views.DateViewModel
+
+@{
+    Layout = null;
+    var value = Model.Date?.ToString("yyyy-MM-dd");
+}
+
+<div class="form-check">
+    <input data-val="true"
+           class="input"
+           id="@(Model.NameTag.RemoveWhitespace())"
+           name="@(Model.NameTag.RemoveWhitespace())"
+           type="date"
+           value="@value">
+    <label class="form-check-label" for="@(Model.NameTag.RemoveWhitespace())">
+        @await Html.RenderText(Model.NameTag)
+    </label>
+</div>
