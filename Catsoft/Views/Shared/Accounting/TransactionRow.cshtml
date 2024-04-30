@@ -3,13 +3,51 @@
 @using App.cms.Helpers
 @using App.cms.Repositories.TextResource
 @using App.Models
+@using Microsoft.IdentityModel.Tokens
 @model App.ViewModels.Accounting.TransactionViewModel
 
 @{
     Layout = null;
+    var color = "";
+    var now = DateOnly.FromDateTime(DateTime.Now);
+    var tx = Model.TransactionModel;
+//  дата до и после сегодня
+// оплачено или нет
+// шаблон или нет
+// есть счет или нет
+
+    // шаблон
+    if (tx.IsTemplate && tx.IsRecurring)
+    {
+        color = "bg-secondary text-white";
+    } else 
+    // просроченные  
+    if (now >= tx.Date)
+    {
+        if ((!Model.HaveBill() || !tx.IsPaid))
+        {
+            color = "bg-danger text-white";
+        }
+    }
+    else
+    {
+        if (tx.IsPaid && Model.HaveBill())
+        {
+            color = "bg-success text-white";
+        }
+        else if(tx.IsPaid && !Model.HaveBill())
+        {
+            color = "bg-warning text-dark";
+        }
+    }
+
+    if (color.IsNullOrEmpty())
+    {
+        color = "bg-info text-white";
+    }
 }
 
-<a class="row" href="/Accounting/TransactionDetails?transactionUuid=@(Model.TransactionModel.Id)">
+<a class="row @color" href="/Accounting/TransactionDetails?transactionUuid=@(Model.TransactionModel.Id)">
     <div class="col-auto col">
         <span class="fs-5">@Model.GetDate()</span>
     </div>
