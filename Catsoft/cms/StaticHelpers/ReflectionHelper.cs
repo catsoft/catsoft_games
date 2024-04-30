@@ -165,6 +165,16 @@ namespace App.cms.StaticHelpers
             return info.PropertyType == typeof(bool) || info.PropertyType == typeof(bool);
         }
 
+        public static bool IsDate(PropertyInfo info)
+        {
+            return info.PropertyType == typeof(DateOnly) || info.PropertyType == typeof(DateOnly?);
+        }
+        
+        public static bool IsTime(PropertyInfo info)
+        {
+            return info.PropertyType == typeof(TimeOnly) || info.PropertyType == typeof(TimeOnly?);
+        }
+        
         public static bool IsImageUrl(PropertyInfo info)
         {
             var type = info.GetCustomAttribute<DataTypeAttribute>();

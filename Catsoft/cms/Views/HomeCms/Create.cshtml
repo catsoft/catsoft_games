@@ -81,6 +81,8 @@
                                 var isHtml = ReflectionHelper.IsHtml(propertyInfo);
                                 var isArray = ReflectionHelper.IsArray(propertyInfo);
                                 var isBool = ReflectionHelper.IsBool(propertyInfo);
+                                var isTime = ReflectionHelper.IsTime(propertyInfo);
+                                var isDate = ReflectionHelper.IsDate(propertyInfo);
                             }
 
                             <div class="form-group">
@@ -109,6 +111,14 @@
                                     else if (isBool)
                                     {
                                         @await Html.PartialAsync("~/CMS/Views/Shared/Properties/BoolProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else if (isDate)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/DateProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
+                                    }
+                                    else if (isTime)
+                                    {
+                                        @await Html.PartialAsync("~/CMS/Views/Shared/Properties/TimeProperty.cshtml", new PropertyViewModel(Model, propertyInfo))
                                     }
                                     else
                                     {

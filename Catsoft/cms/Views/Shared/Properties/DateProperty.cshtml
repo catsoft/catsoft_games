@@ -1,0 +1,12 @@
+﻿@using App.cms.StaticHelpers
+@model App.cms.ViewModels.Properties.PropertyViewModel
+
+@{
+    var name = ReflectionHelper.GetNameProperty(Model.PropertyInfo);
+    var fieldName = nameof(Model.Model) + "." + Model.PropertyInfo.Name;
+    var fieldId = nameof(Model.Model) + "_" + Model.PropertyInfo.Name;
+    var valueObj = Model.PropertyInfo.GetValue(Model.Model);
+    var value = (valueObj as DateOnly?)?.ToString("yyyy-MM-dd");
+}
+
+<input class="form-control text-box single-line valid" id="@fieldId" name="@fieldName" placeholder="@name" type="date" value="@value">

@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace App.cms.Controllers
 {
@@ -334,11 +335,25 @@ namespace App.cms.Controllers
                     {
                         typeConvert = Nullable.GetUnderlyingType(typeConvert);
 
-                        object changedType;
+                        object changedType = null;
 
                         if (typeConvert == typeof(Guid))
                         {
                             changedType = Guid.Parse(strValue);
+                        }
+                        else if (typeConvert == typeof(DateOnly?) || typeConvert == typeof(DateOnly))
+                        {
+                            if (DateOnly.TryParseExact(strValue, "yyyy-MM-dd", out var dateOnly))
+                            {
+                                changedType = dateOnly;
+                            }
+                        }
+                        else if (typeConvert == typeof(TimeOnly?) || typeConvert == typeof(TimeOnly))
+                        {
+                            if (TimeOnly.TryParse(strValue, out var timeOnly))
+                            {
+                                changedType = timeOnly;
+                            }
                         }
                         else
                         {
@@ -360,13 +375,32 @@ namespace App.cms.Controllers
                     }
                     else
                     {
-                        if (key.PropertyType == typeof(float) || key.PropertyType == typeof(double))
+                        object changedType = null;
+                    
+                        if (typeConvert == typeof(DateOnly?) || typeConvert == typeof(DateOnly))
                         {
-                            strValue = strValue.Replace(".", ",");
+                            if (DateOnly.TryParseExact(strValue, "yyyy-MM-dd", out var dateOnly))
+                            {
+                                changedType = dateOnly;
+                            }
                         }
+                        else if (typeConvert == typeof(TimeOnly?) || typeConvert == typeof(TimeOnly))
+                        {
+                            if (TimeOnly.TryParse(strValue, out var timeOnly))
+                            {
+                                changedType = timeOnly;
+                            }
+                        }
+                        else
+                        {
+                            if (key.PropertyType == typeof(float) || key.PropertyType == typeof(double))
+                            {
+                                strValue = strValue.Replace(".", ",");
+                            }
                         
-                        var changedType = Convert.ChangeType(strValue, key.PropertyType);
-
+                            changedType = Convert.ChangeType(strValue, key.PropertyType);
+                        }
+                    
                         key.SetValue(editObject, changedType);
                     }
                 }
@@ -375,7 +409,7 @@ namespace App.cms.Controllers
             CatsoftContext.Update(editObject);
             CatsoftContext.SaveChanges();
             
-            _objectInterceptor.Intercept(newObject);
+            _objectInterceptor.Intercept(editObject);
 
             return CheckIsSingle(type)
                 ? RedirectToAction("EditFirst", new { type = typeName })
@@ -446,6 +480,20 @@ namespace App.cms.Controllers
                         {
                             changedType = Guid.Parse(strValue);
                         }
+                        else if (typeConvert == typeof(DateOnly?) || typeConvert == typeof(DateOnly))
+                        {
+                            if (DateOnly.TryParseExact(strValue, "yyyy-MM-dd", out var dateOnly))
+                            {
+                                changedType = dateOnly;
+                            }
+                        }
+                        else if (typeConvert == typeof(TimeOnly?) || typeConvert == typeof(TimeOnly))
+                        {
+                            if (TimeOnly.TryParse(strValue, out var timeOnly))
+                            {
+                                changedType = timeOnly;
+                            }
+                        }
                         else
                         {
                             changedType = Convert.ChangeType(strValue, typeConvert);
@@ -460,8 +508,32 @@ namespace App.cms.Controllers
                 }
                 else
                 {
-                    var changedType = Convert.ChangeType(strValue, key.PropertyType);
-
+                    object changedType = null;
+                    
+                    if (typeConvert == typeof(DateOnly?) || typeConvert == typeof(DateOnly))
+                    {
+                        if (DateOnly.TryParseExact(strValue, "yyyy-MM-dd", out var dateOnly))
+                        {
+                            changedType = dateOnly;
+                        }
+                    }
+                    else if (typeConvert == typeof(TimeOnly?) || typeConvert == typeof(TimeOnly))
+                    {
+                        if (TimeOnly.TryParse(strValue, out var timeOnly))
+                        {
+                            changedType = timeOnly;
+                        }
+                    }
+                    else
+                    {
+                        if (key.PropertyType == typeof(float) || key.PropertyType == typeof(double))
+                        {
+                            strValue = strValue.Replace(".", ",");
+                        }
+                        
+                        changedType = Convert.ChangeType(strValue, key.PropertyType);
+                    }
+                    
                     key.SetValue(newObject, changedType);
                 }
             }
