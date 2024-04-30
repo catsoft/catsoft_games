@@ -78,14 +78,22 @@
                         <td>
                             @{
                                 var isImageUrl = ReflectionHelper.IsImageUrl(property);
+                                var isDate = ReflectionHelper.IsDate(property);
                             }
                             @if (isImageUrl)
                             {
                                 <img src="@value" style="max-width: 100px; max-height: 100px;"/><br/>
                                 <a href="@value" target="_blank">@await Html.RenderText("open")</a><br/>
+                            } else if (isDate)
+                            {
+                                var date = DateTime.Parse(value);
+                                var dateStr = date.ToString("dd.MM.yyyy");
+                                @Html.DisplayFor(modelItem => dateStr)
                             }
-
-                            @Html.DisplayFor(modelItem => value)
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => value)
+                            }
                         </td>
                     }
                 }

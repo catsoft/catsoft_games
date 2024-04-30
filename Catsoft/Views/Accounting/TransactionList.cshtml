@@ -59,6 +59,12 @@
                 </form>
             </div>
             @await Html.PartialAsync("Accounting/TotalAmount", Model.GetTotalAmount())
+
+            <div class="col">
+                <form action="/Accounting/CreateTransaction" method="get">
+                    <input type="submit" value="@TextRepository.GetByTag(Context, "Create transaction")" name="Submit" class="btn btn-primary"/>
+                </form>
+            </div>
         </div>
 
         <br/>

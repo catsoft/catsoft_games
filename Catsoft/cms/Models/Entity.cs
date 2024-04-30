@@ -44,6 +44,8 @@ namespace App.cms.Models
         public virtual Sorts<T> GetDefaultSorted()
         {
             var sorted = new Sorts<T>();
+            sorted.Add(true, x => x.Position);
+            sorted.Add(true, x => x.DateCreated);
             return sorted;
         }
     }

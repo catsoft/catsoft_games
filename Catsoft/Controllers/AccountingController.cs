@@ -49,7 +49,8 @@ namespace App.Controllers
                 .Include(w => w.AccountFromModel)
                 .Include(w => w.AccountToModel)
                 .Include(w => w.TemplateTransaction)
-                .Include(w => w.BillFile);   
+                .Include(w => w.BillFile)
+                .OrderBy(w => w.Date);   
         }
         
         [HttpPost]
@@ -187,6 +188,12 @@ namespace App.Controllers
             return RedirectToAction("Create", "HomeCms", routeValues: new { type = typeof(TransactionModel).FullName} );
         }
         
+        [HttpGet]
+        public IActionResult CreateTransaction()
+        {
+            return RedirectToAction("Create", "HomeCms", routeValues: new { type = typeof(TransactionModel).FullName} );
+        }
+
         
         [HttpPost]
         public IActionResult CreateTemplate(TransactionModel transactionModel)

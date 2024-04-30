@@ -10,7 +10,7 @@
     var dataFor = propertyName + "Id";
     var type = Model.PropertyInfo.PropertyType;
     var genericType = type.GetGenericArguments()[0];
-    var list = DataHelper.GetList(ContextShared.SharedContext, genericType);
+    var list = DataHelper.GetList(ContextShared.SharedContext, genericType).OrderBy(w => w.Position).ThenBy(w => w.DateCreated).ToList();
     var values = Model.PropertyInfo.GetValue(Model.Model) as IEnumerable<IEntity> ?? new List<IEntity>();
     var ids = values.Select(w => w.Id).ToList();
     var selectList = list.Select(w => new SelectListItem

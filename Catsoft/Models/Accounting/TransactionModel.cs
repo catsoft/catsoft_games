@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using App.cms.Controllers.Attributes;
+using App.cms.EntityFrameworkPaginateCore;
 using App.cms.Models;
 
 namespace App.Models.Accounting
@@ -42,10 +43,10 @@ namespace App.Models.Accounting
         public bool ForResell { get; set; }
 
 
-        [Show(false)] public float? TemplateAmount { get; set; }
+        public float? TemplateAmount { get; set; }
 
         // Типо шаблонная транзакция
-        [Show(false)] public bool IsTemplate { get; set; }
+        public bool IsTemplate { get; set; }
 
         [Show(false, false, false, false)] public Guid? TemplateTransactionId { get; set; }
 
@@ -57,7 +58,7 @@ namespace App.Models.Accounting
         [Show(false, false, false, false)] public List<TransactionModel> ActualTransactions { get; set; }
 
 
-        [Show(false)] public bool IsRecurring { get; set; }
+        public bool IsRecurring { get; set; }
 
         [Show(false)] public RecurringFrequency RecurringFrequency { get; set; } = RecurringFrequency.Month;
 
@@ -82,10 +83,21 @@ namespace App.Models.Accounting
         [Show(false, false, false, false)] public Guid? BillImageModelId { get; set; }
 
         [ForeignKey("BillImageModelId")]
+        [Show(false)]
         public ImageModel BillImageModel { get; set; }
 
 
         //public List<string> Items { get; set; }
+        
+        
+        public override Sorts<TransactionModel> GetDefaultSorted()
+        {
+            var sorted = new Sorts<TransactionModel>();
+            sorted.Add(true, model => model.Date);
+            sorted.Add(true, x => x.Position);
+            sorted.Add(true, x => x.DateCreated);
+            return sorted;
+        }
     }
 
 

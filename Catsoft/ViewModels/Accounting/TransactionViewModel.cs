@@ -17,7 +17,7 @@ namespace App.ViewModels.Accounting
 
         public string GetDate()
         {
-            return TransactionModel.Date.ToString("dd MMM yyyy");
+            return TransactionModel.Date.ToString("dd.MM.yyyy");
         }
 
         public string AccountFromName()

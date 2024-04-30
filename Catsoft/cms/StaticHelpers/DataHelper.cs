@@ -18,7 +18,7 @@ namespace App.cms.StaticHelpers
         private static IQueryable<T> GetDbSet<T>(DbContext dbContext, T type)
             where T : class
         {
-            return dbContext.Set<T>()?.AsQueryable();
+            return dbContext.Set<T>().AsQueryable();
         }
     }
 }

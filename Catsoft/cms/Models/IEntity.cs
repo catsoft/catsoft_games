@@ -9,6 +9,8 @@ namespace App.cms.Models
         string Title { get; }
 
         DateTime DateCreated { get; }
+        
+        int Position { get; }
 
         string GetValueFromNameProperty(string nameProperty);
 
