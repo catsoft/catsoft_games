@@ -20,6 +20,9 @@
     if (tx.IsTemplate && tx.IsRecurring)
     {
         color = "bg-secondary text-white";
+    } else if (tx.IsPaid && Model.HaveBill())
+    {
+        color = "bg-success text-white";
     } else 
     // просроченные  
     if (now >= tx.Date)
@@ -31,11 +34,7 @@
     }
     else
     {
-        if (tx.IsPaid && Model.HaveBill())
-        {
-            color = "bg-success text-white";
-        }
-        else if(tx.IsPaid && !Model.HaveBill())
+        if(tx.IsPaid && !Model.HaveBill())
         {
             color = "bg-warning text-dark";
         }
@@ -100,4 +99,5 @@
             }
         </div>
     </div>
+    <hr/>
 </a>
