@@ -26,10 +26,13 @@ namespace App
             //     scoped.GetRequiredService<DatabaseInitializer>().Init();
             // });
             //
-            await DoWithScope(app,async scoped =>
-           {
-                await scoped.GetRequiredService<TextTranslator>().TranslateNotTranslated();
-            });
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+            {
+                await DoWithScope(app,async scoped =>
+                {
+                    await scoped.GetRequiredService<TextTranslator>().TranslateNotTranslated();
+                });
+            }
 
             await app.RunAsync();
         }
