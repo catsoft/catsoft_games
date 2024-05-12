@@ -2,6 +2,7 @@
 @using App.cms.Helpers
 @using App.cms.ViewModels.Common
 @using App.Models
+@using App.ViewModels.Book
 @using App.ViewModels.PreOrder
 @model App.ViewModels.Home.HomePageViewModel
 
@@ -16,16 +17,24 @@
     };
 }
 
-<div style="background-image: url('/UploadImages/4b9dd319-9f23-4b7c-882f-344a78c60691_compressed.webp');" class="fullWidthImage d-flex align-items-center">
-    <div class="row col-6 offset-1">
-        <span class="fs-1 fw-bolder">@await Html.RenderText("Virtuality")</span>
-        <span class="fs-4 mb-5">@await Html.RenderText("Studio Virtual Reality")</span>
-        <p class="fs-1 mb-5 fw-normal">@await Html.RenderText("Lost in the game, find yourself in experience")</p>
-        <div style="background-color:aliceblue" class="ps-2 pb-5 pt-1 ms-2">
-            <span class="fs-4">
-                @await Html.RenderText("Located in")<span class="fw-bold"> @await Html.RenderText("Vila Real De Santo Antonio")</span>
-            </span>
-            @await Html.PartialAsync("~/CMS/Views/Shared/Common/Map.cshtml", mapModel)
+<div style="background-image: url('/UploadImages/6a6d8a89-d4f9-4dd8-9873-3c376c65de49_compressed.webp');" class="fullWidthImage d-flex align-items-center">
+    <div class="row col-6 offset-1 text-white">
+        <span class="fs-1 fw-bolder">@await Html.RenderText("Virtuality", false)</span>
+        <span class="fs-4 mb-5">@await Html.RenderText("Virtual Reality Arcade", false)</span>
+        <p class="fs-1 mb-5 fw-normal">
+            @await Html.RenderText("Lost in the game")
+            <br/>
+            <b>@await Html.RenderText("find yourself in experience")</b>
+        </p>
+        <div class="text-white">
+            <div class="bg-dark d-inline-flex flex-column ps-3 pb-5 pe-3 pt-1 ms-2 ">
+                <span class="fs-4">
+                    @await Html.RenderText("Located in")
+                    <br/>
+                    <span class="fw-bold"> @await Html.RenderText("Vila Real De Santo Antonio", false)</span>
+                </span>
+                @await Html.PartialAsync("~/CMS/Views/Shared/Common/Map.cshtml", mapModel)
+            </div>
         </div>
     </div>
 </div>
@@ -36,6 +45,8 @@
 @* @await Html.PartialAsync("ServicesPage", Model.ServicesPageViewModel) *@
 
 @await Html.PartialAsync("GamesList", Model.GamesViewModel?.GameModels)
+
+@await Html.PartialAsync("BookBlock", new BookDto())
 
 @await Html.PartialAsync("PreOrder", new PreOrderDto())
 

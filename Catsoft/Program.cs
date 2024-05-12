@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using App.cms.Models;
 using App.Initialize;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -25,10 +26,10 @@ namespace App
             //     scoped.GetRequiredService<DatabaseInitializer>().Init();
             // });
             //
-            // await DoWithScope(app,async scoped =>
-            // {
-            //     await scoped.GetRequiredService<TextTranslator>().ForceTranslateLanguage(TextLanguage.Portuguese);
-            // });
+            await DoWithScope(app,async scoped =>
+           {
+                await scoped.GetRequiredService<TextTranslator>().TranslateNotTranslated();
+            });
 
             await app.RunAsync();
         }

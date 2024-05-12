@@ -9,6 +9,8 @@ namespace App.cms.Models
 
         public string Value { get; set; }
 
+        public bool ChatGPT_Translated { get; set; } = false;
+
         [Show(false, false, false, false)] public Guid? TextResourceModelId { get; set; }
 
 

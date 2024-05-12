@@ -28,10 +28,56 @@ namespace App.Initialize
                         var newValue = new TextResourceValueModel
                         {
                             Language = language,
-                            Value = await TranslateText(textResource, language)
+                            Value = await TranslateText(textResource, language),
+                            ChatGPT_Translated = true
                         };
                         catsoftContext.Add(newValue);
                         await catsoftContext.SaveChangesAsync();
+                    }
+                }
+            }
+
+            await catsoftContext.SaveChangesAsync();
+        }
+
+        public async Task TranslateNotTranslated()
+        {
+            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values).ToList();
+            var languages = Enum.GetValues(typeof(TextLanguage)).Cast<TextLanguage>().ToList();
+            foreach (var textResource in textResources)
+            {
+                var values = textResource.Values?.ToList() ?? new List<TextResourceValueModel>();
+
+                foreach (var language in languages)
+                {
+                    var anyValues = values.Any(w => w.Language == language);
+                    
+                    var value = values.FirstOrDefault(w => w.Language == language) ?? new TextResourceValueModel()
+                    {
+                        Language = language
+                    };
+
+                    if (value.ChatGPT_Translated) continue;
+
+                    value.Value = language == TextLanguage.English ? textResource.Tag : await TranslateText(textResource, language);
+                    value.ChatGPT_Translated = true;
+
+                    try
+                    {
+                        if (anyValues)
+                        {
+                            catsoftContext.TextResourceValuesModels.Update(value);
+                        }
+                        else
+                        {
+                            catsoftContext.TextResourceValuesModels.Add(value);
+                        }
+                        await catsoftContext.SaveChangesAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
                     }
                 }
             }
@@ -47,6 +93,8 @@ namespace App.Initialize
                 var value = (textResource.Values?.ToList() ?? new List<TextResourceValueModel>()).FirstOrDefault(w =>
                     w.Language == forcedLanguage);
 
+                if (value?.ChatGPT_Translated == true) continue;
+                
                 var newValue = await TranslateText(textResource, forcedLanguage);
 
                 if (value == null)
@@ -64,6 +112,7 @@ namespace App.Initialize
                     value.Value = newValue;
                     catsoftContext.Update(value);
                 }
+                value.ChatGPT_Translated = true;
 
                 await catsoftContext.SaveChangesAsync();
             }

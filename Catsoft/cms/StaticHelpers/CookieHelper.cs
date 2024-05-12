@@ -28,7 +28,7 @@ namespace App.cms.StaticHelpers
 
         public static TextLanguage GetLanguage(HttpContext context)
         {
-            return Enum.Parse<TextLanguage>(GetValue(context, Language) ?? TextLanguage.English.ToString());
+            return Enum.Parse<TextLanguage>(GetValue(context, Language) ?? LanguageHelper.DefaultLanguage().ToString());
         }
 
         public static string IsoCountryCodeToFlagEmoji(this string country)

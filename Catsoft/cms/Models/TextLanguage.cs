@@ -6,4 +6,9 @@
         Russian,
         Portuguese
     }
+
+    public static class LanguageHelper
+    {
+        public static TextLanguage DefaultLanguage() => TextLanguage.Portuguese;
+    }
 }

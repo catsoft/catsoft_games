@@ -14,7 +14,7 @@ var fileLink = "/HomeCms/GetList?type=" + typeof(FileModel);
 
 @if (Model?.FileId == null || Model?.FileId == Guid.Empty)
 {
-<input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose_file")" class="btn btn-primary" id="@(Model?.PropertyName)file" accept="file/*"/>
+<input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose file")" class="btn btn-primary" id="@(Model?.PropertyName)file" accept="file/*"/>
 <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadFile()"/>
 <script type="text/javascript">
     function uploadFile() {
@@ -68,7 +68,7 @@ else
 </div>
     
 <div class="col-md-12">
-    <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeFile()">@await Html.RenderText("Remove_file")</button>
+    <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeFile()">@await Html.RenderText("Remove file")</button>
 </div>
 
 <script>

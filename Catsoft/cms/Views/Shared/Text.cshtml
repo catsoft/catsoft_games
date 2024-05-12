@@ -1,7 +1,14 @@
 ﻿@inject TextResourceRepository Repository
 @using App.cms.Repositories.TextResource
-@model string
+@model TranslateViewModel
 @{
     Layout = null;
 }
-@Repository.GetByTag(Context, Model).Trim()
+@if (Model.Translate)
+{
+    @Repository.GetByTag(Context, Model.Tag).Trim();
+}
+else
+{
+    @Model.Tag.Trim();
+} 

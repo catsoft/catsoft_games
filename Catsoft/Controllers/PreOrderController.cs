@@ -13,10 +13,12 @@ namespace App.Controllers
     public class PreOrderController : CommonController
     {
         private readonly TextResourceRepository _textResourceRepository;
+        private readonly CmsOptions _cmsOptions;
 
-        public PreOrderController(CatsoftContext catsoftContext, TextResourceRepository textResourceRepository)
+        public PreOrderController(CatsoftContext catsoftContext, TextResourceRepository textResourceRepository, CmsOptions cmsOptions)
         {
             _textResourceRepository = textResourceRepository;
+            _cmsOptions = cmsOptions;
             CatsoftContext = catsoftContext;
         }
 
@@ -36,7 +38,7 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> MakePreOrder(PreOrderDto preOrderDto, CmsOptions cmsOptions)
+        public async Task<IActionResult> MakePreOrder(PreOrderDto preOrderDto)
         {
             var orderModel = new PreOrderModel
             {
@@ -66,7 +68,7 @@ namespace App.Controllers
                 To = contactsModel.Link,
                 Subject = newOrderText,
                 Body = text
-            }, cmsOptions);
+            }, _cmsOptions);
 
             return RedirectToAction("Index", "Home");
         }

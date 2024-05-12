@@ -11,7 +11,7 @@
     <img src="@(Model.Url)" style="max-height: 400px; max-width: 900px; margin-bottom: 10px" alt="Изображение"/>
 
     <input type="hidden" value="@(Model.Id)" name="id"/>
-    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Remove_image")" class="btn btn-primary" onclick="removeOneToManyImageModel('@(Model.Id)', '@(divId)')"/>
+    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Remove image")" class="btn btn-primary" onclick="removeOneToManyImageModel('@(Model.Id)', '@(divId)')"/>
 </div>
 
 

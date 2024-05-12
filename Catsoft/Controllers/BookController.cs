@@ -22,7 +22,7 @@ namespace App.Controllers
             };
             home.HeaderViewModel.CurrentPage = Menu.Book;
 
-            return View(home);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -12,7 +12,7 @@
         .OrderBy(w => w.Position).ThenBy(w => w.DateCreated).ToList();
     var value = Model.Model.GetType().GetProperty(Model.PropertyInfo.Name).GetValue(Model.Model, null) as IEntity;
     var selectList = list.Select(w => new SelectListItem { Text = w.Title, Value = w.Id.ToString(), Selected = w.Id == value?.Id }).ToList();
-    selectList.Insert(0, new SelectListItem { Value = "", Text = TextResourceRepository.GetByTag(Context, "Not_selected") });
+    selectList.Insert(0, new SelectListItem { Value = "", Text = TextResourceRepository.GetByTag(Context, "Not selected") });
 }
 
 @Html.DropDownList(dataFor, selectList, new { @class = "form-control" })
