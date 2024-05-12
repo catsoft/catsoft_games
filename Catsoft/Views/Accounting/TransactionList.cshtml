@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col">
                 <form action="/Accounting/CreateTemplate" method="get">
-                    <input type="submit" value="@TextRepository.GetByTag(Context, "Create template")" name="Submit" class="btn btn-primary"/>
+                    <input type="submit" value="@await TextRepository.GetByTag(Context, "Create template")" name="Submit" class="btn btn-primary"/>
                 </form>
             </div>
         </div>
@@ -55,14 +55,14 @@
         <div class="row">
             <div class="col">
                 <form action="/Accounting/TransactionGetAllBills" method="get" target="_blank">
-                    <input type="submit" value="@TextRepository.GetByTag(Context, "Download all bills")" name="Submit" id="frm1_submit" class="btn btn-primary"/>
+                    <input type="submit" value="@await TextRepository.GetByTag(Context, "Download all bills")" name="Submit" id="frm1_submit" class="btn btn-primary"/>
                 </form>
             </div>
             @await Html.PartialAsync("Accounting/TotalAmount", Model.GetTotalAmount())
 
             <div class="col">
                 <form action="/Accounting/CreateTransaction" method="get">
-                    <input type="submit" value="@TextRepository.GetByTag(Context, "Create transaction")" name="Submit" class="btn btn-primary"/>
+                    <input type="submit" value="@await TextRepository.GetByTag(Context, "Create transaction")" name="Submit" class="btn btn-primary"/>
                 </form>
             </div>
         </div>

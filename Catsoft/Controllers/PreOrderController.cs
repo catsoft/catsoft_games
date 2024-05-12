@@ -12,10 +12,11 @@ namespace App.Controllers
 {
     public class PreOrderController : CommonController
     {
-        private readonly TextResourceRepository _textResourceRepository;
         private readonly CmsOptions _cmsOptions;
+        private readonly TextResourceRepository _textResourceRepository;
 
-        public PreOrderController(CatsoftContext catsoftContext, TextResourceRepository textResourceRepository, CmsOptions cmsOptions)
+        public PreOrderController(CatsoftContext catsoftContext, TextResourceRepository textResourceRepository,
+            CmsOptions cmsOptions)
         {
             _textResourceRepository = textResourceRepository;
             _cmsOptions = cmsOptions;
@@ -53,10 +54,10 @@ namespace App.Controllers
             var contactsModel =
                 await CatsoftContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
 
-            var contactsInfoText = _textResourceRepository.GetByTag(HttpContext, "Contact_information");
-            var nameText = _textResourceRepository.GetByTag(HttpContext, "Name");
-            var commentText = _textResourceRepository.GetByTag(HttpContext, "Comment");
-            var newOrderText = _textResourceRepository.GetByTag(HttpContext, "New order");
+            var contactsInfoText = await _textResourceRepository.GetByTag(HttpContext, "Contact information");
+            var nameText = await _textResourceRepository.GetByTag(HttpContext, "Name");
+            var commentText = await _textResourceRepository.GetByTag(HttpContext, "Comment");
+            var newOrderText = await _textResourceRepository.GetByTag(HttpContext, "New order");
 
             var text = $"{contactsInfoText} : {orderModel.EmailOrPhone}\n" +
                        $"{nameText} : {orderModel.Name}\n" +

@@ -13,8 +13,8 @@
 
 @if (Model?.ImageId == null || Model?.ImageId == Guid.Empty)
 {
-    <input type="file" title="@TextResourceRepository.GetByTag(Context, "Choose image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
-    <input type="submit" value="@TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadImage()"/>
+    <input type="file" title="@await TextResourceRepository.GetByTag(Context, "Choose image")" class="btn btn-primary" id="@(Model?.PropertyName)image" accept="image/*"/>
+    <input type="submit" value="@await TextResourceRepository.GetByTag(Context, "Upload")" class="btn btn-primary" onclick="uploadImage()"/>
     <script type="text/javascript">
         function uploadImage() {
             var file = $("#@(Model?.PropertyName)image")[0].files[0];
@@ -60,7 +60,7 @@
 }
 else
 {
-    <img src="@(Model?.Url)" style="max-height: 400px; max-width: 900px" alt="@TextResourceRepository.GetByTag(Context, "Image")"/>
+    <img src="@(Model?.Url)" style="max-height: 400px; max-width: 900px" alt="@await TextResourceRepository.GetByTag(Context, "Image")"/>
 
     <div class="col-md-12">
         <button class="btn btn-primary" style="margin-bottom: 20px; margin-top: 20px" onclick="removeImage()">@await Html.RenderText("Remove image")</button>

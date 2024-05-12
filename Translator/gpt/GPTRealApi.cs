@@ -12,19 +12,6 @@ namespace Translator.gpt
 
         private readonly OpenAIAPI _api = new(GptCreds.ApiKey);
 
-
-        public GPTRealApi()
-        {
-            var gpt4Turbo = new Model("gpt-4-1106-preview");
-
-            var requst = new ChatRequest
-            {
-                Model = gpt4Turbo,
-                Temperature = 0
-            };
-            _api.Chat.DefaultChatRequestArgs = requst;
-        }
-
         public List<SubtitleModel> GenerateSubs(string text)
         {
             var parsedModule = new List<SubtitleModel>();
@@ -78,18 +65,17 @@ namespace Translator.gpt
                 try
                 {
                     var chunkString = string.Join("", oneChunk);
-                    var chunkText = "There is subs. Translate it to " + language +
-                                    " without adding anything else and saving line breaks. If it hashtag translate it only to " +
-                                    language + ":" +
-                                    ":\n\n" + chunkString;
-                    var result = await _api.Chat.CreateChatCompletionAsync(chunkText);
+                    var chunkText = "Translate it to " + language + " without adding anything else and saving line breaks and other formatting"
+                                    + ":\n\n" + chunkString;
+                    var result = await DoRequest(chunkText);
 
-                    var content = result.Choices.FirstOrDefault()?.Message.Content ?? "";
+                    var content = result.Choices.FirstOrDefault()?.Message.TextContent ?? "";
 
                     output.Append(content);
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
                     //todo show error
                     // MessageBox.Show(ex.Message);
                 }
@@ -105,9 +91,18 @@ namespace Translator.gpt
                             ":\n\n" + title;
             var result = await _api.Chat.CreateChatCompletionAsync(chunkText);
 
-            var content = result.Choices.FirstOrDefault()?.Message.Content ?? "";
+            var content = result.Choices.FirstOrDefault()?.Message.TextContent ?? "";
 
             return content;
+        }
+        
+        private async Task<ChatResult> DoRequest(string text)
+        {
+            var messages = new List<ChatMessage> { new(ChatMessageRole.User, text) };
+            var model = new Model(Model.ChatGPTTurbo);
+            var temperature = 0;
+            var result = await _api.Chat.CreateChatCompletionAsync(messages, model, temperature);
+            return result;
         }
     }
 }

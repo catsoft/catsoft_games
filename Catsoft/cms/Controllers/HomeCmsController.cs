@@ -546,7 +546,7 @@ namespace App.cms.Controllers
             return RedirectToAction("GetList", new { type = typeName });
         }
 
-        private void CheckRole(Type type)
+        private async void CheckRole(Type type)
         {
             var cmsObject = CatsoftContext.CmsModels.FirstOrDefault(w => w.Class == type.FullName);
             var currentUserName = User.Claims.FirstOrDefault()?.Subject.Name;
@@ -556,7 +556,7 @@ namespace App.cms.Controllers
                 (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
             {
                 var message =
-                    _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
+                   await _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
                 throw new Exception(message);
             }
         }

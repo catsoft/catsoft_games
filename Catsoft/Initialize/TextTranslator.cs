@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.cms.Models;
 using App.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Translator.gpt;
 
 namespace App.Initialize
@@ -54,10 +55,11 @@ namespace App.Initialize
                     
                     var value = values.FirstOrDefault(w => w.Language == language) ?? new TextResourceValueModel()
                     {
-                        Language = language
+                        Language = language,
+                        TextResourceModelId = textResource.Id
                     };
 
-                    if (value.ChatGPT_Translated) continue;
+                    if (value.ChatGPT_Translated && !value.Value.IsNullOrEmpty()) continue;
 
                     value.Value = language == TextLanguage.English ? textResource.Tag : await TranslateText(textResource, language);
                     value.ChatGPT_Translated = true;
@@ -72,7 +74,6 @@ namespace App.Initialize
                         {
                             catsoftContext.TextResourceValuesModels.Add(value);
                         }
-                        await catsoftContext.SaveChangesAsync();
                     }
                     catch (Exception e)
                     {
@@ -82,6 +83,33 @@ namespace App.Initialize
                 }
             }
 
+            await catsoftContext.SaveChangesAsync();
+        }
+
+        public async Task FullRetranslate()
+        {
+            catsoftContext.RemoveRange(catsoftContext.TextResourceValuesModels);
+            await catsoftContext.SaveChangesAsync();
+            await RemoveDublicates();
+            await TranslateNotTranslated();
+        }
+
+        private async Task RemoveDublicates()
+        {
+            var textResources = catsoftContext.TextResourceModels.Include(w => w.Values).ToList();
+            foreach (var textResource in textResources)
+            {
+                var values = textResource.Values?.ToList() ?? new List<TextResourceValueModel>();
+                var dublicates = values.GroupBy(w => w.Language).Where(w => w.Count() > 1).SelectMany(w => w.Skip(1)).ToList();
+                catsoftContext.RemoveRange(dublicates);
+            }
+            await catsoftContext.SaveChangesAsync();
+        }
+        
+        public async Task ClearLanguages(params TextLanguage[] language)
+        {
+            var values = catsoftContext.TextResourceValuesModels.Where(w => language.Contains(w.Language)).ToList();
+            catsoftContext.RemoveRange(values);
             await catsoftContext.SaveChangesAsync();
         }
 

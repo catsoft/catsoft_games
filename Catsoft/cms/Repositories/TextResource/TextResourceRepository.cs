@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using App.cms.Models;
 using App.cms.StaticHelpers;
 using App.Models;
@@ -7,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories.TextResource
 {
-    public class TextResourceRepository
-        (CatsoftContext context) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
+    public class TextResourceRepository(CatsoftContext context) 
+        : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
     {
-        public string GetByTag(HttpContext httpContext, string tag)
+        public async Task<string> GetByTag(HttpContext httpContext, string tag)
         {
             var currentLanguage = CookieHelper.GetLanguage(httpContext);
 
@@ -23,12 +24,12 @@ namespace App.cms.Repositories.TextResource
                     Tag = tag
                 };
                 CatsoftContext.Add(model);
-                CatsoftContext.SaveChanges();
+                await CatsoftContext.SaveChangesAsync();
             }
 
             var localized = model.Values?.FirstOrDefault(w => w.Language == currentLanguage);
 
-            if (localized == null)
+            if (localized == null && currentLanguage == TextLanguage.English)
             {
                 localized = new TextResourceValueModel
                 {
@@ -38,10 +39,10 @@ namespace App.cms.Repositories.TextResource
                     TextResourceModelId = model.Id
                 };
                 CatsoftContext.Add(localized);
-                CatsoftContext.SaveChanges();
+                await CatsoftContext.SaveChangesAsync();
             }
 
-            return localized.Value ?? "";
+            return localized?.Value ?? tag;
         }
     }
 }

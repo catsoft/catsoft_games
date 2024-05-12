@@ -12,7 +12,7 @@
 
 
 @{
-    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag(Context, "List");
+    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTag(Context, "List");
     ViewData["isListing"] = true;
     Layout = "~/CMS/Views/Shared/_LayoutCms.cshtml";
     var type = (Type)ViewBag.Type;
@@ -26,7 +26,7 @@
 
     var paginationModel = new PaginationViewModel($"/HomeCms/GetList?type={nameType}&", page, pageCount);
 
-    ViewData["TitleToTopLabelE"] = TextResourceRepository.GetByTag(Context, "List") + " " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTag(Context, "List") + " " + cmsSection.Title;
 }
 
 
@@ -100,7 +100,7 @@
                 <td>
                     @if (access.OnDetails)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Object_details"), "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(await TextResourceRepository.GetByTag(Context, "Object_details"), "Details", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                     @if (access.OnDetails && (access.OnEdit || access.OnDelete))
                     {
@@ -108,7 +108,7 @@
                     }
                     @if (access.OnEdit)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Edit"), "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(await TextResourceRepository.GetByTag(Context, "Edit"), "Edit", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                     @if (access.OnDelete && access.OnEdit)
                     {
@@ -116,7 +116,7 @@
                     }
                     @if (access.OnDelete)
                     {
-                        @Html.ActionLink(TextResourceRepository.GetByTag(Context, "Delete"), "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
+                        @Html.ActionLink(await TextResourceRepository.GetByTag(Context, "Delete"), "Delete", "HomeCms", new { type = nameType, id = (item as IEntity)?.Id })
                     }
                 </td>
             </tr>

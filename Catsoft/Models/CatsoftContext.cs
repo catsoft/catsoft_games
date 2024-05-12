@@ -50,6 +50,8 @@ namespace App.Models
         public DbSet<EmailRecordModel> EmailRecordsModels { get; set; }
 
         public DbSet<GameModel> GameModels { get; set; }
+        
+        public DbSet<GameTagModel> GameTagModels { get; set; }
 
         public DbSet<EventModel> EventsModels { get; set; }
 
@@ -131,6 +133,9 @@ namespace App.Models
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            modelBuilder.Entity<GameModel>()
+                .HasMany(w => w.GameTagModels)
+                .WithMany(w => w.GameModels);
 
             OnModelCreatingAccounting(modelBuilder);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
@@ -11,9 +12,13 @@ namespace App.Models
 
         [Show(false)] public override int Position { get; set; }
 
+        public string YoutubeLink { get; set; }
 
         [Show(false, false, false, false)] public Guid? ImageModelId { get; set; }
 
         [Show(false, false)] [Required] public ImageModel ImageModel { get; set; }
+        
+        [Show(false, false)]
+        public List<GameTagModel> GameTagModels { get; set; }
     }
 }

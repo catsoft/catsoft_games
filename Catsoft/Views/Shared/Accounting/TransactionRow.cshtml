@@ -68,7 +68,7 @@
             @foreach(var bill in Model.GetBillLinks())
             {
                 <form action="@bill" method="get" target="_blank">
-                    <input type="submit" value="@TextRepository.GetByTag(Context, "Bill")" name="Submit" id="frm1_submit"  class="btn btn-primary" />
+                    <input type="submit" value="@await TextRepository.GetByTag(Context, "Bill")" name="Submit" id="frm1_submit"  class="btn btn-primary" />
                 </form>
             }
         }

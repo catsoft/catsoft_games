@@ -16,7 +16,7 @@
         // Menu.Gallery,
     };
 
-    var languages = Enum.GetValues<TextLanguage>();
+    var languages = LanguageHelper.GetLanguages();
     var currentLanguage = CookieHelper.GetLanguage(Context);
 }
 
@@ -26,17 +26,17 @@
 
         <div class="col-12 col-md-3 ms-md-3 d-flex justify-content-center justify-content-md-start">
             @{
-                #if DEBUG
+#if DEBUG
                 <a href="/logincms" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
                     <span class="fs-4">@await Html.RenderText("Login")</span>
                 </a>
-                #endif
+#endif
 
-                #if DEBUG
+#if DEBUG
                 <a href="/accounting/transactionlist" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
                     <span class="fs-4">@await Html.RenderText("Accounting")</span>
                 </a>
-                #endif
+#endif
             }
 
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 link-body-emphasis text-decoration-none">
@@ -86,21 +86,11 @@
             <select style="font-family: 'Noto Color Emoji'; width=auto" class="align-self-end form-select .form-select-lg" aria-label=".form-select-lg" data-style="btn btn-primary" onchange="changeLanguage()">
                 @foreach (var language in languages)
                 {
-                    var flag = "";
-                    switch (language)
-                    {
-                        case TextLanguage.English:
-                            flag = "gb";
-                            break;
-                        case TextLanguage.Russian:
-                            flag = "ru";
-                            break;
-                        case TextLanguage.Portuguese:
-                            flag = "pt";
-                            break;
-                    }
+                    var languageText = language.ToString();
+                    var flag = language.GetLanguageCode();
                     var emoji = flag.IsoCountryCodeToFlagEmoji();
-                    <option style="font-family: 'Noto Color Emoji'" value="@language" @(currentLanguage == language ? "selected" : "")>@emoji @language</option>
+                    var languageName = language.GetLanguageName();
+                    <option style="font-family: 'Noto Color Emoji'" value="@languageText" @(currentLanguage == language ? "selected" : "") label="@(emoji + " " + languageName)">@emoji @languageName</option>
                 }
             </select>
 

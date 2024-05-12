@@ -1,5 +1,6 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.Models
+@using Microsoft.IdentityModel.Tokens
 @model App.Models.GameModel
 
 @{
@@ -9,7 +10,14 @@
 @if (Model != null)
 {
     <figure>
-        <img class="squareImage" src="@Model.ImageModel?.Url" alt="img">
+        @if (Model.YoutubeLink.IsNullOrEmpty())
+        {
+            <img class="squareImage" src="@Model.ImageModel?.Url" alt="img">
+        }
+        else
+        {
+            await Html.RenderPartialAsync("Common/YoutubeVideo", Model.YoutubeLink);
+        }
         <figcaption>
             <span class="fw-bold fs-4">@Html.Raw(Model.Title)</span>
         </figcaption>
