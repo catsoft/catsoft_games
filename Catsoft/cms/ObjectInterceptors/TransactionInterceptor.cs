@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using App.Models;
 using App.Models.Accounting;
 using Microsoft.IdentityModel.Tokens;
@@ -9,12 +10,12 @@ namespace App.cms.ObjectInterceptors
 {
     public class TransactionInterceptor(CatsoftContext catsoftContext): IObjectInterceptor<TransactionModel>
     {
-        public void Intercept(TransactionModel obj)
+        public async Task Intercept(TransactionModel obj)
         {
-            DoTransactionInterception(obj);
+            await DoTransactionInterception(obj);
         }
 
-        private void DoTransactionInterception(TransactionModel transactionModel)
+        private async Task DoTransactionInterception(TransactionModel transactionModel)
         {
             // Я хочу создать темплейты транзакции если это темплейт и рекурентный платеж
             // либо обновить если они уже есть, обновить в целом все поля
@@ -26,7 +27,7 @@ namespace App.cms.ObjectInterceptors
                 var oldTransactions = catsoftContext.TransactionModels
                     .Where(w => w.TemplateTransactionId == transactionModel.Id).ToList();
                 catsoftContext.RemoveRange(oldTransactions);
-                catsoftContext.SaveChanges();
+                await catsoftContext.SaveChangesAsync();
 
                 if (!oldTransactions.IsNullOrEmpty())
                 {
@@ -36,7 +37,7 @@ namespace App.cms.ObjectInterceptors
                 // теперь создаю новые транзакции
                 var newTransactions = GetRecurrentTransactions(transactionModel);
                 catsoftContext.AddRange(newTransactions);
-                catsoftContext.SaveChanges();
+                await catsoftContext.SaveChangesAsync();
             }
         }
 

@@ -55,7 +55,6 @@
     <ItemGroup>
         <Folder Include="Enums\"/>
         <Folder Include="Migrations\"/>
-        <Folder Include="Views\Shared\Booking\" />
         <Folder Include="wwwroot\fonts\"/>
         <Folder Include="wwwroot\images\"/>
         <Folder Include="wwwroot\js\"/>

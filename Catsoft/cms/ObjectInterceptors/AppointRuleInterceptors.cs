@@ -8,7 +8,7 @@ namespace App.cms.ObjectInterceptors
 {
     public class AppointRuleInterceptors(CatsoftContext catsoftContext) : IObjectInterceptor<AppointRuleModel>
     {
-        public async void Intercept(AppointRuleModel obj)
+        public async Task Intercept(AppointRuleModel obj)
         {
             await CleanNotBooked();
 
@@ -35,16 +35,17 @@ namespace App.cms.ObjectInterceptors
         private async Task DoCreating(AppointRuleModel rule)
         {
             var places = catsoftContext.RentPlaces.ToList();
-            var date = rule.DateStart;
             var dateOfWeeks = Options.Options.BookingDateOfWeeks;
 
-            while (date <= rule.DateEnd)
+            for (var date = rule.DateStart; date < rule.DateEnd; date = date.AddDays(1))
             {
-                if (!dateOfWeeks.Contains(date.DayOfWeek)) continue;
+                if (!dateOfWeeks.Contains(date.DayOfWeek))
+                {
+                    date = date.AddDays(1);
+                    continue;
+                }
 
-                var time = rule.TimeStart;
-
-                while (time <= rule.TimeEnd)
+                for (var time = rule.TimeStart; time < rule.TimeEnd; time = time.Add(Options.Options.BookingTimeRange))
                 {
                     var endTime = time.Add(Options.Options.BookingTimeRange);
                     var times = catsoftContext.AppointTimes.Where(w => w.Date == date && w.TimeStart == time).ToList();
@@ -65,11 +66,7 @@ namespace App.cms.ObjectInterceptors
                         };
                         catsoftContext.Add(appointTime);
                     }
-
-                    time = endTime;
                 }
-
-                date = date.AddDays(1);
             }
 
             await catsoftContext.SaveChangesAsync();

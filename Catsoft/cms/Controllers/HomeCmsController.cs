@@ -95,7 +95,7 @@ namespace App.cms.Controllers
                 CookieHelper.SetFilter(localFilter, HttpContext);
             }
 
-            var pageResult = await Paginate(dynamicObject, includeSets, t, page + 1, 20, null, localFilter);
+            var pageResult = await Paginate(dynamicObject, includeSets, t, page + 1, Options.Options.PaginationPageSize, null, localFilter);
             var result = ProviderPage(dynamicObject, pageResult);
             var sortedSet = result.Results;
             ViewBag.PageCount = result.PageCount;
@@ -278,7 +278,7 @@ namespace App.cms.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit()
         {
             var keys = Request.Form.Keys?.Select(w => w.ToLower()).Select(w =>
             {
@@ -407,9 +407,9 @@ namespace App.cms.Controllers
             }
 
             CatsoftContext.Update(editObject);
-            CatsoftContext.SaveChanges();
+            await CatsoftContext.SaveChangesAsync();
             
-            _objectInterceptor.Intercept(editObject);
+            await _objectInterceptor.Intercept(editObject);
 
             return CheckIsSingle(type)
                 ? RedirectToAction("EditFirst", new { type = typeName })
@@ -418,7 +418,7 @@ namespace App.cms.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var keys = Request.Form.Keys?.Select(w => w.ToLower()).Select(w =>
             {
@@ -539,9 +539,9 @@ namespace App.cms.Controllers
             }
 
             CatsoftContext.Add(newObject);
-            CatsoftContext.SaveChanges();
+            await CatsoftContext.SaveChangesAsync();
             
-            _objectInterceptor.Intercept(newObject);
+            await _objectInterceptor.Intercept(newObject);
 
             return RedirectToAction("GetList", new { type = typeName });
         }

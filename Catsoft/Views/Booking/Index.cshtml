@@ -11,11 +11,11 @@
 
 @if (!Options.IsBookingEnabled)
 {
-    @await Html.PartialAsync("BookBlock", new BookDto())
+    @await Html.PartialAsync("SoonBookBlock", new BookDto())
 
     @await Html.PartialAsync("PreOrder", new PreOrderDto())
 }
 else
 {
-    
+    @await Html.PartialAsync("BookBlock", new BookDto())
 }

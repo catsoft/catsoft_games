@@ -50,11 +50,11 @@
 
 @if(Options.IsBookingEnabled)
 {
-    @* @await Html.PartialAsync("Booking", Model.BookingPageViewModel) *@
+    @await Html.PartialAsync("Booking/CommercialBookBlock", new BookDto())
 }
 else
 {
-    @await Html.PartialAsync("BookBlock", new BookDto())
+    @await Html.PartialAsync("SoonBookBlock", new BookDto())
 
     @await Html.PartialAsync("PreOrder", new PreOrderDto())
 }
