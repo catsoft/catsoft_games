@@ -9,13 +9,8 @@ namespace App.cms.Options
 
         public static string Version => "1.0.0";
 
-        public static bool IsBookingEnabled =>
-            #if DEBUG
-                    true;
-            #else
-                    false;
-            #endif
-
+        public static bool IsBookingEnabled => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower() == "Development".ToLower();
+        
         public static TimeSpan BookingTimeRange => TimeSpan.FromMinutes(30);
 
         public static List<DayOfWeek> BookingDateOfWeeks => new()
