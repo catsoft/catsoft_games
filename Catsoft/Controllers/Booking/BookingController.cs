@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using App.Models;
-using App.ViewModels.Book;
+using App.ViewModels.Booking;
 using Microsoft.AspNetCore.Mvc;
+using Options = App.cms.Options.Options;
 
 namespace App.Controllers.Booking
 {
@@ -14,15 +16,27 @@ namespace App.Controllers.Booking
 
         public IActionResult Index()
         {
-            var home = new BookPageViewModel
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new BookingPageViewModel
             {
                 HeaderViewModel = GetHeaderViewModel(),
                 FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.BookPageModels.FirstOrDefault()
+                AvailableAppointTimes = GetAvailableAppointTimes(),
+                RentPlaces = CatsoftContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToList()
             };
-            home.HeaderViewModel.CurrentPage = Menu.Book;
+            model.HeaderViewModel.CurrentPage = Menu.Book;
 
-            return RedirectToAction("Index", "Home");
+            return View(model);
+        }
+
+
+        private List<AppointTimeDto> GetAvailableAppointTimes()
+        {
+            return CatsoftContext.AppointTimes.Where(w => !w.Booked && !w.Blocked).Select(w => new AppointTimeDto(w)).ToList();
         }
     }
 }

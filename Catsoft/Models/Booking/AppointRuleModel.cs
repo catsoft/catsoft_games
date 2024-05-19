@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
@@ -6,22 +7,21 @@ namespace App.Models.Booking
 {
     public class AppointRuleModel : Entity<AppointRuleModel>
     {
-        public DateOnly DateStart { get; set; }
-        
-        public DateOnly DateEnd { get; set; }
+        [DataType(DataType.Date)]
+        public DateOnly DateStart { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        public TimeOnly TimeStart { get; set; }
+        [DataType(DataType.Date)]
+        public DateOnly DateEnd { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        public TimeOnly TimeEnd { get; set; }
+        [DataType(DataType.Time)]
+        public TimeOnly TimeStart { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
 
+        [DataType(DataType.Time)]
+        public TimeOnly TimeEnd { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
+
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         
-        public decimal Type { get; set; }
-        
         public AppointRuleType AppointRuleType { get; set; }
-        
-        [Show(false, false, false, false)] public Guid? AppointTimeId { get; set; }
-        
-        [Show(false, false)] public AppointTimeModel AppointTimeModel { get; set; }
     }
 }

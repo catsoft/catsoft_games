@@ -5,6 +5,8 @@ using App.cms.FilesHandlers.Png;
 using App.cms.FilesHandlers.Webpack;
 using App.cms.FilesHandlers.Zip;
 using App.cms.ObjectInterceptors;
+using App.Models.Accounting;
+using App.Models.Booking;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace App.cms
@@ -20,6 +22,9 @@ namespace App.cms
             services.AddScoped<IZipHandler, ZipHandler>();
             services.AddScoped<IObjectInterceptor, ObjectInterceptor>();
             services.AddScoped<IDefaultFileHandler, DefaultFileHandler>();
+            
+            services.AddScoped<IObjectInterceptor<TransactionModel>, TransactionInterceptor>();
+            services.AddScoped<IObjectInterceptor<AppointRuleModel>, AppointRuleInterceptors>();
         }
     }
 }

@@ -172,15 +172,6 @@ namespace App.Models
                 .HasForeignKey(w => w.RentPlaceModelId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<AppointRuleModel>()
-                .HasOne(w => w.AppointTimeModel)
-                .WithMany(w => w.AppointRuleModels)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(w => w.AppointTimeId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
         }
 
 

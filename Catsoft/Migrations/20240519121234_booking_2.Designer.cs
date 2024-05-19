@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240519121234_booking_2")]
+    partial class booking_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,6 +208,9 @@ namespace App.Migrations
                     b.Property<int>("AppointRuleType")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("AppointTimeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -233,6 +239,8 @@ namespace App.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointTimeId");
 
                     b.ToTable("AppointRules");
                 });
@@ -387,11 +395,11 @@ namespace App.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.Property<int>("RentPlaceType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1228,6 +1236,16 @@ namespace App.Migrations
                     b.Navigation("ImageModel");
                 });
 
+            modelBuilder.Entity("App.Models.Booking.AppointRuleModel", b =>
+                {
+                    b.HasOne("App.Models.Booking.AppointTimeModel", "AppointTimeModel")
+                        .WithMany("AppointRuleModels")
+                        .HasForeignKey("AppointTimeId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("AppointTimeModel");
+                });
+
             modelBuilder.Entity("App.Models.Booking.AppointTimeModel", b =>
                 {
                     b.HasOne("App.Models.Booking.PersonBookingModel", "PersonBookingModel")
@@ -1355,6 +1373,11 @@ namespace App.Migrations
             modelBuilder.Entity("App.Models.ArticleModel", b =>
                 {
                     b.Navigation("CommentModels");
+                });
+
+            modelBuilder.Entity("App.Models.Booking.AppointTimeModel", b =>
+                {
+                    b.Navigation("AppointRuleModels");
                 });
 
             modelBuilder.Entity("App.Models.Booking.PersonBookingModel", b =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
@@ -7,26 +8,22 @@ namespace App.Models.Booking
 {
     public class AppointTimeModel : Entity<AppointTimeModel>
     {
-        public DateOnly Date { get; set; }
+        [DataType(DataType.Date)] public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        public TimeOnly TimeStart { get; set; }
+        [DataType(DataType.Time)] public TimeOnly TimeStart { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
 
-        public TimeOnly TimeEnd { get; set; }
+        [DataType(DataType.Time)] public TimeOnly TimeEnd { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
 
 
         [Show(false, false, false, false)] public Guid? RentPlaceModelId { get; set; }
 
         [Show(false, false)] public RentPlaceModel RentPlaceModel { get; set; }
-        
-        
+
+
         [Show(false, false, false, false)] public Guid? PersonBookingId { get; set; }
 
-        [Show(false, false)] public PersonBookingModel PersonBookingModel { get; set; } 
-        
-        
-        [Show(false, false, false, false)]
-        public List<AppointRuleModel> AppointRuleModels { get; set; }
-        
+        [Show(false, false)] public PersonBookingModel PersonBookingModel { get; set; }
+
 
         public decimal Price { get; set; }
 

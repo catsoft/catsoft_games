@@ -1,8 +1,9 @@
-﻿@model App.ViewModels.Common.HeaderViewModel
+﻿@using App.cms.Models
+@model App.ViewModels.Common.HeaderViewModel
 
 @{
     Layout = null;
-
+    var languages = LanguageHelper.GetLanguages();
 }
 
 @await Html.PartialAsync("YandexMetrica")

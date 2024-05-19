@@ -10,7 +10,7 @@ namespace App.Models
 
         public string Href { get; set; }
 
-        [Show(false, false, false, false)] public Menu Menu { get; set; }
+        public Menu Menu { get; set; }
 
         [Show] public override int Position { get; set; }
     }

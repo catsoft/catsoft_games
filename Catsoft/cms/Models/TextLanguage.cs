@@ -62,5 +62,24 @@ namespace App.cms.Models
                     throw new Exception();
             }
         }
+        
+        public static string GetLanguageCodeForHtml(this TextLanguage language)
+        {
+            switch (language)
+            {
+                case TextLanguage.Portuguese:
+                    return "pt";
+                case TextLanguage.Spanish:
+                    return "es";
+                case TextLanguage.English:
+                    return "en";
+                case TextLanguage.Russian:
+                    return "ru";
+                case TextLanguage.Ukrainian:
+                    return "uk";
+                default:
+                    throw new Exception();
+            }
+        }
     }
 }

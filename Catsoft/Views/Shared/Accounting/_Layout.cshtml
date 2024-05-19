@@ -1,4 +1,5 @@
 ﻿@using App.cms.Models
+@using App.cms.StaticHelpers
 @using App.Models
 @using App.Models.Pages
 @using App.ViewModels.Common
@@ -27,20 +28,8 @@
         }
     }
 
-    var currentLanguage = TextLanguage.English;
-    var langShort = "";
-    switch (currentLanguage)
-    {
-        case TextLanguage.English:
-            langShort = "en";
-            break;
-        case TextLanguage.Russian:
-            langShort = "ru";
-            break;
-        case TextLanguage.Portuguese:
-            langShort = "pt";
-            break;
-    }
+    var currentLanguage = CookieHelper.GetLanguage(Context);
+    var langShort = currentLanguage.GetLanguageCodeForHtml();
 }
 
 <!doctype html>
