@@ -20,7 +20,7 @@ namespace App.cms.FilesHandlers
 
         private string GetOriginalPath(IEntity imageModel, string extension)
         {
-            return "/UploadImages/" + imageModel.Id + "_original." + extension;
+            return "/UploadImages/" + imageModel.Id + "_original" + extension;
         }
 
         public override IEntity Handle(IFormFile formFile)

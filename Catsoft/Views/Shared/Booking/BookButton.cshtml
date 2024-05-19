@@ -1,0 +1,16 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Repositories.TextResource
+@using App.Models
+@using Options = App.cms.Options.Options
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+    var bookText = await TextResourceRepository.GetByTag(Context, "Book and enjoy now");
+}
+@if (Options.IsBookingEnabled)
+{
+    <div class="d-flex justify-content-center">
+        <input type="button" class="btn btn-primary rounded-pill fs-3" value="@bookText" style="width: 350px;" />
+    </div>
+}

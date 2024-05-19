@@ -1,0 +1,25 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Repositories.TextResource
+@using App.Models
+@model App.ViewModels.Booking.OurStrengthsViewModel
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+}
+
+
+<div class="col row" style="width: 450px;">
+    <div class="d-flex justify-content-start flex-column">
+        <img class="w-75 mb-2 rounded mx-auto" src="@Model.ImageUrl"/>
+
+        <span class="fw fs-3 text-center">
+            <p>
+                <span>@Model.Title</span>
+            </p>
+            <p>
+                <span class="fw fs-5">@Model.Description</span>
+            </p>
+        </span>
+    </div>
+</div>
