@@ -18,14 +18,13 @@ namespace App.Controllers
         {
             var home = new BlogPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Blog),
                 FooterViewModel = GetFooterViewModel(),
                 Page = CatsoftContext.BlogPageModels.FirstOrDefault(),
                 ArticleModels = CatsoftContext.ArticleModels
                     .Include(w => w.ImageModel)
                     .ToList()
             };
-            home.HeaderViewModel.CurrentPage = Menu.Blog;
 
             return View(home);
         }
@@ -39,7 +38,7 @@ namespace App.Controllers
 
             var home = new ArticleViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Blog),
                 FooterViewModel = GetFooterViewModel(),
                 Page = CatsoftContext.ArticleModels
                     .Include(w => w.ImageModel)
@@ -48,7 +47,6 @@ namespace App.Controllers
 
             home.Page.CommentModels = sortedComments;
 
-            home.HeaderViewModel.CurrentPage = Menu.Blog;
             return View(home);
         }
     }

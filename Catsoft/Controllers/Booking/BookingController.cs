@@ -23,12 +23,11 @@ namespace App.Controllers.Booking
 
             var model = new BookingPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = GetFooterViewModel(),
                 AvailableAppointTimes = GetAvailableAppointTimes(),
-                RentPlaces = CatsoftContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToList()
+                RentPlaces = CatsoftContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToList(),
             };
-            model.HeaderViewModel.CurrentPage = Menu.Book;
 
             return View(model);
         }

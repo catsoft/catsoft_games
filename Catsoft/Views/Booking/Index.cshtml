@@ -1,18 +1,21 @@
 ﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Options
 @using App.Models
+@using App.ViewModels.Book
+@using App.ViewModels.PreOrder
 @model App.ViewModels.Booking.BookingPageViewModel
 
 @{
     Layout = "_Layout";
 }
 
-<div class="container height-100">
-    <div class="col-md-10 offset-md-1">
-        <div class="row row-cols-md-2">
-            @* @foreach (var article in Model.ArticleModels) *@
-            @* { *@
-            @*     @await Html.PartialAsync("SingleArticle", article) *@
-            @* } *@
-        </div>
-    </div>
-</div>
+@if (!Options.IsBookingEnabled)
+{
+    @await Html.PartialAsync("BookBlock", new BookDto())
+
+    @await Html.PartialAsync("PreOrder", new PreOrderDto())
+}
+else
+{
+    
+}

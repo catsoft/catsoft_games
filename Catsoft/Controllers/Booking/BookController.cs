@@ -14,14 +14,6 @@ namespace App.Controllers.Booking
 
         public IActionResult Index()
         {
-            var home = new BookPageViewModel
-            {
-                HeaderViewModel = GetHeaderViewModel(),
-                FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.BookPageModels.FirstOrDefault()
-            };
-            home.HeaderViewModel.CurrentPage = Menu.Book;
-
             return RedirectToAction("Index", "Home");
         }
     }

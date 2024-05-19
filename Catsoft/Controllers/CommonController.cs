@@ -8,11 +8,11 @@ namespace App.Controllers
     {
         protected CatsoftContext CatsoftContext { get; set; }
 
-        protected HeaderViewModel GetHeaderViewModel()
+        protected HeaderViewModel GetHeaderViewModel(Menu menu)
         {
             var header = new HeaderViewModel
             {
-                CurrentPage = Menu.Home,
+                CurrentPage = menu,
                 Menus = CatsoftContext.Menus.OrderBy(w => w.Position).ToList()
                     .Select(w => new MenuViewModel(w.Name, w.Href, w.Menu)).ToList()
             };

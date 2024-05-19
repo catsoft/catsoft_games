@@ -28,12 +28,10 @@ namespace App.Controllers
         {
             var home = new PreOrderPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.PreOrder),
                 FooterViewModel = GetFooterViewModel(),
                 Page = CatsoftContext.PreOrderPageModels.FirstOrDefault()
             };
-
-            home.HeaderViewModel.CurrentPage = Menu.PreOrder;
 
             return View(home);
         }

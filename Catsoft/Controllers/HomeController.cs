@@ -30,7 +30,7 @@ namespace App.Controllers
         {
             var home = new HomePageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Home),
                 FooterViewModel = GetFooterViewModel(),
                 ContactsPageViewModel = new ContactsPageViewModel(CatsoftContext.ContactsPageModels
                     .FirstOrDefault(), CatsoftContext.ContactsModels.ToList()),
@@ -58,8 +58,6 @@ namespace App.Controllers
             {
                 GameModels = games
             };
-
-            home.HeaderViewModel.CurrentPage = Menu.Home;
 
             return View(home);
         }

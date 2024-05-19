@@ -32,7 +32,7 @@ namespace App.Controllers
 
             var home = new TransactionListViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Accounting),
                 FooterViewModel = GetFooterViewModel(),
                 Transactions = transaction,
                 AccountingFilterViewModel = filter
@@ -79,7 +79,7 @@ namespace App.Controllers
             
             var home = new TransactionViewModel()
             {
-                HeaderViewModel = GetHeaderViewModel(),
+                HeaderViewModel = GetHeaderViewModel(Menu.Accounting),
                 FooterViewModel = GetFooterViewModel(),
                 TransactionModel = transaction,
             };

@@ -4,6 +4,8 @@
 @using App.Models
 @using App.ViewModels.Book
 @using App.ViewModels.PreOrder
+@using Microsoft.Extensions.Options
+@using Options = App.cms.Options.Options
 @model App.ViewModels.Home.HomePageViewModel
 
 @{
@@ -46,8 +48,15 @@
 
 @await Html.PartialAsync("GamesList", Model.GamesViewModel?.GameModels)
 
-@await Html.PartialAsync("BookBlock", new BookDto())
+@if(Options.IsBookingEnabled)
+{
+    @* @await Html.PartialAsync("Booking", Model.BookingPageViewModel) *@
+}
+else
+{
+    @await Html.PartialAsync("BookBlock", new BookDto())
 
-@await Html.PartialAsync("PreOrder", new PreOrderDto())
+    @await Html.PartialAsync("PreOrder", new PreOrderDto())
+}
 
 @* @await Html.PartialAsync("Contacts", Model.ContactsPageViewModel) *@

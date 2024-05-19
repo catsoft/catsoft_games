@@ -13,7 +13,8 @@ namespace App.Models
         Contacts,
         Blog,
         Gallery,
-        Cms
+        Cms,
+        Accounting,
     }
 
     public static class MenuLinks
