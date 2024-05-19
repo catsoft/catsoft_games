@@ -16,5 +16,15 @@ namespace App.cms.Models
         [Show] public bool IsSinglePage { get; set; }
 
         public AdminRoles Role { get; set; }
+
+        public string GetPrefix()
+        {
+            if (!Title.Contains("]"))
+            {
+                return "";
+            }
+
+            return Title.Split('[', ']')[1];
+        }
     }
 }

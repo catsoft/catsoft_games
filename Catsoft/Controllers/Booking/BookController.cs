@@ -3,7 +3,7 @@ using App.Models;
 using App.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controllers
+namespace App.Controllers.Booking
 {
     public class BookController : CommonController
     {

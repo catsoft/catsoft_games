@@ -12,6 +12,6 @@ namespace App.cms
 
         public string SmptCredentialsPassword { get; set; }
 
-        public string AppName { get; set; } = CompanyName.Name;
+        public string AppName { get; set; } = Options.Options.Name;
     }
 }

@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <TargetFramework>netcoreapp8.0</TargetFramework>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
         <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
         <TypeScriptToolsVersion>3.7</TypeScriptToolsVersion>
@@ -9,6 +8,7 @@
         <StartupObject>App.Program</StartupObject>
         <AssemblyName>Catsoft</AssemblyName>
         <RootNamespace>App</RootNamespace>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Migrations\20200122095532_2.cs"/>
@@ -55,6 +55,8 @@
     <ItemGroup>
         <Folder Include="Enums\"/>
         <Folder Include="Migrations\"/>
+        <Folder Include="Views\Booking\" />
+        <Folder Include="Views\Shared\Booking\" />
         <Folder Include="wwwroot\fonts\"/>
         <Folder Include="wwwroot\images\"/>
         <Folder Include="wwwroot\js\"/>

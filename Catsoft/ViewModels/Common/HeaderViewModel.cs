@@ -8,7 +8,7 @@ namespace App.ViewModels.Common
     {
         public IMetaInfo MetaInfo { get; set; }
 
-        public string CompanyName { get; set; } = cms.Options.CompanyName.Name;
+        public string CompanyName { get; set; } = cms.Options.Options.Name;
 
         public Menu CurrentPage { get; set; }
 

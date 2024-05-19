@@ -4,6 +4,7 @@ using App.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(CatsoftContext))]
-    partial class CatsoftContextModelSnapshot : ModelSnapshot
+    [Migration("20240518214352_booking")]
+    partial class booking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,7 +199,7 @@ namespace App.Migrations
                     b.ToTable("ArticleModels");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.AppointRuleModel", b =>
+            modelBuilder.Entity("App.Models.Booking.AppointRule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +248,7 @@ namespace App.Migrations
                     b.ToTable("AppointRules");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.AppointTimeModel", b =>
+            modelBuilder.Entity("App.Models.Booking.AppointTime", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -299,7 +302,7 @@ namespace App.Migrations
                     b.ToTable("AppointTimes");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.PersonBookingModel", b =>
+            modelBuilder.Entity("App.Models.Booking.PersonBooking", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -377,7 +380,7 @@ namespace App.Migrations
                     b.ToTable("PersonModels");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.RentPlaceModel", b =>
+            modelBuilder.Entity("App.Models.Booking.RentPlace", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1236,34 +1239,34 @@ namespace App.Migrations
                     b.Navigation("ImageModel");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.AppointRuleModel", b =>
+            modelBuilder.Entity("App.Models.Booking.AppointRule", b =>
                 {
-                    b.HasOne("App.Models.Booking.AppointTimeModel", "AppointTimeModel")
+                    b.HasOne("App.Models.Booking.AppointTime", "AppointTime")
                         .WithMany("AppointRuleModels")
                         .HasForeignKey("AppointTimeId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("AppointTimeModel");
+                    b.Navigation("AppointTime");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.AppointTimeModel", b =>
+            modelBuilder.Entity("App.Models.Booking.AppointTime", b =>
                 {
-                    b.HasOne("App.Models.Booking.PersonBookingModel", "PersonBookingModel")
+                    b.HasOne("App.Models.Booking.PersonBooking", "PersonBooking")
                         .WithMany("AppointTimeModels")
                         .HasForeignKey("PersonBookingId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("App.Models.Booking.RentPlaceModel", "RentPlaceModel")
+                    b.HasOne("App.Models.Booking.RentPlace", "RentPlaceModel")
                         .WithMany("AppointTimeModels")
                         .HasForeignKey("RentPlaceModelId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("PersonBookingModel");
+                    b.Navigation("PersonBooking");
 
                     b.Navigation("RentPlaceModel");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.PersonBookingModel", b =>
+            modelBuilder.Entity("App.Models.Booking.PersonBooking", b =>
                 {
                     b.HasOne("App.Models.Booking.PersonModel", "PersonModel")
                         .WithMany("PersonBookingModels")
@@ -1375,12 +1378,12 @@ namespace App.Migrations
                     b.Navigation("CommentModels");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.AppointTimeModel", b =>
+            modelBuilder.Entity("App.Models.Booking.AppointTime", b =>
                 {
                     b.Navigation("AppointRuleModels");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.PersonBookingModel", b =>
+            modelBuilder.Entity("App.Models.Booking.PersonBooking", b =>
                 {
                     b.Navigation("AppointTimeModels");
                 });
@@ -1390,7 +1393,7 @@ namespace App.Migrations
                     b.Navigation("PersonBookingModels");
                 });
 
-            modelBuilder.Entity("App.Models.Booking.RentPlaceModel", b =>
+            modelBuilder.Entity("App.Models.Booking.RentPlace", b =>
                 {
                     b.Navigation("AppointTimeModels");
                 });
