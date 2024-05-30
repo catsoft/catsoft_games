@@ -1,23 +1,56 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using App.cms.Helpers
+@using System.Globalization
+@using App.cms.Models
 @using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
 @using App.Models
-@model App.ViewModels.Book.BookDto
+@using Options = App.cms.Options.Options
+@model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
+
+    var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date).OrderBy(w => w.Key).ToList();
+
+    var language = CookieHelper.GetLanguage(Context);
+    var ci = new CultureInfo(language.GetCulturalCode());
+    var places = " " + await TextResourceRepository.GetByTag(Context, "places");
 }
+@if (Options.IsBookingEnabled)
+{
+    <div class="container-fluid text-center">
+        <div class="container py-5" id="order">
 
-<div style="background: rgba(106,13,173,1);" class="container-fluid text-white text-center">
-    <div class="container py-5" id="order">
-
-        <div class="row">
-            <div class="col-8 offset-2">
-                <p>
-                    <span class="fw-bold fs-1 text-center">@await Html.RenderText("Will be here soon!")</span>
-                </p>
-            </div>
+            @foreach (var booking in groupsByDate)
+            {
+                <div class="row pt-5">
+                    <p>
+                        <span class="fw-bold fs-3 text-center">@booking.Key.ToString("dddd, dd MMMM", ci)</span>
+                    </p>
+                </div>
+                <div class="row">
+                    @{
+                        var times = booking.GroupBy(w => w.AppointTime.TimeStart).OrderBy(w => w.First().AppointTime.TimeStart).ToList();
+                    }
+                    @foreach (var time in times)
+                    {
+                        var timeValue = time.First();
+                        var count = time.Count();
+                        <div class="col rounded bg-dark text-white py-2 me-3">
+                            <p>
+                                <span class="fs-6 text-center">@(count + places)</span>
+                                <br/>
+                                <span class="fw-bold fs-4 text-center">@timeValue.AppointTime.TimeStart</span>
+                                <br/>
+                                <span class="fw-bold fs-4 text-center">@timeValue.AppointTime.TimeEnd</span>
+                                <br/>
+                                <span class="fs-6 text-center">@(timeValue.AppointTime.FormattedPrice())</span>
+                            </p>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
-</div>
+}

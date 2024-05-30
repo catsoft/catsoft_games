@@ -10,6 +10,8 @@ namespace App.cms.Options
         public static string Version => "1.0.0";
 
         public static int PaginationPageSize => 100;
+
+        public static string Currency => "\u20ac";
         
         public static bool IsBookingEnabled => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower() == "Development".ToLower();
         

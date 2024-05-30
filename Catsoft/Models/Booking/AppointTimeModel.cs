@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
+using App.cms.Options;
 
 namespace App.Models.Booking
 {
@@ -32,5 +33,10 @@ namespace App.Models.Booking
         public bool Booked { get; set; }
 
         public bool Blocked { get; set; }
+
+        public string FormattedPrice()
+        {
+            return Options.Currency + Price.ToString("N1");
+        }
     }
 }

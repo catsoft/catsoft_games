@@ -63,6 +63,25 @@ namespace App.cms.Models
             }
         }
         
+        public static string GetCulturalCode(this TextLanguage language)
+        {
+            switch (language)
+            {
+                case TextLanguage.Portuguese:
+                    return "pt-PT";
+                case TextLanguage.Spanish:
+                    return "es-ES";
+                case TextLanguage.English:
+                    return "en-GB";
+                case TextLanguage.Russian:
+                    return "ru";
+                case TextLanguage.Ukrainian:
+                    return "uk";
+                default:
+                    throw new Exception();
+            }
+        }
+        
         public static string GetLanguageCodeForHtml(this TextLanguage language)
         {
             switch (language)
