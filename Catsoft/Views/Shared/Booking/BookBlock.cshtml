@@ -2,7 +2,7 @@
 @using System.Globalization
 @using App.cms.Models
 @using App.cms.Repositories.TextResource
-@using App.cms.StaticHelpers
+@using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
@@ -16,9 +16,14 @@
     var language = CookieHelper.GetLanguage(Context);
     var ci = new CultureInfo(language.GetCulturalCode());
     var places = " " + await TextResourceRepository.GetByTag(Context, "places");
+
+    var selection = CookieHelper.GetBookingSelection(Context);
 }
 @if (Options.IsBookingEnabled)
 {
+    @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
+
+    
     <div class="container-fluid text-center">
         <div class="container py-5" id="order">
 
@@ -37,7 +42,12 @@
                     {
                         var timeValue = time.First();
                         var count = time.Count();
-                        <div class="col rounded bg-dark text-white py-2 me-3">
+                        var isSelected = selection.SelectedAppointTimeIds.Contains(timeValue.AppointTime.Id);
+                        var color = isSelected ? "bg-primary" : "bg-dark";
+
+                        <div class="col rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto"
+                             role="button"
+                             datauuid="@timeValue.AppointTime.Id.ToString()">
                             <p>
                                 <span class="fs-6 text-center">@(count + places)</span>
                                 <br/>
@@ -53,4 +63,19 @@
             }
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.time-selection').click(function () {
+                var uuid = $(this).attr('datauuid');
+                var url = '@Url.Action("SelectAppointTime", "Booking")';
+                var data = {
+                    uuid: uuid
+                };
+                $.post(url, data, function () {
+                    location.reload();
+                });
+            });
+        });
+    </script>
 }

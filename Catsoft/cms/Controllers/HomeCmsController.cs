@@ -15,6 +15,7 @@ using App.cms.Repositories.File;
 using App.cms.Repositories.Image;
 using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
+using App.cms.StaticHelpers.Cookies;
 using App.cms.ViewModels;
 using App.Models;
 using App.Models.Accounting;

@@ -1,6 +1,7 @@
 ﻿using System;
 using App.cms.Models;
 using App.cms.StaticHelpers;
+using App.cms.StaticHelpers.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

@@ -34,6 +34,11 @@ namespace App.Models.Booking
 
         public bool Blocked { get; set; }
 
+        public string FormattedShortDate()
+        {
+            return Date.ToString("M");
+        }
+        
         public string FormattedPrice()
         {
             return Options.Currency + Price.ToString("N1");

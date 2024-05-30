@@ -4,18 +4,29 @@ using App.cms.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace App.cms.StaticHelpers
+namespace App.cms.StaticHelpers.Cookies
 {
     public static class CookieHelper
     {
         public static string Filter => "Filter";
         public static string Language => "Language";
+        public static string BookingSelection => "BookingSelection";
 
         public static void SetFilter(string filter, HttpContext context)
         {
             SaveValue(context, Filter, filter);
         }
 
+        public static BookingSelectionViewModel GetBookingSelection(HttpContext context)
+        {
+            return GetValue<BookingSelectionViewModel>(context, BookingSelection) ?? new BookingSelectionViewModel();
+        }
+        
+        public static void SaveBookingSelection(HttpContext context, BookingSelectionViewModel value)
+        {
+            SaveValue(context, BookingSelection, value);
+        }
+        
         public static string GetFilter(HttpContext context)
         {
             return GetValue(context, Filter);

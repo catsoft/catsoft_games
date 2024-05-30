@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.Booking;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +35,37 @@ namespace App.Controllers.Booking
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SelectAppointTime(Guid uuid)
+        {
+            var selection = CookieHelper.GetBookingSelection(HttpContext);
+            if (!selection.SelectedAppointTimeIds.Add(uuid))
+            {
+                selection.SelectedAppointTimeIds.Remove(uuid);
+            }
 
+            CookieHelper.SaveBookingSelection(HttpContext, selection);
+
+            return await ValidateSelection();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetPersonCount(int personCount)
+        {
+            var selection = CookieHelper.GetBookingSelection(HttpContext);
+            selection.PeopleCount = personCount;           
+            CookieHelper.SaveBookingSelection(HttpContext, selection);
+
+            return await ValidateSelection();
+        }
+
+        private async Task<IActionResult> ValidateSelection()
+        {
+            //todo
+            return RedirectToAction("Index");
+        }
+        
+        
         private List<AppointTimeDto> GetAvailableAppointTimes()
         {
             return CatsoftContext.AppointTimes.Where(w => !w.Booked && !w.Blocked).Select(w => new AppointTimeDto(w)).ToList();
