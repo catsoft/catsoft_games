@@ -29,6 +29,8 @@
     var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
 
     var totalSum = " " + await TextResourceRepository.GetByTagAsync(Context, "total sum: " + Options.Currency + sum);
+
+    var continueText = await TextResourceRepository.GetByTagAsync(Context, "Book");
 }
 @if (Options.IsBookingEnabled)
 {
@@ -75,6 +77,10 @@
                     </div>
                 }
             </div>
+
+            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
+                <input type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" value="@continueText" style="min-width: 350px;"/>
+            </form>
         </div>
     </div>
 
