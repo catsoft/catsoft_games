@@ -15,22 +15,22 @@ namespace App.Controllers
         private readonly CmsOptions _cmsOptions;
         private readonly TextResourceRepository _textResourceRepository;
 
-        public PreOrderController(CatsoftContext catsoftContext, TextResourceRepository textResourceRepository,
+        public PreOrderController(CatsoftContext dbContext, TextResourceRepository textResourceRepository,
             CmsOptions cmsOptions)
         {
             _textResourceRepository = textResourceRepository;
             _cmsOptions = cmsOptions;
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var home = new PreOrderPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.PreOrder),
-                FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.PreOrderPageModels.FirstOrDefault()
+                HeaderViewModel = await GetHeaderViewModel(Menu.PreOrder),
+                FooterViewModel = await GetFooterViewModel(),
+                Page = await DbContext.PreOrderPageModels.FirstOrDefaultAsync()
             };
 
             return View(home);
@@ -46,16 +46,16 @@ namespace App.Controllers
                 EmailOrPhone = preOrderDto.EmailOrPhone
             };
 
-            await CatsoftContext.OrderModels.AddAsync(orderModel);
-            await CatsoftContext.SaveChangesAsync();
+            await DbContext.OrderModels.AddAsync(orderModel);
+            await DbContext.SaveChangesAsync();
 
             var contactsModel =
-                await CatsoftContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
+                await DbContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
 
-            var contactsInfoText = await _textResourceRepository.GetByTag(HttpContext, "Contact information");
-            var nameText = await _textResourceRepository.GetByTag(HttpContext, "Name");
-            var commentText = await _textResourceRepository.GetByTag(HttpContext, "Comment");
-            var newOrderText = await _textResourceRepository.GetByTag(HttpContext, "New order");
+            var contactsInfoText = await _textResourceRepository.GetByTagAsync(HttpContext, "Contact information");
+            var nameText = await _textResourceRepository.GetByTagAsync(HttpContext, "Name");
+            var commentText = await _textResourceRepository.GetByTagAsync(HttpContext, "Comment");
+            var newOrderText = await _textResourceRepository.GetByTagAsync(HttpContext, "New order");
 
             var text = $"{contactsInfoText} : {orderModel.EmailOrPhone}\n" +
                        $"{nameText} : {orderModel.Name}\n" +

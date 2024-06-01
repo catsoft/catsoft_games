@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using App.cms.FilesHandlers;
 using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
@@ -20,21 +21,21 @@ namespace App.Controllers
     {
         private readonly IZipHandler _zipHandler;
 
-        public AccountingController(CatsoftContext catsoftContext, IZipHandler zipHandler)
+        public AccountingController(CatsoftContext dbContext, IZipHandler zipHandler)
         {
             _zipHandler = zipHandler;
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
 
-        public IActionResult TransactionList()
+        public async Task<IActionResult> TransactionList()
         {
-            var transaction = GetTransactionByFilter();
+            var transaction = await GetTransactionByFilter();
             var filter = GetFilter();
 
             var home = new TransactionListViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Accounting),
-                FooterViewModel = GetFooterViewModel(),
+                HeaderViewModel = await GetHeaderViewModel(Menu.Accounting),
+                FooterViewModel = await GetFooterViewModel(),
                 Transactions = transaction,
                 AccountingFilterViewModel = filter
             };
@@ -44,7 +45,7 @@ namespace App.Controllers
 
         private IQueryable<TransactionModel> GetTransactions()
         {
-            return CatsoftContext.TransactionModels
+            return DbContext.TransactionModels
                 .Where(w => w.IsDeleted == false)
                 .Include(w => w.BillImageModel)
                 .Include(w => w.AccountFromModel)
@@ -68,10 +69,10 @@ namespace App.Controllers
             return RedirectToAction("TransactionList");
         }
         
-        public IActionResult TransactionDetails(string transactionUuid)
+        public async Task<IActionResult> TransactionDetails(string transactionUuid)
         {
             var id = Guid.Parse(transactionUuid);
-            var transaction = CatsoftContext.TransactionModels
+            var transaction = DbContext.TransactionModels
                 .Include(w => w.AccountFromModel)
                 .Include(w => w.AccountToModel)
                 .Include(w => w.TemplateTransaction)
@@ -80,8 +81,8 @@ namespace App.Controllers
             
             var home = new TransactionViewModel()
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Accounting),
-                FooterViewModel = GetFooterViewModel(),
+                HeaderViewModel = await GetHeaderViewModel(Menu.Accounting),
+                FooterViewModel = await GetFooterViewModel(),
                 TransactionModel = transaction,
             };
 
@@ -92,7 +93,7 @@ namespace App.Controllers
         public IActionResult TransactionPay(string transactionUuid)
         {
             var id = Guid.Parse(transactionUuid);
-            var transaction = CatsoftContext.TransactionModels
+            var transaction = DbContext.TransactionModels
                 .Include(w => w.AccountFromModel)
                 .Include(w => w.AccountToModel)
                 .Include(w => w.TemplateTransaction)
@@ -101,8 +102,8 @@ namespace App.Controllers
             if (transaction != null) 
             {
                 transaction.IsPaid = true;
-                CatsoftContext.Update(transaction);
-                CatsoftContext.SaveChanges();
+                DbContext.Update(transaction);
+                DbContext.SaveChanges();
             }
             return RedirectToAction("TransactionList");
         }
@@ -112,7 +113,7 @@ namespace App.Controllers
         public IActionResult TransactionDelete(string transactionUuid)
         {
             var id = Guid.Parse(transactionUuid);
-            var transaction = CatsoftContext.TransactionModels
+            var transaction = DbContext.TransactionModels
                 .Include(w => w.AccountFromModel)
                 .Include(w => w.AccountToModel)
                 .Include(w => w.TemplateTransaction)
@@ -121,8 +122,8 @@ namespace App.Controllers
             if (transaction != null) 
             {
                 transaction.IsDeleted = true;
-                CatsoftContext.Update(transaction);
-                CatsoftContext.SaveChanges();
+                DbContext.Update(transaction);
+                DbContext.SaveChanges();
             }
             return RedirectToAction("TransactionList");
         }
@@ -163,15 +164,15 @@ namespace App.Controllers
         [HttpPost]
         public IActionResult TransactionEditCreate(TransactionModel transactionModel)
         {
-            CatsoftContext.Update(transactionModel);
-            CatsoftContext.SaveChanges();
+            DbContext.Update(transactionModel);
+            DbContext.SaveChanges();
 
             return RedirectToAction("TransactionList");
         }
 
-        public IActionResult TransactionGetAllBills()
+        public async Task<IActionResult> TransactionGetAllBills()
         {
-            var transactions = GetTransactionByFilter();
+            var transactions = await GetTransactionByFilter();
             
             var files = transactions.SelectMany(w => w.GetBillLinks()).ToList();
             var zipFile = _zipHandler.GenerateZip(files);
@@ -199,25 +200,25 @@ namespace App.Controllers
         [HttpPost]
         public IActionResult CreateTemplate(TransactionModel transactionModel)
         {
-            CatsoftContext.Add(transactionModel);
-            CatsoftContext.SaveChanges();
+            DbContext.Add(transactionModel);
+            DbContext.SaveChanges();
             return RedirectToAction("TransactionList");
         }
         
 
-        private List<TransactionViewModel> GetTransactionByFilter()
+        private async Task<List<TransactionViewModel>> GetTransactionByFilter()
         {
             var filter = GetFilter();
             var transactionQuery = GetTransactions();
 
-            return FilterTransactions(transactionQuery, filter)
+            return await FilterTransactions(transactionQuery, filter)
                 .Select(w => new TransactionViewModel
                 {
                     TransactionModel = w,
                     AccountFromViewModel = new AccountViewModel(w.AccountFromModel),
                     AccountToViewModel = new AccountViewModel(w.AccountToModel)
                 })
-                .ToList();   
+                .ToListAsync();   
         }
 
         private AccountingFilterViewModel GetFilter()
@@ -233,11 +234,11 @@ namespace App.Controllers
             return filter;
         }
         
-        private List<KeyValueViewModel> GetAccountSelector() => CatsoftContext.AccountModels
+        private List<KeyValueViewModel> GetAccountSelector() => DbContext.AccountModels
                 .Select(w => new KeyValueViewModel(w.Name, w.Id.ToString()))
                 .ToList();
 
-        private List<KeyValueViewModel> GetTemplatesSelector() => CatsoftContext.TransactionModels
+        private List<KeyValueViewModel> GetTemplatesSelector() => DbContext.TransactionModels
             .Where(w => w.IsTemplate && w.IsRecurring)
             .Include(w => w.AccountFromModel)
             .Include(w => w.AccountToModel)

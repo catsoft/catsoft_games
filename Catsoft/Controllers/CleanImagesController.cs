@@ -20,10 +20,10 @@ namespace App.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CleanImagesController(CatsoftContext catsoftContext, IWebHostEnvironment webHostEnvironment)
+        public CleanImagesController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
         
         // выключил на случай если нечайно ебну

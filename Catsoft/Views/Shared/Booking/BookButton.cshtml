@@ -6,7 +6,7 @@
 
 @{
     Layout = null;
-    var bookText = await TextResourceRepository.GetByTag(Context, "Book and enjoy now");
+    var bookText = await TextResourceRepository.GetByTagAsync(Context, "Book and enjoy now");
 }
 @if (Options.IsBookingEnabled)
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using App.Models;
 using App.ViewModels.Blog;
 using Microsoft.AspNetCore.Mvc;
@@ -9,40 +10,40 @@ namespace App.Controllers
 {
     public class BlogController : CommonController
     {
-        public BlogController(CatsoftContext catsoftContext)
+        public BlogController(CatsoftContext dbContext)
         {
-            CatsoftContext = catsoftContext;
+            DbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var home = new BlogPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Blog),
-                FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.BlogPageModels.FirstOrDefault(),
-                ArticleModels = CatsoftContext.ArticleModels
+                HeaderViewModel = await GetHeaderViewModel(Menu.Blog),
+                FooterViewModel = await GetFooterViewModel(),
+                Page = DbContext.BlogPageModels.FirstOrDefault(),
+                ArticleModels = await DbContext.ArticleModels
                     .Include(w => w.ImageModel)
-                    .ToList()
+                    .ToListAsync()
             };
 
             return View(home);
         }
 
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var sortedComments = CatsoftContext.CommentModels
+            var sortedComments = DbContext.CommentModels
                 .Where(w => w.ArticleModelId == id)
                 .OrderBy(w => w.DateCreated)
                 .ToList();
 
             var home = new ArticleViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Blog),
-                FooterViewModel = GetFooterViewModel(),
-                Page = CatsoftContext.ArticleModels
+                HeaderViewModel = await GetHeaderViewModel(Menu.Blog),
+                FooterViewModel = await GetFooterViewModel(),
+                Page = await DbContext.ArticleModels
                     .Include(w => w.ImageModel)
-                    .First(w => w.Id == id)
+                    .FirstAsync(w => w.Id == id)
             };
 
             home.Page.CommentModels = sortedComments;

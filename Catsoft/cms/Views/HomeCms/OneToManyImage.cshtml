@@ -20,7 +20,7 @@
     }
 </div>
 
-<input type="file" title="@await TextResourceRepository.GetByTag(Context, "Choose image")" class="btn btn-primary" accept="image/*" id="@(uploaderId)" multiple="multiple"/>
+<input type="file" title="@await TextResourceRepository.GetByTagAsync(Context, "Choose image")" class="btn btn-primary" accept="image/*" id="@(uploaderId)" multiple="multiple"/>
 <input type="submit" value="Загрузить" class="btn btn-primary" onclick="uploadOneToManyImageModel('@Model.LinkPropertyName')"/>
 
 <script>

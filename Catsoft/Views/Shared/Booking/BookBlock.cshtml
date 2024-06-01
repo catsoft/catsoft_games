@@ -10,19 +10,16 @@
 
 @{
     Layout = null;
-
+    
     var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date).OrderBy(w => w.Key).ToList();
 
-    var language = CookieHelper.GetLanguage(Context);
-    var ci = new CultureInfo(language.GetCulturalCode());
-    var places = " " + await TextResourceRepository.GetByTag(Context, "places");
+    var places = " " + await TextResourceRepository.GetByTagAsync(Context, "places");
 
     var selection = CookieHelper.GetBookingSelection(Context);
 }
 @if (Options.IsBookingEnabled)
 {
     @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
-
     
     <div class="container-fluid text-center">
         <div class="container py-5" id="order">

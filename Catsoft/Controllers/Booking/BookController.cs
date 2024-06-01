@@ -7,9 +7,9 @@ namespace App.Controllers.Booking
 {
     public class BookController : CommonController
     {
-        public BookController(CatsoftContext catsoftContext)
+        public BookController(CatsoftContext dbContext)
         {
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
 
         public IActionResult Index()

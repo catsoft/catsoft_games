@@ -26,7 +26,7 @@
 
     var modelId = ((IEntity)Model)?.Id;
 
-    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTag(Context, "Edit") + " " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTagAsync(Context, "Edit") + " " + cmsSection.Title;
 
     var other = properties.Where(w => w.PropertyType != TypesOptions.File && w.PropertyType != TypesOptions.Image && w.PropertyType != TypesOptions.ListImage).ToList();
 
@@ -44,7 +44,7 @@
                 @if (!isSingleObject)
                 {
                     <h4>
-                        <a asp-action="GetList" asp-route-type="@(nameType)">@await TextResourceRepository.GetByTag(Context, "Return to the list")</a>
+                        <a asp-action="GetList" asp-route-type="@(nameType)">@await TextResourceRepository.GetByTagAsync(Context, "Return to the list")</a>
                     </h4>
                 }
             </div>
@@ -73,7 +73,7 @@
 
                 <div class="col-md-12">
                     <div class="form-group col-md-4 offset-md-2" style="margin-top: 60px; margin-bottom: 50px;">
-                        <input type="submit" value="@await TextResourceRepository.GetByTag(Context, "Save changes")" class="btn btn-primary"/>
+                        <input type="submit" value="@await TextResourceRepository.GetByTagAsync(Context, "Save changes")" class="btn btn-primary"/>
                     </div>
                 </div>
                 <div style="display: none" id="filesHiddenInputs"></div>
@@ -139,7 +139,7 @@
                     </div>
                 }
                 <div class="form-group col-md-4 offset-md-5" style="margin-top: 60px; margin-bottom: 50px;">
-                    <input type="submit" value="@await TextResourceRepository.GetByTag(Context, "Save changes")" class="btn btn-primary"/>
+                    <input type="submit" value="@await TextResourceRepository.GetByTagAsync(Context, "Save changes")" class="btn btn-primary"/>
                 </div>
             </form>
         </div>

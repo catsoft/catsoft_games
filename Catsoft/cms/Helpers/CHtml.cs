@@ -7,14 +7,14 @@ namespace App.cms.Helpers
 {
     public static class CHtml
     {
-        public static Task<IHtmlContent> RenderText(this IHtmlHelper helper, string tag, bool translate = true)
+        public static async Task<IHtmlContent> RenderText(this IHtmlHelper helper, string tag, bool translate = true)
         {
             var viewModel = new TranslateViewModel()
             {
                 Tag = tag,
                 Translate = translate
             };
-            return helper.PartialAsync("/cms/Views/Shared/Text.cshtml", viewModel, null);
+            return await helper.PartialAsync("/cms/Views/Shared/Text.cshtml", viewModel, null);
         }
     }
 }

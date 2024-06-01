@@ -6,7 +6,7 @@
 }
 @if (Model.Translate)
 {
-    @((await Repository.GetByTag(Context, Model.Tag)).Trim());
+    @((await Repository.GetByTagAsync(Context, Model.Tag)).Trim());
 }
 else
 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using App.cms.Models;
 using App.Models;
 using App.ViewModels.About;
@@ -20,37 +21,42 @@ namespace App.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(CatsoftContext catsoftContext, IWebHostEnvironment webHostEnvironment)
+        public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var contactPage = await DbContext.ContactsPageModels.FirstOrDefaultAsync();
+            var contacts = await DbContext.ContactsModels.ToListAsync();
+            var mainPage = await DbContext.MainPageModels
+                .Include(w => w.Images)
+                .FirstOrDefaultAsync();
+            var aboutModel = await DbContext.AboutPageModels.FirstOrDefaultAsync();
+            var serviceModel = await DbContext.ServicesPageModels.FirstOrDefaultAsync();
+            
             var home = new HomePageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Home),
-                FooterViewModel = GetFooterViewModel(),
-                ContactsPageViewModel = new ContactsPageViewModel(CatsoftContext.ContactsPageModels
-                    .FirstOrDefault(), CatsoftContext.ContactsModels.ToList()),
-                Page = CatsoftContext.MainPageModels
-                    .Include(w => w.Images)
-                    .FirstOrDefault(),
-                AboutPageViewModel = new AboutPageViewModel(CatsoftContext.AboutPageModels.FirstOrDefault()),
-                ServicesPageViewModel = new ServicesPageViewModel(CatsoftContext.ServicesPageModels.FirstOrDefault())
+                HeaderViewModel = await GetHeaderViewModel(Menu.Home),
+                FooterViewModel = await GetFooterViewModel(),
+                ContactsPageViewModel = new ContactsPageViewModel(contactPage, contacts),
+                Page = mainPage,
+                AboutPageViewModel = new AboutPageViewModel(aboutModel),
+                ServicesPageViewModel = new ServicesPageViewModel(serviceModel)
             };
 
-            var services = CatsoftContext.ServiceModels
+            var services = DbContext.ServiceModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
                 .Take(home.Page?.ServicesCount ?? 0)
                 .ToList();
 
-            var games = CatsoftContext.GameModels
+            var games = await DbContext.GameModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
-                .ToList();
+                .ToListAsync();
 
             home.ServicesPageViewModel.ServiceModels = services;
 

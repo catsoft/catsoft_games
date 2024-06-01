@@ -557,7 +557,7 @@ namespace App.cms.Controllers
                 (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
             {
                 var message =
-                   await _textResourceRepository.GetByTag(HttpContext, "You don\'t have rights to manage this object");
+                   await _textResourceRepository.GetByTagAsync(HttpContext, "You don\'t have rights to manage this object");
                 throw new Exception(message);
             }
         }

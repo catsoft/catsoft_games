@@ -19,7 +19,7 @@
         Value = w.Id.ToString(),
         Selected = ids.Contains(w.Id)
     }).ToList();
-    selectList.Insert(0, new SelectListItem { Value = "", Text = await TextResourceRepository.GetByTag(Context, "Not selected") });
+    selectList.Insert(0, new SelectListItem { Value = "", Text = await TextResourceRepository.GetByTagAsync(Context, "Not selected") });
 }
 
 @Html.DropDownList(dataFor, selectList, new { @class = "form-control", multiple = "true" })

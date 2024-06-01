@@ -4,32 +4,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
+using App.Models.Booking;
 using App.ViewModels.Booking;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Options = App.cms.Options.Options;
 
 namespace App.Controllers.Booking
 {
     public class BookingController : CommonController
     {
-        public BookingController(CatsoftContext catsoftContext)
+        public BookingController(CatsoftContext dbContext)
         {
-            CatsoftContext = catsoftContext;
+            base.DbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (!Options.IsBookingEnabled)
             {
                 return RedirectToAction("Index", "Home");
             }
 
+            var startDate = DateOnly.FromDateTime(DateTime.Now);
+            var endDate = DateOnly.FromDateTime((DateTime.Now + Options.BookingAvailableRange));
+
+            var times = await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+                .Where(w => w.Date >= startDate && w.Date <= endDate)
+                .ToListAsync();
+            
             var model = new BookingPageViewModel
             {
-                HeaderViewModel = GetHeaderViewModel(Menu.Booking),
-                FooterViewModel = GetFooterViewModel(),
-                AvailableAppointTimes = GetAvailableAppointTimes(),
-                RentPlaces = CatsoftContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToList(),
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                AvailableAppointTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
+                RentPlaces = await DbContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToListAsync(),
             };
 
             return View(model);
@@ -63,12 +72,6 @@ namespace App.Controllers.Booking
         {
             //todo
             return RedirectToAction("Index");
-        }
-        
-        
-        private List<AppointTimeDto> GetAvailableAppointTimes()
-        {
-            return CatsoftContext.AppointTimes.Where(w => !w.Booked && !w.Blocked).Select(w => new AppointTimeDto(w)).ToList();
         }
     }
 }

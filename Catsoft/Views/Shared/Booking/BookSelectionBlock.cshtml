@@ -28,7 +28,7 @@
 
     var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
 
-    var totalSum = " " + await TextResourceRepository.GetByTag(Context, "total sum: " + Options.Currency + sum);
+    var totalSum = " " + await TextResourceRepository.GetByTagAsync(Context, "total sum: " + Options.Currency + sum);
 }
 @if (Options.IsBookingEnabled)
 {
@@ -43,7 +43,7 @@
             <div class="row text-center">
                 <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
                 <div class="col-2 offset-1">
-                    <select class="form-select" aria-label="@TextResourceRepository.GetByTag(Context, "Select stations count")" onchange="changeSelection(this)">
+                    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Context, "Select stations count")" onchange="changeSelection(this)">
                         @foreach (var i in options)
                         {
                             <option @(i == selection.PeopleCount ? "selected" : "") value="@i">@i</option>
