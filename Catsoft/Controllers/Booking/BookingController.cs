@@ -29,8 +29,36 @@ namespace App.Controllers.Booking
             _bookingHistoryCookieRepository = bookingHistoryCookieRepository;
             DbContext = dbContext;
         }
-        
-        
+
+
+        #region Success
+
+        public async Task<IActionResult> BookingSuccess()
+        {
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var bookingHistory = _bookingHistoryCookieRepository.GetValue();
+            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
+            var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
+            var personBooking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == lastBookingId);
+
+            var model = new BookingSuccessViewModel
+            {
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                PersonBooking = new PersonBookingDto(personBooking),
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
+            };
+
+            return View(model);
+        }
+
+        #endregion
+
+
         #region Booking selection
 
         public async Task<IActionResult> Index()
@@ -148,7 +176,7 @@ namespace App.Controllers.Booking
         #region Confirmation
 
         [HttpGet]
-        public async Task<IActionResult> BookingConfirmation(string uuid)
+        public async Task<IActionResult> BookingConfirmation()
         {
             if (!Options.IsBookingEnabled)
             {
@@ -156,13 +184,8 @@ namespace App.Controllers.Booking
             }
 
             var selection = _bookingSelectionCookieRepository.GetValue();
-            var bookingId = Guid.Parse(selection.BookingId);
-            var booking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == bookingId);
-            booking.Booked = true;
-            DbContext.PersonBookings.Update(booking);
-
-            var times = await GetSelectedTimes();
-
+            var bookingId = selection.GetBookingGuid();
+            var times = await GetBookingTimes(bookingId);
 
             var model = new BookingConfirmationViewModel
             {
@@ -171,55 +194,44 @@ namespace App.Controllers.Booking
                 SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
             };
 
-            _bookingSelectionCookieRepository.Clear();
-
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> BookingConfirmation()
+        public async Task<IActionResult> BookingConfirmation(string uuid)
         {
             if (!Options.IsBookingEnabled)
             {
                 return RedirectToAction("Index", "Home");
             }
 
+            var bookingId = Guid.Parse(uuid);
+            var booking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == bookingId);
+            booking.Booked = true;
+            DbContext.PersonBookings.Update(booking);
+
+            var times = await GetBookingTimes(bookingId);
+            foreach (var time in times)
+            {
+                time.Booked = true;
+                DbContext.AppointTimes.Update(time);
+            }
+
+            await DbContext.SaveChangesAsync();
+
+            // last price for booking
+
+            var history = _bookingHistoryCookieRepository.GetValue();
+            history.BookingId.Add(uuid);
+            _bookingHistoryCookieRepository.SaveValue(history);
+
+            _bookingSelectionCookieRepository.Clear();
 
             return RedirectToAction("BookingSuccess");
         }
 
         #endregion
 
-        
-        
-        #region Success
-
-        public async Task<IActionResult> BookingSuccess()
-        {
-            if (!Options.IsBookingEnabled)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var bookingHistory = _bookingHistoryCookieRepository.GetValue();
-            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
-            var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
-            var personBooking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == lastBookingId);
-
-            var model = new BookingSuccessViewModel
-            {
-                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
-                FooterViewModel = await GetFooterViewModel(),
-                PersonBooking = new PersonBookingDto(personBooking),
-                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
-            };
-
-            return View(model);
-        }
-
-        #endregion
-
-        
 
         #region Selection validation
 
@@ -234,6 +246,13 @@ namespace App.Controllers.Booking
             var selection = _bookingSelectionCookieRepository.GetValue();
             return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
                 .Where(w => selection.SelectedAppointTimeIds.Contains(w.Id))
+                .ToListAsync();
+        }
+
+        private async Task<List<AppointTimeModel>> GetBookingTimes(Guid bookingId)
+        {
+            return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+                .Where(w => w.PersonBookingId == bookingId)
                 .ToListAsync();
         }
 

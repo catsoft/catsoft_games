@@ -58,7 +58,7 @@
                 await Html.RenderPartialAsync("Shared/Booking/SelectedTimes", Model.AvailableAppointTimes);
             }
 
-            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
+            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="get" enctype="multipart/form-data">
                 <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
                     @await Html.RenderText("Reserve now")
                 </button>

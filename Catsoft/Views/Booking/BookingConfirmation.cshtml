@@ -39,6 +39,7 @@
         }
 
         <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
+            <input name="uuid" value="@selection.BookingId" type="hidden"/>
             <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
                 @await Html.RenderText("Reserve now")
             </button>
