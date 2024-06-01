@@ -1,21 +1,47 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using App.cms.Options
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
 @using App.Models
-@using App.ViewModels.Book
-@using App.ViewModels.PreOrder
-@model App.ViewModels.Booking.BookingPageViewModel
+@using Options = App.cms.Options.Options
+@model App.ViewModels.Booking.PersonDetailsViewModel
+@inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
+
 
 @{
     Layout = "_Layout";
-}
 
-@if (!Options.IsBookingEnabled)
-{
-    @await Html.PartialAsync("SoonBookBlock", new BookDto())
+    var selection = bookingSelectionCookieRepository.GetValue();
 
-    @await Html.PartialAsync("PreOrder", new PreOrderDto())
+    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
+
+    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
 }
-else
-{
-    @await Html.PartialAsync("Booking/BookBlock", Model)
-}
+    <div class="container-fluid text-center bg-info text-white">
+        <div class="container py-5" id="booking_selected">
+            <div class="row pb-2">
+                <p>
+                    <span class="fw-bold fs-3 text-center">@await Html.RenderText("Selected times")</span>
+                </p>
+            </div>
+
+            <div class="row text-center">
+                <span class="fs-3 col-2 text-center">@(await Html.RenderText("Person count") + ":" + selection.PeopleCount)</span>
+                <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
+                    @totalSum
+                </div>
+            </div>
+
+            @{
+                await Html.RenderPartialAsync("Shared/Booking/SelectedTimes", Model.SelectedTimes);
+            }
+
+            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
+                <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
+                    @await Html.RenderText("Reserve now")
+                </button>
+            </form>
+        </div>
+    </div>

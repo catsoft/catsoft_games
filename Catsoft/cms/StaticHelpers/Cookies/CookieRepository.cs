@@ -32,6 +32,12 @@ namespace App.cms.StaticHelpers.Cookies
             }
         }
         
+        public void Clear()
+        {
+            context.Response.Cookies.Delete(Key);
+            context.Items.Remove(Key);
+        }
+        
         private void SaveJsonValue(string key, string value)
         {
             context.Response.Cookies.Append(key, value);

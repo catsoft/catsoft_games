@@ -2,8 +2,8 @@
 
 namespace App.ViewModels.Booking
 {
-    public class PersonBookingDto
+    public class PersonBookingDto(PersonBookingModel personBooking)
     {
-        public PersonBookingModel PersonBooking { get; set; }
+        public PersonBookingModel PersonBooking { get; set; } = personBooking;
     }
 }

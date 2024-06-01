@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using App.cms.Models;
 using App.cms.StaticHelpers.Cookies.models;
+using App.Models.Booking;
 using App.ViewModels.Accounting;
 using Microsoft.AspNetCore.Http;
 
@@ -14,6 +15,8 @@ namespace App.cms.StaticHelpers.Cookies
     public interface IBookingSelectionCookieRepository : ICookieRepository<BookingSelectionCookieDto> { }
     
     public interface IPersonDetailsCookieRepository : ICookieRepository<PersonDetailsCookieDto> { }
+    
+    public interface IBookingHistoryCookieRepository : ICookieRepository<BookingHistoryCookieDto> { }
     
     public interface IAccountingFilterCookieRepository : ICookieRepository<AccountingFilterViewModel> { }
     
@@ -41,11 +44,18 @@ namespace App.cms.StaticHelpers.Cookies
         public override BookingSelectionCookieDto DefaultValue { get; } = new(new HashSet<Guid>(), 2);
     }
     
+    public class BookingHistoryCookieRepository(IHttpContextAccessor  context) : CookieRepository<BookingHistoryCookieDto>(context), IBookingHistoryCookieRepository
+    {
+        public override string Key { get; } = "BookingHistory";
+        
+        public override BookingHistoryCookieDto DefaultValue { get; } = new();
+    }
+    
     public class PersonDetailsCookieRepository(IHttpContextAccessor  context) : CookieRepository<PersonDetailsCookieDto>(context), IPersonDetailsCookieRepository
     {
         public override string Key { get; } = "BookingDetails";
 
-        public override PersonDetailsCookieDto DefaultValue { get; } = new();
+        public override PersonDetailsCookieDto DefaultValue { get; } = new(new PersonModel());
     }
     
     public class AccountingFilterCookieRepository(IHttpContextAccessor  context) : CookieRepository<AccountingFilterViewModel>(context), IAccountingFilterCookieRepository

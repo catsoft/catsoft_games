@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.cms.StaticHelpers.Cookies;
+using App.cms.StaticHelpers.Cookies.models;
 using App.Models;
 using App.Models.Booking;
 using App.ViewModels.Booking;
@@ -14,16 +15,24 @@ namespace App.Controllers.Booking
 {
     public class BookingController : CommonController
     {
+        private readonly IBookingHistoryCookieRepository _bookingHistoryCookieRepository;
         private readonly IBookingSelectionCookieRepository _bookingSelectionCookieRepository;
+        private readonly IPersonDetailsCookieRepository _personDetailsCookieRepository;
 
         public BookingController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository,
-            IBookingSelectionCookieRepository bookingSelectionCookieRepository) : base(languageCookieRepository)
+            IBookingSelectionCookieRepository bookingSelectionCookieRepository,
+            IPersonDetailsCookieRepository personDetailsCookieRepository,
+            IBookingHistoryCookieRepository bookingHistoryCookieRepository) : base(languageCookieRepository)
         {
             _bookingSelectionCookieRepository = bookingSelectionCookieRepository;
-            base.DbContext = dbContext;
+            _personDetailsCookieRepository = personDetailsCookieRepository;
+            _bookingHistoryCookieRepository = bookingHistoryCookieRepository;
+            DbContext = dbContext;
         }
-
+        
+        
         #region Booking selection
+
         public async Task<IActionResult> Index()
         {
             if (!Options.IsBookingEnabled)
@@ -32,18 +41,18 @@ namespace App.Controllers.Booking
             }
 
             var startDate = DateOnly.FromDateTime(DateTime.Now);
-            var endDate = DateOnly.FromDateTime((DateTime.Now + Options.BookingAvailableRange));
+            var endDate = DateOnly.FromDateTime(DateTime.Now + Options.BookingAvailableRange);
 
             var times = await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
                 .Where(w => w.Date >= startDate && w.Date <= endDate)
                 .ToListAsync();
-            
+
             var model = new BookingPageViewModel
             {
                 HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = await GetFooterViewModel(),
                 AvailableAppointTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
-                RentPlaces = await DbContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToListAsync(),
+                RentPlaces = await DbContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToListAsync()
             };
 
             return View(model);
@@ -57,7 +66,7 @@ namespace App.Controllers.Booking
             {
                 selection.SelectedAppointTimeIds.Remove(uuid);
             }
-            
+
             _bookingSelectionCookieRepository.SaveValue(selection);
 
             return await ValidateSelection();
@@ -67,21 +76,18 @@ namespace App.Controllers.Booking
         public async Task<IActionResult> SetPersonCount(int personCount)
         {
             var selection = _bookingSelectionCookieRepository.GetValue();
-            selection.PeopleCount = personCount;           
+            selection.PeopleCount = personCount;
             _bookingSelectionCookieRepository.SaveValue(selection);
 
             return await ValidateSelection();
         }
 
-        private async Task<IActionResult> ValidateSelection()
-        {
-            //todo
-            return RedirectToAction("Index");
-        }
         #endregion
 
 
         #region ContactData
+
+        [HttpGet]
         public async Task<IActionResult> EnterPersonDetails()
         {
             if (!Options.IsBookingEnabled)
@@ -89,23 +95,148 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
 
-            var startDate = DateOnly.FromDateTime(DateTime.Now);
-            var endDate = DateOnly.FromDateTime((DateTime.Now + Options.BookingAvailableRange));
+            var times = await GetSelectedTimes();
 
-            var times = await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
-                .Where(w => w.Date >= startDate && w.Date <= endDate)
-                .ToListAsync();
-            
-            var model = new BookingPageViewModel
+            var model = new PersonDetailsViewModel
             {
                 HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = await GetFooterViewModel(),
-                AvailableAppointTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
-                RentPlaces = await DbContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToListAsync(),
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
             };
 
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EnterPersonDetails(PersonModel model)
+        {
+            DbContext.PersonModels.Add(model);
+            await DbContext.SaveChangesAsync();
+
+            _personDetailsCookieRepository.SaveValue(new PersonDetailsCookieDto(model));
+
+            var selection = _bookingSelectionCookieRepository.GetValue();
+
+            var booking = new PersonBookingModel
+            {
+                PersonModelId = model.Id,
+                Paid = false,
+                Booked = false,
+                Instant = false
+            };
+            DbContext.PersonBookings.Add(booking);
+            await DbContext.SaveChangesAsync();
+
+            selection.BookingId = booking.Id.ToString();
+
+            var selectedTimes = GetSelectedTimes();
+            foreach (var appointTimeModel in selectedTimes.Result)
+            {
+                appointTimeModel.PersonBookingId = booking.Id;
+                appointTimeModel.Blocked = true;
+                DbContext.AppointTimes.Update(appointTimeModel);
+            }
+
+            await DbContext.SaveChangesAsync();
+
+            return RedirectToAction("BookingConfirmation");
+        }
+
+        #endregion
+
+
+        #region Confirmation
+
+        [HttpGet]
+        public async Task<IActionResult> BookingConfirmation(string uuid)
+        {
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var selection = _bookingSelectionCookieRepository.GetValue();
+            var bookingId = Guid.Parse(selection.BookingId);
+            var booking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == bookingId);
+            booking.Booked = true;
+            DbContext.PersonBookings.Update(booking);
+
+            var times = await GetSelectedTimes();
+
+
+            var model = new BookingConfirmationViewModel
+            {
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
+            };
+
+            _bookingSelectionCookieRepository.Clear();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BookingConfirmation()
+        {
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+            return RedirectToAction("BookingSuccess");
+        }
+
+        #endregion
+
+        
+        
+        #region Success
+
+        public async Task<IActionResult> BookingSuccess()
+        {
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var bookingHistory = _bookingHistoryCookieRepository.GetValue();
+            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
+            var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
+            var personBooking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == lastBookingId);
+
+            var model = new BookingSuccessViewModel
+            {
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                PersonBooking = new PersonBookingDto(personBooking),
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
+            };
+
+            return View(model);
+        }
+
+        #endregion
+
+        
+
+        #region Selection validation
+
+        private async Task<IActionResult> ValidateSelection()
+        {
+            //todo
+            return RedirectToAction("Index");
+        }
+
+        private async Task<List<AppointTimeModel>> GetSelectedTimes()
+        {
+            var selection = _bookingSelectionCookieRepository.GetValue();
+            return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+                .Where(w => selection.SelectedAppointTimeIds.Contains(w.Id))
+                .ToListAsync();
+        }
+
         #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace App.Controllers
             DbContext.TextResourceValuesModels.Update(valueObj);
             await DbContext.SaveChangesAsync();
 
-            return Ok();
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> ToggleEdit()
@@ -38,7 +38,7 @@ namespace App.Controllers
             value.IsEdit = !value.IsEdit;
             _cmsTextResourcesCookieRepository.SaveValue(value);
 
-            return Ok();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

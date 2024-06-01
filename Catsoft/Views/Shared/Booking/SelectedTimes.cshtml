@@ -1,0 +1,43 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
+@using App.Models
+@model List<App.ViewModels.Booking.AppointTimeDto>
+@inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
+@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    Layout = null;
+
+    var selection = bookingSelectionCookieRepository.GetValue();
+
+    var selectedTimes = Model
+        .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
+        .OrderBy(w => w.AppointTime.Date)
+        .ThenBy(w => w.AppointTime.TimeStart)
+        .ToList();
+}
+
+<div class="row flex-row justify-content-center">
+    @foreach (var time in selectedTimes)
+    {
+        var isSelected = true;
+        var color = isSelected ? "bg-primary" : "bg-dark";
+
+        <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id">
+            <p>
+                <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(LanguageCookieRepository))</span>
+                <br/>
+                <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
+                <br/>
+                <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeEnd</span>
+                <br/>
+                <span class="fs-6 text-center">@(time.AppointTime.FormattedPrice())</span>
+            </p>
+        </div>
+    }
+</div>

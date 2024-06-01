@@ -1,18 +1,13 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using System.Globalization
 @using App.cms.Helpers
-@using App.cms.Models
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
-@using Microsoft.AspNetCore.Http
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
-@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
 
 @{
     Layout = null;
@@ -31,8 +26,6 @@
     var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
 
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
-
-    var continueText = await TextResourceRepository.GetByTagAsync("Book");
 }
 @if (Options.IsBookingEnabled)
 {
@@ -50,7 +43,8 @@
                     <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync("Select stations count")" onchange="changeSelection(this)">
                         @foreach (var i in options)
                         {
-                            <option @(i == selection.PeopleCount ? "selected" : "") value="@i">@i</option>
+                            var selected = i == selection.PeopleCount ? "selected" : "";
+                            <option value="@i" selected="@selected">@i</option>
                         }
                     </select>
                 </div>
@@ -60,28 +54,14 @@
                 </div>
             </div>
 
-            <div class="row">
-                @foreach (var time in selectedTimes)
-                {
-                    var isSelected = true;
-                    var color = isSelected ? "bg-primary" : "bg-dark";
-
-                    <div class="col rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id">
-                        <p>
-                            <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(LanguageCookieRepository))</span>
-                            <br/>
-                            <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
-                            <br/>
-                            <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeEnd</span>
-                            <br/>
-                            <span class="fs-6 text-center">@(time.AppointTime.FormattedPrice())</span>
-                        </p>
-                    </div>
-                }
-            </div>
+            @{
+                await Html.RenderPartialAsync("Shared/Booking/SelectedTimes", Model.AvailableAppointTimes);
+            }
 
             <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
-                <input type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" value="@continueText" style="min-width: 350px;"/>
+                <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
+                    @await Html.RenderText("Reserve now")
+                </button>
             </form>
         </div>
     </div>

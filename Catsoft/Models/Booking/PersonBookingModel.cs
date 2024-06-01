@@ -14,6 +14,9 @@ namespace App.Models.Booking
 
         [Show(false, false)] public List<AppointTimeModel> AppointTimeModels { get; set; }
         
+        public int PeopleCount { get; set; }
+        
+        public double FinalPrice { get; set; }
         
         public bool Paid { get; set; }
         

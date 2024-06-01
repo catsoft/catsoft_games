@@ -7,5 +7,7 @@
         void SaveValue(T value);
         
         T GetValue();
+
+        void Clear();
     }
 }
