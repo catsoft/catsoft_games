@@ -12,6 +12,11 @@ namespace App.cms.Repositories.TextResource
     {
         public async Task<string> GetByTagAsync(string tag)
         {
+            return (await GetValueAsync(tag)).Value;
+        }
+
+        public async Task<TextResourceValueModel> GetValueAsync(string tag)
+        {
             var currentLanguage = languageCookieRepository.GetValue().Language;
 
             var model = await context.TextResourceModels.Include(w => w.Values)
@@ -28,7 +33,7 @@ namespace App.cms.Repositories.TextResource
 
             var localized = model.Values?.FirstOrDefault(w => w.Language == currentLanguage);
 
-            if (localized == null && currentLanguage == TextLanguage.English)
+            if (localized == null)
             {
                 localized = new TextResourceValueModel
                 {
@@ -41,7 +46,7 @@ namespace App.cms.Repositories.TextResource
                 await CatsoftContext.SaveChangesAsync();
             }
 
-            return localized?.Value ?? tag;
+            return localized;
         }
     }
 }

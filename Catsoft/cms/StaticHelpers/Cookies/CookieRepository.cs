@@ -23,7 +23,7 @@ namespace App.cms.StaticHelpers.Cookies
             try
             {
                 var value = GetJsonValue(Key);
-                return JsonConvert.DeserializeObject<T>(value ?? "");
+                return JsonConvert.DeserializeObject<T>(value ?? "") ?? DefaultValue;
             }
             catch (Exception e)
             {

@@ -15,7 +15,7 @@ namespace App.Controllers
         {
             base.OnActionExecuting(filterContext);
 
-            var routes = filterContext.HttpContext.Request.Query ?? new QueryCollection();
+            var routes = filterContext.HttpContext.Request.Query;
 
             var language = routes["language"].ToString();
             if (language.IsNullOrEmpty())

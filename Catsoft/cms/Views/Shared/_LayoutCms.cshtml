@@ -5,14 +5,14 @@
 @using App.Models
 @using App.ViewModels.Common
 @inject ICmsCmsModelRepository ModelRepository
-@inject CatsoftContext Context
+@inject CatsoftContext DbContext
 
 @{
     var userName = User.Claims.FirstOrDefault()?.Subject?.Name;
 
     var claims = ClaimsPrincipal.Current?.Identities.First().Claims.ToList();
 
-    var user = Context.AdminModels.FirstOrDefault(w => w.Login == userName);
+    var user = DbContext.AdminModels.FirstOrDefault(w => w.Login == userName);
 
     var role = user?.Role ?? AdminRoles.None;
 
@@ -74,6 +74,12 @@
             <li class="nav-item p-2">
                 <a href="/" class="nav-link">
                     <span style="color: blue">@await Html.RenderText("To main")</span>
+                </a>
+            </li>
+
+            <li class="nav-item p-2">
+                <a asp-controller="Accounting" asp-action="TransactionList" class="nav-link">
+                    <span style="color: blue">@await Html.RenderText("To accounting")</span>
                 </a>
             </li>
         </ul>

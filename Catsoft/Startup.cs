@@ -62,6 +62,7 @@ namespace App
             services.AddScoped<IBookingSelectionCookieRepository, BookingSelectionCookieRepository>();
             services.AddScoped<IPersonDetailsCookieRepository, PersonDetailsCookieRepository>();
             services.AddScoped<IAccountingFilterCookieRepository, AccountingFilterCookieRepository>();
+            services.AddScoped<ICmsTextResourcesCookieRepository, CmsTextResourcesCookieRepository>();
 
             services.AddHttpContextAccessor();
             

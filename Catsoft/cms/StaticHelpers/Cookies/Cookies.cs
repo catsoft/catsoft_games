@@ -17,6 +17,8 @@ namespace App.cms.StaticHelpers.Cookies
     
     public interface IAccountingFilterCookieRepository : ICookieRepository<AccountingFilterViewModel> { }
     
+    public interface ICmsTextResourcesCookieRepository : ICookieRepository<CmsTextResourceCookieDto> { }
+    
     
     public class FilterCookieRepository(IHttpContextAccessor  context) : CookieRepository<CmsFilterCookieDto>(context), IFilterCookieRepository
     {
@@ -51,5 +53,12 @@ namespace App.cms.StaticHelpers.Cookies
         public override string Key { get; } = "AccountingFilter";
         
         public override AccountingFilterViewModel DefaultValue { get; } = new();
+    }
+    
+    public class CmsTextResourcesCookieRepository(IHttpContextAccessor  context) : CookieRepository<CmsTextResourceCookieDto>(context), ICmsTextResourcesCookieRepository
+    {
+        public override string Key { get; } = "CmsTextResources";
+        
+        public override CmsTextResourceCookieDto DefaultValue { get; } = new(false);
     }
 }

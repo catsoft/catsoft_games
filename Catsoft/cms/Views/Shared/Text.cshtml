@@ -1,14 +1,30 @@
 ﻿@inject TextResourceRepository Repository
 @using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
 @model TranslateViewModel
+@inject ICmsTextResourcesCookieRepository textResourceRepository
 @{
     Layout = null;
+    var isEdit = textResourceRepository.GetValue().IsEdit;
 }
 @if (Model.Translate)
 {
-    @((await Repository.GetByTagAsync(Model.Tag)).Trim());
+    if (isEdit)
+    {
+        var valueObj = await Repository.GetValueAsync(Model.Tag);
+
+        <form asp-action="Update" asp-controller="TextResource">
+            <input type="hidden" id="uuid" value="@valueObj.Id.ToString()"/>
+            <input type="text" class="form-control" value="@valueObj.Value"/>
+            <input type="submit" value="@await Repository.GetByTagAsync("Save")" class="btn btn-primary"/>
+        </form>
+    }
+    else
+    {
+        @((await Repository.GetByTagAsync(Model.Tag)).Trim())
+    }
 }
 else
 {
-    @Model.Tag.Trim();
-} 
+    @Model.Tag.Trim()
+}

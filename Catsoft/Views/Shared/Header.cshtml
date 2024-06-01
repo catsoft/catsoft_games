@@ -1,10 +1,12 @@
 ﻿@using App.cms.Helpers
 @using App.cms.Models
 @using App.cms.Options
+@using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @model App.ViewModels.Common.HeaderViewModel
 @inject ILanguageCookieRepository LanguageCookieRepository
+@inject TextResourceRepository textResourceRepository
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -21,6 +23,8 @@
 
     var languages = LanguageHelper.GetLanguages();
     var currentLanguage = LanguageCookieRepository.GetValue().Language;
+
+    var enableText = await textResourceRepository.GetByTagAsync("Enable\\Disable editing");
 }
 
 <header class="container-fluid d-flex flex-wrap py-3 border-bottom">
@@ -38,6 +42,12 @@
 #if DEBUG
                 <a href="/accounting/transactionlist" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
                     <span class="fs-4">@await Html.RenderText("Accounting")</span>
+                </a>
+#endif
+                
+#if DEBUG
+                <a href="/textResource/toggleEdit" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
+                    <span class="fs-4">@await Html.RenderText("Toggle text edit")</span>
                 </a>
 #endif
             }
@@ -62,8 +72,8 @@
                 @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
                 {
                     <li class="nav-item">
-                        @if(menu.Menu == Menu.Booking && !Options.IsBookingEnabled) continue;
-                        
+                        @if (menu.Menu == Menu.Booking && !Options.IsBookingEnabled) continue;
+
                         <a class="nav-link me-3 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
                             <span>@await Html.RenderText(menu.Title)</span>
                         </a>
