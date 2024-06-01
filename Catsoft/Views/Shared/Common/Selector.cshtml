@@ -34,7 +34,7 @@
 
 @{
   var propertyName = Model.Label.RemoveWhitespace();
-  var text = await TextResourceRepository.GetByTagAsync(Context, "Not selected");
+  var text = await TextResourceRepository.GetByTagAsync("Not selected");
   var selectList = Model.Options.Select(w => new SelectListItem
   {
     Text = w.Label,

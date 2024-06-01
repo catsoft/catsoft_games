@@ -7,15 +7,17 @@
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
 
 @{
     Layout = null;
     
     var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date).OrderBy(w => w.Key).ToList();
 
-    var places = " " + await TextResourceRepository.GetByTagAsync(Context, "places");
+    var places = " " + await TextResourceRepository.GetByTagAsync("places");
 
-    var selection = CookieHelper.GetBookingSelection(Context);
+    var selection = bookingSelectionCookieRepository.GetValue();
 }
 @if (Options.IsBookingEnabled)
 {
@@ -28,7 +30,7 @@
             {
                 <div class="row pt-5">
                     <p>
-                        <span class="fw-bold fs-3 text-center">@booking.First().AppointTime.FormatLongDate(Context)</span>
+                        <span class="fw-bold fs-3 text-center">@booking.First().AppointTime.FormatLongDate(LanguageCookieRepository)</span>
                     </p>
                 </div>
                 <div class="row">

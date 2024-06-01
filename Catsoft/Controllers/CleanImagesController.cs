@@ -1,18 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using App.cms.Models;
+﻿using App.cms.StaticHelpers.Cookies;
 using App.Models;
-using App.ViewModels.About;
-using App.ViewModels.Contacts;
-using App.ViewModels.Games;
-using App.ViewModels.Home;
-using App.ViewModels.Services;
-using ImageProcessor;
-using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace App.Controllers
 {
@@ -20,12 +8,13 @@ namespace App.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CleanImagesController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment)
+        public CleanImagesController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment,
+            ILanguageCookieRepository languageCookieRepository) : base(languageCookieRepository)
         {
             _webHostEnvironment = webHostEnvironment;
-            base.DbContext = dbContext;
+            DbContext = dbContext;
         }
-        
+
         // выключил на случай если нечайно ебну
         // public IActionResult CleanImages()
         // {

@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Controllers
 {
-    public class CommonController : CookieController
+    public class CommonController(ILanguageCookieRepository languageCookieRepository) : CookieController(languageCookieRepository)
     {
         protected CatsoftContext DbContext { get; set; }
 

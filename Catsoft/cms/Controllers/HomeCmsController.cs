@@ -16,6 +16,7 @@ using App.cms.Repositories.Image;
 using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
+using App.cms.StaticHelpers.Cookies.models;
 using App.cms.ViewModels;
 using App.Models;
 using App.Models.Accounting;
@@ -35,6 +36,7 @@ namespace App.cms.Controllers
         private readonly ICmsCmsModelRepository _cmsCmsModelRepository;
         private readonly CmsOptions _cmsOptions;
         private readonly IFileHandler _fileHandler;
+        private readonly IFilterCookieRepository _filterCookieRepository;
         private readonly ICmsFilesRepository _filesRepository;
         private readonly ICmsImageModelRepository _imageRepository;
         private readonly TextResourceRepository _textResourceRepository;
@@ -51,7 +53,9 @@ namespace App.cms.Controllers
             ICmsCmsModelRepository cmsCmsModelRepository,
             TextResourceRepository textResourceRepository,
             IObjectInterceptor objectInterceptor,
-            IFileHandler fileHandler) : base(catsoftContext)
+            IFileHandler fileHandler,
+            ILanguageCookieRepository languageCookieRepository,
+            IFilterCookieRepository filterCookieRepository) : base(catsoftContext, languageCookieRepository)
         {
             _appEnvironment = appEnvironment;
             _cmsOptions = cmsOptions;
@@ -60,6 +64,7 @@ namespace App.cms.Controllers
             _filesRepository = filesRepository;
             _cmsCmsModelRepository = cmsCmsModelRepository;
             _fileHandler = fileHandler;
+            _filterCookieRepository = filterCookieRepository;
             _textResourceRepository = textResourceRepository;
             _objectInterceptor = objectInterceptor;
 
@@ -89,11 +94,11 @@ namespace App.cms.Controllers
             var localFilter = filter;
             if (string.IsNullOrEmpty(localFilter))
             {
-                localFilter = CookieHelper.GetFilter(HttpContext);
+                localFilter = _filterCookieRepository.GetValue().Filter;
             }
             else
             {
-                CookieHelper.SetFilter(localFilter, HttpContext);
+                _filterCookieRepository.SaveValue(new CmsFilterCookieDto(localFilter));
             }
 
             var pageResult = await Paginate(dynamicObject, includeSets, t, page + 1, Options.Options.PaginationPageSize, null, localFilter);
@@ -557,7 +562,7 @@ namespace App.cms.Controllers
                 (currentUser.Role != cmsObject.Role && currentUser.Role != AdminRoles.SuperUser))
             {
                 var message =
-                   await _textResourceRepository.GetByTagAsync(HttpContext, "You don\'t have rights to manage this object");
+                   await _textResourceRepository.GetByTagAsync("You don\'t have rights to manage this object");
                 throw new Exception(message);
             }
         }

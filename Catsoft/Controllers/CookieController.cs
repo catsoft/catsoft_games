@@ -1,7 +1,7 @@
 ﻿using System;
 using App.cms.Models;
-using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
+using App.cms.StaticHelpers.Cookies.models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace App.Controllers
 {
-    public abstract class CookieController : Controller
+    public abstract class CookieController(ILanguageCookieRepository languageCookieRepository) : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -20,12 +20,12 @@ namespace App.Controllers
             var language = routes["language"].ToString();
             if (language.IsNullOrEmpty())
             {
-                language = CookieHelper.GetLanguage(HttpContext).ToString();
+                language = languageCookieRepository.GetValue().Language.ToString();
             }
 
             var languageEnum = Enum.Parse<TextLanguage>(language);
 
-            CookieHelper.SetLanguage(languageEnum, HttpContext);
+            languageCookieRepository.SaveValue(new LanguageCookieDto(languageEnum));
         }
     }
 }

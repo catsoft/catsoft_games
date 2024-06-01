@@ -5,6 +5,7 @@ using App.cms.Repositories.File;
 using App.cms.Repositories.Image;
 using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
+using App.cms.StaticHelpers.Cookies;
 using App.Initialize;
 using App.Models;
 using App.Repositories.Cms.Admins;
@@ -54,6 +55,16 @@ namespace App
             services.AddScoped<ICmsCmsModelRepository, CmsModelRepository>();
 
             services.AddScoped<TextResourceRepository>();
+            
+            //cookies
+            services.AddScoped<ILanguageCookieRepository, LanguageCookieRepository>();
+            services.AddScoped<IFilterCookieRepository, FilterCookieRepository>();
+            services.AddScoped<IBookingSelectionCookieRepository, BookingSelectionCookieRepository>();
+            services.AddScoped<IPersonDetailsCookieRepository, PersonDetailsCookieRepository>();
+            services.AddScoped<IAccountingFilterCookieRepository, AccountingFilterCookieRepository>();
+
+            services.AddHttpContextAccessor();
+            
 
 
             services.AddSingleton(new CmsOptions

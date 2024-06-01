@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.Blog;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace App.Controllers
 {
     public class BlogController : CommonController
     {
-        public BlogController(CatsoftContext dbContext)
+        public BlogController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository) : base(languageCookieRepository)
         {
             DbContext = dbContext;
         }

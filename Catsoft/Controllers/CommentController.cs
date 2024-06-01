@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.Comment;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace App.Controllers
 {
     public class CommentController : CommonController
     {
-        public CommentController(CatsoftContext dbContext)
+        public CommentController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository) : base(languageCookieRepository)
         {
             base.DbContext = dbContext;
         }

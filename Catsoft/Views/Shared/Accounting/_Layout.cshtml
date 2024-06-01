@@ -6,6 +6,7 @@
 @using App.ViewModels.Common
 @inject CatsoftContext CatsoftContextDb
 @inject CatsoftContext Database
+@inject ILanguageCookieRepository LanguageCookieRepository
 @{
     HeaderViewModel headerViewModel = null;
     FooterViewModel footerViewModel = null;
@@ -29,7 +30,7 @@
         }
     }
 
-    var currentLanguage = CookieHelper.GetLanguage(Context);
+    var currentLanguage = LanguageCookieRepository.GetValue().Language;
     var langShort = currentLanguage.GetLanguageCodeForHtml();
 }
 

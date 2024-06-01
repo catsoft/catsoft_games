@@ -3,7 +3,7 @@
 @inject TextResourceRepository TextResourceRepository
 
 @{
-    var pageText = await TextResourceRepository.GetByTagAsync(Context, "Page") + "= ";
+    var pageText = await TextResourceRepository.GetByTagAsync("Page") + "= ";
 
     var rangeSize = 10;
 }

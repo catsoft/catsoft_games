@@ -21,7 +21,7 @@
                         htmlAttributes = new
                         {
                             @class = "form-control",
-                            placeholder = await TextResourceRepository.GetByTagAsync(Context, "Name")
+                            placeholder = await TextResourceRepository.GetByTagAsync("Name")
                         }
                     })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -31,7 +31,7 @@
                     @Html.LabelFor(model => model.Text)
                     @Html.TextAreaFor(model => model.Text, new
                     {
-                        placeholder = await TextResourceRepository.GetByTagAsync(Context, "Write your comment"),
+                        placeholder = await TextResourceRepository.GetByTagAsync("Write your comment"),
                         @class = "form-control",
                         style = "height: 112px"
                     })

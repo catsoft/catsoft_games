@@ -24,7 +24,7 @@
 
     var id = ((IEntity)Model)?.Id;
 
-    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTagAsync(Context, "Object_details") + " " + cmsSection.Title;
+    ViewData["TitleToTopLabelE"] = await TextResourceRepository.GetByTagAsync("Object_details") + " " + cmsSection.Title;
 }
 
 <div class="offset-md-1 col-md-10">
@@ -95,11 +95,11 @@
     <div>
         @if (access.OnEdit)
         {
-            @Html.ActionLink(await TextResourceRepository.GetByTagAsync(Context, "Edit"), "Edit", "HomeCms", new { type = nameType, id })
+            @Html.ActionLink(await TextResourceRepository.GetByTagAsync("Edit"), "Edit", "HomeCms", new { type = nameType, id })
             <span>|</span>
         }
 
 
-        @Html.ActionLink(await TextResourceRepository.GetByTagAsync(Context, "To List"), "GetList", "HomeCms", new { type = nameType })
+        @Html.ActionLink(await TextResourceRepository.GetByTagAsync("To List"), "GetList", "HomeCms", new { type = nameType })
     </div>
 </div>

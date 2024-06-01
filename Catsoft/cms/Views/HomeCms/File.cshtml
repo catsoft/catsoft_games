@@ -14,8 +14,8 @@ var fileLink = "/HomeCms/GetList?type=" + typeof(FileModel);
 
 @if (Model?.FileId == null || Model?.FileId == Guid.Empty)
 {
-<input type="file" title="@await TextResourceRepository.GetByTagAsync(Context, "Choose file")" class="btn btn-primary" id="@(Model?.PropertyName)file" accept="file/*"/>
-<input type="submit" value="@await TextResourceRepository.GetByTagAsync(Context, "Upload")" class="btn btn-primary" onclick="uploadFile()"/>
+<input type="file" title="@await TextResourceRepository.GetByTagAsync("Choose file")" class="btn btn-primary" id="@(Model?.PropertyName)file" accept="file/*"/>
+<input type="submit" value="@await TextResourceRepository.GetByTagAsync("Upload")" class="btn btn-primary" onclick="uploadFile()"/>
 <script type="text/javascript">
     function uploadFile() {
         var file = $("#@(Model?.PropertyName)file")[0].files[0];

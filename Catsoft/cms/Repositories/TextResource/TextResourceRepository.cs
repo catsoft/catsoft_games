@@ -4,16 +4,15 @@ using App.cms.Models;
 using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories.TextResource
 {
-    public class TextResourceRepository(CatsoftContext context) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
+    public class TextResourceRepository(CatsoftContext context, ILanguageCookieRepository languageCookieRepository) : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
     {
-        public async Task<string> GetByTagAsync(HttpContext httpContext, string tag)
+        public async Task<string> GetByTagAsync(string tag)
         {
-            var currentLanguage = CookieHelper.GetLanguage(httpContext);
+            var currentLanguage = languageCookieRepository.GetValue().Language;
 
             var model = await context.TextResourceModels.Include(w => w.Values)
                 .FirstOrDefaultAsync(w => w.Tag == tag);

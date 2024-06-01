@@ -4,6 +4,7 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @model App.ViewModels.Common.HeaderViewModel
+@inject ILanguageCookieRepository LanguageCookieRepository
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -19,7 +20,7 @@
     };
 
     var languages = LanguageHelper.GetLanguages();
-    var currentLanguage = CookieHelper.GetLanguage(Context);
+    var currentLanguage = LanguageCookieRepository.GetValue().Language;
 }
 
 <header class="container-fluid d-flex flex-wrap py-3 border-bottom">

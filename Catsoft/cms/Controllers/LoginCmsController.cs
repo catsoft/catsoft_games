@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using App.cms.Models;
 using App.cms.Repositories.Admin;
+using App.cms.StaticHelpers.Cookies;
 using App.cms.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,8 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Controllers
 {
-    public abstract class LoginCmsController<TContext>(TContext catsoftContext, ICmsAdminRepository cmsAdminRepository)
-        : CommonCmsController<TContext>(catsoftContext)
+    public abstract class LoginCmsController<TContext>(TContext catsoftContext, ICmsAdminRepository cmsAdminRepository, ILanguageCookieRepository languageCookieRepository)
+        : CommonCmsController<TContext>(catsoftContext, languageCookieRepository)
         where TContext : DbContext
 
     {

@@ -9,13 +9,15 @@
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
 @{
     Layout = null;
 
-    var selection = CookieHelper.GetBookingSelection(Context);
+    var selection = bookingSelectionCookieRepository.GetValue();
 
     var selectedTimes = Model.AvailableAppointTimes
         .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
@@ -28,9 +30,9 @@
 
     var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
 
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync(Context, "total sum: " + Options.Currency + sum);
+    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
 
-    var continueText = await TextResourceRepository.GetByTagAsync(Context, "Book");
+    var continueText = await TextResourceRepository.GetByTagAsync("Book");
 }
 @if (Options.IsBookingEnabled)
 {
@@ -45,7 +47,7 @@
             <div class="row text-center">
                 <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
                 <div class="col-2 offset-1">
-                    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Context, "Select stations count")" onchange="changeSelection(this)">
+                    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync("Select stations count")" onchange="changeSelection(this)">
                         @foreach (var i in options)
                         {
                             <option @(i == selection.PeopleCount ? "selected" : "") value="@i">@i</option>
@@ -66,7 +68,7 @@
 
                     <div class="col rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id">
                         <p>
-                            <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(Context))</span>
+                            <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(LanguageCookieRepository))</span>
                             <br/>
                             <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
                             <br/>

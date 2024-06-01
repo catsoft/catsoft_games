@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using App.cms;
 using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
+using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.PreOrder;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace App.Controllers
         private readonly TextResourceRepository _textResourceRepository;
 
         public PreOrderController(CatsoftContext dbContext, TextResourceRepository textResourceRepository,
-            CmsOptions cmsOptions)
+            CmsOptions cmsOptions, ILanguageCookieRepository languageCookieRepository) : base(languageCookieRepository)
         {
             _textResourceRepository = textResourceRepository;
             _cmsOptions = cmsOptions;
@@ -52,10 +53,10 @@ namespace App.Controllers
             var contactsModel =
                 await DbContext.ContactsModels.FirstOrDefaultAsync(w => w.ContactType == ContactType.Email);
 
-            var contactsInfoText = await _textResourceRepository.GetByTagAsync(HttpContext, "Contact information");
-            var nameText = await _textResourceRepository.GetByTagAsync(HttpContext, "Name");
-            var commentText = await _textResourceRepository.GetByTagAsync(HttpContext, "Comment");
-            var newOrderText = await _textResourceRepository.GetByTagAsync(HttpContext, "New order");
+            var contactsInfoText = await _textResourceRepository.GetByTagAsync("Contact information");
+            var nameText = await _textResourceRepository.GetByTagAsync("Name");
+            var commentText = await _textResourceRepository.GetByTagAsync("Comment");
+            var newOrderText = await _textResourceRepository.GetByTagAsync("New order");
 
             var text = $"{contactsInfoText} : {orderModel.EmailOrPhone}\n" +
                        $"{nameText} : {orderModel.Name}\n" +

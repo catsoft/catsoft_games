@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
 using App.cms.Options;
 using App.cms.StaticHelpers.Cookies;
-using Microsoft.AspNetCore.Http;
 
 namespace App.Models.Booking
 {
@@ -37,19 +35,19 @@ namespace App.Models.Booking
 
         public bool Blocked { get; set; }
 
-        public string FormattedShortDate(HttpContext context)
+        public string FormattedShortDate(ILanguageCookieRepository languageCookieRepository)
         {
-            return Date.ToString("M", GetCulturalInfo(context));
+            return Date.ToString("M", GetCulturalInfo(languageCookieRepository));
         }
 
-        public string FormatLongDate(HttpContext context)
+        public string FormatLongDate(ILanguageCookieRepository languageCookieRepository)
         {
-            return Date.ToString("dddd, dd MMMM", GetCulturalInfo(context));
+            return Date.ToString("dddd, dd MMMM", GetCulturalInfo(languageCookieRepository));
         }
 
-        private CultureInfo GetCulturalInfo(HttpContext context)
+        private CultureInfo GetCulturalInfo(ILanguageCookieRepository languageCookieRepository)
         {
-            var language = CookieHelper.GetLanguage(context);
+            var language = languageCookieRepository.GetValue().Language;
             return new CultureInfo(language.GetCulturalCode());
         }
         
