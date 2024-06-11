@@ -53,6 +53,12 @@
             </div>
 
             @await Html.PartialAsync("Booking/BookButton")
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    updatePrePrice("prePriceBlockId")                
+                });
+            </script>
         </div>
     </div>
 }

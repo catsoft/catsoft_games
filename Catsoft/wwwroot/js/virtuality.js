@@ -1,8 +1,9 @@
-﻿const bookingSetPersonCountUrl = "Booking/SetPersonCount"
-const bookingSetDateUrl = "Booking/SetDate"
-const bookingSelectAppointTimeUrl = "Booking/SelectAppointTime"
+﻿const bookingSetPersonCountUrl = "/Booking/SetPersonCount"
+const bookingSetDateUrl = "/Booking/SetDate"
+const bookingSelectAppointTimeUrl = "/Booking/SelectAppointTime"
 
-const bookingPrePriceUrl = "Booking/GetPrePrice"
+const bookingPrePriceUrl = "/Booking/GetPrePrice"
+const bookingSelectedTimesUrl = "/Booking/GetSelectedTimes"
 
 function getDefaultPostOptions(data) {
     console.log(data)
@@ -55,9 +56,11 @@ function executeAndUpdate(request, blockId) {
         document.getElementById(blockId).innerHTML = 'Failed to load data';
     })
 }
+// end of common
 
+
+// region preprice
 function prePricePersonCountSelectionOnChange(e, blockId) {
-    console.log(e)
     const formData = new FormData();
     formData.append("personCount", e.options[e.selectedIndex].value)
     const request = fetch(bookingSetPersonCountUrl, getDefaultPostOptions(formData));
@@ -67,7 +70,6 @@ function prePricePersonCountSelectionOnChange(e, blockId) {
 }
 
 function prePriceDateSelectionOnChange(value, blockId) {
-    console.log(value)
     const formData = new FormData();
     formData.append("date", value.value)
     const request = fetch(bookingSetDateUrl, getDefaultPostOptions(formData));
@@ -79,22 +81,50 @@ function prePriceDateSelectionOnChange(value, blockId) {
 function updatePrePrice(blockId) {
     executeAndUpdate(fetch(bookingPrePriceUrl, getDefaultGetOptions()), blockId)
 }
+// region end preprice
 
-function bookingTimeSelectionOnClick(item) {
-    var uuid = $(this).attr('datauuid');
-    var data = {
-        uuid: uuid
-    };
-    $.post(bookingSelectAppointTimeUrl, data, function () {
-        location.reload();
-    });
+
+//region time selection
+function timeSelectionPersonCountOnChange(e, blockId) {
+    const formData = new FormData();
+    formData.append("personCount", e.options[e.selectedIndex].value)
+    const request = fetch(bookingSetPersonCountUrl, getDefaultPostOptions(formData));
+    executeAndThen(request, function () {
+        updateSelectedTimes(blockId)
+    })
 }
 
-function bookingDateSelectionOnChange(selected) {
-    var data = {
-        date: selected.value
-    };
-    $.post(bookingSetDateUrl, data, function () {
-        location.reload();
-    });
+function timeSelectionSelectionDateOnChange(value, blockId) {
+    const formData = new FormData();
+    formData.append("date", value.value)
+    const request = fetch(bookingSetDateUrl, getDefaultPostOptions(formData));
+    executeAndThen(request, function () {
+        updateSelectedTimes(blockId)
+    })
 }
+
+function updateSelectedTimes(blockId) {
+    executeAndUpdate(fetch(bookingSelectedTimesUrl, getDefaultGetOptions()), blockId)
+}
+
+function bookingTimeSelectionOnClick(item, blockId) {
+    const uuid = $(item).attr('datauuid');
+
+    var lightClass = "bg-primary"
+    var darkClass = "bg-dark"
+    if (item.classList.contains(darkClass)) {
+        item.classList.remove(darkClass);
+        item.classList.add(lightClass);
+    } else {
+        item.classList.remove(lightClass);
+        item.classList.add(darkClass);
+    }
+    
+    const formData = new FormData();
+    formData.append("uuid", uuid)
+    const request = fetch(bookingSelectAppointTimeUrl, getDefaultPostOptions(formData));
+    executeAndThen(request, function () {
+        updateSelectedTimes(blockId)
+    })
+}
+//region end time selection

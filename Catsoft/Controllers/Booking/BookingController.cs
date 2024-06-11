@@ -136,6 +136,31 @@ namespace App.Controllers.Booking
             return await ValidateSelection();
         }
         
+        public async Task<IActionResult> GetSelectedTimes()
+        {
+            if (!Options.IsBookingEnabled)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        
+            var startDate = DateOnly.FromDateTime(DateTime.Now);
+            var endDate = DateOnly.FromDateTime(DateTime.Now + Options.BookingAvailableRange);
+        
+            var times = await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+                .Where(w => w.Date >= startDate && w.Date <= endDate)
+                .ToListAsync();
+        
+            var model = new BookingPageViewModel
+            {
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                AvailableAppointTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
+                RentPlaces = await DbContext.RentPlaces.Select(w => new RentPlaceDto(w)).ToListAsync()
+            };
+        
+            return View(model);
+        }
+        
         #endregion
 
 
@@ -149,7 +174,7 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
 
-            var times = await GetSelectedTimes();
+            var times = await GetSelectedTimesDtos();
 
             var model = new PersonDetailsViewModel
             {
@@ -183,7 +208,7 @@ namespace App.Controllers.Booking
 
             selection.BookingId = booking.Id.ToString();
 
-            var selectedTimes = GetSelectedTimes();
+            var selectedTimes = GetSelectedTimesDtos();
             foreach (var appointTimeModel in selectedTimes.Result)
             {
                 appointTimeModel.PersonBookingId = booking.Id;
@@ -267,7 +292,7 @@ namespace App.Controllers.Booking
             return Ok();
         }
 
-        private async Task<List<AppointTimeModel>> GetSelectedTimes()
+        private async Task<List<AppointTimeModel>> GetSelectedTimesDtos()
         {
             var selection = _bookingSelectionCookieRepository.GetValue();
             return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
