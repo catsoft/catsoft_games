@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -71,7 +72,7 @@ namespace App
             // repositories            
             services.AddScoped<IAppointRuleRepository, AppointRuleRepository<CatsoftContext>>();
 
-
+            services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions()));
 
             services.AddSingleton(new CmsOptions
             {
