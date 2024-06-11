@@ -1,0 +1,26 @@
+﻿@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
+@using App.ViewModels.Booking.Time
+@model App.ViewModels.Booking.Time.BookingTimeItemDto
+@inject ILanguageCookieRepository LanguageCookieRepository
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+    var color = Model.Selected ? "bg-primary" : "bg-dark";
+    var time = Model.AppointTimeDto;
+
+    var topInfo = Model.BookingTimeItemType == BookingTimeItemType.Date ? time.AppointTime.FormattedShortDate(LanguageCookieRepository) : Model.Places + " " + await TextResourceRepository.GetByTagAsync("places");
+}
+
+<div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id" onclick="bookingTimeSelectionOnClick(this)">
+    <p>
+        <span class="fs-6 text-center">@(topInfo)</span>
+        <br/>
+        <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
+        <br/>
+        <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeEnd</span>
+        <br/>
+        <span class="fs-6 text-center">@(time.AppointTime.FormattedPrice())</span>
+    </p>
+</div>

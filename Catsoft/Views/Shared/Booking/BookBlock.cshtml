@@ -1,9 +1,8 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using System.Globalization
-@using App.cms.Models
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.ViewModels.Booking.Time
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -12,17 +11,33 @@
 
 @{
     Layout = null;
-    
-    var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date).OrderBy(w => w.Key).ToList();
-
-    var places = " " + await TextResourceRepository.GetByTagAsync("places");
-
     var selection = bookingSelectionCookieRepository.GetValue();
+    var selectedDate = selection.Date;
+
+    var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date)
+        .OrderBy(w => w.Key)
+        .Select(w => Tuple.Create(w.Key, w.GroupBy(w => w.AppointTime.TimeStart).OrderBy(w => w.First().AppointTime.TimeStart)
+            .Select(w => new BookingTimeItemDto
+            {
+                AppointTimeDto = w.First(),
+                Places = w.Count(),
+                Selected = selection.SelectedAppointTimeIds.Contains(w.First().AppointTime.Id),
+                BookingTimeItemType = BookingTimeItemType.Places
+            }).ToList()))
+        .ToList();
+
+    var firstRow = groupsByDate.FirstOrDefault(w => w.Item1 == selectedDate);
+
+    if (firstRow != null)
+    {
+        groupsByDate.Insert(0, firstRow);
+    }
 }
+
 @if (Options.IsBookingEnabled)
 {
     @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
-    
+
     <div class="container-fluid text-center">
         <div class="container py-5" id="order">
 
@@ -30,33 +45,13 @@
             {
                 <div class="row pt-5">
                     <p>
-                        <span class="fw-bold fs-3 text-center">@booking.First().AppointTime.FormatLongDate(LanguageCookieRepository)</span>
+                        <span class="fw-bold fs-3 text-center">@booking.Item2.First().AppointTimeDto.AppointTime.FormatLongDate(LanguageCookieRepository)</span>
                     </p>
                 </div>
                 <div class="row flex-row justify-content-center">
-                    @{
-                        var times = booking.GroupBy(w => w.AppointTime.TimeStart).OrderBy(w => w.First().AppointTime.TimeStart).ToList();
-                    }
-                    @foreach (var time in times)
+                    @foreach (var time in booking.Item2)
                     {
-                        var timeValue = time.First();
-                        var count = time.Count();
-                        var isSelected = selection.SelectedAppointTimeIds.Contains(timeValue.AppointTime.Id);
-                        var color = isSelected ? "bg-primary" : "bg-dark";
-
-                        <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto"
-                             role="button"
-                             datauuid="@timeValue.AppointTime.Id.ToString()" onclick="bookingTimeSelectionOnClick(this)">
-                            <p>
-                                <span class="fs-6 text-center">@(count + places)</span>
-                                <br/>
-                                <span class="fw-bold fs-4 text-center">@timeValue.AppointTime.TimeStart</span>
-                                <br/>
-                                <span class="fw-bold fs-4 text-center">@timeValue.AppointTime.TimeEnd</span>
-                                <br/>
-                                <span class="fs-6 text-center">@(timeValue.AppointTime.FormattedPrice())</span>
-                            </p>
-                        </div>
+                        @await Html.PartialAsync("Booking/Time/BookingTimeItem", time)
                     }
                 </div>
             }

@@ -3,6 +3,7 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.ViewModels.Booking.Time
 @model List<App.ViewModels.Booking.AppointTimeDto>
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
@@ -19,25 +20,17 @@
         .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
         .OrderBy(w => w.AppointTime.Date)
         .ThenBy(w => w.AppointTime.TimeStart)
+        .Select(w => new BookingTimeItemDto()
+        {
+            AppointTimeDto = w,
+            Selected = true
+        })
         .ToList();
 }
 
 <div class="row flex-row justify-content-center">
     @foreach (var time in selectedTimes)
     {
-        var isSelected = true;
-        var color = isSelected ? "bg-primary" : "bg-dark";
-
-        <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id" onclick="bookingTimeSelectionOnClick(this)">
-            <p>
-                <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(LanguageCookieRepository))</span>
-                <br/>
-                <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
-                <br/>
-                <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeEnd</span>
-                <br/>
-                <span class="fs-6 text-center">@(time.AppointTime.FormattedPrice())</span>
-            </p>
-        </div>
+        @await Html.PartialAsync("Booking/Time/BookingTimeItem", time)
     }
 </div>

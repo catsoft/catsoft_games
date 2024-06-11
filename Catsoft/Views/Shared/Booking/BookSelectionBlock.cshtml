@@ -3,6 +3,8 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.ViewModels.Views
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -20,12 +22,19 @@
         .ThenBy(w => w.AppointTime.TimeStart)
         .ToList();
 
-    var options = Enumerable.Range(1, 4);
-
-
     var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
 
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+
+    var options = Enumerable.Range(1, 4).ToList();
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),
+        selection.PeopleCount.ToString(),
+        options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        false)
+    {
+        DefaultSelection = false,
+        OnChangeScript = "bookingPersonCountSelectionOnChange(this)"
+    };
 }
 @if (Options.IsBookingEnabled)
 {
@@ -40,13 +49,9 @@
             <div class="row text-center">
                 <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
                 <div class="col-2 offset-1">
-                    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync("Select stations count")" onchange="bookingPersonCountSelectionOnChange(this)">
-                        @foreach (var i in options)
-                        {
-                            var selected = i == selection.PeopleCount ? "selected" : "";
-                            <option value="@i" selected="@selected">@i</option>
-                        }
-                    </select>
+                    @await Html.PartialAsync("Common/Selector", selectorDto)
+
+                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date", selection.Date, "bookingDateSelectionOnChange(this)"))
                 </div>
 
                 <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">

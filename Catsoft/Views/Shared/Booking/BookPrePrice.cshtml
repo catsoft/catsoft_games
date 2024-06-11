@@ -47,15 +47,11 @@
             <div class="row text-center">
                 <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
                 <div class="col-2 offset-1">
-                    @{
-                        await Html.RenderPartialAsync("Common/Selector", selectorDto);
-                    }
+                    @await Html.PartialAsync("Common/Selector", selectorDto)
                 </div>
                 
                 <div>
-                    @{
-                        await Html.RenderPartialAsync("Common/Date", new DateViewModel("Date", date, "bookingDateSelectionOnChange(this)"));
-                    }
+                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date", date, "bookingDateSelectionOnChange(this)"))
                 </div>
 
                 <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
@@ -63,11 +59,7 @@
                 </div>
             </div>
 
-            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="get" enctype="multipart/form-data">
-                <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Reserve now")
-                </button>
-            </form>
+            @await Html.PartialAsync("Booking/BookButton")
         </div>
     </div>
 }
