@@ -3,29 +3,36 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.Repositories.Cms.AppointRule
+@using App.ViewModels.Views
 @using Options = App.cms.Options.Options
-@model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
-@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject IAppointRuleRepository AppointRuleRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
+@inject IBookingSelectionCookieRepository BookingSelectionRepository
 
 @{
     Layout = null;
+    
+    var selection = BookingSelectionRepository.GetValue();
 
-    var selection = bookingSelectionCookieRepository.GetValue();
+    var date = selection.Date;
+    
+    var price = await AppointRuleRepository.PriceForTheDate(date);
+    
+    var options = Enumerable.Range(1, 4).ToList();
 
-    var selectedTimes = Model.AvailableAppointTimes
-        .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
-        .OrderBy(w => w.AppointTime.Date)
-        .ThenBy(w => w.AppointTime.TimeStart)
-        .ToList();
-
-    var options = Enumerable.Range(1, 4);
+    var totalPrice = selection.PeopleCount * price;
 
 
-    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
-
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),
+        selection.PeopleCount.ToString(),
+        options.Select(w=> new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        false)
+    {
+        DefaultSelection = false,
+        OnChangeScript = "bookingPersonCountSelectionOnChange(this)"
+    };
 }
 @if (Options.IsBookingEnabled)
 {
@@ -40,23 +47,21 @@
             <div class="row text-center">
                 <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
                 <div class="col-2 offset-1">
-                    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync("Select stations count")" onchange="bookingPersonCountSelectionOnChange(this)">
-                        @foreach (var i in options)
-                        {
-                            var selected = i == selection.PeopleCount ? "selected" : "";
-                            <option value="@i" selected="@selected">@i</option>
-                        }
-                    </select>
+                    @{
+                        await Html.RenderPartialAsync("Common/Selector", selectorDto);
+                    }
+                </div>
+                
+                <div>
+                    @{
+                        await Html.RenderPartialAsync("Common/Date", new DateViewModel("Date", date, "bookingDateSelectionOnChange(this)"));
+                    }
                 </div>
 
                 <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
-                    @totalSum
+                    @totalPrice
                 </div>
             </div>
-
-            @{
-                await Html.RenderPartialAsync("Shared/Booking/SelectedTimes", Model.AvailableAppointTimes);
-            }
 
             <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="get" enctype="multipart/form-data">
                 <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">

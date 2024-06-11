@@ -110,6 +110,16 @@ namespace App.Controllers.Booking
             return await ValidateSelection();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SetDate(DateOnly date)
+        {
+            var selection = _bookingSelectionCookieRepository.GetValue();
+            selection.Date = date;
+            _bookingSelectionCookieRepository.SaveValue(selection);
+
+            return await ValidateSelection();
+        }
+        
         #endregion
 
 

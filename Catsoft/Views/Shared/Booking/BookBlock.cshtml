@@ -46,7 +46,7 @@
 
                         <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto"
                              role="button"
-                             datauuid="@timeValue.AppointTime.Id.ToString()">
+                             datauuid="@timeValue.AppointTime.Id.ToString()" onclick="bookingTimeSelectionOnClick(this)">
                             <p>
                                 <span class="fs-6 text-center">@(count + places)</span>
                                 <br/>
@@ -62,19 +62,4 @@
             }
         </div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('.time-selection').click(function () {
-                var uuid = $(this).attr('datauuid');
-                var url = '@Url.Action("SelectAppointTime", "Booking")';
-                var data = {
-                    uuid: uuid
-                };
-                $.post(url, data, function () {
-                    location.reload();
-                });
-            });
-        });
-    </script>
 }

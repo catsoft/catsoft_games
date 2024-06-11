@@ -9,6 +9,7 @@ using App.cms.StaticHelpers.Cookies;
 using App.Initialize;
 using App.Models;
 using App.Repositories.Cms.Admins;
+using App.Repositories.Cms.AppointRule;
 using App.Repositories.Cms.CmsModels;
 using App.Repositories.Cms.Files;
 using App.Repositories.Cms.Images;
@@ -67,6 +68,9 @@ namespace App
 
             services.AddHttpContextAccessor();
             
+            // repositories            
+            services.AddScoped<IAppointRuleRepository, AppointRuleRepository<CatsoftContext>>();
+
 
 
             services.AddSingleton(new CmsOptions

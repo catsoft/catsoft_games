@@ -53,6 +53,8 @@
 
 @if(Options.IsBookingEnabled)
 {
+    @await Html.PartialAsync("Booking/BookPrePrice")
+    
     @await Html.PartialAsync("Booking/CommercialBookBlock", new BookDto())
 }
 else

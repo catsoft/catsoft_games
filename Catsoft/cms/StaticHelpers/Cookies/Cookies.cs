@@ -41,7 +41,7 @@ namespace App.cms.StaticHelpers.Cookies
     {
         public override string Key { get; } = "BookingSelection";
         
-        public override BookingSelectionCookieDto DefaultValue { get; } = new(new HashSet<Guid>(), 2);
+        public override BookingSelectionCookieDto DefaultValue { get; } = new([], 2);
     }
     
     public class BookingHistoryCookieRepository(IHttpContextAccessor  context) : CookieRepository<BookingHistoryCookieDto>(context), IBookingHistoryCookieRepository

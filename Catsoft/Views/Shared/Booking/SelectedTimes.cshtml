@@ -28,7 +28,7 @@
         var isSelected = true;
         var color = isSelected ? "bg-primary" : "bg-dark";
 
-        <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id">
+        <div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id" onclick="bookingTimeSelectionOnClick(this)">
             <p>
                 <span class="fs-6 text-center">@(time.AppointTime.FormattedShortDate(LanguageCookieRepository))</span>
                 <br/>
