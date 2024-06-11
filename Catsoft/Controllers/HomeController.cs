@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using App.cms.Options;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.About;
@@ -53,6 +54,7 @@ namespace App.Controllers
             var games = await DbContext.GameModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
+                .Take(Options.Home.GameCount)
                 .ToListAsync();
 
             home.ServicesPageViewModel.ServiceModels = services;

@@ -9,15 +9,15 @@
     var value = Model.Date?.ToString("yyyy-MM-dd");
 }
 
-<div class="form-check">
+<div>
+    <label for="@(Model.NameTag.RemoveWhitespace())">
+        @await Html.RenderText(Model.NameTag)
+    </label>
     <input data-val="true"
-           class="input"
+           class="input form-control"
            id="@(Model.NameTag.RemoveWhitespace())"
            name="@(Model.NameTag.RemoveWhitespace())"
            type="date"
            value="@value"
            onchange="@Model.OnChangeOnChangeScript">
-    <label class="form-check-label" for="@(Model.NameTag.RemoveWhitespace())">
-        @await Html.RenderText(Model.NameTag)
-    </label>
 </div>

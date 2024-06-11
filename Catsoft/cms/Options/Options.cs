@@ -12,9 +12,9 @@ namespace App.cms.Options
         public static int PaginationPageSize => 100;
 
         public static string Currency => "\u20ac";
-        
+
         public static bool IsBookingEnabled => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower() == "Development".ToLower();
-        
+
         public static TimeSpan BookingTimeRange => TimeSpan.FromMinutes(30);
 
         public static List<DayOfWeek> BookingDateOfWeeks => new()
@@ -27,5 +27,16 @@ namespace App.cms.Options
         };
 
         public static TimeSpan BookingAvailableRange => TimeSpan.FromDays(30 * 3);
+
+
+        public static class Home
+        {
+            public static int GameCount => 9;
+        }
+        
+        public static class Booking
+        {
+            public static int DefaultPrice => 20;
+        }
     }
 }

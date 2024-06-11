@@ -6,6 +6,7 @@ using App.cms.StaticHelpers.Cookies;
 using App.cms.StaticHelpers.Cookies.models;
 using App.Models;
 using App.Models.Booking;
+using App.Repositories.Cms.AppointRule;
 using App.ViewModels.Booking;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,17 +17,20 @@ namespace App.Controllers.Booking
     public class BookingController : CommonController
     {
         private readonly IBookingHistoryCookieRepository _bookingHistoryCookieRepository;
+        private readonly IAppointRuleRepository _appointRuleRepository;
         private readonly IBookingSelectionCookieRepository _bookingSelectionCookieRepository;
         private readonly IPersonDetailsCookieRepository _personDetailsCookieRepository;
 
         public BookingController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository,
             IBookingSelectionCookieRepository bookingSelectionCookieRepository,
             IPersonDetailsCookieRepository personDetailsCookieRepository,
-            IBookingHistoryCookieRepository bookingHistoryCookieRepository) : base(languageCookieRepository)
+            IBookingHistoryCookieRepository bookingHistoryCookieRepository, 
+            IAppointRuleRepository appointRuleRepository) : base(languageCookieRepository)
         {
             _bookingSelectionCookieRepository = bookingSelectionCookieRepository;
             _personDetailsCookieRepository = personDetailsCookieRepository;
             _bookingHistoryCookieRepository = bookingHistoryCookieRepository;
+            _appointRuleRepository = appointRuleRepository;
             DbContext = dbContext;
         }
 
@@ -54,6 +58,18 @@ namespace App.Controllers.Booking
             };
 
             return View(model);
+        }
+
+        #endregion
+
+        #region PrePrice
+
+        public async Task<IActionResult> GetPrePrice()
+        {
+            var selection = _bookingSelectionCookieRepository.GetValue();
+            var prePrice = await _appointRuleRepository.PriceForTheDate(selection.Date);
+
+            return View(prePrice * selection.PeopleCount);
         }
 
         #endregion
@@ -248,7 +264,7 @@ namespace App.Controllers.Booking
         private async Task<IActionResult> ValidateSelection()
         {
             //todo
-            return RedirectToAction("Index");
+            return Ok();
         }
 
         private async Task<List<AppointTimeModel>> GetSelectedTimes()

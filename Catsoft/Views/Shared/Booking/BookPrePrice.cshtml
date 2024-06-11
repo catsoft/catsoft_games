@@ -17,21 +17,16 @@
     var selection = BookingSelectionRepository.GetValue();
 
     var date = selection.Date;
-    
-    var price = await AppointRuleRepository.PriceForTheDate(date);
-    
+
     var options = Enumerable.Range(1, 4).ToList();
 
-    var totalPrice = selection.PeopleCount * price;
-
-
-    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
         selection.PeopleCount.ToString(),
         options.Select(w=> new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
         false)
     {
         DefaultSelection = false,
-        OnChangeScript = "bookingPersonCountSelectionOnChange(this)"
+        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')"
     };
 }
 @if (Options.IsBookingEnabled)
@@ -40,22 +35,20 @@
         <div class="container py-5" id="booking_selected">
             <div class="row pb-2">
                 <p>
-                    <span class="fw-bold fs-3 text-center">@await Html.RenderText("Selected times")</span>
+                    <span class="fw-bold fs-3 text-center">@await Html.RenderText("Reserve time now!")</span>
                 </p>
             </div>
 
             <div class="row text-center">
-                <span class="fs-3 col-2 text-center">@await Html.RenderText("Person count")</span>
-                <div class="col-2 offset-1">
+                <div class="col-5 offset-1">
                     @await Html.PartialAsync("Common/Selector", selectorDto)
                 </div>
                 
-                <div>
-                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date", date, "bookingDateSelectionOnChange(this)"))
+                <div class="col-5 offset-1">
+                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date", date, "prePriceDateSelectionOnChange(this, 'prePriceBlockId')"))
                 </div>
 
-                <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
-                    @totalPrice
+                <div class="col-4 offset-4 text-white fs-3 pb-3 fw-bold text-center" id="prePriceBlockId">
                 </div>
             </div>
 

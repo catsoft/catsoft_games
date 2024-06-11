@@ -20,15 +20,17 @@
     selectList.Insert(0, new SelectListItem { Value = "", Text = text });
 }
 
-<span class="fw-bold">
-    @await Html.RenderText(Model.Label)
-</span>
+<div>
+    <span class="fw-bold">
+        @await Html.RenderText(Model.Label)
+    </span>
 
-<select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Model.Label)" onchange="@Model.OnChangeScript"
-        id="@propertyName" name="@propertyName">
-    @foreach (var i in Model.Options)
-    {
-        var selected = i.Value == Model.SelectedValue ? "selected" : "";
-        <option value="@i.Value" @selected>@i.Label</option>
-    }
-</select>
+    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Model.Label)" onchange="@Model.OnChangeScript"
+            id="@propertyName" name="@propertyName">
+        @foreach (var i in Model.Options)
+        {
+            var selected = i.Value == Model.SelectedValue ? "selected" : "";
+            <option value="@i.Value" @selected>@i.Label</option>
+        }
+    </select>
+</div>

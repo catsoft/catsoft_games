@@ -70,7 +70,7 @@ namespace App
             services.AddHttpContextAccessor();
             
             // repositories            
-            services.AddScoped<IAppointRuleRepository, AppointRuleRepository<CatsoftContext>>();
+            services.AddScoped<IAppointRuleRepository, AppointRuleRepository>();
 
             services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions()));
 
