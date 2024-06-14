@@ -161,11 +161,9 @@ namespace App.Models
             modelBuilder.Entity<AppointTimeModel>()
                 .HasOne(w => w.PersonBookingModel)
                 .WithMany(w => w.AppointTimeModels)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction)
                 .HasForeignKey(w => w.PersonBookingId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<AppointTimeModel>()
                 .HasOne(w => w.RentPlaceModel)
