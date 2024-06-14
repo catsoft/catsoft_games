@@ -4,32 +4,39 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.Repositories.Cms.AppointRule
+@using App.Repositories.Cms.PersonBooking
 @using App.ViewModels.Views
 @using Options = App.cms.Options.Options
 @inject TextResourceRepository TextResourceRepository
 @inject IAppointRuleRepository AppointRuleRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
 @inject IBookingSelectionCookieRepository BookingSelectionRepository
+@inject IPersonBookingRepository PersonBookingRepository
+@inject ILocalOptionsCookieRepository LocalOptionCookieRepository
 
 @{
     Layout = null;
-    
+
     var selection = BookingSelectionRepository.GetValue();
+
+    var booking = await BookingSelectionRepository.GetWithUpdate(PersonBookingRepository.StartOrUpdatePrePriceStage);
 
     var date = selection.Date;
 
     var options = Enumerable.Range(1, 4).ToList();
 
+    var personCount = booking.PeopleCount;
+
     var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
-        selection.PeopleCount.ToString(),
-        options.Select(w=> new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        personCount.ToString(),
+        options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
         false)
     {
         DefaultSelection = false,
         OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')"
     };
 }
-@if (Options.IsBookingEnabled)
+@if (LocalOptionCookieRepository.BookingEnabled())
 {
     <div class="container-fluid text-center bg-info text-white">
         <div class="container py-5" id="booking_selected">
@@ -43,7 +50,7 @@
                 <div class="col-5 offset-1">
                     @await Html.PartialAsync("Common/Selector", selectorDto)
                 </div>
-                
+
                 <div class="col-5 offset-1">
                     @await Html.PartialAsync("Common/Date", new DateViewModel("Date", date, "prePriceDateSelectionOnChange(this, 'prePriceBlockId')"))
                 </div>
@@ -53,7 +60,7 @@
             </div>
 
             @await Html.PartialAsync("Booking/BookButton")
-            
+
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     updatePrePrice("prePriceBlockId")                

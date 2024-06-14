@@ -10,25 +10,30 @@
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
+@inject ILocalOptionsCookieRepository LocalOptionCookieRepository
 
 @{
     Layout = null;
 
     var selection = bookingSelectionCookieRepository.GetValue();
 
+    var bookingSelectedTimes = Model.PersonBookingDto.PersonBooking.SelectedTimes;
+    
     var selectedTimes = Model.AvailableAppointTimes
-        .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
+        .Where(w => bookingSelectedTimes.Contains(w.AppointTime.Id))
         .OrderBy(w => w.AppointTime.Date)
         .ThenBy(w => w.AppointTime.TimeStart)
         .ToList();
 
-    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
+    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
+
+    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * personCount;
 
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
 
     var options = Enumerable.Range(1, 4).ToList();
     var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),
-        selection.PeopleCount.ToString(),
+        personCount.ToString(),
         options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
         false)
     {
@@ -36,7 +41,7 @@
         OnChangeScript = "timeSelectionPersonCountOnChange(this, 'selectedTimesBlockId')"
     };
 }
-@if (Options.IsBookingEnabled)
+@if (LocalOptionCookieRepository.BookingEnabled())
 {
     <div class="container-fluid text-center bg-info text-white">
         <div class="container py-5" id="booking_selected">

@@ -14,6 +14,16 @@
             <span class="ms-5 mb-3 mb-md-0 text-muted">
                 <a href="http://catsoft.games">&copy; Catsoft</a> 2018-@DateTime.Now.Year
             </span>
+
+            <form method="post" asp-action="ToggleFeature" asp-controller="Home">
+                <input type="hidden" value="Booking" name="feature"/>
+                <input type="submit" class="btn" value="Booking toggle"/>
+            </form>
+
+            <form method="post" asp-action="ToggleFeature" asp-controller="Home">
+                <input type="hidden" value="GameSelection" name="feature"/>
+                <input type="submit" class="btn" value="GameSelection toggle"/>
+            </form>
         </div>
 
         <ul class="nav col-4 me-5 justify-content-end list-unstyled d-flex">

@@ -8,12 +8,15 @@
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
+@inject ILocalOptionsCookieRepository LocalOptionCookieRepository
 
 @{
     Layout = null;
     var selection = bookingSelectionCookieRepository.GetValue();
     var selectedDate = selection.Date;
 
+    var selectedTimes = Model.PersonBookingDto.PersonBooking.SelectedTimes;
+    
     var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date)
         .OrderBy(w => w.Key)
         .Select(w => Tuple.Create(w.Key, w.GroupBy(w => w.AppointTime.TimeStart).OrderBy(w => w.First().AppointTime.TimeStart)
@@ -21,7 +24,7 @@
             {
                 AppointTimeDto = w.First(),
                 Places = w.Count(),
-                Selected = selection.SelectedAppointTimeIds.Contains(w.First().AppointTime.Id),
+                Selected = selectedTimes.Contains(w.First().AppointTime.Id),
                 BookingTimeItemType = BookingTimeItemType.Places
             }).ToList()))
         .ToList();
@@ -34,7 +37,7 @@
     }
 }
 
-@if (Options.IsBookingEnabled)
+@if (LocalOptionCookieRepository.BookingEnabled())
 {
     @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
 

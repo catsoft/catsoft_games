@@ -1,10 +1,8 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using App.cms.Helpers
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
-@using App.ViewModels.Views
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using App.ViewModels.Booking
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -14,15 +12,15 @@
 @{
     Layout = null;
 
-    var selection = bookingSelectionCookieRepository.GetValue();
-
     var selectedTimes = Model.AvailableAppointTimes
-        .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
+        .Where(w => Model.PersonBookingDto.PersonBooking.SelectedTimes.Contains(w.AppointTime.Id))
         .OrderBy(w => w.AppointTime.Date)
         .ThenBy(w => w.AppointTime.TimeStart)
         .ToList();
+    
+    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
-    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
+    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * personCount;
 
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: ") + Options.Currency + sum;
 }
@@ -34,4 +32,4 @@
 </div>
 
 
-@await Html.PartialAsync("Shared/Booking/SelectedTimes", Model.AvailableAppointTimes)
+@await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.AvailableAppointTimes, Model.PersonBookingDto))

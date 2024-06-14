@@ -4,7 +4,7 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.ViewModels.Booking.Time
-@model List<App.ViewModels.Booking.AppointTimeDto>
+@model App.ViewModels.Booking.SelectedTimesViewModel
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
@@ -16,8 +16,10 @@
 
     var selection = bookingSelectionCookieRepository.GetValue();
 
-    var selectedTimes = Model
-        .Where(w => selection.SelectedAppointTimeIds.Contains(w.AppointTime.Id))
+    var bookingSelectedTimes = Model.PersonBookingDto.PersonBooking.SelectedTimes;
+    
+    var selectedTimes = Model.SelectedTimes
+        .Where(w => bookingSelectedTimes.Contains(w.AppointTime.Id))
         .OrderBy(w => w.AppointTime.Date)
         .ThenBy(w => w.AppointTime.TimeStart)
         .Select(w => new BookingTimeItemDto()

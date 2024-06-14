@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using App.cms.Repositories.Image;
 using App.Models;
 
@@ -11,6 +12,10 @@ namespace App.Repositories.Cms.Images
         {
             imagesRepository.Add(entity);
         }
+
+        public Task<ImageModel> GetDefault(Guid? uuid = null) { throw new NotImplementedException(); }
+
+        public Task<ImageModel> DoWithUpdate(Guid? uuid, Func<ImageModel, Task> doJob) { throw new NotImplementedException(); }
 
         public void Remove(Guid id)
         {

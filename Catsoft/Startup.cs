@@ -13,6 +13,7 @@ using App.Repositories.Cms.AppointRule;
 using App.Repositories.Cms.CmsModels;
 using App.Repositories.Cms.Files;
 using App.Repositories.Cms.Images;
+using App.Repositories.Cms.PersonBooking;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -66,11 +67,14 @@ namespace App
             services.AddScoped<IAccountingFilterCookieRepository, AccountingFilterCookieRepository>();
             services.AddScoped<ICmsTextResourcesCookieRepository, CmsTextResourcesCookieRepository>();
             services.AddScoped<IBookingHistoryCookieRepository, BookingHistoryCookieRepository>();
+            services.AddScoped<ILocalOptionsCookieRepository, LocalOptionsCookieRepository>();
 
             services.AddHttpContextAccessor();
             
             // repositories            
             services.AddScoped<IAppointRuleRepository, AppointRuleRepository>();
+            services.AddScoped<IPersonBookingRepository, PersonBookingRepository>();
+            
 
             services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions()));
 

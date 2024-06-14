@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -16,6 +17,14 @@ namespace App.cms.StaticHelpers.Cookies
         {
             var gson = JsonConvert.SerializeObject(value);
             SaveJsonValue(Key, gson);
+        }
+
+        public Task<B> GetWithUpdate<B>(Func<T, Task<B>> action)
+        {
+            var value = GetValue();
+            var returnValue = action(value);
+            SaveValue(value);
+            return returnValue;
         }
         
         public T GetValue()

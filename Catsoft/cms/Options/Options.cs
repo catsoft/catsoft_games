@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.cms.Options
 {
@@ -12,8 +13,8 @@ namespace App.cms.Options
         public static int PaginationPageSize => 100;
 
         public static string Currency => "\u20ac";
-
-        public static bool IsBookingEnabled => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower() == "Development".ToLower();
+        //
+        // public static bool  => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower() == "Development".ToLower();
 
         public static TimeSpan BookingTimeRange => TimeSpan.FromMinutes(30);
 
@@ -37,6 +38,17 @@ namespace App.cms.Options
         public static class Booking
         {
             public static int DefaultPrice => 20;
+            public static int MinPeople => 1;
+            public static int MaxPeople = 4;
+            public static int DefaultPeople = 2;
+
+            public static List<int> GetOptions() => Enumerable.Range(MinPeople, MaxPeople).ToList();
+        }
+
+        public enum Features
+        {
+            Booking,
+            GameSelection,
         }
     }
 }

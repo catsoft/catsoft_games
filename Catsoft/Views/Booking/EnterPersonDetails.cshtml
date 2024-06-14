@@ -3,6 +3,9 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.ViewModels.Booking
+@using App.ViewModels.Views
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.PersonDetailsViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -13,11 +16,20 @@
 @{
     Layout = "_Layout";
 
-    var selection = bookingSelectionCookieRepository.GetValue();
+    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
-    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * selection.PeopleCount;
-
+    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
+    
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+    
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
+        personCount.ToString(),
+        Options.Booking.GetOptions().Select(w=> new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        false)
+    {
+        DefaultSelection = false,
+        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')"
+    };
 }
     <div class="container-fluid text-center bg-info text-white">
         <div class="container py-5" id="booking_selected">
@@ -28,19 +40,23 @@
             </div>
 
             <div class="row text-center">
-                <span class="fs-3 col-2 text-center">@(await Html.RenderText("Person count") + ":" + selection.PeopleCount)</span>
-                <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
+
+                <div class="col-6 offset-3">
+                    @await Html.PartialAsync("Common/Selector", selectorDto)
+                </div>
+                
+                <div class="col-3"></div>
+                
+                <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
                     @totalSum
                 </div>
             </div>
 
-            @{
-                await Html.RenderPartialAsync("Shared/Booking/SelectedTimes", Model.SelectedTimes);
-            }
+            @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto));
 
             <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
                 <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Reserve now")
+                    @await Html.RenderText("Continue")
                 </button>
             </form>
         </div>

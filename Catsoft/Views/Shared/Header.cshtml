@@ -7,6 +7,7 @@
 @model App.ViewModels.Common.HeaderViewModel
 @inject ILanguageCookieRepository LanguageCookieRepository
 @inject TextResourceRepository textResourceRepository
+@inject ILocalOptionsCookieRepository LocalOptionsCookieRepository
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -72,7 +73,7 @@
                 @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
                 {
                     <li class="nav-item">
-                        @if (menu.Menu == Menu.Booking && !Options.IsBookingEnabled) continue;
+                        @if (menu.Menu == Menu.Booking && !LocalOptionsCookieRepository.BookingEnabled()) continue;
 
                         <a class="nav-link me-3 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
                             <span>@await Html.RenderText(menu.Title)</span>

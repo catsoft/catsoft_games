@@ -4,13 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace App.cms.StaticHelpers.Cookies.models
 {
-    public class BookingSelectionCookieDto(HashSet<Guid> times, int peopleCount)
+    public class BookingSelectionCookieDto()
     {
         [JsonInclude] private DateOnly _date;
-
-        public HashSet<Guid> SelectedAppointTimeIds { get; set; } = times;
-
-        public int PeopleCount { get; set; } = peopleCount;
 
         [JsonIgnore]
         public DateOnly Date
@@ -31,5 +27,15 @@ namespace App.cms.StaticHelpers.Cookies.models
         public string BookingId { get; set; }
 
         public Guid GetBookingGuid() => Guid.Parse(BookingId);
+
+        public Guid? GetBookingGuidOrDefault()
+        {
+            if (BookingId == null)
+            {
+                return null;
+            }
+
+            return Guid.Parse(BookingId);
+        }
     }
 }

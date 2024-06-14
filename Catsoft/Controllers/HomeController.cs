@@ -17,11 +17,13 @@ namespace App.Controllers
     public class HomeController : CommonController
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILocalOptionsCookieRepository _localOptionsCookieRepository;
 
-        public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment, ILanguageCookieRepository languageCookieRepository) :
+        public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment, ILanguageCookieRepository languageCookieRepository, ILocalOptionsCookieRepository localOptionsCookieRepository) :
             base(languageCookieRepository)
         {
             _webHostEnvironment = webHostEnvironment;
+            _localOptionsCookieRepository = localOptionsCookieRepository;
             DbContext = dbContext;
         }
 
@@ -65,6 +67,19 @@ namespace App.Controllers
             };
 
             return View(home);
+        }
+
+        [HttpPost]
+        public IActionResult ToggleFeature(Options.Features feature)
+        {
+            var options = _localOptionsCookieRepository.GetValue();
+            if (!options.ToggleFeatures.Add(feature))
+            {
+                options.ToggleFeatures.Remove(feature);
+            }
+            _localOptionsCookieRepository.SaveValue(options);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

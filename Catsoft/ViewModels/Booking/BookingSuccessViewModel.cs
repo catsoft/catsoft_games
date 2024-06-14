@@ -7,6 +7,6 @@ namespace App.ViewModels.Booking
     {
         public List<AppointTimeDto> SelectedTimes { get; set; }
         
-        public PersonBookingDto PersonBooking { get; set; }
+        public PersonBookingDto PersonBookingDto { get; set; }
     }
 }

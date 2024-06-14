@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using App.cms.Models;
+using App.Models.Booking;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.cms.Repositories
@@ -11,6 +13,28 @@ namespace App.cms.Repositories
     {
         protected TContext CatsoftContext { get; } = catsoftContext;
 
+        public async Task<TItem> GetDefault(Guid? uuid)
+        {
+            if (uuid == null)
+            {
+                var newObject = CreateObject();
+                catsoftContext.Add(newObject);
+                await catsoftContext.SaveChangesAsync();
+                return newObject;
+            }
+
+            return await GetAsync(uuid);
+        }
+        
+        public async Task<TItem> DoWithUpdate(Guid? uuid, Func<TItem, Task> doJob)
+        {
+            var item = await GetDefault(uuid);
+            await doJob(item);
+            catsoftContext.Update(item);
+            await catsoftContext.SaveChangesAsync();
+            return item;
+        }
+        
         public virtual void Add(TItem entity)
         {
             CatsoftContext.Add(entity);
@@ -34,6 +58,11 @@ namespace App.cms.Repositories
             return CatsoftContext.Set<TItem>().First(w => w.Id == id);
         }
 
+        public Task<TItem> GetAsync(Guid? id)
+        {
+            return CatsoftContext.Set<TItem>().FirstAsync(w => w.Id == id);
+        }
+        
         public IQueryable<TItem> GetAll()
         {
             return CatsoftContext.Set<TItem>().AsQueryable();
