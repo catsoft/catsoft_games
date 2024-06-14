@@ -13,7 +13,7 @@
     var topInfo = Model.BookingTimeItemType == BookingTimeItemType.Date ? time.AppointTime.FormattedShortDate(LanguageCookieRepository) : Model.Places + " " + await TextResourceRepository.GetByTagAsync("places");
 }
 
-<div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto" role="button" datauuid="@time.AppointTime.Id" onclick="bookingTimeSelectionOnClick(this, 'selectedTimesBlockId')">
+<div class="col-auto rounded @color text-white py-2 me-3 mb-3 time-selection pe-auto appoint-time-container" role="button" datauuid="@time.AppointTime.Id" onclick="bookingTimeSelectionOnClick(this, 'selectedTimesBlockId')">
     <p>
         <span class="fs-6 text-center">@(topInfo)</span>
         <br/>

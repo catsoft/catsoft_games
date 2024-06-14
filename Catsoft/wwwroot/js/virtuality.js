@@ -109,7 +109,22 @@ function updateSelectedTimes(blockId) {
 
 function bookingTimeSelectionOnClick(item, blockId) {
     const uuid = $(item).attr('datauuid');
+    document.querySelectorAll('.appoint-time-container').forEach(function (item) {
+        appointTimeToggleBack(item, uuid)
+    });
 
+    const formData = new FormData();
+    formData.append("uuid", uuid)
+    const request = fetch(bookingSelectAppointTimeUrl, getDefaultPostOptions(formData));
+    executeAndThen(request, function () {
+        updateSelectedTimes(blockId)
+    })
+}
+
+function appointTimeToggleBack(item, uuid) {
+    const uuidItem = $(item).attr('datauuid')
+    if (uuidItem !== uuid) return
+    
     var lightClass = "bg-primary"
     var darkClass = "bg-dark"
     if (item.classList.contains(darkClass)) {
@@ -119,12 +134,5 @@ function bookingTimeSelectionOnClick(item, blockId) {
         item.classList.remove(lightClass);
         item.classList.add(darkClass);
     }
-    
-    const formData = new FormData();
-    formData.append("uuid", uuid)
-    const request = fetch(bookingSelectAppointTimeUrl, getDefaultPostOptions(formData));
-    executeAndThen(request, function () {
-        updateSelectedTimes(blockId)
-    })
 }
 //region end time selection
