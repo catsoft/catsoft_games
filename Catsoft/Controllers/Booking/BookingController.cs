@@ -175,37 +175,26 @@ namespace App.Controllers.Booking
         [HttpPost]
         public async Task<IActionResult> EnterPersonDetails(EnterPersonDetailsViewModel input)
         {
-            var model = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
-            if (model.Id != input.Id)
+            var personModel = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
+            if (personModel.Id != input.Id)
             {
                 throw new Exception("Something went wrong");
             }
 
-            model.NIF = input.NIF;
-            model.Comment = input.Comment;
-            model.Phone = input.Phone;
-            model.Email = input.Email;
-            model.CompanyAddress = input.CompanyAddress;
-            model.CompanyName = input.CompanyName;
-            model.CompanyNIF = input.CompanyNIF;
-            model.FullName = input.FullName;
-            model.IsCompany = input.IsCompany == "on";
+            personModel.NIF = input.NIF;
+            personModel.Comment = input.Comment;
+            personModel.Phone = input.Phone;
+            personModel.Email = input.Email;
+            personModel.CompanyAddress = input.CompanyAddress;
+            personModel.CompanyName = input.CompanyName;
+            personModel.CompanyNIF = input.CompanyNIF;
+            personModel.FullName = input.FullName;
+            personModel.IsCompany = input.IsCompany == "on";
             
-            await _personRepository.UpdateAsync(model);
+            await _personRepository.UpdateAsync(personModel);
 
-            var selection = _bookingSelectionCookieRepository.GetValue();
-
-            var booking = new PersonBookingModel
-            {
-                PersonModelId = model.Id,
-                Paid = false,
-                Booked = false,
-            };
-            DbContext.PersonBookings.Add(booking);
-            await DbContext.SaveChangesAsync();
-
-            selection.BookingId = booking.Id.ToString();
-
+            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
+            
             var selectedTimes = GetSelectedTimesDtos();
             foreach (var appointTimeModel in selectedTimes.Result)
             {
@@ -232,7 +221,7 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
 
-            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartPersonDetailsStage);
+            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartConfirmationStage);
             var person = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
             
             var times = await GetBookingTimes(booking.Id);

@@ -9,12 +9,13 @@
 @{
     Layout = null;
     var isChecked =  Model.Value ? "checked" : "";
+    var disabled =  Model.Enabled ? "" : "disabled";
 }
 
 <div class="row form-group pb-2 pt-2 col-6 offset-3">
     <label for="@Model.PropertyName">@await Html.RenderText(Model.LabelTag)</label>
 
-    <input name="@Model.PropertyName" @isChecked type="checkbox" id="@Model.PropertyName" class="form-checkbox" onchange="toggleVisibility(this, '@Model.ShowId')"/>
+    <input name="@Model.PropertyName" @isChecked type="checkbox" id="@Model.PropertyName" class="form-checkbox" @disabled onchange="toggleVisibility(this, '@Model.ShowId')"/>
 </div>
 
 <script>

@@ -15,5 +15,7 @@ namespace App.ViewModels.Views
         public bool DefaultSelection { get; set; } = true;
         
         public string OnChangeScript { get; set; }
+
+        public bool Enabled { get; set; } = true;
     }
 }

@@ -18,6 +18,8 @@
         Selected = w.Value == Model.SelectedValue
     }).ToList();
     selectList.Insert(0, new SelectListItem { Value = "", Text = text });
+    
+    var disabled =  Model.Enabled ? "" : "disabled";
 }
 
 <div>
@@ -26,7 +28,7 @@
     </span>
 
     <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Model.Label)" onchange="@Model.OnChangeScript"
-            id="@propertyName" name="@propertyName">
+            id="@propertyName" name="@propertyName" @disabled>
         @foreach (var i in Model.Options)
         {
             var selected = i.Value == Model.SelectedValue ? "selected" : "";

@@ -4,6 +4,9 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.ViewModels.Booking
+@using App.ViewModels.Views
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using InputType = App.ViewModels.Views.InputType
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingSuccessViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -12,30 +15,82 @@
 
 
 @{
-    Layout = "_Layout";
+Layout = "_Layout";
 
-    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
+var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
-    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
+var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
 
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+
+var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
+personCount.ToString(),
+Options.Booking.GetOptions().Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+false)
+{
+DefaultSelection = false,
+OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
+Enabled = false,
+};
+
+
+var companyDataId = "company_data";
+
+var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
+{
+Type = InputType.Hidden
+};
+var phoneInput = new InputViewModel("Phone", "Phone", Model.PersonDto.PersonModel.Phone, false);
+var emailInput = new InputViewModel("Email", "Email", Model.PersonDto.PersonModel.Email, false);
+var nifInput = new InputViewModel("NIF (optional)", "NIF", Model.PersonDto.PersonModel.NIF, false);
+var fullNameInput = new InputViewModel("Name", "FullName", Model.PersonDto.PersonModel.FullName, false);
+var commentInput = new InputViewModel("Comment (optional)", "Comment", Model.PersonDto.PersonModel.Comment, false);
+var isCompanyControl = new CheckBoxControlViewModel("Is company", "IsCompany", Model.PersonDto.PersonModel.IsCompany, companyDataId, false);
+var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
+var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
+var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
 }
 <div class="container-fluid text-center bg-info text-white">
     <div class="container py-5" id="booking_selected">
         <div class="row pb-2">
             <p>
-                <span class="fw-bold fs-3 text-center">@await Html.RenderText("Congratulations")</span>
+                <span class="fw-bold fs-3 text-center">@await Html.RenderText("Thanks for booking")</span>
+                <span class="fw-bold fs-3 text-center">@await Html.RenderText("In case if you have need help, call us ar email")</span>
             </p>
         </div>
 
         <div class="row text-center">
-            <span class="fs-3 col-2 text-center">@(await Html.RenderText("Person count") + ":" + personCount)</span>
+
+            <div class="col-6 offset-3">
+                @await Html.PartialAsync("Common/Selector", selectorDto)
+            </div>
+
+            <div class="col-3"></div>
+
+            <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
+                @totalSum
+            </div>
+
+            <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
+                @await Html.PartialAsync("Common/Input", idInput)
+                @await Html.PartialAsync("Common/Input", phoneInput)
+                @await Html.PartialAsync("Common/Input", emailInput)
+                @await Html.PartialAsync("Common/Input", nifInput)
+                @await Html.PartialAsync("Common/Input", fullNameInput)
+                @await Html.PartialAsync("Common/Input", commentInput)
+                @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
+                <div id="@companyDataId">
+                    @await Html.PartialAsync("Common/Input", companyNif)
+                    @await Html.PartialAsync("Common/Input", companyName)
+                    @await Html.PartialAsync("Common/Input", companyAddress)
+                </div>
+
+                <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
+                    @await Html.RenderText("Confirm")
+                </button>
+            </form>
         </div>
 
-        <div class="col-4 offset-2 text-white fs-3 pb-3 fw-bold text-center">
-            @totalSum
-        </div>
-
-        @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto));
+        @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto))
     </div>
 </div>
