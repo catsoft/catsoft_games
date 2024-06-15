@@ -242,7 +242,7 @@ namespace App.Controllers.Booking
             await _personBookingRepository.Book(booking.Id, person.Id);
 
             var history = _bookingHistoryCookieRepository.GetValue();
-            history.BookingId.Add(uuid);
+            history.BookingIds.Add(Guid.Parse(uuid));
             _bookingHistoryCookieRepository.SaveValue(history);
 
             var selection = _bookingSelectionCookieRepository.GetValue();
@@ -265,7 +265,7 @@ namespace App.Controllers.Booking
             }
             
             var bookingHistory = _bookingHistoryCookieRepository.GetValue();
-            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
+            var lastBookingId = bookingHistory.BookingIds.Last();
             var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
             var personBooking = await _personBookingRepository.GetDefault(lastBookingId);
             var person = await _personRepository.GetDefault(personBooking.PersonModelId);

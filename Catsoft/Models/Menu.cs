@@ -15,6 +15,7 @@ namespace App.Models
         Gallery,
         Cms,
         Accounting,
+        MyBookings,
     }
 
     public static class MenuLinks
@@ -28,9 +29,10 @@ namespace App.Models
             new KeyValuePair<Menu, string>(Menu.Book, "/Book/Index"),
             new KeyValuePair<Menu, string>(Menu.Booking, "/Booking/Index"),
             new KeyValuePair<Menu, string>(Menu.Services, "/Home/Index#services"),
+            new KeyValuePair<Menu, string>(Menu.MyBookings, "/MyBookings/Index"),
             new KeyValuePair<Menu, string>(Menu.Contacts, "/Home/Index#Contacts"),
             new KeyValuePair<Menu, string>(Menu.Blog, "/Blog/Index"),
-            new KeyValuePair<Menu, string>(Menu.Gallery, "/Gallery/Index")
+            new KeyValuePair<Menu, string>(Menu.Gallery, "/Gallery/Index"),
         };
     }
 }

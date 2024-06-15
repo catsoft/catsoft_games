@@ -1,0 +1,22 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Options
+@using App.cms.StaticHelpers.Cookies
+@using App.Models
+@using App.ViewModels.Book
+@using App.ViewModels.MyBookings
+@using App.ViewModels.PreOrder
+@model App.ViewModels.MyBookings.MyBookingsPageViewModel
+
+
+@{
+    Layout = "_Layout";
+}
+
+@foreach (var booking in Model.MyBookings)
+{
+    <div class="row">
+        <span>
+            @booking.PersonBooking.FinalPrice
+        </span>
+    </div>
+}

@@ -1,13 +1,14 @@
 ﻿@using App.cms.Helpers
 @using App.cms.Models
-@using App.cms.Options
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using Microsoft.IdentityModel.Tokens
 @model App.ViewModels.Common.HeaderViewModel
 @inject ILanguageCookieRepository LanguageCookieRepository
 @inject TextResourceRepository textResourceRepository
 @inject ILocalOptionsCookieRepository LocalOptionsCookieRepository
+@inject IBookingHistoryCookieRepository BookingHistoryCookieRepository
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -22,10 +23,13 @@
         // Menu.Gallery,
     };
 
+    if (!BookingHistoryCookieRepository.GetValue().BookingIds.IsNullOrEmpty() && LocalOptionsCookieRepository.BookingEnabled())
+    {
+        virtualityMenus.Add(Menu.MyBookings);
+    }
+
     var languages = LanguageHelper.GetLanguages();
     var currentLanguage = LanguageCookieRepository.GetValue().Language;
-
-    var enableText = await textResourceRepository.GetByTagAsync("Enable\\Disable editing");
 }
 
 <header class="container-fluid d-flex flex-wrap py-3 border-bottom">
@@ -45,7 +49,7 @@
                     <span class="fs-4">@await Html.RenderText("Accounting")</span>
                 </a>
 #endif
-                
+
 #if DEBUG
                 <a href="/textResource/toggleEdit" class="d-flex align-items-center mb-3 me-5 mb-md-0 link-body-emphasis text-decoration-none">
                     <span class="fs-4">@await Html.RenderText("Toggle text edit")</span>
