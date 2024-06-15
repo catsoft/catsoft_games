@@ -6,6 +6,7 @@
 @using App.ViewModels.Booking
 @using App.ViewModels.Views
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using InputType = App.ViewModels.Views.InputType
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.PersonDetailsViewModel
 @inject TextResourceRepository TextResourceRepository
@@ -30,6 +31,22 @@
         DefaultSelection = false,
         OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')"
     };
+
+            
+    // public bool IsCompany { get; set; }
+    //
+
+    var idInput = new InputViewModel("Phone or email", "PhoneOrEmail", Model.PersonDto.PersonModel.Id.ToString())
+    {
+        Type = InputType.Hidden
+    };
+    var contactInput = new InputViewModel("Phone or email", "PhoneOrEmail", Model.PersonDto.GetContact());
+    var nifInput = new InputViewModel("NIF (optional)", "NIF", Model.PersonDto.PersonModel.NIF);
+    var fullNameInput = new InputViewModel("Name", "Name", Model.PersonDto.PersonModel.FullName);
+    var commentInput = new InputViewModel("Comment (optional)", "Comment", Model.PersonDto.GetContact());
+    var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF);
+    var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName);
+    var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress);
 }
     <div class="container-fluid text-center bg-info text-white">
         <div class="container py-5" id="booking_selected">
@@ -50,14 +67,23 @@
                 <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
                     @totalSum
                 </div>
+                
+                <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
+                    @await Html.PartialAsync("Common/Input", idInput)
+                    @await Html.PartialAsync("Common/Input", contactInput)
+                    @await Html.PartialAsync("Common/Input", nifInput)
+                    @await Html.PartialAsync("Common/Input", fullNameInput)
+                    @await Html.PartialAsync("Common/Input", commentInput)
+                    @await Html.PartialAsync("Common/Input", companyNif)
+                    @await Html.PartialAsync("Common/Input", companyName)
+                    @await Html.PartialAsync("Common/Input", companyAddress)
+
+                    <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
+                        @await Html.RenderText("Continue")
+                    </button>
+                </form>
             </div>
 
-            @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto));
-
-            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="post" enctype="multipart/form-data">
-                <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Continue")
-                </button>
-            </form>
+            @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto))
         </div>
     </div>

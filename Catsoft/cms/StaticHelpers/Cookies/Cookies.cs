@@ -19,10 +19,8 @@ namespace App.cms.StaticHelpers.Cookies
     public interface IBookingSelectionCookieRepository : ICookieRepository<BookingSelectionCookieDto>
     {
         public Task<PersonBookingModel> GetWithUpdate(Func<Guid?, Task<PersonBookingModel>> getBooking);
-    }
 
-    public interface IPersonDetailsCookieRepository : ICookieRepository<PersonDetailsCookieDto>
-    {
+        public Task<PersonModel> GetWithUpdate(Func<Guid?, Task<PersonModel>> getModel);
     }
 
     public interface IBookingHistoryCookieRepository : ICookieRepository<BookingHistoryCookieDto>
@@ -71,6 +69,15 @@ namespace App.cms.StaticHelpers.Cookies
             SaveValue(value);
             return booking;
         }
+        
+        public async Task<PersonModel> GetWithUpdate(Func<Guid?, Task<PersonModel>> getModel)
+        {
+            var value = GetValue();
+            var model = await getModel(value.GetPersonGuidOrDefault());
+            value.PersonId = model.Id.ToString();
+            SaveValue(value);
+            return model;
+        }
     }
 
     public class BookingHistoryCookieRepository(IHttpContextAccessor context)
@@ -78,13 +85,6 @@ namespace App.cms.StaticHelpers.Cookies
     {
         public override BookingHistoryCookieDto DefaultValue { get; } = new();
         public override string Key { get; } = "BookingHistory";
-    }
-
-    public class PersonDetailsCookieRepository(IHttpContextAccessor context)
-        : CookieRepository<PersonDetailsCookieDto>(context), IPersonDetailsCookieRepository
-    {
-        public override PersonDetailsCookieDto DefaultValue { get; } = new(new PersonModel());
-        public override string Key { get; } = "BookingDetails";
     }
 
     public class AccountingFilterCookieRepository(IHttpContextAccessor context)

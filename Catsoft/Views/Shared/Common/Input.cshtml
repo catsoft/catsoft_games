@@ -1,0 +1,21 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@inject TextResourceRepository TextResourceRepository
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.Models
+@using InputType = App.ViewModels.Views.InputType
+@model App.ViewModels.Views.InputViewModel
+@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = null;
+}
+
+<div class="row form-group pb-2 pt-2 col-6 offset-3">
+    @if (Model.Type != InputType.Hidden)
+    {
+        <label for="@Model.PropertyName">@await Html.RenderText(Model.LabelTag)</label>
+    }
+
+    <input name="@Model.PropertyName" value="@Model.Value" type="@Model.Type" id="@Model.PropertyName" class="form-control"/>
+</div>

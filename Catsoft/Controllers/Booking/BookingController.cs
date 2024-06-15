@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App.cms.StaticHelpers.Cookies;
-using App.cms.StaticHelpers.Cookies.models;
 using App.Models;
 using App.Models.Booking;
 using App.Repositories.Cms.AppointRule;
+using App.Repositories.Cms.Person;
 using App.Repositories.Cms.PersonBooking;
 using App.ViewModels.Booking;
 using Microsoft.AspNetCore.Mvc;
@@ -21,53 +21,25 @@ namespace App.Controllers.Booking
         private readonly IAppointRuleRepository _appointRuleRepository;
         private readonly IPersonBookingRepository _personBookingRepository;
         private readonly ILocalOptionsCookieRepository _localOptionsCookieRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly IBookingSelectionCookieRepository _bookingSelectionCookieRepository;
-        private readonly IPersonDetailsCookieRepository _personDetailsCookieRepository;
 
         public BookingController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository,
             IBookingSelectionCookieRepository bookingSelectionCookieRepository,
-            IPersonDetailsCookieRepository personDetailsCookieRepository,
             IBookingHistoryCookieRepository bookingHistoryCookieRepository, 
             IAppointRuleRepository appointRuleRepository,
             IPersonBookingRepository personBookingRepository,
-            ILocalOptionsCookieRepository localOptionsCookieRepository) : base(languageCookieRepository)
+            ILocalOptionsCookieRepository localOptionsCookieRepository,
+            IPersonRepository personRepository) : base(languageCookieRepository)
         {
             _bookingSelectionCookieRepository = bookingSelectionCookieRepository;
-            _personDetailsCookieRepository = personDetailsCookieRepository;
             _bookingHistoryCookieRepository = bookingHistoryCookieRepository;
             _appointRuleRepository = appointRuleRepository;
             _personBookingRepository = personBookingRepository;
             _localOptionsCookieRepository = localOptionsCookieRepository;
+            _personRepository = personRepository;
             DbContext = dbContext;
         }
-
-
-        #region Success
-
-        public async Task<IActionResult> BookingSuccess()
-        {
-            if (!_localOptionsCookieRepository.BookingEnabled())
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            
-            var bookingHistory = _bookingHistoryCookieRepository.GetValue();
-            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
-            var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
-            var personBooking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == lastBookingId);
-
-            var model = new BookingSuccessViewModel
-            {
-                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
-                FooterViewModel = await GetFooterViewModel(),
-                PersonBookingDto = new PersonBookingDto(personBooking),
-                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
-            };
-
-            return View(model);
-        }
-
-        #endregion
 
         #region PrePrice
 
@@ -184,6 +156,7 @@ namespace App.Controllers.Booking
             }
 
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartPersonDetailsStage);
+            var person = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
             
             var times = await GetSelectedTimesDtos();
 
@@ -192,7 +165,8 @@ namespace App.Controllers.Booking
                 HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = await GetFooterViewModel(),
                 SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
-                PersonBookingDto = new PersonBookingDto(booking)
+                PersonBookingDto = new PersonBookingDto(booking),
+                PersonDto = new PersonDto(person)
             };
 
             return View(model);
@@ -201,10 +175,8 @@ namespace App.Controllers.Booking
         [HttpPost]
         public async Task<IActionResult> EnterPersonDetails(PersonModel model)
         {
-            DbContext.PersonModels.Add(model);
+            _personRepository.Update(model);
             await DbContext.SaveChangesAsync();
-
-            _personDetailsCookieRepository.SaveValue(new PersonDetailsCookieDto(model));
 
             var selection = _bookingSelectionCookieRepository.GetValue();
 
@@ -245,18 +217,18 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
 
-            var selection = _bookingSelectionCookieRepository.GetValue();
-            var bookingId = selection.GetBookingGuid();
-            var times = await GetBookingTimes(bookingId);
-
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartPersonDetailsStage);
+            var person = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
+            
+            var times = await GetBookingTimes(booking.Id);
             
             var model = new BookingConfirmationViewModel
             {
                 HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = await GetFooterViewModel(),
                 SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
-                PersonBookingDto = new PersonBookingDto(booking)
+                PersonBookingDto = new PersonBookingDto(booking),
+                PersonDto = new PersonDto(person)
             };
             
             return View(model);
@@ -297,6 +269,35 @@ namespace App.Controllers.Booking
 
         #endregion
 
+        
+        #region Success
+
+        public async Task<IActionResult> BookingSuccess()
+        {
+            if (!_localOptionsCookieRepository.BookingEnabled())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+            var bookingHistory = _bookingHistoryCookieRepository.GetValue();
+            var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
+            var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
+            var personBooking = await _personBookingRepository.GetDefault(lastBookingId);
+
+            var model = new BookingSuccessViewModel
+            {
+                HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+                FooterViewModel = await GetFooterViewModel(),
+                PersonBookingDto = new PersonBookingDto(personBooking),
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
+            };
+
+            return View(model);
+        }
+
+        #endregion
+        
+        
 
         #region Selection validation
 

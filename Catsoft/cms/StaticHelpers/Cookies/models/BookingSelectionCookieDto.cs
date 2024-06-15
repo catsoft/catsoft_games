@@ -25,6 +25,8 @@ namespace App.cms.StaticHelpers.Cookies.models
         }
 
         public string BookingId { get; set; }
+        
+        public string PersonId { get; set; }
 
         public Guid GetBookingGuid() => Guid.Parse(BookingId);
 
@@ -36,6 +38,16 @@ namespace App.cms.StaticHelpers.Cookies.models
             }
 
             return Guid.Parse(BookingId);
+        }
+
+        public Guid? GetPersonGuidOrDefault()
+        {
+            if (PersonId == null)
+            {
+                return null;
+            }
+
+            return Guid.Parse(PersonId);
         }
     }
 }
