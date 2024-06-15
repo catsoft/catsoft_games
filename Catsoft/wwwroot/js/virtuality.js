@@ -136,3 +136,20 @@ function appointTimeToggleBack(item, uuid) {
     }
 }
 //region end time selection
+
+
+// region start person details
+function toggleVisibility(checkbox, elementId) {
+    // Получаем элемент по его ID
+    var element = document.getElementById(elementId);
+
+    // Проверяем, существует ли элемент
+    if (!element) {
+        console.error("Element with id '" + elementId + "' not found.");
+        return;
+    }
+
+    // Устанавливаем свойство display в зависимости от состояния чекбокса
+    element.style.display = checkbox.checked ? 'block' : 'none';
+}
+// region end person details

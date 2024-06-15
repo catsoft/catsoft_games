@@ -17,7 +17,9 @@ namespace App.cms.Repositories
         public void Remove(Guid id);
 
         public void Update(TItem entity);
-
+        
+        public Task UpdateAsync(TItem entity);
+        
         public TItem Get(Guid id);
 
         public IQueryable<TItem> GetAll();

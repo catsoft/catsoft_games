@@ -173,10 +173,25 @@ namespace App.Controllers.Booking
         }
 
         [HttpPost]
-        public async Task<IActionResult> EnterPersonDetails(PersonModel model)
+        public async Task<IActionResult> EnterPersonDetails(EnterPersonDetailsViewModel input)
         {
-            _personRepository.Update(model);
-            await DbContext.SaveChangesAsync();
+            var model = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
+            if (model.Id != input.Id)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            model.NIF = input.NIF;
+            model.Comment = input.Comment;
+            model.Phone = input.Phone;
+            model.Email = input.Email;
+            model.CompanyAddress = input.CompanyAddress;
+            model.CompanyName = input.CompanyName;
+            model.CompanyNIF = input.CompanyNIF;
+            model.FullName = input.FullName;
+            model.IsCompany = input.IsCompany == "on";
+            
+            await _personRepository.UpdateAsync(model);
 
             var selection = _bookingSelectionCookieRepository.GetValue();
 

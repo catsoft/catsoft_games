@@ -27,6 +27,11 @@ namespace App.Repositories.Cms.Images
             imagesRepository.Update(entity);
         }
 
+        public Task UpdateAsync(ImageModel entity)
+        {
+            return imagesRepository.UpdateAsync(entity);
+        }
+
         public ImageModel Get(Guid id)
         {
             return imagesRepository.Get(id);

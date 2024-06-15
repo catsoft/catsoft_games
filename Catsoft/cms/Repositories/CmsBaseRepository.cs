@@ -47,6 +47,12 @@ namespace App.cms.Repositories
             CatsoftContext.SaveChanges();
         }
 
+        public virtual async Task UpdateAsync(TItem entity)
+        {
+            CatsoftContext.Update(entity);
+            await CatsoftContext.SaveChangesAsync();
+        }
+        
         public virtual void Update(TItem entity)
         {
             CatsoftContext.Update(entity);
