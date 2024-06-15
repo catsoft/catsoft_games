@@ -15,40 +15,40 @@
 
 
 @{
-Layout = "_Layout";
+    Layout = "_Layout";
 
-var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
+    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
-var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
+    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
 
-var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
+    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
 
-var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
-personCount.ToString(),
-Options.Booking.GetOptions().Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
-false)
-{
-DefaultSelection = false,
-OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
-Enabled = false,
-};
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
+        personCount.ToString(),
+        Options.Booking.GetOptions().Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        false)
+    {
+        DefaultSelection = false,
+        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
+        Enabled = false
+    };
 
 
-var companyDataId = "company_data";
+    var companyDataId = "company_data";
 
-var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
-{
-Type = InputType.Hidden
-};
-var phoneInput = new InputViewModel("Phone", "Phone", Model.PersonDto.PersonModel.Phone, false);
-var emailInput = new InputViewModel("Email", "Email", Model.PersonDto.PersonModel.Email, false);
-var nifInput = new InputViewModel("NIF (optional)", "NIF", Model.PersonDto.PersonModel.NIF, false);
-var fullNameInput = new InputViewModel("Name", "FullName", Model.PersonDto.PersonModel.FullName, false);
-var commentInput = new InputViewModel("Comment (optional)", "Comment", Model.PersonDto.PersonModel.Comment, false);
-var isCompanyControl = new CheckBoxControlViewModel("Is company", "IsCompany", Model.PersonDto.PersonModel.IsCompany, companyDataId, false);
-var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
-var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
-var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
+    var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
+    {
+        Type = InputType.Hidden
+    };
+    var phoneInput = new InputViewModel("Phone", "Phone", Model.PersonDto.PersonModel.Phone, false);
+    var emailInput = new InputViewModel("Email", "Email", Model.PersonDto.PersonModel.Email, false);
+    var nifInput = new InputViewModel("NIF (optional)", "NIF", Model.PersonDto.PersonModel.NIF, false);
+    var fullNameInput = new InputViewModel("Name", "FullName", Model.PersonDto.PersonModel.FullName, false);
+    var commentInput = new InputViewModel("Comment (optional)", "Comment", Model.PersonDto.PersonModel.Comment, false);
+    var isCompanyControl = new CheckBoxControlViewModel("Is company", "IsCompany", Model.PersonDto.PersonModel.IsCompany, companyDataId, false);
+    var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
+    var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
+    var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
 }
 <div class="container-fluid text-center bg-info text-white">
     <div class="container py-5" id="booking_selected">
@@ -71,22 +71,22 @@ var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Mod
                 @totalSum
             </div>
 
-            <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
-                @await Html.PartialAsync("Common/Input", idInput)
-                @await Html.PartialAsync("Common/Input", phoneInput)
-                @await Html.PartialAsync("Common/Input", emailInput)
-                @await Html.PartialAsync("Common/Input", nifInput)
-                @await Html.PartialAsync("Common/Input", fullNameInput)
-                @await Html.PartialAsync("Common/Input", commentInput)
-                @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
-                <div id="@companyDataId">
-                    @await Html.PartialAsync("Common/Input", companyNif)
-                    @await Html.PartialAsync("Common/Input", companyName)
-                    @await Html.PartialAsync("Common/Input", companyAddress)
-                </div>
+            @await Html.PartialAsync("Common/Input", idInput)
+            @await Html.PartialAsync("Common/Input", phoneInput)
+            @await Html.PartialAsync("Common/Input", emailInput)
+            @await Html.PartialAsync("Common/Input", nifInput)
+            @await Html.PartialAsync("Common/Input", fullNameInput)
+            @await Html.PartialAsync("Common/Input", commentInput)
+            @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
+            <div id="@companyDataId">
+                @await Html.PartialAsync("Common/Input", companyNif)
+                @await Html.PartialAsync("Common/Input", companyName)
+                @await Html.PartialAsync("Common/Input", companyAddress)
+            </div>
 
+            <form asp-action="Index" asp-controller="Booking" method="post" class="pb-3 pt-3">
                 <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Confirm")
+                    @await Html.RenderText("Book again")
                 </button>
             </form>
         </div>

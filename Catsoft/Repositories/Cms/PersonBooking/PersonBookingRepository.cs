@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using App.cms.Repositories;
 using App.Models;
 using App.Models.Booking;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Repositories.Cms.PersonBooking
 {
@@ -64,12 +66,57 @@ namespace App.Repositories.Cms.PersonBooking
                 booking.BookingStage = BookingStage.Confirmation;
             });
         }
+        
+        public Task<PersonBookingModel> Block(Guid? uuid)
+        {
+            return DoWithUpdate(uuid, async booking=>
+            {
+                var selectedTimes = await catsoftContext.AppointTimes.Where(w => booking.SelectedTimes.Contains(w.Id))
+                    .ToListAsync();
+                
+                foreach (var appointTimeModel in selectedTimes)
+                {
+                    appointTimeModel.PersonBookingId = booking.Id;
+                    appointTimeModel.Blocked = true;
+                    catsoftContext.AppointTimes.Update(appointTimeModel);
+                }
 
-        public Task<PersonBookingModel> Book(Guid? uuid)
+                booking.FinalPrice = (double)selectedTimes.Sum(w => w.Price) * booking.PeopleCount;
+            });
+        }
+
+        public Task<PersonBookingModel> Book(Guid? uuid, Guid personData)
         {
             return DoWithUpdate(uuid, async booking=>
             {
                 booking.BookingStage = BookingStage.Success;
+                booking.PersonModelId = personData;
+                
+                var selectedTimes = await catsoftContext.AppointTimes.Where(w => booking.SelectedTimes.Contains(w.Id))
+                    .ToListAsync();
+                
+                foreach (var appointTimeModel in selectedTimes)
+                {
+                    appointTimeModel.Booked = true;
+                    catsoftContext.AppointTimes.Update(appointTimeModel);
+                }
+            });
+        }
+        
+        public Task<PersonBookingModel> Pay(Guid? uuid)
+        {
+            return DoWithUpdate(uuid, async booking=>
+            {
+                booking.Paid = true;
+                
+                var selectedTimes = await catsoftContext.AppointTimes.Where(w => booking.SelectedTimes.Contains(w.Id))
+                    .ToListAsync();
+                
+                foreach (var appointTimeModel in selectedTimes)
+                {
+                    appointTimeModel.Paid = true;
+                    catsoftContext.AppointTimes.Update(appointTimeModel);
+                }
             });
         }
     }

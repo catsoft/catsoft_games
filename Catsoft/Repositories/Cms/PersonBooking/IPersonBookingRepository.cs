@@ -19,6 +19,10 @@ namespace App.Repositories.Cms.PersonBooking
 
         public Task<PersonBookingModel> StartConfirmationStage(Guid? uuid);
 
-        public Task<PersonBookingModel> Book(Guid? uuid);
+        public Task<PersonBookingModel> Block(Guid? uuid);
+        
+        public Task<PersonBookingModel> Book(Guid? uuid, Guid personData);
+
+        public Task<PersonBookingModel> Pay(Guid? uuid);
     }
 }

@@ -30,7 +30,7 @@
     {
         DefaultSelection = false,
         OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
-        Enabled = false,
+        Enabled = false
     };
 
 
@@ -71,20 +71,21 @@
                 @totalSum
             </div>
 
-            <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
-                @await Html.PartialAsync("Common/Input", idInput)
-                @await Html.PartialAsync("Common/Input", phoneInput)
-                @await Html.PartialAsync("Common/Input", emailInput)
-                @await Html.PartialAsync("Common/Input", nifInput)
-                @await Html.PartialAsync("Common/Input", fullNameInput)
-                @await Html.PartialAsync("Common/Input", commentInput)
-                @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
-                <div id="@companyDataId">
-                    @await Html.PartialAsync("Common/Input", companyNif)
-                    @await Html.PartialAsync("Common/Input", companyName)
-                    @await Html.PartialAsync("Common/Input", companyAddress)
-                </div>
+            @await Html.PartialAsync("Common/Input", idInput)
+            @await Html.PartialAsync("Common/Input", phoneInput)
+            @await Html.PartialAsync("Common/Input", emailInput)
+            @await Html.PartialAsync("Common/Input", nifInput)
+            @await Html.PartialAsync("Common/Input", fullNameInput)
+            @await Html.PartialAsync("Common/Input", commentInput)
+            @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
+            <div id="@companyDataId">
+                @await Html.PartialAsync("Common/Input", companyNif)
+                @await Html.PartialAsync("Common/Input", companyName)
+                @await Html.PartialAsync("Common/Input", companyAddress)
+            </div>
 
+            <form asp-action="BookingConfirmation" asp-controller="Booking" method="post" class="pb-3 pt-3">
+                <input type="hidden" name="uuid" value="@Model.PersonBookingDto.PersonBooking.Id.ToString()"/>
                 <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
                     @await Html.RenderText("Confirm")
                 </button>

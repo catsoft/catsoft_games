@@ -4,6 +4,6 @@ namespace App.cms.StaticHelpers.Cookies.models
 {
     public class BookingHistoryCookieDto
     {
-        public List<string> BookingId { get; set; }
+        public List<string> BookingId { get; set; } = new();
     }
 }

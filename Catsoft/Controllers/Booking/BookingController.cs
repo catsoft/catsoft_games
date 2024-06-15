@@ -194,16 +194,7 @@ namespace App.Controllers.Booking
             await _personRepository.UpdateAsync(personModel);
 
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
-            
-            var selectedTimes = GetSelectedTimesDtos();
-            foreach (var appointTimeModel in selectedTimes.Result)
-            {
-                appointTimeModel.PersonBookingId = booking.Id;
-                appointTimeModel.Blocked = true;
-                DbContext.AppointTimes.Update(appointTimeModel);
-            }
-
-            await DbContext.SaveChangesAsync();
+            await _personBookingRepository.Block(booking.Id);
 
             return RedirectToAction("BookingConfirmation");
         }
@@ -246,27 +237,17 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
 
-            var bookingId = Guid.Parse(uuid);
-            var booking = await DbContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == bookingId);
-            booking.Booked = true;
-            DbContext.PersonBookings.Update(booking);
-
-            var times = await GetBookingTimes(bookingId);
-            foreach (var time in times)
-            {
-                time.Booked = true;
-                DbContext.AppointTimes.Update(time);
-            }
-
-            await DbContext.SaveChangesAsync();
-
-            // last price for booking
+            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
+            var person = await _bookingSelectionCookieRepository.GetWithUpdate(_personRepository.GetDefault);
+            await _personBookingRepository.Book(booking.Id, person.Id);
 
             var history = _bookingHistoryCookieRepository.GetValue();
             history.BookingId.Add(uuid);
             _bookingHistoryCookieRepository.SaveValue(history);
 
-            _bookingSelectionCookieRepository.Clear();
+            var selection = _bookingSelectionCookieRepository.GetValue();
+            selection.BookingId = null;
+            _bookingSelectionCookieRepository.SaveValue(selection);
 
             return RedirectToAction("BookingSuccess");
         }
@@ -287,13 +268,15 @@ namespace App.Controllers.Booking
             var lastBookingId = Guid.Parse(bookingHistory.BookingId.Last());
             var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
             var personBooking = await _personBookingRepository.GetDefault(lastBookingId);
+            var person = await _personRepository.GetDefault(personBooking.PersonModelId);
 
             var model = new BookingSuccessViewModel
             {
                 HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
                 FooterViewModel = await GetFooterViewModel(),
                 PersonBookingDto = new PersonBookingDto(personBooking),
-                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList()
+                SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
+                PersonDto = new PersonDto(person)
             };
 
             return View(model);
