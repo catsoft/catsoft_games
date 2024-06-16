@@ -1,10 +1,6 @@
 ﻿@inject CatsoftContext DbCatsoftContext
-@using App.cms.Options
-@using App.cms.StaticHelpers.Cookies
+@using App.cms.Helpers
 @using App.Models
-@using App.ViewModels.Book
-@using App.ViewModels.MyBookings
-@using App.ViewModels.PreOrder
 @model App.ViewModels.MyBookings.MyBookingsPageViewModel
 
 
@@ -12,11 +8,27 @@
     Layout = "_Layout";
 }
 
-@foreach (var booking in Model.MyBookings)
-{
-    <div class="row">
-        <span>
-            @booking.PersonBooking.FinalPrice
-        </span>
+
+<div style="background: rgba(255,213,79,1);" class="container-fluid text-black text-center">
+
+    <div class="container px-4 py-5">
+
+        <div class="row mb-4">
+            <span class="mb-3 fs-1 fw-bold text-center">
+                @await Html.RenderText("My bookings")
+            </span>
+        </div>
+
+        <div class="row flex-row justify-content-center">
+            @foreach (var booking in Model.MyBookings)
+            {
+                <div class="row">
+                    @await Html.PartialAsync("Booking/BookingItem/BookingItem", booking)
+                </div>
+            }
+        </div>
+
+        @await Html.PartialAsync("Booking/BookButton")
     </div>
-}
+
+</div>

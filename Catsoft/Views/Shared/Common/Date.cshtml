@@ -7,6 +7,7 @@
 @{
     Layout = null;
     var value = Model.Date?.ToString("yyyy-MM-dd");
+    var disabled =  Model.Enabled ? "" : "disabled";
 }
 
 <div>
@@ -19,5 +20,6 @@
            name="@(Model.NameTag.RemoveWhitespace())"
            type="date"
            value="@value"
-           onchange="@Model.OnChangeOnChangeScript">
+           onchange="@Model.OnChangeOnChangeScript"
+           @disabled>
 </div>

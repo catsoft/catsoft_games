@@ -8,6 +8,8 @@ namespace App.ViewModels.Views
 
         public DateOnly? Date { get; set; } = date;
 
+        public bool Enabled { get; set; } = true;
+        
         public string OnChangeOnChangeScript { get; set; } = onChangeScript;
     }
 }

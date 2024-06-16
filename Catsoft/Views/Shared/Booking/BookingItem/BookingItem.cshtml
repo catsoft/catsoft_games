@@ -1,0 +1,91 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Options
+@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
+@using App.Models
+@using App.ViewModels.Booking
+@using App.ViewModels.Booking.Time
+@using App.ViewModels.Views
+@model App.ViewModels.Booking.PersonBookingDto
+@inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
+@inject ILocalOptionsCookieRepository LocalOptionCookieRepository
+
+@{
+    Layout = null;
+
+    var bookingSelectedTimes = Model.PersonBooking.AppointTimeModels
+        .OrderBy(w => w.Date)
+        .ThenBy(w => w.TimeStart)
+        .Select(w => new AppointTimeDto(w))
+        .Select(w => new BookingTimeItemDto
+        {
+            AppointTimeDto = w,
+            Selected = true,
+            Enabled = false,
+            BookingTimeItemType = BookingTimeItemType.Date
+        })
+        .ToList();
+
+    var sum = Model.PersonBooking.FinalPrice + Options.Currency;
+
+    var personDto = new PersonDto(Model.PersonBooking.PersonModel);
+    var personName = new List<string>
+    {
+        personDto.PersonModel.FullName, personDto.PersonModel.Phone, personDto.PersonModel.Email
+    };
+    var personInfo = string.Join("<br>", personName);
+
+    var personCount = Model.PersonBooking.PeopleCount;
+
+    var options = Enumerable.Range(1, 4).ToList();
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Stations count"),
+        personCount.ToString(),
+        options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        false)
+    {
+        DefaultSelection = false,
+        Enabled = false
+    };
+
+    var date = bookingSelectedTimes.Select(w => w.AppointTimeDto.AppointTime.Date).Distinct().First();
+    var dateDto = new DateViewModel("Date", date, "timeSelectionSelectionDateOnChange(this, 'selectedTimesBlockId')")
+    {
+        Enabled = false,
+    };
+
+    var times = Model.GetTimesShortInfos(LanguageCookieRepository);
+
+    var creationDate = Model.FormatCreatingDateTime(LanguageCookieRepository);
+}
+@if (LocalOptionCookieRepository.BookingEnabled())
+{
+    <div class="container-fluid text-center text-black">
+        <div class="row py-5">
+            <div class="col-2 ps-1 pe-1">
+                @Html.Raw(creationDate)
+            </div>
+
+            <div class="col-2 ps-1 pe-1">
+                @Html.Raw(personInfo)
+            </div>
+
+            <div class="col-2 ps-1 pe-1">
+                @sum
+            </div>
+
+            <div class="col-2 ps-1 pe-1">
+                @await Html.PartialAsync("Common/Selector", selectorDto)
+            </div>
+
+            <div class="col-2 ps-1 pe-1">
+                @await Html.PartialAsync("Common/Date", dateDto)
+            </div>
+
+            <div class="col-2 ps-1 pe-1">
+                @Html.Raw(times)
+            </div>
+        </div>
+    </div>
+}

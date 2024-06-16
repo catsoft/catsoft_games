@@ -17,19 +17,7 @@
 
     var selection = bookingSelectionCookieRepository.GetValue();
 
-    var bookingSelectedTimes = Model.PersonBookingDto.PersonBooking.SelectedTimes;
-    
-    var selectedTimes = Model.AvailableAppointTimes
-        .Where(w => bookingSelectedTimes.Contains(w.AppointTime.Id))
-        .OrderBy(w => w.AppointTime.Date)
-        .ThenBy(w => w.AppointTime.TimeStart)
-        .ToList();
-
     var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
-
-    var sum = selectedTimes.Sum(w => w.AppointTime.Price) * personCount;
-
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
 
     var options = Enumerable.Range(1, 4).ToList();
     var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),

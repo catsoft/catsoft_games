@@ -17,9 +17,9 @@
     <p>
         <span class="fs-6 text-center">@(topInfo)</span>
         <br/>
-        <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeStart</span>
+        <span class="fw-bold fs-4 text-center">@time.AppointTime.FormatTimeStart()</span>
         <br/>
-        <span class="fw-bold fs-4 text-center">@time.AppointTime.TimeEnd</span>
+        <span class="fw-bold fs-4 text-center">@time.AppointTime.FormatTimeEnd()</span>
         <br/>
         <span class="fs-6 text-center">@(time.AppointTime.FormattedPrice())</span>
     </p>

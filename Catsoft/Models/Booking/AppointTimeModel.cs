@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
-using App.cms.Options;
+using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
 
 namespace App.Models.Booking
@@ -37,23 +36,18 @@ namespace App.Models.Booking
 
         public string FormattedShortDate(ILanguageCookieRepository languageCookieRepository)
         {
-            return Date.ToString("M", GetCulturalInfo(languageCookieRepository));
+            return FormatHelper.FormattedShortDate(languageCookieRepository, Date);
         }
 
         public string FormatLongDate(ILanguageCookieRepository languageCookieRepository)
         {
-            return Date.ToString("dddd, dd MMMM", GetCulturalInfo(languageCookieRepository));
+            return FormatHelper.FormatLongDate(languageCookieRepository, Date);
         }
 
-        private CultureInfo GetCulturalInfo(ILanguageCookieRepository languageCookieRepository)
-        {
-            var language = languageCookieRepository.GetValue().Language;
-            return new CultureInfo(language.GetCulturalCode());
-        }
-        
-        public string FormattedPrice()
-        {
-            return Options.Currency + Price.ToString("N1");
-        }
+        public string FormatTimeStart() { return FormatHelper.FormatTime(TimeStart); }
+
+        public string FormatTimeEnd() { return FormatHelper.FormatTime(TimeEnd); }
+
+        public string FormattedPrice() { return FormatHelper.FormattedPrice(Price); }
     }
 }

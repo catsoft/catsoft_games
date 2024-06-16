@@ -47,12 +47,10 @@
                     <span class="fw-bold fs-1 text-center">@await Html.RenderText("Our Strengths")</span>
                 </p>
 
-                <p>
-
                 <div class="row">
                     @foreach (var strength in strengths)
                     {
-                        @await Html.PartialAsync("Booking/CommercialBookStrength", strength)
+                        @await Html.PartialAsync("Booking/CommercialBookStrengthItem", strength)
                     }
                 </div>
                 

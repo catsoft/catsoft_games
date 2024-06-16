@@ -4,6 +4,7 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.ViewModels.Booking
+@using App.ViewModels.Booking.Time
 @using App.ViewModels.Views
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using InputType = App.ViewModels.Views.InputType
@@ -17,6 +18,14 @@
 @{
     Layout = "_Layout";
 
+    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto()
+    {
+        AppointTimeDto = w,
+        Selected = true,
+        Enabled = false,
+        BookingTimeItemType = BookingTimeItemType.Date
+    }).ToList();
+    
     var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
     var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
@@ -90,6 +99,6 @@
                 </form>
             </div>
 
-            @await Html.PartialAsync("Shared/Booking/SelectedTimes", new SelectedTimesViewModel(Model.SelectedTimes, Model.PersonBookingDto))
+            @await Html.PartialAsync("Booking/Time/BookingTimeItemsRow", new BookingTimeItemsRow(times))
         </div>
     </div>

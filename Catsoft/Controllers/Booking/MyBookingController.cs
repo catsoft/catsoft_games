@@ -40,9 +40,11 @@ namespace App.Controllers.Booking
         {
             var historyIds = _bookingHistoryCookieRepository.GetValue().BookingIds;
 
-            var bookings = await _personBookingRepository.GetAll().Where(w => historyIds.Contains(w.Id))
+            var bookings = await _personBookingRepository.GetAll()
+                .Where(w => historyIds.Contains(w.Id))
                 .Include(w => w.PersonModel)
                 .Include(w => w.AppointTimeModels)
+                .OrderBy(w => w.DateCreated)
                 .ToListAsync();
              
             var myBookings = new MyBookingsPageViewModel()

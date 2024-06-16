@@ -1,0 +1,16 @@
+﻿@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
+@model App.ViewModels.Booking.Time.BookingTimeItemsRow
+@inject ILanguageCookieRepository LanguageCookieRepository
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+}
+
+<div class="row flex-row justify-content-center">
+    @foreach (var time in Model.BookingTimeItemDto)
+    {
+        @await Html.PartialAsync("Booking/Time/BookingTimeItem", time)
+    }
+</div>
