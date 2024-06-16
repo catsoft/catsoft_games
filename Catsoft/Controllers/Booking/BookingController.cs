@@ -121,14 +121,9 @@ namespace App.Controllers.Booking
                 return RedirectToAction("Index", "Home");
             }
         
-            var startDate = DateOnly.FromDateTime(DateTime.Now);
-            var endDate = DateOnly.FromDateTime(DateTime.Now + Options.BookingAvailableRange);
-            
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
-        
-            var times = await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
-                .Where(w => w.Date >= startDate && w.Date <= endDate)
-                .ToListAsync();
+
+            var times = await GetSelectedTimesDtos();
         
             var model = new BookingPageViewModel
             {
@@ -297,14 +292,14 @@ namespace App.Controllers.Booking
         private async Task<List<AppointTimeModel>> GetSelectedTimesDtos()
         {
             var selection = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
-            return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+            return await DbContext.AppointTimes
                 .Where(w => selection.SelectedTimes.Contains(w.Id))
                 .ToListAsync();
         }
 
         private async Task<List<AppointTimeModel>> GetBookingTimes(Guid bookingId)
         {
-            return await DbContext.AppointTimes.Where(w => !w.Booked && !w.Blocked)
+            return await DbContext.AppointTimes
                 .Where(w => w.PersonBookingId == bookingId)
                 .ToListAsync();
         }
