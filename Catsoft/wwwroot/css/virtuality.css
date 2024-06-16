@@ -42,7 +42,7 @@ svg, path {
 }
 
 .h1, .h2, .h2to5, .h3 {
-    /*font-family: "Clash Display Variable";*/
+    font-family: "Clash Display Variable", Onest, sans-serif;
 }
 
 .text1, .text2, .text3, .text4 {
@@ -125,6 +125,7 @@ svg, path {
     align-items: center;
     gap: 16px;
     flex-shrink: 0;
+    border: 0;
 
     border-radius: 12px;
     background: var(--brandBlueNormal);
@@ -138,6 +139,7 @@ svg, path {
     align-items: center;
     gap: 16px;
     flex-shrink: 0;
+    border: 0;
 
     border-radius: 12px;
     background: var(--brandBlueDark);
@@ -157,17 +159,15 @@ svg, path {
     padding-bottom: 0;
 }
 
-.fullWidthImage {
+.fullWidthImageNew {
     background-repeat: no-repeat;
     background-attachment: local;
     background-size: cover;
     background-position: center;
     height: 466px;
-    padding-top: 64px;
-    padding-bottom: 64px
 }
 
-.squareImage {
+.squareImageNew {
     height: 192px;
     width: 340px;
     border-radius: 12px;
@@ -175,4 +175,8 @@ svg, path {
 }
 
 .mapBox {
+}
+
+.main_text_block {
+    width: 5rem;
 }
