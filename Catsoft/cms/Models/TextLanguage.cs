@@ -10,21 +10,24 @@ namespace App.cms.Models
         Russian,
         Portuguese,
         Ukrainian,
-        Spanish,
+        Spanish
     }
 
     public static class LanguageHelper
     {
-        public static TextLanguage DefaultLanguage() => TextLanguage.Portuguese;
-        
-        public static List<TextLanguage> GetLanguages() => new()
+        public static TextLanguage DefaultLanguage() { return TextLanguage.Portuguese; }
+
+        public static List<TextLanguage> GetLanguages()
+        {
+            return new List<TextLanguage>
             {
                 TextLanguage.Portuguese,
                 TextLanguage.English,
                 TextLanguage.Spanish,
                 TextLanguage.Russian,
-                TextLanguage.Ukrainian,
+                TextLanguage.Ukrainian
             };
+        }
 
         public static string GetLanguageName(this TextLanguage language)
         {
@@ -44,7 +47,26 @@ namespace App.cms.Models
                     throw new Exception();
             }
         }
-        
+
+        public static string GetFlagImage(this TextLanguage language)
+        {
+            switch (language)
+            {
+                case TextLanguage.English:
+                    return "/UploadFiles/flag_england.svg";
+                case TextLanguage.Russian:
+                    return "/UploadFiles/flag_russia.svg";
+                case TextLanguage.Portuguese:
+                    return "/UploadFiles/flag_portugal.svg";
+                case TextLanguage.Ukrainian:
+                    return "/UploadFiles/flag_ukraine.svg";
+                case TextLanguage.Spanish:
+                    return "/UploadFiles/flag_spain.svg";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(language), language, null);
+            }
+        }
+
         public static string GetLanguageCode(this TextLanguage language)
         {
             switch (language)
@@ -63,7 +85,7 @@ namespace App.cms.Models
                     throw new Exception();
             }
         }
-        
+
         public static string GetCulturalCode(this TextLanguage language)
         {
             switch (language)
@@ -82,7 +104,7 @@ namespace App.cms.Models
                     throw new Exception();
             }
         }
-        
+
         public static string GetLanguageCodeForHtml(this TextLanguage language)
         {
             switch (language)
@@ -101,7 +123,7 @@ namespace App.cms.Models
                     throw new Exception();
             }
         }
-        
+
         public static string IsoCountryCodeToFlagEmoji(this string country)
         {
             return string.Concat(country.ToUpper().Select(x => char.ConvertFromUtf32(x + 0x1F1A5)));

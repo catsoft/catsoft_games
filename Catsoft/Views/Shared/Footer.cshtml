@@ -1,16 +1,14 @@
-﻿@model App.ViewModels.Common.FooterViewModel
+﻿@using App.cms.Helpers
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model App.ViewModels.Common.FooterViewModel
 
 @{
     Layout = null;
 }
 
-<footer class="footer mt-auto py-2 bg-light">
+<footer class="footer mt-auto py-2">
     <div class="container-fluid row justify-content-between">
-        <div class="col-md-4 d-flex align-items-center">
-            @* <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"> *@
-            @* <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg> *@
-            @* </a> *@
-
+        <div class="col-4 d-flex align-items-center">
             <span class="ms-5 mb-3 mb-md-0 text-muted">
                 <a href="http://catsoft.games">&copy; Catsoft</a> 2018-@DateTime.Now.Year
             </span>
@@ -25,29 +23,28 @@
                 <input type="submit" class="btn" value="GameSelection toggle"/>
             </form>
         </div>
+        
+        <div class="row col-4 offset-4 d-flex">
+            
+        @{
+#if DEBUG
+            <a href="/logincms" class="col-auto d-flex align-items-center mb-3 me-5 mb-md-0 text-decoration-none">
+                <span class="fs-4">@await Html.RenderText("Login")</span>
+            </a>
+#endif
 
-        <ul class="nav col-4 me-5 justify-content-end list-unstyled d-flex">
-            <li class="ms-3">
-                <a class="text-muted" href="#">
-                    <svg class="bi" width="24" height="24">
-                        <use xlink:href="#twitter"></use>
-                    </svg>
-                </a>
-            </li>
-            <li class="ms-3">
-                <a class="text-muted" href="#">
-                    <svg class="bi" width="24" height="24">
-                        <use xlink:href="#instagram"></use>
-                    </svg>
-                </a>
-            </li>
-            <li class="ms-3">
-                <a class="text-muted" href="#">
-                    <svg class="bi" width="24" height="24">
-                        <use xlink:href="#facebook"></use>
-                    </svg>
-                </a>
-            </li>
-        </ul>
+#if DEBUG
+            <a href="/accounting/transactionlist" class="col-auto d-flex align-items-center mb-3 me-5 mb-md-0 text-decoration-none">
+                <span class="fs-4">@await Html.RenderText("Accounting")</span>
+            </a>
+#endif
+
+#if DEBUG
+            <a href="/textResource/toggleEdit" class="col-auto d-flex align-items-center mb-3 me-5 mb-md-0 text-decoration-none">
+                <span class="fs-4">@await Html.RenderText("Text edit")</span>
+            </a>
+#endif
+        }
+        </div>
     </div>
 </footer>

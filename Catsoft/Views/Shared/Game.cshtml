@@ -9,8 +9,8 @@
 
 @if (Model != null)
 {
-    <figure>
-        @if (Model.YoutubeLink.IsNullOrEmpty())
+    <figure class="mb-0 pb-0">
+        @if (Model.ImageModel != null)
         {
             <img class="squareImage" src="@Model.ImageModel?.Url" alt="img">
         }
@@ -18,8 +18,8 @@
         {
             await Html.RenderPartialAsync("Common/YoutubeVideo", Model.YoutubeLink);
         }
-        <figcaption>
-            <span class="fw-bold fs-4">@Html.Raw(Model.Title)</span>
+        <figcaption class="pt-3 mt-0">
+            <span class="text1" style="text-transform: none;">@Html.Raw(Model.Title)</span>
         </figcaption>
     </figure>
 }
