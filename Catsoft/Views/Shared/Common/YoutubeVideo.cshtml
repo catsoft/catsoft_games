@@ -1,15 +1,16 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.Models
-@model string
+@model App.ViewModels.Views.YoutubeViewModel
 
 @{
     Layout = null;
+    var autoPlay = Model.AutoPlay ? "?&autoplay=1&mute=1&enablejsapi=1" : "";
 }
 <iframe class="squareImageNew"
-        src="@Model?&autoplay=1&mute=1&enablejsapi=1"
+        src="@(Model.Url + autoPlay)"
         frameBorder="0"
-        title="YouTube video player" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen>
 </iframe>

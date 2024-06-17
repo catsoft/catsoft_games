@@ -8,3 +8,5 @@
 @{
     Layout = "_Layout";
 }
+
+@await Html.PartialAsync("GamesList", Model.Page.GameModels)

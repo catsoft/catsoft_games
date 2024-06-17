@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
 using App.ViewModels.Games;
@@ -16,7 +17,11 @@ namespace App.Controllers.Games
 
         public async Task<IActionResult> Index()
         {
-            var games = await DbContext.GameModels.ToListAsync();
+            var games = await DbContext.GameModels
+                .Include(w => w.ImageModel)
+                .Include(w => w.GameTagModels)
+                .OrderBy(w => w.Title)
+                .ToListAsync();
 
             var gamesViewModel = new GamesPageViewModel()
             {

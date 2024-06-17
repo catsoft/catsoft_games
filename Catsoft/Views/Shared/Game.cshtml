@@ -1,25 +1,31 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.Models
+@using App.ViewModels.Views
 @model App.Models.GameModel
 
 @{
     Layout = null;
     var backUrl = Model.ImageModel?.Url;
+    var viewModel = new YoutubeViewModel(Model.YoutubeLink, Model.ImageModel != null);
+    var display = viewModel.AutoPlay ? "none" : "display";
 }
 
 @if (Model != null)
 {
     <figure class="mb-0 pb-0">
         <div class="squareImageNew">
-            <div style="display: none">
-                @await Html.PartialAsync("Common/YoutubeVideo", Model.YoutubeLink);
+            <div style="display: @display">
+                @await Html.PartialAsync("Common/YoutubeVideo", viewModel)
             </div>
-            <div class="squareImageNew fullWidthImageBack d-flex align-items-center justify-content-center" style="background: url('@backUrl') center center / cover no-repeat" onclick="play(this)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
-                    <circle cx="32" cy="32" r="32" fill="#4949AD"/>
-                    <path d="M27.1997 20.8V44L41.5997 32.4L27.1997 20.8Z" fill="white"/>
-                </svg>
-            </div>
+            @if (viewModel.AutoPlay)
+            {
+                <div class="squareImageNew fullWidthImageBack d-flex align-items-center justify-content-center" style="background: url('@backUrl') center center / cover no-repeat" onclick="play(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="32" fill="#4949AD"/>
+                        <path d="M27.1997 20.8V44L41.5997 32.4L27.1997 20.8Z" fill="white"/>
+                    </svg>
+                </div>
+            }
         </div>
         <figcaption class="pt-3 mt-0">
             <span class="text1" style="text-transform: none;">@Html.Raw(Model.Title)</span>
