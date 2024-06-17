@@ -1,0 +1,55 @@
+﻿@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers.Cookies
+@using App.Models
+@using Microsoft.IdentityModel.Tokens
+@model App.ViewModels.Common.HeaderViewModel
+@inject ILanguageCookieRepository LanguageCookieRepository
+@inject TextResourceRepository textResourceRepository
+@inject ILocalOptionsCookieRepository LocalOptionsCookieRepository
+@inject IBookingHistoryCookieRepository BookingHistoryCookieRepository
+@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = null;
+    var virtualityMenus = new List<Menu>
+    {
+        Menu.Home,
+        Menu.Booking
+        // Menu.Book,
+        // Menu.Services,
+        // Menu.Contacts,
+        // Menu.Gallery,
+    };
+
+    if (!BookingHistoryCookieRepository.GetValue().BookingIds.IsNullOrEmpty() && LocalOptionsCookieRepository.BookingEnabled())
+    {
+        virtualityMenus.Add(Menu.MyBookings);
+    }
+}
+
+<div class="nav nav-pills d-flex justify-content-md-between justify-content-sm-center flex-md-row flex-sm-column align-items-center" id="header_menus">
+    @if (Model.CurrentPage == Menu.Blog)
+    {
+        <div class="nav-item">
+            <a class="nav-link active" href="/Blog/Index">
+                <span>@await Html.RenderText("Blog")</span>
+            </a>
+        </div>
+    }
+    else
+    {
+        @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
+        {
+            <div class="nav-item">
+                @if (menu.Menu == Menu.Booking && !LocalOptionsCookieRepository.BookingEnabled()) continue;
+
+                <a class="nav-link me-md-3 me-sm-0 mt-md-0 mt-sm-3 text4 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
+                    <span>@await Html.RenderText(menu.Title)</span>
+                </a>
+            </div>
+        }
+    }
+    
+    @await Html.PartialAsync("Header/LanguageSelector", Model)
+</div>

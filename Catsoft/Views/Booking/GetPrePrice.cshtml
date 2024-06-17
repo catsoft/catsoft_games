@@ -1,6 +1,14 @@
-﻿@model double
+﻿@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
+@model double
+@inject TextResourceRepository TextResourceRepository
 
 @{
     Layout = null;
+
+    var from = await TextResourceRepository.GetByTagAsync("From");
+    var perHour = await TextResourceRepository.GetByTagAsync("Per hour");
+    var price = FormatHelper.FormattedPrice(Model);
+    var total = from + " " + price + " " + perHour;
 }
-@Model
+<span class="text-brand">@total</span>

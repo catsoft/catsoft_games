@@ -46,7 +46,8 @@
         false)
     {
         DefaultSelection = false,
-        Enabled = false
+        Enabled = false,
+        WithDefaultValue = false
     };
 
     var date = bookingSelectedTimes.Select(w => w.AppointTimeDto.AppointTime.Date).Distinct().First();

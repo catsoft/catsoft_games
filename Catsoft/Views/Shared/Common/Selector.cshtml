@@ -17,22 +17,25 @@
         Value = w.Value,
         Selected = w.Value == Model.SelectedValue
     }).ToList();
-    selectList.Insert(0, new SelectListItem { Value = "", Text = text });
-    
-    var disabled =  Model.Enabled ? "" : "disabled";
+    if (Model.WithDefaultValue)
+    {
+        selectList.Insert(0, new SelectListItem { Value = "", Text = text });
+    }
+
+    var disabled = Model.Enabled ? "" : "disabled";
 }
 
-<div>
-    <span class="fw-bold">
+<div class="text-start">
+    <span class="text4 text-gray mb-2 text-start text-non-caps">
         @await Html.RenderText(Model.Label)
     </span>
 
-    <select class="form-select" aria-label="@await TextResourceRepository.GetByTagAsync(Model.Label)" onchange="@Model.OnChangeScript"
+    <select class="form-select text4 text-black" aria-label="@await TextResourceRepository.GetByTagAsync(Model.Label)" onchange="@Model.OnChangeScript"
             id="@propertyName" name="@propertyName" @disabled>
-        @foreach (var i in Model.Options)
+        @foreach (var i in selectList)
         {
             var selected = i.Value == Model.SelectedValue ? "selected" : "";
-            <option value="@i.Value" @selected>@i.Label</option>
+            <option value="@i.Value" @selected>@i.Text.ToUpper()</option>
         }
     </select>
 </div>

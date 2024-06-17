@@ -10,12 +10,12 @@
     var disabled =  Model.Enabled ? "" : "disabled";
 }
 
-<div>
-    <label for="@(Model.NameTag.RemoveWhitespace())">
+<div class="text-start">
+    <label class="text4 text-gray mb-2 text-start text-non-caps" for="@(Model.NameTag.RemoveWhitespace())">
         @await Html.RenderText(Model.NameTag)
     </label>
     <input data-val="true"
-           class="input form-control"
+           class="input form-control text4 text-black"
            id="@(Model.NameTag.RemoveWhitespace())"
            name="@(Model.NameTag.RemoveWhitespace())"
            type="date"

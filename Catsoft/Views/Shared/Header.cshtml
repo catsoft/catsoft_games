@@ -1,121 +1,27 @@
-﻿@using App.cms.Helpers
-@using App.cms.Models
-@using App.cms.Repositories.TextResource
-@using App.cms.StaticHelpers.Cookies
-@using App.Models
-@using Microsoft.IdentityModel.Tokens
-@model App.ViewModels.Common.HeaderViewModel
-@inject ILanguageCookieRepository LanguageCookieRepository
-@inject TextResourceRepository textResourceRepository
-@inject ILocalOptionsCookieRepository LocalOptionsCookieRepository
-@inject IBookingHistoryCookieRepository BookingHistoryCookieRepository
+﻿@model App.ViewModels.Common.HeaderViewModel
 @removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = null;
-    var virtualityMenus = new List<Menu>
-    {
-        Menu.Home,
-        Menu.Booking
-        // Menu.Book,
-        // Menu.Services,
-        // Menu.Contacts,
-        // Menu.Gallery,
-    };
-
-    if (!BookingHistoryCookieRepository.GetValue().BookingIds.IsNullOrEmpty() && LocalOptionsCookieRepository.BookingEnabled())
-    {
-        virtualityMenus.Add(Menu.MyBookings);
-    }
-
-    var languages = LanguageHelper.GetLanguages();
-    var currentLanguage = LanguageCookieRepository.GetValue().Language;
 }
 
-<header class="container-fluid d-flex flex-wrap py-3">
+<div class="container-fluid d-flex flex-wrap py-3">
 
     <div class="row col-10 offset-1 flex-row justify-content-between align-items-center align-self-stretch">
 
-        <div class="col-12 col-md-3 ms-md-3 d-flex justify-content-center justify-content-md-start">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 text-decoration-none">
-                <img height="48px" width="48px" src="/UploadFiles/523c8ec8-b25c-49d8-a6ed-68ce725c2267..svg"/>
-                <span class="h2to5 ms-3">@(Model.CompanyName)</span>
+        <div class="col-12 col-lg-3 ms-md-3 d-flex justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center text-decoration-none">
+                <div class="d-flex justify-content-center align-items-center">
+                    <img height="48px" width="48px" src="/UploadFiles/523c8ec8-b25c-49d8-a6ed-68ce725c2267..svg"/>
+                    <span class="h2to5 ms-3">@(Model.CompanyName)</span>
+                </div>
             </a>
         </div>
 
-
-        <ul class="col-12 col-md-5 ps-2 mt-2 mt-md-0 nav nav-pills d-flex justify-content-center justify-content-md-center">
-            @if (Model.CurrentPage == Menu.Blog)
-            {
-                <li class="nav-item">
-                    <a class="nav-link active" href="/Blog/Index">
-                        <span>@await Html.RenderText("Blog")</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                @foreach (var menu in Model.Menus.Where(w => virtualityMenus.Contains(w.Menu)))
-                {
-                    <li class="nav-item">
-                        @if (menu.Menu == Menu.Booking && !LocalOptionsCookieRepository.BookingEnabled()) continue;
-
-                        <a class="nav-link me-3 text4 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
-                            <span>@await Html.RenderText(menu.Title)</span>
-                        </a>
-                    </li>
-                }
-            }
-        </ul>
-
-        <script>
-        function getFlagEmoji(countryCode) {
-            const codePoints = countryCode
-                .toUpperCase()
-                .split('')
-                .map(char => 127397 + char.charCodeAt());
-            return String.fromCodePoint(...codePoints);
-        }
-    </script>
-
-        <div class="col-12 col-md-auto me-md-5 mt-2 mt-md-0">
-            @* <div style="font-family: 'Noto Color Emoji'"> *@
-            @*     <blockquote> *@
-            @*         🇦🇫 🇦🇱 🇩🇿 🇦🇩 🇦🇴 🇦🇬 🇦🇷 🇦🇲 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇹 🇧🇴 🇧🇦 🇧🇼 🇧🇷 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇨🇻 🇰🇭 🇨🇲 🇨🇦 🇨🇫 🇹🇩 🇨🇱 🇨🇴 🇰🇲 🇨🇩 🇨🇷 🇨🇮 🇭🇷 🇨🇺 🇨🇾 🇨🇿 🇰🇵 🇨🇬 🇩🇰 🇩🇯 🇩🇲 🇩🇴 🇪🇨 🇪🇬 🇸🇻 🇬🇶 🇪🇷 🇪🇪 🇸🇿 🇪🇹 🇫🇯 🇫🇮 🇫🇷 🇬🇦 🇬🇲 🇬🇪 🇩🇪 🇬🇭 🇬🇷 🇬🇩 🇬🇹 🇬🇳 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇺 🇮🇸 🇮🇳 🇮🇩 🇮🇷 🇮🇶 🇮🇪 🇮🇱 🇮🇹 🇯🇲 🇯🇵 🇯🇴 🇰🇿 🇰🇪 🇰🇮 🇰🇼 🇰🇬 🇱🇦 🇱🇻 🇱🇧 🇱🇸 🇱🇷 🇱🇾 🇱🇮 🇱🇹 🇱🇺 🇲🇬 🇲🇼 🇲🇾 🇲🇻 🇲🇱 🇲🇹 🇲🇭 🇲🇷 🇲🇺 🇲🇽 🇫🇲 🇲🇨 🇲🇳 🇲🇪 🇲🇦 🇲🇿 🇲🇲 🇳🇦 🇳🇷 🇳🇵 🇳🇱 🇳🇿 🇳🇮 🇳🇪 🇳🇬 🇲🇰 🇳🇴 🇴🇲 🇵🇰 🇵🇼 🇵🇦 🇵🇬 🇵🇾 🇵🇪 🇵🇭 🇵🇱 🇵🇹 🇶🇦 🇰🇷 🇲🇩 🇷🇴 🇷🇺 🇷🇼 🇰🇳 🇱🇨 🇻🇨 🇼🇸 🇸🇲 🇸🇹 🇸🇦 🇸🇳 🇷🇸 🇸🇨 🇸🇱 🇸🇬 🇸🇰 🇸🇮 🇸🇧 🇸🇴 🇿🇦 🇸🇸 🇪🇸 🇱🇰 🇸🇩 🇸🇷 🇸🇪 🇨🇭 🇸🇾 🇹🇯 🇹🇭 🇹🇱 🇹🇬 🇹🇴 🇹🇹 🇹🇳 🇹🇷 🇹🇲 🇹🇻 🇺🇬 🇺🇦 🇦🇪 🇬🇧 🇹🇿 🇺🇸 🇺🇾 🇺🇿 🇻🇺 🇻🇪 🇻🇳 🇾🇪 🇿🇲 🇿🇼 *@
-            @*     </blockquote> *@
-            @* </div> *@
-            <select style="font-family: 'Noto Color Emoji'; width:auto;"
-                    class="align-self-end form-select bg-transparent form-select-dark" 
-                    aria-label=".form-select-lg form-select-item" 
-                    onchange="changeLanguage()">
-                @foreach (var language in languages)
-                {
-                    var languageText = language.ToString();
-                    var flag = language.GetLanguageCode();
-                    var emoji = flag.IsoCountryCodeToFlagEmoji();
-                    var languageName = language.GetLanguageName();
-                    <option style="font-family: 'Noto Color Emoji'"
-                            class="form-select-item"
-                            value="@languageText" @(currentLanguage == language ? "selected" : "") 
-                            label="@(emoji + " " + languageName.ToUpper())">@emoji @languageName.ToUpper()</option>
-                }
-            </select>
-
-            <script>
-            function changeLanguage() {
-                var language = document.querySelector("select").value;
-
-                var url = new URL(window.location.href);
-
-                if (url.searchParams.has('language')) {
-                    url.searchParams.set('language', language);
-                } else {
-                    url.searchParams.append('language', language);
-                }
-                window.location.href = url.toString();
-            }
-        </script>
+        <div class="col-12 col-lg-7 offset-lg-1 ps-2 mt-2 mt-lg-0 d-md-block d-sm-none">
+            @await Html.PartialAsync("Header/Menus", Model)
         </div>
+
     </div>
 
-</header>
+</div>

@@ -2,6 +2,7 @@
 using System.Globalization;
 using App.cms.Models;
 using App.cms.StaticHelpers.Cookies;
+using Azure.Core;
 
 namespace App.cms.StaticHelpers
 {
@@ -31,5 +32,11 @@ namespace App.cms.StaticHelpers
         }
 
         public static string FormattedPrice(decimal price) { return Options.Options.Currency + price.ToString("N1"); }
+        public static string FormattedPrice(double price) { return Options.Options.Currency + price.ToString("N1"); }
+
+        // public static bool IsMobile(Request request)
+        // {
+        //     return request.Browser.IsMobileDevice;
+        // }
     }
 }

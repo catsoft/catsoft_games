@@ -3,6 +3,7 @@
     --white: #ffffff;
     --white2: #f7f7f7;
     --gray: #ACACAC;
+    --grayText: #B7B7B7;
     --black: #000000;
     --brandBlueLight: #5A5AB9;
     --brandBlueNormal: #4949AD;
@@ -16,16 +17,46 @@ body {
 }
 
 header {
-    height: 80px;
+    min-height: 80px;
 }
 
-button, .text1, .text2, .text3, .text4, .h1, .h2, .h2to5, .h3 {
+.text-black {
+    color: var(--black) !important;
+}
+
+.text-brand {
+    color: var(--brandBlueNormal);
+}
+
+.text-white {
+    color: var(--white);
+}
+
+.text-gray {
+    color: var(--grayText) !important;
+}
+
+.text-non-caps {
+    text-transform: none !important;
+}
+
+button, .text0, .text1, .text2, .text3, .text4, .text5, .text6, .h1, .h2, .h2to5, .h4, .naming {
     color: var(--white);
     text-decoration: none;
 }
 
 svg, path {
     fill: var(--white);
+}
+
+.form-select {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+}
+
+.form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
 }
 
 .form-select-dark {
@@ -41,12 +72,12 @@ svg, path {
     color: var(--white);
 }
 
-.h1, .h2, .h2to5, .h3 {
-    font-family: "Clash Display Variable", Onest, sans-serif;
+.h1, .h2, .h2to5, .h4 .naming {
+    font-family: "Clash Display Variable", "Dela Gothic One", Onest, sans-serif;
 }
 
-.text1, .text2, .text3, .text4 {
-    font-family: "Onest", sans-serif;
+.text0, .text1, .text2, .text3, .text4, .text5, .text6 {
+    font-family: "Onest", "Dela Gothic One", sans-serif;
 }
 
 .h1 {
@@ -76,7 +107,7 @@ svg, path {
     text-transform: uppercase;
 }
 
-.h3 {
+.h4 {
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
@@ -85,6 +116,25 @@ svg, path {
     text-transform: uppercase;
 }
 
+.naming {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 0%; /* 0px */
+    letter-spacing: 1.92px;
+    text-transform: uppercase;
+}
+
+/* text 20 semi */
+.text0 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 23.4px */
+    text-transform: uppercase;    
+}
+
+/* text 18 semi */
 .text1 {
     font-size: 18px;
     font-style: normal;
@@ -93,6 +143,7 @@ svg, path {
     text-transform: uppercase;
 }
 
+/* text 18 light */
 .text2 {
     font-size: 18px;
     font-style: normal;
@@ -101,6 +152,7 @@ svg, path {
     text-transform: uppercase;
 }
 
+/* text 16 semi */
 .text3 {
     font-size: 16px;
     font-style: normal;
@@ -109,7 +161,26 @@ svg, path {
     text-transform: uppercase;
 }
 
+/* text 16 light */
 .text4 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 110%; /* 15.4px */
+    text-transform: uppercase;
+}
+
+/* text 14 semi */
+.text5 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%; /* 20.8px */
+    text-transform: uppercase;
+}
+
+/* text 14 light */
+.text6 {
     font-size: 14px;
     font-style: normal;
     font-weight: 300;
@@ -145,9 +216,30 @@ svg, path {
     background: var(--brandBlueDark);
 }
 
+.language_mobile_block {
+    background: rgba(0, 0, 0, 0.20);
+    padding: 4rem 2rem;
+}
+
 .pre-price-book-block {
-    background-color: var(--brandBlueLight);
-    padding: 64px 32px 45px;
+    background-color: var(--brandBlueNormal);
+    padding: 50px 32px;
+    min-height:480px;
+}
+
+.pre-price-calculate-block {
+    background-color: var(--white);
+    padding: 24px;
+    border-radius: 12px;
+    min-width: 366px;
+}
+
+.pre-price-experience-text {
+    color: var(--brandBlueNormal);
+    background: var(--white);
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
 }
 
 .games-block {
@@ -164,7 +256,7 @@ svg, path {
     background-attachment: local;
     background-size: cover;
     background-position: center;
-    height: 466px;
+    min-height: 466px;
     min-width: 366px;
 }
 

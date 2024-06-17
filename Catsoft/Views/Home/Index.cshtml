@@ -20,15 +20,15 @@
     };
 }
 
-<div class="row me-1">
+<div class="container-fluid px-0 row mx-0">
     @* -6.392px 0px / 115.015% 100% *@
     <div style="background: url('/UploadImages/6a6d8a89-d4f9-4dd8-9873-3c376c65de49_compressed.webp') lightgray center center / cover no-repeat"
-         class="fullWidthImageNew col-md-7 col-sm-12">
-        <div style="background: linear-gradient(270deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.75) 48.5%); padding-top: 16px; padding-bottom: 16px"
+         class="fullWidthImageNew col-md-7 col-sm-12 px-0">
+        <div style="background: linear-gradient(270deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.75) 48.5%); padding-top: 44px; padding-bottom: 44px"
              class="d-flex row-column justify-content-start align-items-center w-100 h-100">
             <div class="row col-8 offset-2">
                 <span class="h1 mb-4">@await Html.RenderText("Virtual Reality Arcade", false)</span>
-                <div class="h3 mb-4">
+                <div class="h4 mb-4">
                     @await Html.RenderText("Lost in the game")
                     <br/>
                     @await Html.RenderText("find yourself in experience")
@@ -57,6 +57,10 @@
 
 @* @await Html.PartialAsync("ServicesPage", Model.ServicesPageViewModel) *@
 
+<div class="d-md-none d-sm-block col-sm-12 language_mobile_block d-flex align-item-center justify-content-center">
+    @await Html.PartialAsync("Header/Menus", Model.HeaderViewModel)
+</div>
+
 @await Html.PartialAsync("GamesList", Model.GamesViewModel?.GameModels)
 
 @if (LocalOptionCookieRepository.BookingEnabled())
@@ -71,5 +75,7 @@ else
 
     @await Html.PartialAsync("PreOrder", new PreOrderDto())
 }
+
+<div style="height: 120px"/>
 
 @* @await Html.PartialAsync("Contacts", Model.ContactsPageViewModel) *@

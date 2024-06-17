@@ -38,7 +38,8 @@
     {
         DefaultSelection = false,
         OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
-        Enabled = false
+        Enabled = false,
+        WithDefaultValue = false,
     };
 
 
@@ -58,7 +59,7 @@
     var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
     var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
 }
-<div class="container-fluid text-center bg-info text-white">
+<div class="pre-price-book-block container-fluid text-center text-white">
     <div class="container py-5" id="booking_selected">
         <div class="row pb-2">
             <p>

@@ -1,12 +1,11 @@
-﻿@inject CatsoftContext DbCatsoftContext
-@using App.cms.Helpers
+﻿@using App.cms.Helpers
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.Repositories.Cms.AppointRule
 @using App.Repositories.Cms.PersonBooking
 @using App.ViewModels.Views
-@using Options = App.cms.Options.Options
+@inject CatsoftContext DbCatsoftContext
 @inject TextResourceRepository TextResourceRepository
 @inject IAppointRuleRepository AppointRuleRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
@@ -27,45 +26,54 @@
 
     var personCount = booking.PeopleCount;
 
-    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
+    var guest = await TextResourceRepository.GetByTagAsync("guest");
+    var guests = await TextResourceRepository.GetByTagAsync("guests");
+
+    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Number of guests"),
         personCount.ToString(),
-        options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
+        options.Select(w => new KeyValueViewModel(w == 1 ? w + " " + guest : w + " " + guests, w.ToString())).ToList(),
         false)
     {
         DefaultSelection = false,
-        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')"
+        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
+        WithDefaultValue = false
     };
 }
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
-    <div class="pre-price-book-block container-fluid text-center text-white">
-        <div class="container py-5" id="booking_selected">
-            <div class="row pb-2">
-                <p>
-                    <span class="fw-bold fs-3 text-center">@await Html.RenderText("Reserve time now!")</span>
-                </p>
+    <div class="pre-price-book-block container-fluid px-0 text-white row mx-0">
+        <div class="col-lg-7 col-12 d-flex flex-column text-start justify-content-center">
+            <div class="col-8 offset-2 d-flex flex-column">
+                <span class="h1">@await Html.RenderText("Book the")</span>
+                <div class="mt-2 mb-4">
+                    <span class="h1 pre-price-experience-text">@await Html.RenderText("experience!")</span>
+                </div>
+                <span class="text3">@await Html.RenderText("Fill out the form fields to calculate the approximate price and proceed to booking!")</span>
             </div>
+        </div>
 
-            <div class="row text-center">
-                <div class="col-5 offset-1">
-                    @await Html.PartialAsync("Common/Selector", selectorDto)
+        <div class="col-lg-5 col-12 d-flex mt-4 mt-lg-0">
+            <div class="offset-1 col-lg-6 col-10 align-self-center d-flex flex-column pre-price-calculate-block text-center">
+                <span class="text0 text-black mb-4">@await Html.RenderText("Calculate the price")</span>
+
+                @await Html.PartialAsync("Common/Selector", selectorDto)
+
+                <div class="mt-3">
+                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date of visit", date, "prePriceDateSelectionOnChange(this, 'prePriceBlockId')"))
                 </div>
 
-                <div class="col-5 offset-1">
-                    @await Html.PartialAsync("Common/Date", new DateViewModel("Date", date, "prePriceDateSelectionOnChange(this, 'prePriceBlockId')"))
-                </div>
-
-                <div class="col-4 offset-4 text-white fs-3 pb-3 fw-bold text-center" id="prePriceBlockId">
+                <div class="align-self-center">
+                    <div class="text1 text-end mb-3 mt-4" id="prePriceBlockId">
+                    </div>
+                    @await Html.PartialAsync("Booking/BookButton")
                 </div>
             </div>
-
-            @await Html.PartialAsync("Booking/BookButton")
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    updatePrePrice("prePriceBlockId")                
-                });
-            </script>
         </div>
     </div>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                updatePrePrice("prePriceBlockId")
+            });
+    </script>
 }
