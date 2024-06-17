@@ -15,7 +15,8 @@
     var virtualityMenus = new List<Menu>
     {
         Menu.Home,
-        Menu.Booking
+        Menu.Booking,
+        Menu.Games
         // Menu.Book,
         // Menu.Services,
         // Menu.Contacts,
@@ -24,7 +25,7 @@
 
     if (!BookingHistoryCookieRepository.GetValue().BookingIds.IsNullOrEmpty() && LocalOptionsCookieRepository.BookingEnabled())
     {
-        virtualityMenus.Add(Menu.MyBookings);
+        virtualityMenus.Insert(3, Menu.MyBookings);
     }
 }
 
@@ -50,6 +51,6 @@
             </div>
         }
     }
-    
+
     @await Html.PartialAsync("Header/LanguageSelector", Model)
 </div>

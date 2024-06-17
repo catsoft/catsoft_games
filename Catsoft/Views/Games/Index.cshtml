@@ -3,12 +3,8 @@
 @using App.Models
 @using App.ViewModels.Book
 @using App.ViewModels.PreOrder
-@model App.ViewModels.Book.BookPageViewModel
+@model App.ViewModels.Games.GamesPageViewModel
 
 @{
     Layout = "_Layout";
 }
-
-@await Html.PartialAsync("SoonBookBlock", new BookDto())
-
-@await Html.PartialAsync("PreOrder", new PreOrderDto())
