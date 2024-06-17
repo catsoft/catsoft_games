@@ -28,6 +28,8 @@
         DefaultSelection = false,
         OnChangeScript = "timeSelectionPersonCountOnChange(this, 'selectedTimesBlockId')"
     };
+
+    var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonalDetails", "Booking", "get");
 }
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
@@ -58,11 +60,9 @@
                 });
             </script>
 
-            <form class="pt-5" asp-action="EnterPersonDetails" asp-controller="Booking" method="get" enctype="multipart/form-data">
-                <button type="submit" class="btn btn-primary rounded-pill pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Reserve now")
-                </button>
-            </form>
+            <div class="d-flex justify-content-center">
+                @await Html.PartialAsync("Common/Button", buttonDto)
+            </div>
         </div>
     </div>
 }

@@ -1,0 +1,17 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.Models
+@using App.Utils
+@model App.ViewModels.Views.ButtonViewModel
+
+@{
+    Layout = null;
+}
+
+<form asp-action="@Model.Action" method="@Model.Method" asp-controller="@Model.Controller">
+    <div class="d-flex justify-content-start text-center">
+        <button type="submit" class="btn btn-primary text-center btn-action-call text1">
+            @await Html.RenderText(Model.LabelTag)
+        </button>
+    </div>
+</form>
