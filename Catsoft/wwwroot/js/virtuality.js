@@ -5,6 +5,8 @@ const bookingSelectAppointTimeUrl = "/Booking/SelectAppointTime"
 const bookingPrePriceUrl = "/Booking/GetPrePrice"
 const bookingSelectedTimesUrl = "/Booking/GetSelectedTimes"
 
+const setLanguageUrl = "/Home/SetLanguage"
+
 function getDefaultPostOptions(data) {
     console.log(data)
     return {
@@ -57,6 +59,22 @@ function executeAndUpdate(request, blockId) {
     })
 }
 // end of common
+
+
+
+// region start language
+function setLanguage(e) {
+    const formData = new FormData();
+    const value = e.value;
+    formData.append("language", value)
+    const request = fetch(setLanguageUrl, getDefaultPostOptions(formData));
+    executeAndThen(request, function () {
+        refreshPage()
+    })
+}
+//region end language
+
+
 
 
 // region preprice

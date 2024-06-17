@@ -41,9 +41,9 @@
 }
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
-    <div class="pre-price-book-block container-fluid px-0 text-white row mx-0">
+    <div class="pre-price-book-block pre-price-pictures container-fluid px-0 text-white row mx-0">
         <div class="col-lg-7 col-12 d-flex flex-column text-start justify-content-center">
-            <div class="col-8 offset-2 d-flex flex-column">
+            <div class="col-10 offset-1 col-lg-8 offset-lg-2 d-flex flex-column">
                 <span class="h1">@await Html.RenderText("Book the")</span>
                 <div class="mt-2 mb-4">
                     <span class="h1 pre-price-experience-text">@await Html.RenderText("experience!")</span>

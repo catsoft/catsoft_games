@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using App.cms.Models;
 using App.cms.Options;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
@@ -17,12 +18,14 @@ namespace App.Controllers
     public class HomeController : CommonController
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILanguageCookieRepository _languageCookieRepository;
         private readonly ILocalOptionsCookieRepository _localOptionsCookieRepository;
 
         public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment, ILanguageCookieRepository languageCookieRepository, ILocalOptionsCookieRepository localOptionsCookieRepository) :
             base(languageCookieRepository)
         {
             _webHostEnvironment = webHostEnvironment;
+            _languageCookieRepository = languageCookieRepository;
             _localOptionsCookieRepository = localOptionsCookieRepository;
             DbContext = dbContext;
         }
@@ -78,6 +81,16 @@ namespace App.Controllers
                 options.ToggleFeatures.Remove(feature);
             }
             _localOptionsCookieRepository.SaveValue(options);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(TextLanguage language)
+        {
+            var value = _languageCookieRepository.GetValue();
+            value.Language = language;
+            _languageCookieRepository.SaveValue(value);
 
             return RedirectToAction("Index", "Home");
         }

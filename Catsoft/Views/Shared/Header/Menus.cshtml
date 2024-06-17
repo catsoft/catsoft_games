@@ -28,7 +28,7 @@
     }
 }
 
-<div class="nav nav-pills d-flex justify-content-md-between justify-content-sm-center flex-md-row flex-sm-column align-items-center" id="header_menus">
+<div class="nav nav-pills d-flex justify-content-lg-between justify-content-center flex-lg-row flex-column align-items-center" id="header_menus">
     @if (Model.CurrentPage == Menu.Blog)
     {
         <div class="nav-item">
@@ -44,7 +44,7 @@
             <div class="nav-item">
                 @if (menu.Menu == Menu.Booking && !LocalOptionsCookieRepository.BookingEnabled()) continue;
 
-                <a class="nav-link me-md-3 me-sm-0 mt-md-0 mt-sm-3 text4 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
+                <a class="nav-link me-lg-3 me-0 mt-lg-0 mt-3 text4 @(menu.Menu == Model.CurrentPage ? "active" : "")" href="@menu.Href">
                     <span>@await Html.RenderText(menu.Title)</span>
                 </a>
             </div>

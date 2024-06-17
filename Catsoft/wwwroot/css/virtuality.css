@@ -10,6 +10,10 @@
     --brandBlueDark: #1A1632;
 }
 
+@media screen and (max-width:768px) {
+    html, body {overflow-x: hidden;}
+}
+
 body {
     color: var(--white);
     font-family: "Onest", sans-serif;
@@ -81,7 +85,7 @@ svg, path {
 }
 
 .h1 {
-    font-size: 48px;
+    font-size: 32px;
     font-style: normal;
     font-weight: 700;
     line-height: 97%; /* 46.56px */
@@ -90,7 +94,7 @@ svg, path {
 }
 
 .h2 {
-    font-size: 32px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: 110%; /* 35.2px */
@@ -99,7 +103,7 @@ svg, path {
 }
 
 .h2to5 {
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: 110%; /* 35.2px */
@@ -108,7 +112,7 @@ svg, path {
 }
 
 .h4 {
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 120%; /* 21.6px */
@@ -117,7 +121,7 @@ svg, path {
 }
 
 .naming {
-    font-size: 24px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 0%; /* 0px */
@@ -127,16 +131,16 @@ svg, path {
 
 /* text 20 semi */
 .text0 {
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: 130%; /* 23.4px */
-    text-transform: uppercase;    
+    text-transform: uppercase;
 }
 
 /* text 18 semi */
 .text1 {
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: 130%; /* 23.4px */
@@ -145,7 +149,7 @@ svg, path {
 
 /* text 18 light */
 .text2 {
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 300;
     line-height: 110%; /* 19.8px */
@@ -154,7 +158,7 @@ svg, path {
 
 /* text 16 semi */
 .text3 {
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: 130%; /* 20.8px */
@@ -163,7 +167,7 @@ svg, path {
 
 /* text 16 light */
 .text4 {
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 110%; /* 15.4px */
@@ -172,7 +176,7 @@ svg, path {
 
 /* text 14 semi */
 .text5 {
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 600;
     line-height: 130%; /* 20.8px */
@@ -181,7 +185,7 @@ svg, path {
 
 /* text 14 light */
 .text6 {
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 300;
     line-height: 110%; /* 15.4px */
@@ -224,14 +228,14 @@ svg, path {
 .pre-price-book-block {
     background-color: var(--brandBlueNormal);
     padding: 50px 32px;
-    min-height:480px;
+    min-height: 480px;
 }
 
 .pre-price-calculate-block {
     background-color: var(--white);
     padding: 24px;
     border-radius: 12px;
-    min-width: 366px;
+    max-width: none;
 }
 
 .pre-price-experience-text {
@@ -268,8 +272,9 @@ svg, path {
 }
 
 .squareImageNew {
-    height: 192px;
-    width: 340px;
+    height: max-content;
+    width: 64vw;
+    aspect-ratio: 16 / 9;
     border-radius: 12px;
     border: 0;
 }
@@ -280,4 +285,86 @@ svg, path {
 .main_text_block {
     min-width: 5rem;
     padding-right: 12px;
+}
+
+.pre-price-pictures {
+    background-image: url('/images/preprice/picture1.svg'), url('/images/preprice/picture2.svg'), url('/images/preprice/picture4.svg'), url('/images/preprice/picture5.svg'), url('/images/preprice/picture6.svg'), url('/images/preprice/picture3.svg');
+    background-position: top -10px left 5px, top right, bottom -35px left -5px, center left -25px, right -13px center, right -25px bottom;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+}
+
+/* MD */
+@media screen and (min-width: 768px) {
+    .h1 {
+        font-size: 48px;
+    }
+
+    .h2 {
+        font-size: 32px;
+    }
+
+    .h2to5 {
+        font-size: 24px;
+    }
+
+    .h4 {
+        font-size: 18px;
+    }
+
+    .naming {
+        font-size: 24px;
+    }
+
+    /* text 20 semi */
+    .text0 {
+        font-size: 20px;
+    }
+
+    /* text 18 semi */
+    .text1 {
+        font-size: 18px;
+    }
+
+    /* text 18 light */
+    .text2 {
+        font-size: 18px;
+    }
+
+    /* text 16 semi */
+    .text3 {
+        font-size: 16px;
+    }
+
+    /* text 16 light */
+    .text4 {
+        font-size: 16px;
+    }
+
+    /* text 14 semi */
+    .text5 {
+        font-size: 14px;
+    }
+
+    /* text 14 light */
+    .text6 {
+        font-size: 14px;
+    }
+
+    .squareImageNew {
+        height: 192px;
+        width: 340px;
+        border-radius: 12px;
+        border: 0;
+    }
+
+    .pre-price-pictures {
+        background-position: 6px -30px, top 2px center, top right, bottom -30px left 46px, bottom -30px center, bottom right -12px;
+    }
+}
+
+/* LG */
+@media screen and (min-width: 992px) {
+    .pre-price-calculate-block {
+        min-width: 366px;
+    }
 }
