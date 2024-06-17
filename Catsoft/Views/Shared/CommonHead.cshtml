@@ -4,6 +4,8 @@
 @{
     Layout = null;
     var languages = LanguageHelper.GetLanguages();
+
+    var version = "0.0.1";
 }
 
 @await Html.PartialAsync("YandexMetrica")
@@ -56,8 +58,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
 
-<link href="~/css/style.css" rel="stylesheet"/>
-<link href="~/css/virtuality.css" rel="stylesheet"/>
+<link href="~/css/style.css?v=@version" rel="stylesheet"/>
+<link href="~/css/virtuality.css?v=@version" rel="stylesheet"/>
 
 <!-- need to put it before the usage -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
