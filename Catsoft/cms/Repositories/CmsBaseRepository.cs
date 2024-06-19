@@ -15,7 +15,8 @@ namespace App.cms.Repositories
 
         public async Task<TItem> GetDefault(Guid? uuid)
         {
-            if (uuid == null)
+            var item = await GetAsync(uuid);
+            if (item == null)
             {
                 var newObject = CreateObject();
                 catsoftContext.Add(newObject);
@@ -23,7 +24,7 @@ namespace App.cms.Repositories
                 return newObject;
             }
 
-            return await GetAsync(uuid);
+            return item;
         }
         
         public async Task<TItem> DoWithUpdate(Guid? uuid, Func<TItem, Task> doJob)
@@ -66,7 +67,7 @@ namespace App.cms.Repositories
 
         public Task<TItem> GetAsync(Guid? id)
         {
-            return CatsoftContext.Set<TItem>().FirstAsync(w => w.Id == id);
+            return CatsoftContext.Set<TItem>().FirstOrDefaultAsync(w => w.Id == id);
         }
         
         public IQueryable<TItem> GetAll()

@@ -24,6 +24,10 @@ namespace App.Models.Booking
         
         public bool Booked { get; set; }
 
+        public string Ip { get; set; }
+        
+        public string Note { get; set; }
+        
         public PersonBookingSource PersonBookingSource { get; set; } = PersonBookingSource.User;
         
         public BookingStage BookingStage { get; set; } = BookingStage.TimeSelection;

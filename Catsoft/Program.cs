@@ -21,11 +21,11 @@ namespace App
                 // scoped.GetRequiredService<DatabaseCleaner>().CleanTX();
             // });
             
-            // DoWithScope(app, scoped =>
+            // DoWithScope(app,  async scoped =>
             // {
-            //     scoped.GetRequiredService<DatabaseInitializer>().Init();
+            //     await scoped.GetRequiredService<DatabaseInitializer>().CleanBookings();
             // });
-            //
+
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
                 await DoWithScope(app,async scoped =>

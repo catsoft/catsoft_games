@@ -66,6 +66,8 @@ namespace App.Controllers.Booking
             }
 
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartOrUpdateBookingStage);
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+            await _personBookingRepository.UpdateIp(booking.Id, ip);
 
             var startDate = DateOnly.FromDateTime(DateTime.Now);
             var endDate = DateOnly.FromDateTime(DateTime.Now + Options.BookingAvailableRange);

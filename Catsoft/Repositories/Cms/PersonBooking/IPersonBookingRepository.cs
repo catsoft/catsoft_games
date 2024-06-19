@@ -10,6 +10,7 @@ namespace App.Repositories.Cms.PersonBooking
         public Task<PersonBookingModel> StartOrUpdatePrePriceStage(Guid? uuid);
 
         public Task<PersonBookingModel> StartOrUpdateBookingStage(Guid? uuid);
+        public Task UpdateIp(Guid bookingUuid, string ip);
 
         public Task ToggleTime(Guid bookingUuid, Guid appointTimeUuid);
         

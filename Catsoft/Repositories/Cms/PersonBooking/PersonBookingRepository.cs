@@ -13,6 +13,19 @@ namespace App.Repositories.Cms.PersonBooking
     {
         private readonly CatsoftContext _catsoftContext = catsoftContext;
 
+        public async Task<PersonBookingModel> GetDefault(Guid? uuid = null)
+        {
+            var result = await _catsoftContext.PersonBookings.FirstOrDefaultAsync(w => w.Id == uuid);
+            if (result == null)
+            {
+                result = new PersonBookingModel();
+                _catsoftContext.Add(result);
+                await _catsoftContext.SaveChangesAsync();
+            }
+
+            return result;
+        }
+
         public async Task ToggleTime(Guid bookingUuid, Guid appointTimeUuid)
         {
             await DoWithUpdate(bookingUuid, w =>
@@ -24,6 +37,15 @@ namespace App.Repositories.Cms.PersonBooking
 
                 return Task.CompletedTask;
             });
+        }
+
+        public async Task UpdateIp(Guid bookingUuid, string ip)
+        {
+            await DoWithUpdate(bookingUuid, w =>
+            {
+                w.Ip = ip;
+                return Task.CompletedTask;
+            });   
         }
 
         public async Task SelectPeopleCount(Guid bookingUuid, int peopleCount)
@@ -42,6 +64,7 @@ namespace App.Repositories.Cms.PersonBooking
                 booking.BookingStage = BookingStage.PrePrice;
             });
         }
+        
         
         public Task<PersonBookingModel> StartOrUpdateBookingStage(Guid? uuid)
         {

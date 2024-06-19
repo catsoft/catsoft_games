@@ -2,14 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using App.cms.Models;
 using App.Models;
 using App.Models.Pages;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.Initialize
 {
     public class DatabaseInitializer(CatsoftContext catsoftContext, DatabaseCleaner cleaner)
     {
+        public async Task CleanBookings()
+        {
+            var updated = await catsoftContext.AppointTimes.Where(w => w.Booked || w.Blocked).ToListAsync();
+            foreach (var update in updated)
+            {
+                update.Blocked = false;
+                update.Booked = false;
+                update.Price = 10;
+            }
+
+            await catsoftContext.SaveChangesAsync();
+        }
+        
         public void Init()
         {
             if (!catsoftContext.AdminModels.Any())
