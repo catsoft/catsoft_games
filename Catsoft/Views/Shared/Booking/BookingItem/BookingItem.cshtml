@@ -50,7 +50,7 @@
         WithDefaultValue = false
     };
 
-    var date = bookingSelectedTimes.Select(w => w.AppointTimeDto.AppointTime.Date).Distinct().First();
+    var date = bookingSelectedTimes.Select(w => w.AppointTimeDto.AppointTime.Date).Distinct().FirstOrDefault();
     var dateDto = new DateViewModel("Date", date, "timeSelectionSelectionDateOnChange(this, 'selectedTimesBlockId')")
     {
         Enabled = false,

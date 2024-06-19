@@ -3,10 +3,8 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
-@using App.ViewModels.Booking
 @using App.ViewModels.Booking.Time
 @using App.ViewModels.Views
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using InputType = App.ViewModels.Views.InputType
 @using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingSuccessViewModel
@@ -18,14 +16,14 @@
 @{
     Layout = "_Layout";
 
-    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto()
+    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto
     {
         AppointTimeDto = w,
         Selected = true,
         Enabled = false,
         BookingTimeItemType = BookingTimeItemType.Date
     }).ToList();
-    
+
     var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
 
     var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
@@ -59,6 +57,10 @@
     var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
     var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
     var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
+
+    var bookAgain = new ButtonViewModel("Book again", "Index", "Booking", "get", true, Style.Black);
+    var toHome = new ButtonViewModel("To home", "Index", "Home", "get", true, Style.Black);
+    var myBookings = new ButtonViewModel("My bookings", "Index", "MyBookings", "get", true, Style.Black);
 }
 <div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
     <div class="container py-5" id="booking_selected">
@@ -94,29 +96,11 @@
                 @await Html.PartialAsync("Common/Input", companyAddress)
             </div>
 
-            <form asp-action="Index" asp-controller="Booking" method="post" class="pb-3 pt-3">
-                <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Book again")
-                </button>
-            </form>
-
-            <form asp-action="Index" asp-controller="Home" method="post" class="pb-3 pt-3">
-                <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("To main")
-                </button>
-            </form>
-
-            <form asp-action="Index" asp-controller="MyBookings" method="post" class="pb-3 pt-3">
-                <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("My bookings")
-                </button>
-            </form>
-            
-            @* <form asp-action="Index" asp-controller="MyBookings" method="post" class="pb-3 pt-3"> *@
-            @*     <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;"> *@
-            @*         @await Html.RenderText("Add to calendar") *@
-            @*     </button> *@
-            @* </form> *@
+            <div class="d-flex justify-content-around">
+                @await Html.PartialAsync("Common/Button", bookAgain)
+                @await Html.PartialAsync("Common/Button", toHome)
+                @await Html.PartialAsync("Common/Button", myBookings)
+            </div>
         </div>
 
         @await Html.PartialAsync("Booking/Time/BookingTimeItemsRow", new BookingTimeItemsRow(times))

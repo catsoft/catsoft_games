@@ -109,6 +109,6 @@ namespace App.cms.StaticHelpers.Cookies
 
         public bool GameSelectionEnabled() { return GetValue().ToggleFeatures.Contains(Options.Options.Features.GameSelection); }
 
-        public bool BookingEnabled() { return GetValue().ToggleFeatures.Contains(Options.Options.Features.Booking); }
+        public bool BookingEnabled() { return true; }
     }
 }

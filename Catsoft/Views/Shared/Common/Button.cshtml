@@ -1,17 +1,25 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.cms.Helpers
 @using App.Models
-@using App.Utils
+@using App.ViewModels.Views
 @model App.ViewModels.Views.ButtonViewModel
 
 @{
     Layout = null;
+    var style = Model.Style == Style.Brand ? "btn-action-call" : "btn-action-call-dark";
 }
 
-<form asp-action="@Model.Action" method="@Model.Method" asp-controller="@Model.Controller">
+@if (Model.WithForm)
+{
+    <form asp-action="@Model.Action" method="@Model.Method" asp-controller="@Model.Controller">
+        <div class="d-flex justify-content-start text-center">
+            <input type="submit" class="btn btn-primary text-center @style text1" value="@await Html.RenderText(Model.LabelTag)"/>
+        </div>
+    </form>
+}
+else
+{
     <div class="d-flex justify-content-start text-center">
-        <button type="submit" class="btn btn-primary text-center btn-action-call text1">
-            @await Html.RenderText(Model.LabelTag)
-        </button>
+        <input type="submit" class="btn btn-primary text-center @style text1" value="@await Html.RenderText(Model.LabelTag)"/>
     </div>
-</form>
+}

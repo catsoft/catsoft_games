@@ -58,6 +58,7 @@
     var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
     var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
     var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
+    var buttonDto = new ButtonViewModel("Confirm", "", "", "", false, Style.Black);
 }
 <div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
     <div class="container py-5" id="booking_selected">
@@ -95,9 +96,9 @@
 
             <form asp-action="BookingConfirmation" asp-controller="Booking" method="post" class="pb-3 pt-3">
                 <input type="hidden" name="uuid" value="@Model.PersonBookingDto.PersonBooking.Id.ToString()"/>
-                <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                    @await Html.RenderText("Confirm")
-                </button>
+                <div class="d-flex justify-content-center">
+                    @await Html.PartialAsync("Common/Button", buttonDto)
+                </div>
             </form>
         </div>
 

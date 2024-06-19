@@ -29,7 +29,10 @@
         OnChangeScript = "timeSelectionPersonCountOnChange(this, 'selectedTimesBlockId')"
     };
 
-    var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonalDetails", "Booking", "get");
+    var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonDetails", "Booking", "get")
+    {
+        Style = Style.Black
+    };
 }
 @if (LocalOptionCookieRepository.BookingEnabled())
 {

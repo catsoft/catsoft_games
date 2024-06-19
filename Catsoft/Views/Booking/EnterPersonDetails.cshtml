@@ -59,6 +59,8 @@
     var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF);
     var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName);
     var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress);
+    
+    var buttonDto = new ButtonViewModel("Continue", "", "", "get", false, Style.Black);
 }
     <div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
         <div class="container py-5" id="booking_selected">
@@ -94,9 +96,9 @@
                         @await Html.PartialAsync("Common/Input", companyAddress)
                     </div>
 
-                    <button type="submit" class="btn btn-primary rounded-pill pt-2 pb-2 fs-3 pe-5 ps-5 text-center" style="min-width: 350px;">
-                        @await Html.RenderText("Continue")
-                    </button>
+                    <div class="d-flex justify-content-center">
+                        @await Html.PartialAsync("Common/Button", buttonDto)
+                    </div>
                 </form>
             </div>
 
