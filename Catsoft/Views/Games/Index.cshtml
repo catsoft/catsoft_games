@@ -1,0 +1,7 @@
+﻿@model App.ViewModels.Games.GamesPageViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("GamesList", Model.Page.GameModels)
