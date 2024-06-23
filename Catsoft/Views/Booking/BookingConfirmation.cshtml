@@ -34,21 +34,12 @@
     var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
     guestSelector.Enabled = false;
 
-    var companyDataId = "company_data";
-
     var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
     {
         Type = InputType.Hidden
     };
-    var phoneInput = new InputViewModel("Phone", "Phone", Model.PersonDto.PersonModel.Phone, false);
-    var emailInput = new InputViewModel("Email", "Email", Model.PersonDto.PersonModel.Email, false);
-    var nifInput = new InputViewModel("NIF (optional)", "NIF", Model.PersonDto.PersonModel.NIF, false);
-    var fullNameInput = new InputViewModel("Name", "FullName", Model.PersonDto.PersonModel.FullName, false);
-    var commentInput = new InputViewModel("Comment (optional)", "Comment", Model.PersonDto.PersonModel.Comment, false);
-    var isCompanyControl = new CheckBoxControlViewModel("Is company", "IsCompany", Model.PersonDto.PersonModel.IsCompany, companyDataId, false);
-    var companyNif = new InputViewModel("Company NIF", "CompanyNIF", Model.PersonDto.PersonModel.CompanyNIF, false);
-    var companyName = new InputViewModel("Company Name", "CompanyName", Model.PersonDto.PersonModel.CompanyName, false);
-    var companyAddress = new InputViewModel("Company Address", "CompanyAddress", Model.PersonDto.PersonModel.CompanyAddress, false);
+    var personDto = Model.PersonDto;
+    personDto.Enabled = false;
     var buttonDto = new ButtonViewModel("Confirm", "", "", "", false, Style.Black);
 }
 <div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
@@ -73,16 +64,28 @@
             </div>
 
             @await Html.PartialAsync("Common/Input", idInput)
-            @await Html.PartialAsync("Common/Input", phoneInput)
-            @await Html.PartialAsync("Common/Input", emailInput)
-            @await Html.PartialAsync("Common/Input", nifInput)
-            @await Html.PartialAsync("Common/Input", fullNameInput)
-            @await Html.PartialAsync("Common/Input", commentInput)
-            @await Html.PartialAsync("Common/CheckboxControl", isCompanyControl)
-            <div id="@companyDataId">
-                @await Html.PartialAsync("Common/Input", companyNif)
-                @await Html.PartialAsync("Common/Input", companyName)
-                @await Html.PartialAsync("Common/Input", companyAddress)
+            <div class="d-flex col-12">
+                @await Html.PartialAsync("Common/Input", personDto.GetPhoneInput())
+                @await Html.PartialAsync("Common/Input", personDto.GetEmailInput())
+            </div>
+            <div class="d-flex col-12">
+                @await Html.PartialAsync("Common/Input", personDto.GetNifInput())
+                @await Html.PartialAsync("Common/Input", personDto.GetNameInput())
+            </div>
+            <div class="col-6 offset-3">
+                @await Html.PartialAsync("Common/Input", personDto.GetCommentInput())
+            </div>
+            <div class="col-6 offset-3">
+                @await Html.PartialAsync("Common/CheckboxControl", personDto.GetIsCompany())
+            </div>
+            <div id="@PersonDto.IsCompanyClassName">
+                <div class="d-flex col-12">
+                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyNif())
+                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyName())
+                </div>
+                <div class="col-6 offset-3">
+                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyAddress())
+                </div>
             </div>
 
             <form asp-action="BookingConfirmation" asp-controller="Booking" method="post" class="pb-3 pt-3">

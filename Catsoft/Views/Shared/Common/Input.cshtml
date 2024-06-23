@@ -9,14 +9,14 @@
 
 @{
     Layout = null;
-    var disabled =  Model.Enabled ? "" : "disabled";
+    var disabled = Model.Enabled ? "" : "disabled";
 }
 
-<div class="row form-group pb-2 pt-2 col-6 offset-3">
+<div class="w-100 form-group px-2 py-2">
     @if (Model.Type != InputType.Hidden)
     {
         <label for="@Model.PropertyName">@await Html.RenderText(Model.LabelTag)</label>
     }
 
-    <input name="@Model.PropertyName" value="@Model.Value" type="@Model.Type" id="@Model.PropertyName" @disabled class="form-control"/>
+    <input name="@Model.PropertyName" value="@Model.Value" type="@Model.Type" id="@Model.PropertyName" placeholder="@await TextResourceRepository.GetByTagAsync(Model.LabelTag)" @disabled class="form-control"/>
 </div>
