@@ -59,6 +59,8 @@
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
     @await Html.PartialAsync("Booking/BookPrePrice")
+    
+    @await Html.PartialAsync("Contacts/ContactsBlock", Model.ContactsPageViewModel)
 
     @* @await Html.PartialAsync("Booking/CommercialBookBlock", new BookDto()) *@
 }

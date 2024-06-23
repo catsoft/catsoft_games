@@ -1,18 +1,20 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.cms.Helpers
+@using App.cms.StaticHelpers
 @using App.Models
 @using App.Utils
 @model App.ViewModels.Views.ButtonViewModel
 
 @{
     Layout = null;
+    var formId = FormatHelper.GetViewId("linkButtonForm");
 }
 
-<form asp-action="@Model.Action" method="get" asp-controller="@Model.Controller">
+<form asp-action="@Model.Action" method="get" asp-controller="@Model.Controller" id="@formId">
     <div class="d-flex justify-content-center text-center">
         <button type="submit" class="text-center btn btn-link text3 d-flex">
             <span>
-                @await Html.RenderText(@Model.LabelTag)
+                @await Html.RenderText(@Model.LabelTag, brokenField:formId)
             </span>
             <svg style="margin-top:1.5px; margin-left:8px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.29135 28.7077C9.19822 28.6148 9.12433 28.5045 9.07392 28.383C9.02351 28.2615 8.99756 28.1313 8.99756 27.9997C8.99756 27.8682 9.02351 27.7379 9.07392 27.6165C9.12433 27.495 9.19822 27.3846 9.29135 27.2917L20.5853 15.9997L9.29134 4.70772C9.19837 4.61475 9.12462 4.50437 9.0743 4.38289C9.02398 4.26141 8.99808 4.13121 8.99808 3.99972C8.99808 3.86824 9.02398 3.73804 9.0743 3.61656C9.12462 3.49508 9.19837 3.3847 9.29134 3.29172C9.38432 3.19875 9.4947 3.12499 9.61618 3.07468C9.73766 3.02436 9.86786 2.99846 9.99934 2.99846C10.1308 2.99846 10.261 3.02436 10.3825 3.07468C10.504 3.12499 10.6144 3.19875 10.7073 3.29172L22.7073 15.2917C22.8005 15.3846 22.8744 15.495 22.9248 15.6165C22.9752 15.7379 23.0011 15.8682 23.0011 15.9997C23.0011 16.1313 22.9752 16.2615 22.9248 16.383C22.8744 16.5045 22.8005 16.6148 22.7073 16.7077L10.7073 28.7077C10.6145 28.8008 10.5041 28.8747 10.3826 28.9251C10.2611 28.9756 10.1309 29.0015 9.99935 29.0015C9.86781 29.0015 9.73757 28.9756 9.61608 28.9251C9.49459 28.8747 9.38424 28.8008 9.29135 28.7077Z"/>

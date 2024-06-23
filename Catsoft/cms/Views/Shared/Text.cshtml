@@ -1,11 +1,14 @@
 ﻿@inject TextResourceRepository Repository
 @using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
 @using App.cms.StaticHelpers.Cookies
+@using Microsoft.IdentityModel.Tokens
 @model TranslateViewModel
 @inject ICmsTextResourcesCookieRepository textResourceRepository
 @{
     Layout = null;
     var isEdit = textResourceRepository.GetValue().IsEdit;
+    var viewId = FormatHelper.GetViewId("translateDiv");
 }
 @if (Model.Translate)
 {
@@ -15,26 +18,32 @@
     {
         var valueObj = await Repository.GetValueAsync(Model.Tag);
         var id = valueObj.Id.ToString();
-
+        var modelId = FormatHelper.GetViewId("editTextModel", id);
+        
         <!-- Button trigger modal -->
-        <div class="ps-2" type="button" data-toggle="modal" data-target="#exampleModal@(id)">
+        <div class="ps-2" style="z-index: 100;" type="button" data-toggle="modal" data-target="#@modelId" id="@(viewId)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                 <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"></path>
             </svg>
         </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal@(id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
+        
+        if (!Model.BrokenField.IsNullOrEmpty())
+        {
+            <script>
+                document.addEventListener("DOMContentLoaded", function (){
+                    putModel(`
+                        <!-- Modal -->
+                        <div class="modal fade" id="@modelId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">@await Repository.GetByTagAsync("Edit text")</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                     <div class="modal-body">
-                        <form asp-action="Update" asp-controller="TextResource" method="post">
+                        <form action="/TextResource/Update" method="post">
                             <input type="hidden" id="uuid" name="uuid" value="@valueObj.Id.ToString()"/>
                             <input type="text" class="form-control pb-2" id="value" name="value" value="@valueObj.Value"/>
                             <input type="submit" value="@await Repository.GetByTagAsync("Save")" class="btn btn-primary"/>
@@ -45,11 +54,46 @@
                         @* <button type="button" class="btn btn-primary">Save changes</button> *@
                     </div>
                 </div>
+                </div>
+                </div>
+                    
+                    `)
+                });
+                document.addEventListener("DOMContentLoaded", function (){
+                    replaceElementById("@Model.BrokenField","@viewId")
+                })
+            </script>
+        }
+        else
+        {
+            <!-- Modal -->
+            <div class="modal fade" id="@modelId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">@await Repository.GetByTagAsync("Edit text")</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/TextResource/Update" method="post">
+                                <input type="hidden" id="uuid" name="uuid" value="@valueObj.Id.ToString()"/>
+                                <input type="text" class="form-control pb-2" id="value" name="value" value="@valueObj.Value"/>
+                                <input type="submit" value="@await Repository.GetByTagAsync("Save")" class="btn btn-primary"/>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            @* <button type="button" class="btn btn-primary">Save changes</button> *@
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     }
 }
 else
 {
-    @Model.Tag.Trim();
+    @Model.Tag.Trim()
 }

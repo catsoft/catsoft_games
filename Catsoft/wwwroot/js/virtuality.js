@@ -33,6 +33,21 @@ function refreshPage() {
     location.reload ? location.reload() : location = location;
 }
 
+function replaceElementById(id, newElementId) {
+    // Find the element to be replaced
+    const oldElement = document.getElementById(id);
+    const newElement = document.getElementById(newElementId).parentElement;
+
+    oldElement.parentNode.replaceChild(newElement, oldElement);
+}
+
+function putModel(modelHtml) {
+    // Find the element to be replaced
+    const oldElement = document.getElementById("modalsHiddenDiv");
+
+    oldElement.innerHTML += modelHtml;
+}
+
 function executeAndThen(startRequest, nextFunction) {
     startRequest
         .then(response => response.text())

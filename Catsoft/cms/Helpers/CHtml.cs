@@ -7,12 +7,14 @@ namespace App.cms.Helpers
 {
     public static class CHtml
     {
-        public static async Task<IHtmlContent> RenderText(this IHtmlHelper helper, string tag, bool translate = true)
+        // broken field is button, input or form which is parent to this
+        public static async Task<IHtmlContent> RenderText(this IHtmlHelper helper, string tag, bool translate = true, string brokenField = "")
         {
             var viewModel = new TranslateViewModel()
             {
                 Tag = tag,
-                Translate = translate
+                Translate = translate,
+                BrokenField = brokenField
             };
             return await helper.PartialAsync("/cms/Views/Shared/Text.cshtml", viewModel, null);
         }

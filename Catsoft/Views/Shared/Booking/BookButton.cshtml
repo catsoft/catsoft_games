@@ -1,6 +1,7 @@
 ﻿@inject CatsoftContext DbCatsoftContext
 @using App.cms.Helpers
 @using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using Microsoft.AspNetCore.Mvc.TagHelpers
@@ -11,13 +12,14 @@
 
 @{
     Layout = null;
+    var id = FormatHelper.GetViewId("bookButtonForm");
 }
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
-    <form asp-action="Index" method="get" asp-controller="Booking">
+    <form asp-action="Index" method="get" asp-controller="Booking" id="@id">
         <div class="d-flex justify-content-start text-center">
             <button type="submit" class="btn btn-primary text-center btn-action-call text1">
-                @await Html.RenderText("Make a reservation")
+                @await Html.RenderText("Make a reservation", brokenField: id)
             </button>
         </div>
     </form>

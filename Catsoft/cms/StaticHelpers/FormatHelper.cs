@@ -34,9 +34,6 @@ namespace App.cms.StaticHelpers
         public static string FormattedPrice(decimal price) { return Options.Options.Currency + price.ToString("N1"); }
         public static string FormattedPrice(double price) { return Options.Options.Currency + price.ToString("N1"); }
 
-        // public static bool IsMobile(Request request)
-        // {
-        //     return request.Browser.IsMobileDevice;
-        // }
+        public static string GetViewId(params string[] tag) => String.Join("-", tag) + "-" + Guid.NewGuid();
     }
 }
