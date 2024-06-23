@@ -31,6 +31,11 @@ namespace App.Models.Booking
         public PersonBookingSource PersonBookingSource { get; set; } = PersonBookingSource.User;
         
         public BookingStage BookingStage { get; set; } = BookingStage.TimeSelection;
+
+        public override string ToString()
+        {
+            return $"{nameof(PersonModelId)}: {PersonModelId}\n {nameof(PersonModel)}: {PersonModel}\n {nameof(AppointTimeModels)}: {AppointTimeModels}\n {nameof(SelectedTimes)}: {SelectedTimes}\n {nameof(PeopleCount)}: {PeopleCount}\n {nameof(FinalPrice)}: {FinalPrice}\n {nameof(Paid)}: {Paid}\n {nameof(Booked)}: {Booked}\n {nameof(Ip)}: {Ip}\n {nameof(Note)}: {Note}\n {nameof(PersonBookingSource)}: {PersonBookingSource}\n {nameof(BookingStage)}: {BookingStage}";
+        }
     }
 
     public enum PersonBookingSource

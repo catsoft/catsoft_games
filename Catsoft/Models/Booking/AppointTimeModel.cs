@@ -49,5 +49,11 @@ namespace App.Models.Booking
         public string FormatTimeEnd() { return FormatHelper.FormatTime(TimeEnd); }
 
         public string FormattedPrice() { return FormatHelper.FormattedPrice(Price); }
+
+        public override string ToString()
+        {
+            return
+                $"{nameof(Date)}: {Date}, {nameof(TimeStart)}: {TimeStart}, {nameof(TimeEnd)}: {TimeEnd}, {nameof(Price)}: {Price}, {nameof(Paid)}: {Paid}, {nameof(Booked)}: {Booked}, {nameof(Blocked)}: {Blocked}";
+        }
     }
 }

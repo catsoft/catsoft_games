@@ -46,11 +46,17 @@ namespace App.Controllers
             var aboutModel = await DbContext.AboutPageModels.FirstOrDefaultAsync();
             var serviceModel = await DbContext.ServicesPageModels.FirstOrDefaultAsync();
 
+            var contactsPage = new ContactsPageViewModel(contactPage, await GetHeaderViewModel(Menu.Home),
+                await GetFooterViewModel())
+            {
+                Contacts = contacts
+            };
+            
             var home = new HomePageViewModel
             {
                 HeaderViewModel = await GetHeaderViewModel(Menu.Home),
                 FooterViewModel = await GetFooterViewModel(),
-                ContactsPageViewModel = new ContactsPageViewModel(contactPage, contacts),
+                ContactsPageViewModel = contactsPage,
                 Page = mainPage,
                 AboutPageViewModel = new AboutPageViewModel(aboutModel),
                 ServicesPageViewModel = new ServicesPageViewModel(serviceModel)

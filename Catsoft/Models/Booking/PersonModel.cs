@@ -27,5 +27,11 @@ namespace App.Models.Booking
         
         [Show(false, false)]
         public List<PersonBookingModel> PersonBookingModels { get; set; }
+
+        public override string ToString()
+        {
+            return
+                $"{nameof(Phone)}: {Phone}, {nameof(Email)}: {Email}, {nameof(NIF)}: {NIF}, {nameof(FullName)}: {FullName}, {nameof(Comment)}: {Comment}, {nameof(IsCompany)}: {IsCompany}, {nameof(CompanyNIF)}: {CompanyNIF}, {nameof(CompanyName)}: {CompanyName}, {nameof(CompanyAddress)}: {CompanyAddress}";
+        }
     }
 }

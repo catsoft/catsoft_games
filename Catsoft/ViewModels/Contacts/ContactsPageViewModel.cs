@@ -5,10 +5,12 @@ using App.ViewModels.Common;
 
 namespace App.ViewModels.Contacts
 {
-    public class ContactsPageViewModel
-        (ContactsPageModel contactsPageModel, List<ContactsModel> contacts) : PartialPageViewModel<ContactsPageModel>(
-            contactsPageModel)
+    public class ContactsPageViewModel(
+        ContactsPageModel contactsPageModel,
+        HeaderViewModel headerViewModel,
+        FooterViewModel footerViewModel)
+        : CommonPageViewModel<ContactsPageModel>(contactsPageModel, headerViewModel, footerViewModel)
     {
-        public List<ContactsModel> Contacts { get; set; } = contacts;
+        public List<ContactsModel> Contacts { get; set; }
     }
 }

@@ -3,10 +3,12 @@
 @using App.Models
 @using App.ViewModels.Book
 @using App.ViewModels.PreOrder
-@model App.ViewModels.Games.GamesPageViewModel
+@model App.ViewModels.Contacts.ContactsPageViewModel
 
 @{
     Layout = "_Layout";
 }
 
-@await Html.PartialAsync("GamesList", Model.Page.GameModels)
+@await Html.PartialAsync("Contacts/ContactsBlock", Model)
+
+@await Html.PartialAsync("Booking/BookPrePrice")
