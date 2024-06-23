@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using App.cms.Repositories.TextResource;
 using App.cms.StaticHelpers;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
@@ -12,11 +14,17 @@ namespace App.Controllers
     public class TextResourceController : CommonController
     {
         private readonly ICmsTextResourcesCookieRepository _cmsTextResourcesCookieRepository;
+        private readonly TextResourceRepository _textResourceRepository;
+        private readonly TextResourceValueRepository _textResourceValueRepository;
 
         public TextResourceController(CatsoftContext dbContext, ILanguageCookieRepository languageCookieRepository,
-            ICmsTextResourcesCookieRepository cmsTextResourcesCookieRepository) : base(languageCookieRepository)
+            ICmsTextResourcesCookieRepository cmsTextResourcesCookieRepository,
+            TextResourceRepository textResourceRepository,
+                TextResourceValueRepository textResourceValueRepository) : base(languageCookieRepository)
         {
             _cmsTextResourcesCookieRepository = cmsTextResourcesCookieRepository;
+            _textResourceRepository = textResourceRepository;
+            _textResourceValueRepository = textResourceValueRepository;
             DbContext = dbContext;
         }
 
@@ -24,10 +32,11 @@ namespace App.Controllers
         public async Task<IActionResult> Update(string uuid, string value)
         {
             var guid = Guid.Parse(uuid);
-            var valueObj = await DbContext.TextResourceValuesModels.FirstOrDefaultAsync(w => w.Id == guid);
-            valueObj.Value = value;
-            DbContext.TextResourceValuesModels.Update(valueObj);
-            await DbContext.SaveChangesAsync();
+            await _textResourceValueRepository.UpdateTextAsync(guid, value);
+            var valueModel = DbContext.TextResourceValuesModels.Include(w => w.TextResourceModel)
+                .FirstOrDefault(w => w.Id == guid);
+                
+            _textResourceRepository.CleanCache(valueModel?.TextResourceModel?.Tag, LanguageCookieRepository.GetValue().Language);
 
             return RedirectToAction("Index", "Home");
         }

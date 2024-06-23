@@ -11,6 +11,8 @@ namespace App.Controllers
 {
     public abstract class CookieController(ILanguageCookieRepository languageCookieRepository) : Controller
     {
+        protected readonly ILanguageCookieRepository LanguageCookieRepository = languageCookieRepository;
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
@@ -20,12 +22,12 @@ namespace App.Controllers
             var language = routes["language"].ToString();
             if (language.IsNullOrEmpty())
             {
-                language = languageCookieRepository.GetValue().Language.ToString();
+                language = LanguageCookieRepository.GetValue().Language.ToString();
             }
 
             var languageEnum = Enum.Parse<TextLanguage>(language);
 
-            languageCookieRepository.SaveValue(new LanguageCookieDto(languageEnum));
+            LanguageCookieRepository.SaveValue(new LanguageCookieDto(languageEnum));
         }
     }
 }

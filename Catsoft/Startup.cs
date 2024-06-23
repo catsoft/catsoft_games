@@ -60,6 +60,7 @@ namespace App
             services.AddScoped<ICmsCmsModelRepository, CmsModelRepository>();
 
             services.AddScoped<TextResourceRepository>();
+            services.AddScoped<TextResourceValueRepository>();
             
             //cookies
             services.AddScoped<ILanguageCookieRepository, LanguageCookieRepository>();

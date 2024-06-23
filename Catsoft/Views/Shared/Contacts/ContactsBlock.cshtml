@@ -1,0 +1,67 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.cms.ViewModels.Common
+@using App.Models
+@model App.ViewModels.Contacts.ContactsPageViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="container-fluid px-0 row mx-0">
+    <div class="col-md-5 col-sm-12 ps-0 pe-0" style="min-height: 430px">
+        @await Html.PartialAsync("~/CMS/Views/Shared/Common/Map.cshtml", MapViewModel.GetDefaultLocation())
+    </div>
+    @* -6.392px 0px / 115.015% 100% *@
+    <div style="background: url('/UploadImages/6a6d8a89-d4f9-4dd8-9873-3c376c65de49_compressed.webp') lightgray center center / cover no-repeat"
+         class="fullWidthImageNew col-md-7 col-sm-12 px-0">
+        <div style="background: linear-gradient(270deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.75) 48.5%); padding-top: 44px; padding-bottom: 44px"
+             class="d-flex row-column justify-content-start align-items-center w-100 h-100">
+            <div class="row col-10 offset-1 col-lg-8 offset-lg-2">
+                <div id="contacts" class="contacts-container container clr py-5">
+
+                    <span class="h2">@await Html.RenderText("Contacts")</span> <br/>
+
+                    <div class="foot-r">
+
+                        @foreach (var item in Model.Contacts)
+                        {
+                            switch (item.ContactType)
+                            {
+                                case ContactType.Phone:
+                                    <div class="phones-wrap">
+                                        <h6 class="subTitle">@await Html.RenderText("Phone numbers")</h6>
+                                        <a href="tel:@item.Link">@item.Link</a>
+                                        <br/>
+                                    </div>
+                                    break;
+                                case ContactType.Email:
+                                    <div class="phones-wrap">
+                                        <h6 class="subTitle">@await Html.RenderText("Emails")</h6>
+                                        <a href="mailto:@item.Link">@item.Link</a>
+                                        <br/>
+                                    </div>
+                                    break;
+                                case ContactType.Address:
+                                    <div class="address-wrap">
+                                        <h6 class="subTitle">@await Html.RenderText("Address")</h6>
+                                        <p>@item.Link</p>
+                                    </div>
+                                    break;
+                                case ContactType.Other:
+                                    <div class="phones-wrap">
+                                        <h6 class="subTitle">@await Html.RenderText("Other")</h6>
+                                        <a href="@item.Link">@item.Link</a>
+                                        <br/>
+                                    </div>
+                                    break;
+                            }
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using App.cms.Models;
 using App.cms.StaticHelpers.Cookies;
@@ -12,7 +13,7 @@ namespace App.cms.Repositories.TextResource
         : CmsBaseRepository<TextResourceModel, CatsoftContext>(context)
     {
         public async Task<string> GetByTagAsync(string tag) { return (await GetValueAsync(tag)).Value; }
-
+        
         public async Task<TextResourceValueModel> GetValueAsync(string tag)
         {
             var currentLanguage = languageCookieRepository.GetValue().Language;
@@ -52,6 +53,11 @@ namespace App.cms.Repositories.TextResource
             _memoryCache.Set(GetCacheKey(tag, currentLanguage), localized);
 
             return localized;
+        }
+
+        public void CleanCache(string tag, TextLanguage language)
+        {
+            _memoryCache.Remove(GetCacheKey(tag, language));
         }
 
         private string GetCacheKey(string tag, TextLanguage language) { return nameof(TextResourceValueModel) + language + tag; }
