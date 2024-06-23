@@ -32,17 +32,8 @@
     
     var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
     
-    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select number of people"),
-        personCount.ToString(),
-        Options.Booking.GetOptions().Select(w=> new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
-        false)
-    {
-        DefaultSelection = false,
-        OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')",
-        Enabled = false,
-        WithDefaultValue = false
-    };
-
+    var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
+    guestSelector.Enabled = false;
             
     var companyDataId = "company_data";
 
@@ -73,7 +64,7 @@
             <div class="row text-center">
 
                 <div class="col-6 offset-3">
-                    @await Html.PartialAsync("Common/Selector", selectorDto)
+                    @await Html.PartialAsync("Common/Selector", guestSelector)
                 </div>
                 
                 <div class="col-3"></div>

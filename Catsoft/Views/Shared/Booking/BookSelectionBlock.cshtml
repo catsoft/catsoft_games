@@ -16,18 +16,9 @@
     Layout = null;
 
     var selection = bookingSelectionCookieRepository.GetValue();
-
-    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
-
-    var options = Enumerable.Range(1, 4).ToList();
-    var selectorDto = new SelectorViewModel(await TextResourceRepository.GetByTagAsync("Select stations count"),
-        personCount.ToString(),
-        options.Select(w => new KeyValueViewModel(w.ToString(), w.ToString())).ToList(),
-        false)
-    {
-        DefaultSelection = false,
-        OnChangeScript = "timeSelectionPersonCountOnChange(this, 'selectedTimesBlockId')"
-    };
+    
+    var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
+    guestSelector.OnChangeScript = "timeSelectionPersonCountOnChange(this, 'selectedTimesBlockId')";
 
     var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonDetails", "Booking", "get")
     {
@@ -46,7 +37,7 @@
 
             <div class="row text-center">
                 <div class="col-5 offset-1">
-                    @await Html.PartialAsync("Common/Selector", selectorDto)
+                    @await Html.PartialAsync("Common/Selector", guestSelector)
                 </div>
 
                 <div class="col-5 offset-1">
