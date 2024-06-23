@@ -4,6 +4,7 @@ using App.cms.Models;
 using App.cms.Options;
 using App.cms.StaticHelpers.Cookies;
 using App.Models;
+using App.Utils.DeviceDetection;
 using App.ViewModels.About;
 using App.ViewModels.Contacts;
 using App.ViewModels.Games;
@@ -19,13 +20,18 @@ namespace App.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILanguageCookieRepository _languageCookieRepository;
+        private readonly IDeviceDetectionService _deviceDetectionService;
         private readonly ILocalOptionsCookieRepository _localOptionsCookieRepository;
 
-        public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment, ILanguageCookieRepository languageCookieRepository, ILocalOptionsCookieRepository localOptionsCookieRepository) :
+        public HomeController(CatsoftContext dbContext, IWebHostEnvironment webHostEnvironment,
+            ILanguageCookieRepository languageCookieRepository,
+            IDeviceDetectionService deviceDetectionService,
+            ILocalOptionsCookieRepository localOptionsCookieRepository) :
             base(languageCookieRepository)
         {
             _webHostEnvironment = webHostEnvironment;
             _languageCookieRepository = languageCookieRepository;
+            _deviceDetectionService = deviceDetectionService;
             _localOptionsCookieRepository = localOptionsCookieRepository;
             DbContext = dbContext;
         }
@@ -56,10 +62,12 @@ namespace App.Controllers
                 .Take(home.Page?.ServicesCount ?? 0)
                 .ToList();
 
+            var gameCount = _deviceDetectionService.IsMobileDevice(HttpContext) ? Options.Home.MobileGameCount : Options.Home.GameCount;
+            
             var games = await DbContext.GameModels
                 .OrderBy(w => w.Position)
                 .Include(w => w.ImageModel)
-                .Take(Options.Home.GameCount)
+                .Take(gameCount)
                 .ToListAsync();
 
             home.ServicesPageViewModel.ServiceModels = services;

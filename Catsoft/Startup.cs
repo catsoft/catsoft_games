@@ -15,6 +15,7 @@ using App.Repositories.Cms.Files;
 using App.Repositories.Cms.Images;
 using App.Repositories.Cms.Person;
 using App.Repositories.Cms.PersonBooking;
+using App.Utils.DeviceDetection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,6 +79,7 @@ namespace App
             
 
             services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions()));
+            services.AddScoped<IDeviceDetectionService, DeviceDetectionService>();
 
             services.AddSingleton(new CmsOptions
             {

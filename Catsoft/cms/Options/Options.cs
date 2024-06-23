@@ -33,6 +33,8 @@ namespace App.cms.Options
         public static class Home
         {
             public static int GameCount => 9;
+
+            public static int MobileGameCount => 4;
         }
         
         public static class Booking
