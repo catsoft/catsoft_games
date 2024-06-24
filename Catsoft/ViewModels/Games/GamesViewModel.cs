@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using App.Models;
+using App.Models.Games;
 
 namespace App.ViewModels.Games
 {

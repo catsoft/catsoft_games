@@ -2,7 +2,7 @@
 using App.cms.Controllers.Attributes;
 using App.cms.Models;
 
-namespace App.Models
+namespace App.Models.Games
 {
     public class GameTagModel : Entity<GameTagModel>
     {

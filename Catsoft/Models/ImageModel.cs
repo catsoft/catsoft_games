@@ -5,6 +5,7 @@ using App.cms.Controllers.Attributes;
 using App.cms.EntityFrameworkPaginateCore;
 using App.cms.Models;
 using App.Models.Accounting;
+using App.Models.Games;
 using App.Models.Pages;
 
 namespace App.Models

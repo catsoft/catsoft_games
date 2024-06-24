@@ -4,6 +4,7 @@ using System.Linq;
 using App.cms.Models;
 using App.Models.Accounting;
 using App.Models.Booking;
+using App.Models.Games;
 using App.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
