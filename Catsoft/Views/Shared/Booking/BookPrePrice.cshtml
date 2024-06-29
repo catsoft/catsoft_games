@@ -16,13 +16,11 @@
 @{
     Layout = null;
 
-    var selection = BookingSelectionRepository.GetValue();
-
     var booking = await BookingSelectionRepository.GetWithUpdate(PersonBookingRepository.StartOrUpdatePrePriceStage);
     var ip = Context.Connection.RemoteIpAddress?.ToString() ?? "";
     await PersonBookingRepository.UpdateIp(booking.Id, ip);
 
-    var date = selection.Date;
+    var date = booking.Date;
 
     var guestSelector = await SelectorViewModel.GetGuestsSelector(booking, TextResourceRepository);
     guestSelector.OnChangeScript = "prePricePersonCountSelectionOnChange(this, 'prePriceBlockId')";

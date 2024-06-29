@@ -1,0 +1,51 @@
+﻿@inject CatsoftContext DbCatsoftContext
+@using App.cms.Helpers
+@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
+@using App.cms.StaticHelpers.Cookies
+@using App.Models
+@using App.Utils
+@using App.ViewModels.Views
+@model App.ViewModels.Booking.BookingFlowViewModel
+@inject TextResourceRepository TextResourceRepository
+@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
+@inject ILanguageCookieRepository LanguageCookieRepository
+@inject ILocalOptionsCookieRepository LocalOptionCookieRepository
+
+@{
+    Layout = null;
+
+    var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonDetails", "Booking", "get")
+    {
+        Style = Style.Black
+    };
+
+    var booking = Model.PersonBookingDto.PersonBooking;
+    var personData = Model.PersonDto?.PersonModel;
+    var selectedTimes = Model.SelectedTimes;
+
+    var guests = FormatHelper.FormatByAmount(booking.PeopleCount, "guest", "guests");
+    var bookInfoData = FormatHelper.FormatHtmlList(await TextResourceRepository.GetByTagAsync(guests),
+        FormatHelper.FormatLongDate(LanguageCookieRepository, booking.Date),
+        FormatHelper.GetTimesShortInfos(LanguageCookieRepository, selectedTimes.OrEmpty().Select(w => w.AppointTime).ToList())
+    );
+}
+
+<div class="col-lg-5 col-12 d-flex mt-4 mt-lg-0">
+    <div class="offset-1 col-lg-6 col-10 align-self-center d-flex flex-column pre-price-calculate-block text-center text-black">
+        <span class="text0 mb-4">@await Html.RenderText("Summary")</span>
+
+        <div>
+            <span class="text3">@await Html.RenderText("Book info")</span>
+            <span class="text6">@Html.Raw(bookInfoData)</span>
+        </div>
+        
+        <div class="align-self-center">
+            <div class="text1 text-end mb-3 mt-4" id="prePriceBlockId">
+            </div>
+            <div class="d-flex justify-content-center">
+                @await Html.PartialAsync("Common/Button", buttonDto)
+            </div>
+        </div>
+    </div>
+</div>

@@ -48,7 +48,7 @@ namespace App.Controllers.Booking
             var selection = _bookingSelectionCookieRepository.GetValue();
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartOrUpdatePrePriceStage);
             
-            var prePrice = await _appointRuleRepository.PriceForTheDate(selection.Date);
+            var prePrice = await _appointRuleRepository.PriceForTheDate(booking.Date);
 
             return View(prePrice * booking.PeopleCount);
         }
@@ -109,9 +109,12 @@ namespace App.Controllers.Booking
         [HttpPost]
         public async Task<IActionResult> SetDate(DateOnly date)
         {
-            var selection = _bookingSelectionCookieRepository.GetValue();
-            selection.Date = date;
-            _bookingSelectionCookieRepository.SaveValue(selection);
+            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
+            await _personBookingRepository.DoWithUpdate(booking.Id, w =>
+            {
+                w.Date = date;
+                return Task.CompletedTask;
+            });
 
             return await ValidateSelection();
         }
@@ -280,7 +283,32 @@ namespace App.Controllers.Booking
         }
 
         #endregion
-        
+
+
+        #region Parts   
+        //
+        // [HttpGet]
+        // public async Task<IActionResult> Summary()
+        // {
+        //     var bookingHistory = _bookingHistoryCookieRepository.GetValue();
+        //     var lastBookingId = bookingHistory.BookingIds.Last();
+        //     var times = await DbContext.AppointTimes.Where(w => w.PersonBookingId == lastBookingId).ToListAsync();
+        //     var personBooking = await _personBookingRepository.GetDefault(lastBookingId);
+        //     var person = await _personRepository.GetDefault(personBooking.PersonModelId);
+        //
+        //     var model = new BookingSuccessViewModel
+        //     {
+        //         HeaderViewModel = await GetHeaderViewModel(Menu.Booking),
+        //         FooterViewModel = await GetFooterViewModel(),
+        //         PersonBookingDto = new PersonBookingDto(personBooking),
+        //         SelectedTimes = times.Select(w => new AppointTimeDto(w)).ToList(),
+        //         PersonDto = new PersonDto(person)
+        //     };
+        //
+        //     return View(model);
+        // }
+
+        #endregion
         
 
         #region Selection validation

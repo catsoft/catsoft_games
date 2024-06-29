@@ -19,6 +19,9 @@ namespace App.Models.Booking
         public int PeopleCount { get; set; } = Options.Booking.DefaultPeople;
         
         public double FinalPrice { get; set; }
+
+
+        public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
         
         public bool Paid { get; set; }
         

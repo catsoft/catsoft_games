@@ -3,20 +3,17 @@
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
 @using App.ViewModels.Booking.Time
-@using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingPageViewModel
 @inject TextResourceRepository TextResourceRepository
-@inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
 @inject ILocalOptionsCookieRepository LocalOptionCookieRepository
 
 @{
     Layout = null;
-    var selection = bookingSelectionCookieRepository.GetValue();
-    var selectedDate = selection.Date;
+    var selectedDate = Model.PersonBookingDto.PersonBooking.Date;
 
     var selectedTimes = Model.PersonBookingDto.PersonBooking.SelectedTimes;
-    
+
     var groupsByDate = Model.AvailableAppointTimes.GroupBy(x => x.AppointTime.Date)
         .OrderBy(w => w.Key)
         .Select(w => Tuple.Create(w.Key, w.GroupBy(w => w.AppointTime.TimeStart).OrderBy(w => w.First().AppointTime.TimeStart)
@@ -39,25 +36,32 @@
 
 @if (LocalOptionCookieRepository.BookingEnabled())
 {
-    @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
+    <div class="col-10 offset-1 row">
+        <div class="col-8">
+            @await Html.PartialAsync("Booking/BookSelectionBlock", Model)
 
-    <div class="container-fluid text-center">
-        <div class="container py-5" id="order">
+        <div class="container-fluid text-center">
+            <div class="container py-5" id="order">
 
-            @foreach (var booking in groupsByDate)
-            {
-                <div class="row pt-5">
-                    <p>
-                        <span class="fw-bold fs-3 text-center">@booking.Item2.First().AppointTimeDto.AppointTime.FormatLongDate(LanguageCookieRepository)</span>
-                    </p>
-                </div>
-                <div class="row flex-row justify-content-center">
-                    @foreach (var time in booking.Item2)
-                    {
-                        @await Html.PartialAsync("Booking/Time/BookingTimeItem", time)
-                    }
-                </div>
-            }
+                @foreach (var booking in groupsByDate)
+                {
+                    <div class="row pt-5">
+                        <p>
+                            <span class="fw-bold fs-3 text-center">@booking.Item2.First().AppointTimeDto.AppointTime.FormatLongDate(LanguageCookieRepository)</span>
+                        </p>
+                    </div>
+                    <div class="row flex-row justify-content-center">
+                        @foreach (var time in booking.Item2)
+                        {
+                            @await Html.PartialAsync("Booking/Time/BookingTimeItem", time)
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        </div>
+        <div class="col-4">
+            @await Html.PartialAsync("Booking/Summary", Model)
         </div>
     </div>
 }

@@ -6,24 +6,6 @@ namespace App.cms.StaticHelpers.Cookies.models
 {
     public class BookingSelectionCookieDto()
     {
-        [JsonInclude] private DateOnly _date;
-
-        [JsonIgnore]
-        public DateOnly Date
-        {
-            get
-            {
-                var now = DateOnly.FromDateTime(DateTime.Now);
-                if (_date < now)
-                {
-                    _date = now.AddDays(1);
-                }
-
-                return _date;
-            }
-            set => _date = value;
-        }
-
         public string BookingId { get; set; }
         
         public string PersonId { get; set; }
