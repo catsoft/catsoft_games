@@ -7,6 +7,11 @@ const bookingSelectedTimesUrl = "/Booking/GetSelectedTimes"
 
 const setLanguageUrl = "/Home/SetLanguage"
 
+function clickOnId(id) {
+    const item = document.getElementById(id);
+    item.click()
+}
+
 function getDefaultPostOptions(data) {
     console.log(data)
     return {

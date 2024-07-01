@@ -4,8 +4,10 @@
 @using App.cms.StaticHelpers
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
+@using App.Models.Booking
 @using App.Utils
 @using App.ViewModels.Views
+@using Microsoft.IdentityModel.Tokens
 @model App.ViewModels.Booking.BookingFlowViewModel
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
@@ -15,13 +17,8 @@
 @{
     Layout = null;
 
-    var buttonDto = new ButtonViewModel("Reserve now", "EnterPersonDetails", "Booking", "get")
-    {
-        Style = Style.Black
-    };
-
     var booking = Model.PersonBookingDto.PersonBooking;
-    var personData = Model.PersonDto?.PersonModel;
+    var personData = Model.PersonDto?.PersonModel ?? new PersonModel();
     var selectedTimes = Model.SelectedTimes;
 
     var guests = FormatHelper.FormatByAmount(booking.PeopleCount, "guest", "guests");
@@ -29,22 +26,84 @@
         FormatHelper.FormatLongDate(LanguageCookieRepository, booking.Date),
         FormatHelper.GetTimesShortInfos(LanguageCookieRepository, selectedTimes.OrEmpty().Select(w => w.AppointTime).ToList())
     );
+
+    var personInfoData = FormatHelper.FormatHtmlList(
+        personData.Phone,
+        personData.Email,
+        personData.FullName,
+        personData.NIF,
+        personData.Comment
+    );
+
+    var companyInfoData = FormatHelper.FormatHtmlList(
+        personData.CompanyName, personData.CompanyNIF, personData.CompanyAddress);
+
+    var bookingStage = booking.BookingStage;
+    ButtonViewModel button = null;
+    if (bookingStage == BookingStage.TimeSelection)
+    {
+        button = new ButtonViewModel("Reserve now", "EnterPersonDetails", "Booking", "get");
+    }
+    else if (bookingStage == BookingStage.PersonalDetails)
+    {
+        button = new ButtonViewModel("Reserve now", "ClickOnTheEnterButtonAction", "Booking", "get", false);
+    }
+    else if (bookingStage == BookingStage.Confirmation)
+    {
+        button = new ButtonViewModel("Reserve now", "ClickOnConfirmationButtonAction", "Booking", "get");
+    }
+    else if (bookingStage == BookingStage.Success)
+    {
+        button = new ButtonViewModel("To My bookings", "Index", "MyBookings", "get");
+    }
+
+    button!.Style = Style.Brand;
 }
 
 <div class="col-lg-5 col-12 d-flex mt-4 mt-lg-0">
-    <div class="offset-1 col-lg-6 col-10 align-self-center d-flex flex-column pre-price-calculate-block text-center text-black">
-        <span class="text0 mb-4">@await Html.RenderText("Summary")</span>
+    <div class="fixed-top-block border-default">
+        <div class="summary-block offset-1 col-lg-6 col-10 align-self-center d-flex flex-column pre-price-calculate-block border-default text-center text-black">
+            <span class="text0 mb-4 text-black">@await Html.RenderText("Summary")</span>
 
-        <div>
-            <span class="text3">@await Html.RenderText("Book info")</span>
-            <span class="text6">@Html.Raw(bookInfoData)</span>
-        </div>
-        
-        <div class="align-self-center">
-            <div class="text1 text-end mb-3 mt-4" id="prePriceBlockId">
+            <div class="text-start">
+                <span class="text3 text-black">@await Html.RenderText("Book info")</span>
+                <hr/>
+                <span class="text6 text-black">@Html.Raw(bookInfoData)</span>
             </div>
-            <div class="d-flex justify-content-center">
-                @await Html.PartialAsync("Common/Button", buttonDto)
+
+            @if (!personInfoData.IsNullOrEmpty() && bookingStage != BookingStage.PersonalDetails)
+            {
+                <div class="text-start pt-2">
+                    <span class="text3 text-black">@await Html.RenderText("Person info")</span>
+                    <hr/>
+                    <span class="text6 text-black">@Html.Raw(personInfoData)</span>
+                </div>
+            }
+
+            @if (!companyInfoData.IsNullOrEmpty() && bookingStage != BookingStage.PersonalDetails)
+            {
+                <div class="text-start pt-2">
+                    <span class="text3 text-black">@await Html.RenderText("Company info")</span>
+                    <hr/>
+                    <span class="text6 text-black">@Html.Raw(companyInfoData)</span>
+                </div>
+            }
+
+            <div class="align-self-center">
+                <div class="text1 text-end mb-3 mt-4" id="prePriceBlockId">
+                </div>
+                <div class="d-flex justify-content-center">
+                    @if (bookingStage == BookingStage.Success)
+                    {
+                        <div class="text-brand">
+                            @await Html.PartialAsync("Common/LinkButton", button)
+                        </div>
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("Common/Button", button)
+                    }
+                </div>
             </div>
         </div>
     </div>

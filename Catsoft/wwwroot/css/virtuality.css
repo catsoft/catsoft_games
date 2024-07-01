@@ -20,8 +20,19 @@ body {
     background-color: var(--brandBlueDark);
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 header {
     min-height: 80px;
+}
+
+hr {
+    height: 10px;
+    margin: 0;
 }
 
 .text-black {
@@ -29,11 +40,15 @@ header {
 }
 
 .text-brand {
-    color: var(--brandBlueNormal);
+    color: var(--brandBlueNormal) !important;
 }
 
 .text-white {
     color: var(--white);
+}
+
+.bg-white {
+    background: var(--white);
 }
 
 .text-gray {
@@ -217,12 +232,16 @@ svg, path {
     border: 0;
 
     border-radius: 12px;
-    background: var(--brandBlueDark);
+    background: var(--black);
 }
 
 .language_mobile_block {
     background: rgba(0, 0, 0, 0.20);
     padding: 4rem 2rem;
+}
+
+.border-default {
+    border-radius: 12px;
 }
 
 .pre-price-book-block {

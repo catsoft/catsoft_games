@@ -8,6 +8,7 @@
         public bool WithForm { get; } = withForm;
 
         public Style Style { get; set; } = style;
+        public string ElementId { get; set; }
     }
 
     public enum Style

@@ -3,16 +3,20 @@
 @using App.cms.StaticHelpers
 @using App.Models
 @using App.Utils
+@using App.ViewModels.Views
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.ViewModels.Views.ButtonViewModel
 
 @{
     Layout = null;
     var formId = FormatHelper.GetViewId("linkButtonForm");
+    
+    var style = Model.Style == Style.Brand ? "text-brand" : "text-dark";
 }
 
 <form asp-action="@Model.Action" method="get" asp-controller="@Model.Controller" id="@formId">
     <div class="d-flex justify-content-center text-center">
-        <button type="submit" class="text-center btn btn-link text3 d-flex">
+        <button type="submit" class="text-center btn btn-link text3 d-flex @style">
             <span>
                 @await Html.RenderText(@Model.LabelTag, brokenField:formId)
             </span>

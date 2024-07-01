@@ -7,19 +7,30 @@
 @{
     Layout = null;
     var style = Model.Style == Style.Brand ? "btn-action-call" : "btn-action-call-dark";
+
+    var onClick = "";
+    if (Model.Action == "ClickOnTheEnterButtonAction")
+    {
+        onClick = "clickOnId('submitPersonalDetails')";
+    } else if (Model.Action == "ClickOnConfirmationButtonAction")
+    {
+        onClick = "clickOnId('SubmitConfirmationFormButton')";
+    }
 }
 
 @if (Model.WithForm)
 {
     <form asp-action="@Model.Action" method="@Model.Method" asp-controller="@Model.Controller">
         <div class="d-flex justify-content-start text-center">
-            <input type="submit" class="btn btn-primary text-center @style text1" value="@await Html.RenderText(Model.LabelTag)"/>
+            <input type="submit" class="btn btn-primary text-center @style text1" id="@Model.ElementId" value="@await Html.RenderText(Model.LabelTag)"/>
         </div>
     </form>
 }
 else
 {
     <div class="d-flex justify-content-start text-center">
-        <input type="submit" class="btn btn-primary text-center @style text1" value="@await Html.RenderText(Model.LabelTag)"/>
+        <input type="submit" class="btn btn-primary text-center @style text1" value="@await Html.RenderText(Model.LabelTag)"
+               id="@Model.ElementId"
+               onclick="@onClick"/>
     </div>
 }

@@ -18,84 +18,38 @@
 @{
     Layout = "_Layout";
 
-    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto()
+    var goBackButton = new ButtonViewModel("Go back and edit", "EnterPersonDetails", "Booking", "get")
     {
-        AppointTimeDto = w,
-        Selected = true,
-        Enabled = false,
-        BookingTimeItemType = BookingTimeItemType.Date
-    }).ToList();
-    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
-
-    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
-
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
-    
-    var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
-    guestSelector.Enabled = false;
-
-    var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
-    {
-        Type = InputType.Hidden
+        Style = Style.Black
     };
-    var personDto = Model.PersonDto;
-    personDto.Enabled = false;
-    var buttonDto = new ButtonViewModel("Confirm", "", "", "", false, Style.Black);
+    
+    var buttonDto = new ButtonViewModel("Reserve now", "", "", "", false, Style.Black);
+    buttonDto.ElementId = "SubmitConfirmationFormButton";
 }
-<div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
-    <div class="container py-5" id="booking_selected">
-        <div class="row pb-2">
-            <p>
-                <span class="fw-bold fs-3 text-center">@await Html.RenderText("Verify all data and confirm")</span>
-                <span class="fw-bold fs-3 text-center">@await Html.RenderText("In case if you have mistaken, get back and edit")</span>
-            </p>
+
+<div class="col-10 offset-1 row">
+    <div class="col-8">
+        <div class="container-fluid text-center text-white">
+            <div class="container py-5 d-flex flex-column justify-content-center">
+                <span class="h1 text-start">@await Html.RenderText("Confirmation")</span>
+                <br/>
+                <span class="text5 text-start pb-4">@await Html.RenderText("Verify all data and confirm. In case if you have mistaken, get back and edit")</span>
+                
+                <div class="d-flex">
+                    <div class="pe-3">
+                        @await Html.PartialAsync("Common/Button", goBackButton)
+                    </div>
+                    <form asp-action="BookingConfirmation" asp-controller="Booking" method="post">
+                        <input type="hidden" name="uuid" value="@Model.PersonBookingDto.PersonBooking.Id.ToString()"/>
+                        <div class="d-flex justify-content-center">
+                            @await Html.PartialAsync("Common/Button", buttonDto)
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div class="row text-center">
-
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/Selector", guestSelector)
-            </div>
-
-            <div class="col-3"></div>
-
-            <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
-                @totalSum
-            </div>
-
-            @await Html.PartialAsync("Common/Input", idInput)
-            <div class="d-flex col-12">
-                @await Html.PartialAsync("Common/Input", personDto.GetPhoneInput())
-                @await Html.PartialAsync("Common/Input", personDto.GetEmailInput())
-            </div>
-            <div class="d-flex col-12">
-                @await Html.PartialAsync("Common/Input", personDto.GetNifInput())
-                @await Html.PartialAsync("Common/Input", personDto.GetNameInput())
-            </div>
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/Input", personDto.GetCommentInput())
-            </div>
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/CheckboxControl", personDto.GetIsCompany())
-            </div>
-            <div id="@PersonDto.IsCompanyClassName">
-                <div class="d-flex col-12">
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyNif())
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyName())
-                </div>
-                <div class="col-6 offset-3">
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyAddress())
-                </div>
-            </div>
-
-            <form asp-action="BookingConfirmation" asp-controller="Booking" method="post" class="pb-3 pt-3">
-                <input type="hidden" name="uuid" value="@Model.PersonBookingDto.PersonBooking.Id.ToString()"/>
-                <div class="d-flex justify-content-center">
-                    @await Html.PartialAsync("Common/Button", buttonDto)
-                </div>
-            </form>
-        </div>
-
-        @await Html.PartialAsync("Booking/Time/BookingTimeItemsRow", new BookingTimeItemsRow(times))
+    </div>
+    <div class="col-4">
+        @await Html.PartialAsync("Booking/Summary", Model)
     </div>
 </div>

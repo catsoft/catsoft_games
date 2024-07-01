@@ -14,88 +14,44 @@
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
 @inject ILanguageCookieRepository LanguageCookieRepository
 
-
 @{
     Layout = "_Layout";
 
-    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto()
-    {
-        AppointTimeDto = w,
-        Selected = true,
-        Enabled = false,
-        BookingTimeItemType = BookingTimeItemType.Date
-    }).ToList();
-    
-    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
-
-    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
-    
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
-    
-    var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
-    guestSelector.Enabled = false;
-            
-    var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
-    {
-        Type = InputType.Hidden
-    };
-
     var personDto = Model.PersonDto;
-    
-    var buttonDto = new ButtonViewModel("Continue", "", "", "get", false, Style.Black);
 }
-    <div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
-        <div class="container py-5" id="booking_selected">
-            <div class="row pb-2">
-                <p>
-                    <span class="fw-bold fs-3 text-center">@await Html.RenderText("Enter person details")</span>
-                </p>
-            </div>
 
-            <div class="row text-center">
+<div class="col-10 offset-1 row">
+    <div class="col-8">
+        <div class="container-fluid text-center text-white">
+            <div class="container py-5 text-start" id="booking_selected">
+                <span class="h2 pb-3">@await Html.RenderText("Enter person details")</span><br/>
+                <span class="text5">@await Html.RenderText("You can leave your personal information if you want")</span><br/>
+                <span class="text5">@await Html.RenderText("This will help us to improve communication in the future")</span>
 
-                <div class="col-6 offset-3">
-                    @await Html.PartialAsync("Common/Selector", guestSelector)
-                </div>
-                
-                <div class="col-3"></div>
-                
-                <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
-                    @totalSum
-                </div>
-                
-                <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
-                    @await Html.PartialAsync("Common/Input", idInput)
-                    <div class="d-flex col-12">
+                <div class="row text-start">
+                    <form asp-action="EnterPersonDetails" asp-controller="Booking" method="post" class="pb-3 pt-3">
+                        @await Html.PartialAsync("Common/Input", personDto.GetIdInput())
                         @await Html.PartialAsync("Common/Input", personDto.GetPhoneInput())
-                        @await Html.PartialAsync("Common/Input", personDto.GetEmailInput())                 
-                    </div>
-                    <div class="d-flex col-12">
+                        @await Html.PartialAsync("Common/Input", personDto.GetEmailInput())
                         @await Html.PartialAsync("Common/Input", personDto.GetNifInput())
                         @await Html.PartialAsync("Common/Input", personDto.GetNameInput())
-                    </div>
-                    <div class="col-6 offset-3">
                         @await Html.PartialAsync("Common/Input", personDto.GetCommentInput())
-                    </div>
-                    <div class="col-6 offset-3">
-                        @await Html.PartialAsync("Common/CheckboxControl", personDto.GetIsCompany())
-                    </div>
-                    <div id="@PersonDto.IsCompanyClassName">
-                        <div class="d-flex col-12">
+                        <div class="col-6 offset-3">
+                            @await Html.PartialAsync("Common/CheckboxControl", personDto.GetIsCompany())
+                        </div>
+                        <div id="@PersonDto.IsCompanyClassName">
                             @await Html.PartialAsync("Common/Input", personDto.GetCompanyNif())
                             @await Html.PartialAsync("Common/Input", personDto.GetCompanyName())
-                        </div>
-                        <div class="col-6 offset-3">
                             @await Html.PartialAsync("Common/Input", personDto.GetCompanyAddress())
                         </div>
-                    </div>
 
-                    <div class="d-flex justify-content-center">
-                        @await Html.PartialAsync("Common/Button", buttonDto)
-                    </div>
-                </form>
+                        <input type="submit" class="d-none" id="submitPersonalDetails"/>
+                    </form>
+                </div>
             </div>
-
-            @await Html.PartialAsync("Booking/Time/BookingTimeItemsRow", new BookingTimeItemsRow(times))
         </div>
     </div>
+    <div class="col-4">
+        @await Html.PartialAsync("Booking/Summary", Model)
+    </div>
+</div>

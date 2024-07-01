@@ -1,0 +1,19 @@
+﻿.fixed-top-block {
+    margin-right: auto;
+    position: fixed;
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.summary-block {
+    min-width: 100px;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.bg-happy {
+    background-image: url('/UploadFiles/1d662ad2-7c27-4b33-84c5-164dc6040861..gif'), url('/UploadFiles/1d662ad2-7c27-4b33-84c5-164dc6040861..gif');
+    background-position: center left 25px, center right 25px;
+    background-repeat: no-repeat, no-repeat;
+}

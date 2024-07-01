@@ -3,11 +3,7 @@
 @using App.cms.Repositories.TextResource
 @using App.cms.StaticHelpers.Cookies
 @using App.Models
-@using App.ViewModels.Booking
-@using App.ViewModels.Booking.Time
 @using App.ViewModels.Views
-@using InputType = App.ViewModels.Views.InputType
-@using Options = App.cms.Options.Options
 @model App.ViewModels.Booking.BookingSuccessViewModel
 @inject TextResourceRepository TextResourceRepository
 @inject IBookingSelectionCookieRepository bookingSelectionCookieRepository
@@ -17,88 +13,39 @@
 @{
     Layout = "_Layout";
 
-    var times = Model.SelectedTimes.Select(w => new BookingTimeItemDto
-    {
-        AppointTimeDto = w,
-        Selected = true,
-        Enabled = false,
-        BookingTimeItemType = BookingTimeItemType.Date
-    }).ToList();
-
-    var personCount = Model.PersonBookingDto.PersonBooking.PeopleCount;
-
-    var sum = Model.SelectedTimes.Sum(w => w.AppointTime.Price) * personCount;
-
-    var totalSum = " " + await TextResourceRepository.GetByTagAsync("total sum: " + Options.Currency + sum);
-    
-    var guestSelector = await SelectorViewModel.GetGuestsSelector(Model.PersonBookingDto.PersonBooking, TextResourceRepository);
-    guestSelector.Enabled = false;
-    
-    var idInput = new InputViewModel("", "id", Model.PersonDto.PersonModel.Id.ToString())
-    {
-        Type = InputType.Hidden
-    };
-
-    var personDto = Model.PersonDto;
-    personDto.Enabled = false;
-    
-    var bookAgain = new ButtonViewModel("Book again", "Index", "Booking", "get", true, Style.Black);
+    var bookAgain = new ButtonViewModel("Book again", "Index", "Booking", "get");
     var toHome = new ButtonViewModel("To home", "Index", "Home", "get", true, Style.Black);
-    var myBookings = new ButtonViewModel("My bookings", "Index", "MyBookings", "get", true, Style.Black);
 }
-<div class="pre-price-book-block pre-price-pictures container-fluid text-center text-white">
-    <div class="container py-5" id="booking_selected">
-        <div class="row pb-2">
-            <p>
-                <span class="fw-bold fs-3 text-center">@await Html.RenderText("Thanks for booking")</span>
-                <span class="fw-bold fs-3 text-center">@await Html.RenderText("In case if you have need help, call us ar email")</span>
-            </p>
-        </div>
 
-        <div class="row text-center">
+<div class="col-10 offset-1 row">
+    <div class="col-8">
+        <div class="container-fluid text-center text-white">
+            <div class="container py-5">
 
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/Selector", guestSelector)
-            </div>
-
-            <div class="col-3"></div>
-
-            <div class="col-6 offset-3 text-white fs-3 pb-3 fw-bold text-center">
-                @totalSum
-            </div>
-
-            @await Html.PartialAsync("Common/Input", idInput)
-            <div class="d-flex col-12">
-                @await Html.PartialAsync("Common/Input", personDto.GetPhoneInput())
-                @await Html.PartialAsync("Common/Input", personDto.GetEmailInput())
-            </div>
-            <div class="d-flex col-12">
-                @await Html.PartialAsync("Common/Input", personDto.GetNifInput())
-                @await Html.PartialAsync("Common/Input", personDto.GetNameInput())
-            </div>
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/Input", personDto.GetCommentInput())
-            </div>
-            <div class="col-6 offset-3">
-                @await Html.PartialAsync("Common/CheckboxControl", personDto.GetIsCompany())
-            </div>
-            <div id="@PersonDto.IsCompanyClassName">
-                <div class="d-flex col-12">
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyNif())
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyName())
+                <div class="border-default bg-white mb-4" style="height: 7.625rem">
+                    <div class="bg-happy h-100 w-100 d-flex justify-content-center flex-column">
+                        <span class="text3 text-center text-brand">@await Html.RenderText("Thank you!")</span>
+                    </div>
                 </div>
-                <div class="col-6 offset-3">
-                    @await Html.PartialAsync("Common/Input", personDto.GetCompanyAddress())
+
+                <div class="d-flex flex-column justify-content-start align-items-start">
+                    <span class="h1">@await Html.RenderText("Reservation")</span>
+                    <div class="mt-2 mb-4">
+                        <span class="h1 pre-price-experience-text">@await Html.RenderText("successful!")</span>
+                    </div>
+                    <span class="text3">@await Html.RenderText("In case if you need help, call us or email")</span>
+                </div>
+
+                <div class="d-flex mt-4">
+                    <div class="pe-3">
+                        @await Html.PartialAsync("Common/Button", bookAgain)
+                    </div>
+                    @await Html.PartialAsync("Common/Button", toHome)
                 </div>
             </div>
-
-            <div class="d-flex justify-content-around">
-                @await Html.PartialAsync("Common/Button", bookAgain)
-                @await Html.PartialAsync("Common/Button", toHome)
-                @await Html.PartialAsync("Common/Button", myBookings)
-            </div>
         </div>
-
-        @await Html.PartialAsync("Booking/Time/BookingTimeItemsRow", new BookingTimeItemsRow(times))
+    </div>
+    <div class="col-4">
+        @await Html.PartialAsync("Booking/Summary", Model)
     </div>
 </div>

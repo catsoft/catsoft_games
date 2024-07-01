@@ -11,10 +11,15 @@ namespace App.ViewModels.Booking
 
         public bool Enabled { get; set; } = true;
         
+        
+        public InputViewModel GetIdInput() => new("", "id", PersonModel.Id.ToString(), Enabled)
+        {
+            Type = InputType.Hidden
+        };
         public InputViewModel GetPhoneInput() => new("Phone", "Phone", PersonModel.Phone, Enabled);
         public InputViewModel GetEmailInput() => new("Email", "Email", PersonModel.Email, Enabled);
         public InputViewModel GetNifInput() => new("NIF (optional)", "NIF", PersonModel.NIF, Enabled);
-        public InputViewModel GetNameInput() => new("Name", "Name", PersonModel.FullName, Enabled);
+        public InputViewModel GetNameInput() => new("Name", "FullName", PersonModel.FullName, Enabled);
         public InputViewModel GetCommentInput() => new("Comment (optional)", "Comment", PersonModel.Comment, Enabled);
         public InputViewModel GetCompanyNif() => new("Company NIF", "CompanyNIF", PersonModel.CompanyNIF, Enabled);
         public InputViewModel GetCompanyName() => new("Company Name", "CompanyName", PersonModel.CompanyName, Enabled);
