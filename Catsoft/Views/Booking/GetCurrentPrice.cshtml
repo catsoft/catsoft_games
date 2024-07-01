@@ -1,0 +1,13 @@
+﻿@using App.cms.Repositories.TextResource
+@using App.cms.StaticHelpers
+@model double
+@inject TextResourceRepository TextResourceRepository
+
+@{
+    Layout = null;
+
+    var total = await TextResourceRepository.GetByTagAsync("Total:");
+    var price = FormatHelper.FormattedPrice(Model);
+    var result = total + " " + price;
+}
+<span class="text1 text-brand">@result</span>

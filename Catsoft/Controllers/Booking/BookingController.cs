@@ -45,12 +45,30 @@ namespace App.Controllers.Booking
 
         public async Task<IActionResult> GetPrePrice()
         {
-            var selection = _bookingSelectionCookieRepository.GetValue();
             var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.StartOrUpdatePrePriceStage);
             
             var prePrice = await _appointRuleRepository.PriceForTheDate(booking.Date);
 
             return View(prePrice * booking.PeopleCount);
+        }
+
+        #endregion
+        
+        
+        #region Current Price
+
+        public async Task<IActionResult> GetCurrentPrice()
+        {
+            var booking = await _bookingSelectionCookieRepository.GetWithUpdate(_personBookingRepository.GetDefault);
+            var ids = booking.SelectedTimes;
+
+            var times = await DbContext.AppointTimes.Where(w => ids.Contains(w.Id))
+                .ToListAsync();
+
+            var sum = times.Sum(w => w.Price);
+            var result = sum * booking.PeopleCount;
+
+            return View((double)result);
         }
 
         #endregion

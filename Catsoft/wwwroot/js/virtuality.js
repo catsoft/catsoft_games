@@ -3,9 +3,14 @@ const bookingSetDateUrl = "/Booking/SetDate"
 const bookingSelectAppointTimeUrl = "/Booking/SelectAppointTime"
 
 const bookingPrePriceUrl = "/Booking/GetPrePrice"
+const bookingCurrentPriceUrl = "/Booking/GetCurrentPrice"
 const bookingSelectedTimesUrl = "/Booking/GetSelectedTimes"
 
 const setLanguageUrl = "/Home/SetLanguage"
+
+
+const currentPriceId = "currentPriceBlockId"
+
 
 function clickOnId(id) {
     const item = document.getElementById(id);
@@ -122,6 +127,13 @@ function updatePrePrice(blockId) {
 // region end preprice
 
 
+// region current price
+function updateCurrentPrice(blockId) {
+    executeAndUpdate(fetch(bookingCurrentPriceUrl, getDefaultGetOptions()), blockId)
+}
+// regiend end current price
+
+
 //region time selection
 function timeSelectionPersonCountOnChange(e, blockId) {
     const formData = new FormData();
@@ -129,6 +141,7 @@ function timeSelectionPersonCountOnChange(e, blockId) {
     const request = fetch(bookingSetPersonCountUrl, getDefaultPostOptions(formData));
     executeAndThen(request, function () {
         updateSelectedTimes(blockId)
+        updateCurrentPrice(currentPriceId)
     })
 }
 
@@ -138,6 +151,7 @@ function timeSelectionSelectionDateOnChange(value, blockId) {
     const request = fetch(bookingSetDateUrl, getDefaultPostOptions(formData));
     executeAndThen(request, function () {
         updateSelectedTimes(blockId)
+        updateCurrentPrice(currentPriceId)
     })
 }
 
@@ -156,6 +170,7 @@ function bookingTimeSelectionOnClick(item, blockId) {
     const request = fetch(bookingSelectAppointTimeUrl, getDefaultPostOptions(formData));
     executeAndThen(request, function () {
         updateSelectedTimes(blockId)
+        updateCurrentPrice(currentPriceId)
     })
 }
 

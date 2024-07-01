@@ -50,7 +50,7 @@
     }
     else if (bookingStage == BookingStage.Confirmation)
     {
-        button = new ButtonViewModel("Reserve now", "ClickOnConfirmationButtonAction", "Booking", "get");
+        button = new ButtonViewModel("Reserve now", "ClickOnConfirmationButtonAction", "Booking", "get", false);
     }
     else if (bookingStage == BookingStage.Success)
     {
@@ -90,7 +90,11 @@
             }
 
             <div class="align-self-center">
-                <div class="text1 text-end mb-3 mt-4" id="prePriceBlockId">
+                <div class="text1 text-end mb-3 mt-4" id="currentPriceBlockId">
+                    @if (bookingStage == BookingStage.Success)
+                    {
+                        @await Html.PartialAsync("Booking/GetCurrentPrice", booking.FinalPrice)
+                    }
                 </div>
                 <div class="d-flex justify-content-center">
                     @if (bookingStage == BookingStage.Success)
@@ -108,3 +112,12 @@
         </div>
     </div>
 </div>
+
+@if (bookingStage != BookingStage.Success)
+{
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCurrentPrice("currentPriceBlockId")
+    });
+</script>
+}
